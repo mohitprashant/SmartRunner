@@ -238,30 +238,29 @@ class Textbox(Component):
         self.border_width = int(self.relative_border_width * self.height)
 
 
-class Scrollable(Component):
+class ScrollableImage(ImageObject):
     def __init__(self, name, screen, relative_x, relative_y, relative_width,
-                 relative_height, image, scroll_axis="y", scroll_factor=0):
-        super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height)
+                 relative_height, image, scroll_axis_y=True):
+        super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, image)
 
         self.surface = pygame.Surface((self.width, self.height))
         self.rect = self.surface.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
         self.mouse_function = True
-
         self.active = False
 
-        self.image = image
         self.display_image = image
-        self.scroll_axis = scroll_axis
-        image_ratio = image.get_width()/image.get_height()
-        if self.scroll_axis == "y":
+        self.scroll_axis_y = scroll_axis_y
+
+        self.image_ratio = image.get_width()/image.get_height()
+        if self.scroll_axis_y:
             self.image_width = self.width
-            self.image_height = int(self.width / image_ratio)
+            self.image_height = int(self.width / self.image_ratio)
         else:
             self.image_height = self.height
-            self.image_width = int(self.height * image_ratio)
-        self.scaled_image = pygame.transform.scale(image, (self.image_width, self.image_height))
+            self.image_width = int(self.height * self.image_ratio)
+
         self.display_image = pygame.transform.scale(image, (self.image_width, self.image_height))
         self.display_image_x = 0
         self.display_image_y = 0
@@ -270,6 +269,44 @@ class Scrollable(Component):
         self.surface.blit(self.display_image, (self.display_image_x, self.display_image_y))
         self.screen.blit(self.surface, (self.x, self.y))
         pass
+
+    def resize(self, new_screen):
+        super().resize(new_screen)
+        self.surface = pygame.Surface((self.width, self.height))
+
+
+
+        if self.scroll_axis_y:
+            self.image_width = self.width
+            self.image_height = int(self.width / self.image_ratio)
+            if self.display_image_y >= 0:
+                self.display_image_y = 0
+            if self.display_image_y <= self.height - self.image_height:
+                self.display_image_y = self.height - self.image_height
+
+        else:
+            self.image_height = self.height
+            self.image_width = int(self.height * self.image_ratio)
+            if self.display_image_x >= 0:
+                self.display_image_x = 0
+            if self.display_image_x <= self.width - self.image_width:
+                self.display_image_x = self.width - self.image_width
+
+        self.display_image = pygame.transform.scale(self.image, (self.image_width, self.image_height))
+
+
+class ScrollableWindow(ScrollableImage):
+    def __init__(self, name, screen, relative_x, relative_y, relative_width,
+                 relative_height, image, scroll_axis_y=True, relative_scroll_length=1 / 8):
+        super().__init__(name, screen, relative_x, relative_y, relative_width,
+                         relative_height, image, scroll_axis_y)
+
+        self.relative_scroll_length = relative_scroll_length
+
+        if self.scroll_axis_y:
+            self.scroll_length = self.relative_scroll_length * self.height
+        else:
+            self.scroll_length = self.relative_scroll_length * self.width
 
     def trigger(self, event):
         action = False
@@ -280,24 +317,34 @@ class Scrollable(Component):
         if self.rect.collidepoint(pos):  # when mouse is on top of button
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 4:  # wheel roll up
-                    if self.scroll_axis == "y":
-                        self.display_image.scroll(0, 10)
-                        self.display_image_y += 10
+                    if self.scroll_axis_y:
+                        if self.display_image_y + self.scroll_length >= 0:
+                            self.display_image_y = 0
+                        else:
+                            self.display_image_y += self.scroll_length
                     else:
-                        self.display_image.scroll(10, 0)
-                        self.display_image_x += 10
+                        if self.display_image_x + self.scroll_length >= 0:
+                            self.display_image_x = 0
+                        else:
+                            self.display_image_x += self.scroll_length
                     print("scrolled up")
                 elif event.button == 5:  # wheel roll down
-                    if self.scroll_axis == "y":
-                        self.display_image.scroll(0, -10)
-                        self.display_image_y -= 10
+                    if self.scroll_axis_y:
+                        if self.display_image_y - self.scroll_length <= self.height - self.image_height:
+                            self.display_image_y = self.height - self.image_height
+                        else:
+                            self.display_image_y -= self.scroll_length
                     else:
-                        self.display_image.scroll(-10, 0)
-                        self.display_image_x -= 10
+                        if self.display_image_x - self.scroll_length <= self.width - self.image_width:
+                            self.display_image_x = self.width - self.image_width
+                        else:
+                            self.display_image_x -= self.scroll_length
                     print("scrolled down")
                 print(self.display_image_x, self.display_image_y)
 
-        pass
-
-    def resize(self):
-        pass
+    def resize(self, new_screen):
+        super().resize(new_screen)
+        if self.scroll_axis_y:
+            self.scroll_length = int(self.relative_scroll_length * new_screen.get_height())
+        else:
+            self.scroll_length = int(self.relative_scroll_length * new_screen.get_width())
