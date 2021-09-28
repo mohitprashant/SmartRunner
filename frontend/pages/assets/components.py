@@ -45,16 +45,15 @@ class Component:
         return False
 
 
-# create a button from an image
+# create an image object from an image
 '''
-class for button component
+class for Image Object component
 same parameters as parent class Component except image
-pygame.Surface image - the image used to make the button
+pygame.Surface image - the image to be put on the surface
 '''
 
 
-class Button(Component):
-    # button constructor
+class ImageObject(Component):
     def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height, image):
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height)
         self.image = image  # image used for button
@@ -62,12 +61,32 @@ class Button(Component):
         self.rect = self.scaled_image.get_rect()  # initialize image as rect in pygame
         self.rect.x = self.x  # initialize button x-coordinates
         self.rect.y = self.y  # initialize button y-coordinates
-        self.mouse_function = True
-        self.clicked = False  # initialize if button is clicked to false
 
     # draw the button on the screen
     def draw(self):
         self.screen.blit(self.scaled_image, self.rect)
+
+    def resize(self, new_screen):
+        super().resize(new_screen)
+        self.scaled_image = pygame.transform.scale(self.image, (self.width, self.height))
+        self.rect = self.scaled_image.get_rect()  # initialize image as rect in pygame
+        self.rect.x = self.x  # initialize button x-coordinates
+        self.rect.y = self.y  # initialize button y-coordinates
+
+# create a button from an image
+'''
+class for button component
+same parameters as parent class ImageObject
+additional trigger function for clicking of button
+'''
+
+
+class Button(ImageObject):
+    # button constructor
+    def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height, image):
+        super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, image)
+        self.mouse_function = True
+        self.clicked = False  # initialize if button is clicked to false
 
     # return true if button is clicked
     def trigger(self, event):
@@ -87,14 +106,6 @@ class Button(Component):
                 self.clicked = False  # set click to false
 
         return action
-
-    def resize(self, new_screen):
-        super().resize(new_screen)
-        self.scaled_image = pygame.transform.scale(self.image, (self.width, self.height))
-        self.rect = self.scaled_image.get_rect()  # initialize image as rect in pygame
-        self.rect.x = self.x  # initialize button x-coordinates
-        self.rect.y = self.y  # initialize button y-coordinates
-
 
 # add background for page
 '''
