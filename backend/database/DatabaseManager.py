@@ -18,9 +18,7 @@ def get_subjects():
     items = []
 
     for subject in subjects:
-        items.append(subject.to_dict())
-        # print(doc.get())
-        # print(f'{doc.id} => {doc.to_dict()}')
+        items.append(subject.id)
 
     print(items)
     return items
@@ -28,14 +26,28 @@ def get_subjects():
 
 def get_topics(subject):
     topics = db.collection('subjects').document(subject).collections()
+    items = []
 
     for topic in topics:
-        print(topic)
-        for doc in topic:
-            print(doc)
+        items.append(topic.id)
 
-    print(topics)
+    print(items)
+    return items
 
 
-#get_subjects()
+def get_questions(subject, topic):
+    collections = db.collection('subjects').document(subject).collections()
+    items = []
+
+    for collection in collections:
+        for doc in collection.stream():
+            # print(f'{doc.id} => {doc.to_dict()}')
+            items.append(doc.to_dict())
+
+    print(items)
+    return items
+
+
+get_subjects()
 get_topics('Mathematics')
+get_questions('Mathematics', 'Algebra')
