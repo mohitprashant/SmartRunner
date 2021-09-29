@@ -221,7 +221,6 @@ class TextInput(Component):
             if self.active:
                 if event.key == pygame.K_BACKSPACE:
                     self.input = self.input[:-1]
-                    print(self.input + "|")
                 elif event.key == pygame.K_TAB:
                     pass
                 elif event.key == pygame.K_RETURN:
@@ -230,7 +229,6 @@ class TextInput(Component):
                         action = True
                 else:
                     self.input += event.unicode
-                    print(self.input + "|")
 
         # prevent multiple returns while holding the RETURN key
         if event.type == pygame.KEYUP:
@@ -355,7 +353,7 @@ class MouseScrollableImage(ScrollableImage):
                             self.display_image_x = self.width - self.image_width
                         else:
                             self.display_image_x -= self.scroll_length
-                print(self.display_image_x, self.display_image_y)
+
 
     # additional variables to resize not covered by parent resize
     def resize(self, new_screen):
@@ -371,7 +369,6 @@ class TextDisplay(Component):
     def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height,
                  text, font_file=None, font_color=pygame.Color("black")):
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height)
-        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
         # font initialization
         self.font_file = font_file
@@ -386,6 +383,8 @@ class TextDisplay(Component):
             self.font_size -= 1
             self.text_font = pygame.font.Font(font_file, self.font_size)
             self.text_surface = self.text_font.render(self.text, True, self.font_color)
+        self.display_width = self.text_surface.get_width()
+        self.rect = pygame.Rect(self.x, self.y, self.display_width, self.height)
 
     # blit component onto screen
     def draw(self):
@@ -394,9 +393,17 @@ class TextDisplay(Component):
     # additional variables to resize not covered by parent resize
     def resize(self, new_screen):
         super().resize(new_screen)
-        self.font_size = int(self.height)
+
+        self.font_size = int(self.height * 4 / 3)
+
         self.text_font = pygame.font.Font(self.font_file, self.font_size)
         self.text_surface = self.text_font.render(self.text, True, self.font_color)
+        while self.text_surface.get_width() >= self.width:
+            self.font_size -= 1
+            self.text_font = pygame.font.Font(self.font_file, self.font_size)
+            self.text_surface = self.text_font.render(self.text, True, self.font_color)
+        # self.display_width = self.text_surface.get_width()
+        # self.rect = pygame.Rect(self.x, self.y, self.display_width, self.height)
 
 
 class TextButton(TextDisplay):
