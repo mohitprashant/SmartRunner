@@ -402,8 +402,8 @@ class TextDisplay(Component):
             self.font_size -= 1
             self.text_font = pygame.font.Font(self.font_file, self.font_size)
             self.text_surface = self.text_font.render(self.text, True, self.font_color)
-        # self.display_width = self.text_surface.get_width()
-        # self.rect = pygame.Rect(self.x, self.y, self.display_width, self.height)
+        self.display_width = self.text_surface.get_width()
+        self.rect = pygame.Rect(self.x, self.y, self.display_width, self.height)
 
 
 class TextButton(TextDisplay):
