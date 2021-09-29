@@ -354,7 +354,6 @@ class MouseScrollableImage(ScrollableImage):
                         else:
                             self.display_image_x -= self.scroll_length
 
-
     # additional variables to resize not covered by parent resize
     def resize(self, new_screen):
         super().resize(new_screen)
@@ -384,7 +383,7 @@ class TextDisplay(Component):
             self.text_font = pygame.font.Font(font_file, self.font_size)
             self.text_surface = self.text_font.render(self.text, True, self.font_color)
         self.display_width = self.text_surface.get_width()
-        self.rect = pygame.Rect(self.x, self.y, self.display_width, self.height)
+        self.display_rect = pygame.Rect(self.x, self.y, self.display_width, self.height)
 
     # blit component onto screen
     def draw(self):
@@ -394,16 +393,16 @@ class TextDisplay(Component):
     def resize(self, new_screen):
         super().resize(new_screen)
 
-        self.font_size = int(self.height * 4 / 3)
+        self.font_size = int(self.height * 4 / 3)               # resize font size
 
         self.text_font = pygame.font.Font(self.font_file, self.font_size)
-        self.text_surface = self.text_font.render(self.text, True, self.font_color)
+        self.text_surface = self.text_font.render(self.text, True, self.font_color)  # resize font surface
         while self.text_surface.get_width() >= self.width:
             self.font_size -= 1
             self.text_font = pygame.font.Font(self.font_file, self.font_size)
             self.text_surface = self.text_font.render(self.text, True, self.font_color)
         self.display_width = self.text_surface.get_width()
-        self.rect = pygame.Rect(self.x, self.y, self.display_width, self.height)
+        self.display_rect = pygame.Rect(self.x, self.y, self.display_width, self.height)  # resize display rect
 
 
 class TextButton(TextDisplay):
@@ -421,7 +420,7 @@ class TextButton(TextDisplay):
         # get mouse position
         pos = pygame.mouse.get_pos()
         # check mouseover and clicked conditions
-        if self.rect.collidepoint(pos):  # when mouse is on top of button
+        if self.display_rect.collidepoint(pos):  # when mouse is on top of button
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1 and not self.clicked:  # new left click and not held beforehand
                     action = True  # trigger action
