@@ -1,6 +1,7 @@
 import pygame
 from login import *
 from main_menu import *
+from end_screen import *
 
 '''
 main controller of the system
@@ -20,6 +21,7 @@ class PageController:
         self.current_page = "main_menu"
         self.login_page = LoginPage(self.screen)
         self.main_menu = MainMenuPage(self.screen)
+        self.end_screen = EndScreenPage(self.screen)
 
     def start(self):
         pygame.init()
@@ -28,11 +30,11 @@ class PageController:
 
         while self.run:
             print(self.current_page)
-            page_output = self.main_menu.start(self.screen)
+            page_output = self.end_screen.start(self.screen)
             if page_output["exit"]:
                 break
-            if page_output["current_page"] == "main_menu":
-                self.current_page = "main_menu"
+            if page_output["current_page"] == "end_screen":
+                self.current_page = "end_screen"
 
             pygame.display.update()
 

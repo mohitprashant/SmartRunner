@@ -40,7 +40,7 @@ class MainMenuPage(Page):
                                       room_button_height, room_button__img)
         self.components["room_button"] = room_button
 
-        # Room button
+        # Leaderboard button
         leaderboard_button_x = 7 / 10
         leaderboard_button_y = 1 / 2
         leaderboard_button_width = 1 / 4
