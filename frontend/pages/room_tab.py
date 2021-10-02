@@ -6,7 +6,7 @@ from page import *
 class RoomTabPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
-        self.name = "main_menu"
+        self.name = "room_tab"
         self.data = {
             "current_page": self.name,
             "exit": False
