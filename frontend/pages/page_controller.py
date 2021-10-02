@@ -3,6 +3,7 @@ from login import *
 from main_menu import *
 from end_screen import *
 from topic_leaderboard import *
+from room_tab import *
 '''
 main controller of the system
 int screen_width starting width of screen
@@ -18,11 +19,13 @@ class PageController:
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), pygame.RESIZABLE)
         self.caption = "Smart Runners"
         # define pages
-        self.current_page = "main_menu"
+        self.current_page = "room_tab"
         self.login_page = LoginPage(self.screen)
         self.main_menu = MainMenuPage(self.screen)
         self.end_screen = EndScreenPage(self.screen)
         self.topic_leaderboard = TopicLeaderboardPage(self.screen)
+        self.room_tab = RoomTabPage(self.screen)
+
 
     def start(self):
         pygame.init()
@@ -31,11 +34,11 @@ class PageController:
 
         while self.run:
             print(self.current_page)
-            page_output = self.topic_leaderboard.start(self.screen)
+            page_output = self.room_tab.start(self.screen)
             if page_output["exit"]:
                 break
-            if page_output["current_page"] == "end_screen":
-                self.current_page = "end_screen"
+            if page_output["current_page"] == "room_tab":
+                self.current_page = "room_tab"
 
             pygame.display.update()
 
