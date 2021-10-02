@@ -31,6 +31,7 @@ class LoginPage(Page):
         self.components["start_button"] = start_button
 
         # username text input box
+        #from top left
         username_input_rel_x = 1 / 2
         username_input_rel_y = 1 / 2
         username_input_rel_width = 1 / 3
