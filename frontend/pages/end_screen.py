@@ -19,15 +19,15 @@ class EndScreenPage(Page):
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
-        # Player Score button
-        player_score_display_x = 1 / 4
-        player_score_display_y = 1 / 4
-        player_score_display_width = 1 / 2
-        player_score_display_height = 1 / 4
-        player_score_text ="player score"
-        player_score_display = TextDisplay("player_score_display", screen, player_score_display_x, player_score_display_y, player_score_display_width,
-                              player_score_display_height,player_score_text)
-        self.components["player_score_display"] = player_score_display
+        # Player Score display
+        player_results_display_x = 1 / 4
+        player_results_display_y = 1 / 4
+        player_results_display_width = 1 / 2
+        player_results_display_height = 1 / 4
+        player_results_text ="Player 1: Score"
+        player_results_display = TextDisplay("player_results_display", screen, player_results_display_x, player_results_display_y, player_results_display_width,
+                              player_results_display_height,player_results_text)
+        self.components["player_results_display"] = player_results_display
 
 
         # Share button
@@ -42,6 +42,8 @@ class EndScreenPage(Page):
         self.components["share_button"] = share_button
 
     # how do the page react to events?
+    #player score needs to be taken from backend
+    #share button needs to link to share page
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             if triggered_component in ["player_score_display", "share_button"]:

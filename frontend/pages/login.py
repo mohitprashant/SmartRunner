@@ -31,7 +31,7 @@ class LoginPage(Page):
                                        home_image_rel_width, home_image_rel_height,home_image_img)
         self.components["home_image_box"] = home_image_box
 
-        #new user creates account
+        # user signs in
         sign_in_button_rel_x = 7 / 10
         sign_in_button_rel_y = 3 / 4
         sign_in_button_rel_width = 1 / 8
@@ -42,7 +42,8 @@ class LoginPage(Page):
                                    sign_in_button_rel_height, sign_in_button_img)
         self.components["sign_in_button"] = sign_in_button
 
-        #user signs in
+
+        # new user creates account
         create_acc_button_rel_x = 41 / 80
         create_acc_button_rel_y = 3 / 4
         create_acc_button_rel_width = 1 / 8

@@ -52,6 +52,7 @@ class MainMenuPage(Page):
         self.components["leaderboard_button"] = leaderboard_button
 
     # how do the page react to events?
+    #each button should link to a new screen
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             if triggered_component in ["single_player_button", "room_button", "leaderboard_button"]:
