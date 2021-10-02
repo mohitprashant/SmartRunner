@@ -54,6 +54,7 @@ class LoginPage(Page):
             if triggered_component in ["start_button", "username_input_box", "password_input_box"]:
                 self.data["username"] = self.components["username_input_box"].input
                 self.data["password"] = self.components["password_input_box"].input
+                #placeholder for now
                 if self.data["username"] == "username" and self.data["password"] == "password":
                     return self.data
                 else:
