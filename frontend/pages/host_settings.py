@@ -106,7 +106,7 @@ class HoseSettingsPage(Page):
 
         # go button
         go_button_x = 12 / 20
-        go_button_y = 41 / 64C
+        go_button_y = 41 / 64
         go_button_width = 1 / 10
         go_button_height = 1 / 10
         go_button__img = pygame.image.load('assets/img/exit_btn.png')
