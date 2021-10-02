@@ -34,6 +34,7 @@ class LoginPage(Page):
         #from top left
         username_input_rel_x = 1 / 2
         username_input_rel_y = 1 / 2
+        #1/3 of the page
         username_input_rel_width = 1 / 3
         username_input_rel_height = 1 / 16
         username_input_box = TextInput("username_input_box", screen, username_input_rel_x, username_input_rel_y,
