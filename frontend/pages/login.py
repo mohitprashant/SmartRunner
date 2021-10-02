@@ -24,6 +24,7 @@ class LoginPage(Page):
         #from top left
         start_button_rel_x = 1 / 10
         start_button_rel_y = 1 / 2
+
         start_button_rel_width = 1 / 3
         start_button_rel_height = 1 / 5
         start_button_img = pygame.image.load('assets/img/start_btn.png')
