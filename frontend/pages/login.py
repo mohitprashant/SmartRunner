@@ -31,8 +31,10 @@ class LoginPage(Page):
         self.components["start_button"] = start_button
 
         # username text input box
+        #from top left
         username_input_rel_x = 1 / 2
         username_input_rel_y = 1 / 2
+        #1/3 of the page
         username_input_rel_width = 1 / 3
         username_input_rel_height = 1 / 16
         username_input_box = TextInput("username_input_box", screen, username_input_rel_x, username_input_rel_y,
@@ -54,6 +56,7 @@ class LoginPage(Page):
             if triggered_component in ["start_button", "username_input_box", "password_input_box"]:
                 self.data["username"] = self.components["username_input_box"].input
                 self.data["password"] = self.components["password_input_box"].input
+                #placeholder for now
                 if self.data["username"] == "username" and self.data["password"] == "password":
                     return self.data
                 else:
