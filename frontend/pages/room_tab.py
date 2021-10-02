@@ -65,10 +65,10 @@ class RoomTabPage(Page):
         join_room_button_y = 2 / 3
         join_room_button_width = 1 / 4
         join_room_button_height = 1 / 5
-        join_room_button__img = pygame.image.load('assets/img/load_btn.png')
+        join_room_button_img = pygame.image.load('assets/img/load_btn.png')
         join_room_button = ImageButton("join_room_button", screen, join_room_button_x, join_room_button_y,
                              join_room_button_width,
-                             join_room_button_height, join_room_button__img)
+                             join_room_button_height, join_room_button_img)
         self.components["join_room_button"] = join_room_button
 
         # picture display - sun to be replaced with a join room image

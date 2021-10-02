@@ -6,6 +6,7 @@ from topic_leaderboard import *
 from room_tab import *
 from room_creation import *
 from join_room import *
+from host_settings import *
 '''
 main controller of the system
 int screen_width starting width of screen
@@ -29,8 +30,7 @@ class PageController:
         self.room_tab = RoomTabPage(self.screen)
         self.room_creation = RoomCreationPage(self.screen)
         self.join_room = JoinRoomPage(self.screen)
-
-
+        self.host_settings = HoseSettingsPage(self.screen)
 
 
     def start(self):
@@ -40,11 +40,11 @@ class PageController:
 
         while self.run:
             print(self.current_page)
-            page_output = self.join_room.start(self.screen)
+            page_output = self.host_settings.start(self.screen)
             if page_output["exit"]:
                 break
-            if page_output["current_page"] == "join_room":
-                self.current_page = "join_room"
+            if page_output["current_page"] == "host_settings":
+                self.current_page = "host_settings"
 
             pygame.display.update()
 
