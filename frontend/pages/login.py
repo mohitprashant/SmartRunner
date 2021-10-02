@@ -20,16 +20,6 @@ class LoginPage(Page):
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
-        # start button
-        #from top left
-        # start_button_rel_x = 1 / 10
-        # start_button_rel_y = 1 / 2
-        # start_button_rel_width = 1 / 3
-        # start_button_rel_height = 1 / 5
-        # start_button_img = pygame.image.load('assets/img/start_btn.png')
-        # start_button = ImageButton("start_button", screen, start_button_rel_x, start_button_rel_y, start_button_rel_width,
-        #                       start_button_rel_height, start_button_img)
-        # self.components["start_button"] = start_button
 
         # picture display - sun to be replaced with a game introduction image
         home_image_rel_x = 1 / 10

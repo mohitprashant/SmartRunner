@@ -9,8 +9,6 @@ class MainMenuPage(Page):
         self.name = "main_menu"
         self.data = {
             "current_page": self.name,
-            "username": "",
-            "password": "",
             "exit": False
         }
 
@@ -21,41 +19,42 @@ class MainMenuPage(Page):
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
-        # start button
-        start_button_rel_x = 1 / 10
-        start_button_rel_y = 1 / 2
-        start_button_rel_width = 1 / 3
-        start_button_rel_height = 1 / 5
-        start_button_img = pygame.image.load('assets/img/start_btn.png')
-        start_button = Button("start_button", start_button_rel_x, start_button_rel_y, start_button_rel_width,
-                              start_button_rel_height, screen, start_button_img)
-        self.components["start_button"] = start_button
+        # Single Player button
+        single_player_button_x = 1 / 20
+        single_player_button_y = 1 / 2
+        single_player_button_width = 1 / 4
+        single_player_button_height = 1 / 5
+        single_player_button_img = pygame.image.load('assets/img/start_btn.png')
+        single_player_button = ImageButton("single_player_button", screen, single_player_button_x, single_player_button_y, single_player_button_width,
+                              single_player_button_height, single_player_button_img)
+        self.components["single_player_button"] = single_player_button
 
-        # username text input box
-        username_input_rel_x = 1 / 2
-        username_input_rel_y = 1 / 2
-        username_input_rel_width = 1 / 3
-        username_input_rel_height = 1 / 16
-        username_input_box = Textbox("username_input_box", username_input_rel_x, username_input_rel_y,
-                                     username_input_rel_width, username_input_rel_height, screen)
-        self.components["username_input_box"] = username_input_box
+        # Room button
+        room_button_x = 15 / 40
+        room_button_y = 1 / 2
+        room_button_width = 1 / 4
+        room_button_height = 1 / 5
+        room_button__img = pygame.image.load('assets/img/restart_btn.png')
+        room_button = ImageButton("room_button",screen, room_button_x, room_button_y,
+                                      room_button_width,
+                                      room_button_height, room_button__img)
+        self.components["room_button"] = room_button
 
-        # password text input box
-        password_input_rel_x = 1 / 2
-        password_input_rel_y = 3 / 5
-        password_input_rel_width = 1 / 3
-        password_input_rel_height = 1 / 16
-        password_input_box = Textbox("password_input_box", password_input_rel_x, password_input_rel_y,
-                                     password_input_rel_width, password_input_rel_height, screen)
-        self.components["password_input_box"] = password_input_box
+        # Room button
+        leaderboard_button_x = 7 / 10
+        leaderboard_button_y = 1 / 2
+        leaderboard_button_width = 1 / 4
+        leaderboard_button_height = 1 / 5
+        leaderboard_button__img = pygame.image.load('assets/img/load_btn.png')
+        leaderboard_button = ImageButton("leaderboard_button", screen, leaderboard_button_x, leaderboard_button_y,
+                             leaderboard_button_width,
+                             leaderboard_button_height, leaderboard_button__img)
+        self.components["leaderboard_button"] = leaderboard_button
 
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
-            if triggered_component in ["start_button", "username_input_box", "password_input_box"]:
-                self.data["username"] = self.components["username_input_box"].input
-                self.data["password"] = self.components["password_input_box"].input
-                if self.data["username"] == "username" and self.data["password"] == "password":
-                    return self.data
-                else:
-                    print("login failed")
+            if triggered_component in ["single_player_button", "room_button", "leaderboard_button"]:
+                return self.data
+            else:
+                print("entry failed")

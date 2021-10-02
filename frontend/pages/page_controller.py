@@ -17,7 +17,7 @@ class PageController:
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), pygame.RESIZABLE)
         self.caption = "Smart Runners"
         # define pages
-        self.current_page = "login"
+        self.current_page = "main_menu"
         self.login_page = LoginPage(self.screen)
         self.main_menu = MainMenuPage(self.screen)
 
@@ -28,10 +28,10 @@ class PageController:
 
         while self.run:
             print(self.current_page)
-            page_output = self.login_page.start(self.screen)
+            page_output = self.main_menu.start(self.screen)
             if page_output["exit"]:
                 break
-            if page_output["current_page"] == "login":
+            if page_output["current_page"] == "main_menu":
                 self.current_page = "main_menu"
 
             pygame.display.update()
