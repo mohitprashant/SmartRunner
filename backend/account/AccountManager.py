@@ -14,7 +14,27 @@ firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
 
 
-def sign_up(email, password):
+def create_account_confirm_password(email, password, confirm_password):
+    """
+    Create an account with password confirmation.
+    :param email: Sign up email
+    :param password: Account password
+    :param confirm_password: Confirm account password
+    :return:
+    """
+    if password != confirm_password:
+        print('Passwords do not match.')
+    else:
+        create_account(email, password)
+
+
+def create_account(email, password):
+    """
+    Create an account.
+    :param email: Sign up email
+    :param password: Account password
+    :return:
+    """
     try:
         auth.create_user_with_email_and_password(email, password)
         print('Successfully created account.')
@@ -23,6 +43,12 @@ def sign_up(email, password):
 
 
 def sign_in(email, password):
+    """
+    Sign in to an account.
+    :param email: Sign in email
+    :param password: Account password
+    :return:
+    """
     try:
         auth.sign_in_with_email_and_password(email, password)
         print('Successfully logged in.')
@@ -30,5 +56,6 @@ def sign_in(email, password):
         print('Invalid email or password.')
 
 
-# sign_in('example@mail.com', '123456')
-sign_up('exampl1e@mail.com', '123456')
+sign_in('exampl3e@mail.com', '123456')
+# sign_up('exampl1e@mail.com', '123456')
+# create_account_confirm_password('exampl3e@mail.com', '123456', '123456')
