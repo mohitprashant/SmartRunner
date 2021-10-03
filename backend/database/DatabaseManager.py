@@ -1,14 +1,9 @@
 import pathlib
 import firebase_admin as fa
-from uuid import uuid4 as genUid
 from firebase_admin import credentials
 from firebase_admin import firestore
 from Enums import leaderboardSize, leaderboard_user_fields, question_fields
-# from firebase import firebase
-# from firebase_admin import storage
-# from google.cloud import storage
-# from google.auth import load_credentials_from_file
-# import requests
+
 
 cred = credentials.Certificate(str(pathlib.Path(__file__).parent.resolve()) + "/../serviceAccountKey.json")
 fa.initialize_app(cred)
@@ -56,22 +51,22 @@ def get_leaderboard(subject, topic):
     Returns a sorted list of users in the specified leaderboard by increasing order
     """
     query = db.collection("leaderboard").document(subject).collection(topic).get()
-    unsorted = []
+    unsorted_list = []
     for user in query:
-        unsorted.append(user.to_dict())
+        unsorted_list.append(user.to_dict())
 
-    sorted = []
+    sorted_list = []
     smallest_idx = 0
-    while (len(unsorted) > 0):
-        for i in range(len(unsorted)):
-            if unsorted[i]["score"] < unsorted[smallest_idx]["score"]:
+    while len(unsorted_list) > 0:
+        for i in range(len(unsorted_list)):
+            if unsorted_list[i]["score"] < unsorted_list[smallest_idx]["score"]:
                 smallest_idx = i
         
-        sorted.append(unsorted[smallest_idx])
-        unsorted.pop(smallest_idx)
+        sorted_list.append(unsorted_list[smallest_idx])
+        unsorted_list.pop(smallest_idx)
         smallest_idx = 0
 
-    return sorted
+    return sorted_list
 
 
 def update_leaderboard(user, subject, topic):
