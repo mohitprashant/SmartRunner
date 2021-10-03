@@ -14,6 +14,14 @@ firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
 
 
+def sign_up(email, password):
+    try:
+        auth.create_user_with_email_and_password(email, password)
+        print('Successfully created account.')
+    except:
+        print('Email already exists.')
+
+
 def sign_in(email, password):
     try:
         auth.sign_in_with_email_and_password(email, password)
@@ -22,4 +30,5 @@ def sign_in(email, password):
         print('Invalid email or password.')
 
 
-sign_in('example@mail.com', '123456')
+# sign_in('example@mail.com', '123456')
+sign_up('exampl1e@mail.com', '123456')
