@@ -1,17 +1,18 @@
+import pathlib
 import firebase_admin as fa
+from uuid import uuid4 as genUid
 from firebase_admin import credentials
 from firebase_admin import firestore
-
+from Enums import leaderboardSize, leaderboard_user_fields, question_fields
 # from firebase import firebase
 # from firebase_admin import storage
 # from google.cloud import storage
 # from google.auth import load_credentials_from_file
 # import requests
 
-cred = credentials.Certificate("../serviceAccountKey.json")
+cred = credentials.Certificate(str(pathlib.Path(__file__).parent.resolve()) + "/../serviceAccountKey.json")
 fa.initialize_app(cred)
 db = firestore.client()
-
 
 def getSubjects():
     subjects = db.collection('subjects').get()
@@ -50,34 +51,64 @@ def getQuestions(subject, topic):
 
 def getLeaderboard(subject, topic):
     """
-    Returns an unsorted list of users in the specified leaderboard
+    Returns a sorted list of users in the specified leaderboard by increasing order
     """
     query = db.collection("leaderboard").document(subject).collection(topic).get()
-    users = []
+    unsorted = []
     for user in query:
-        users.append(user.to_dict())
-    
-    return users
+        unsorted.append(user.to_dict())
+
+    sorted = []
+    smallest_idx = 0
+    while (len(unsorted) > 0):
+        for i in range(len(unsorted)):
+            if unsorted[i]["score"] < unsorted[smallest_idx]["score"]:
+                smallest_idx = i
+        
+        sorted.append(unsorted[smallest_idx])
+        unsorted.pop(smallest_idx)
+        smallest_idx = 0
+
+    return sorted
+
+def updateLeaderboard(user, subject, topic):
+    checkFields(user, leaderboard_user_fields)
+    currentLeaderboard = getLeaderboard(subject, topic)
+
+    if len(currentLeaderboard) < leaderboardSize:
+        # Just insert
+        db.collection("leaderboard").document(subject).collection(topic).document().set(user)
+    else:
+        # Remove lowest and insert next highest
+        lowestCollection = db.collection("leaderboard").document(subject).collection(topic)\
+                    .where("uid", "==", currentLeaderboard[0]['uid'])\
+                    .where("score", "==", currentLeaderboard[0]['score']).get()
+
+        if len(lowestCollection) > 0 and lowestCollection[0].to_dict()['score'] < user['score']:
+            db.collection("leaderboard").document(subject).collection(topic).document(lowestCollection[0].id).delete()
+            db.collection("leaderboard").document(subject).collection(topic).document().set(user)
 
 def addQuestion(subject, topic, question):
     """
     Add a question to the specified subject and topic
     Throws an exception if the given question is not a dictionary type or does not have the specified keys
     """
-    if type(question) is not dict:
-        raise Exception("Question is not of a dictionary type")
-
-    question_keys = ["Description", "Difficulty_level", "Correct", "Wrong_1", "Wrong_2", "Wrong_3"]
-    for question_key in question_keys:
-        if question_key not in question:
-            raise Exception("Question does not have the key " + question_key)
-         
-        if question_key == "Difficulty_level" and type(question[question_key]) is not int:
-            raise Exception("Given difficulty_level is not of type int")
+    checkFields(question, question_fields)
     
     db.collection("subjects").document(subject).collection(topic).document().set(question)
     return question
-    
+
+def checkFields(item, fields):
+    if type(item) is not dict:
+        raise Exception("Item is not of a dictionary type")
+
+    for field in fields:
+        if field not in item:
+            raise Exception("Item does not have the key " + field)
+         
+        if type(item[field]) is not fields[field]["Type"]:
+            raise Exception("Given " + field + " is not of type " + str(fields[field]["Type"]))
+
 def getUserByUsername(username):
     """
     Returns a user dictionary object if given username exists
