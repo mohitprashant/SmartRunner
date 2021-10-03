@@ -20,12 +20,12 @@ def create_account_confirm_password(email, password, confirm_password):
     :param email: Sign up email
     :param password: Account password
     :param confirm_password: Confirm account password
-    :return:
+    :return: uid: UserID
     """
     if password != confirm_password:
         print('Passwords do not match.')
     else:
-        create_account(email, password)
+        return create_account(email, password)
 
 
 def create_account(email, password):
@@ -33,11 +33,12 @@ def create_account(email, password):
     Create an account.
     :param email: Sign up email
     :param password: Account password
-    :return:
+    :return: uid: UserID
     """
     try:
-        auth.create_user_with_email_and_password(email, password)
+        user = auth.create_user_with_email_and_password(email, password)
         print('Successfully created account.')
+        return user['localId']
     except:
         print('Email already exists.')
 
@@ -47,15 +48,16 @@ def sign_in(email, password):
     Sign in to an account.
     :param email: Sign in email
     :param password: Account password
-    :return:
+    :return: uid: UserID
     """
     try:
-        auth.sign_in_with_email_and_password(email, password)
+        user = auth.sign_in_with_email_and_password(email, password)
         print('Successfully logged in.')
+        return user['localId']
     except:
         print('Invalid email or password.')
 
 
-sign_in('exampl3e@mail.com', '123456')
-# sign_up('exampl1e@mail.com', '123456')
-# create_account_confirm_password('exampl3e@mail.com', '123456', '123456')
+# print(sign_in('exampl3e@mail.com', '123456'))
+# print(create_account('exampl6e@mail.com', '123456'))
+print(create_account_confirm_password('exampl8e@mail.com', '123456', '123456'))
