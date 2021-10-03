@@ -58,6 +58,14 @@ def sign_in(email, password):
         print('Invalid email or password.')
 
 
-# print(sign_in('exampl3e@mail.com', '123456'))
-# print(create_account('exampl6e@mail.com', '123456'))
-print(create_account_confirm_password('exampl8e@mail.com', '123456', '123456'))
+def reset_account_password(email):
+    try:
+        print(auth.send_password_reset_email(email))
+    except:
+        print('Account does not exist.')
+
+
+# print(sign_in('example@mail.com', '123456'))
+# print(create_account('example@mail.com', '123456'))
+# print(create_account_confirm_password('example@mail.com', '123456', '123456'))
+# print(reset_account_password('example@mail.com'))
