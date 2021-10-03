@@ -14,7 +14,8 @@ cred = credentials.Certificate(str(pathlib.Path(__file__).parent.resolve()) + "/
 fa.initialize_app(cred)
 db = firestore.client()
 
-def getSubjects():
+
+def get_subjects():
     subjects = db.collection('subjects').get()
     items = []
 
@@ -25,7 +26,7 @@ def getSubjects():
     return items
 
 
-def getTopics(subject):
+def get_topics(subject):
     topics = db.collection('subjects').document(subject).collections()
     items = []
 
@@ -36,7 +37,7 @@ def getTopics(subject):
     return items
 
 
-def getQuestions(subject, topic):
+def get_questions(subject, topic):
     """
     Returns an array of questions from the subject and topic.
     Each question is of a dictionary type.
@@ -49,7 +50,8 @@ def getQuestions(subject, topic):
         
     return questions
 
-def getLeaderboard(subject, topic):
+
+def get_leaderboard(subject, topic):
     """
     Returns a sorted list of users in the specified leaderboard by increasing order
     """
@@ -71,9 +73,10 @@ def getLeaderboard(subject, topic):
 
     return sorted
 
-def updateLeaderboard(user, subject, topic):
-    checkFields(user, leaderboard_user_fields)
-    currentLeaderboard = getLeaderboard(subject, topic)
+
+def update_leaderboard(user, subject, topic):
+    check_fields(user, leaderboard_user_fields)
+    currentLeaderboard = get_leaderboard(subject, topic)
 
     if len(currentLeaderboard) < leaderboardSize:
         # Just insert
@@ -88,17 +91,19 @@ def updateLeaderboard(user, subject, topic):
             db.collection("leaderboard").document(subject).collection(topic).document(lowestCollection[0].id).delete()
             db.collection("leaderboard").document(subject).collection(topic).document().set(user)
 
-def addQuestion(subject, topic, question):
+
+def add_question(subject, topic, question):
     """
     Add a question to the specified subject and topic
     Throws an exception if the given question is not a dictionary type or does not have the specified keys
     """
-    checkFields(question, question_fields)
+    check_fields(question, question_fields)
     
     db.collection("subjects").document(subject).collection(topic).document().set(question)
     return question
 
-def checkFields(item, fields):
+
+def check_fields(item, fields):
     if type(item) is not dict:
         raise Exception("Item is not of a dictionary type")
 
@@ -109,7 +114,8 @@ def checkFields(item, fields):
         if type(item[field]) is not fields[field]["Type"]:
             raise Exception("Given " + field + " is not of type " + str(fields[field]["Type"]))
 
-def getUserByUsername(username):
+
+def get_user_by_username(username):
     """
     Returns a user dictionary object if given username exists
     """
@@ -121,6 +127,7 @@ def getUserByUsername(username):
     
     return users[0].to_dict()
 
-getSubjects()
-getTopics('Mathematics')
-getQuestions('Mathematics', 'Algebra')
+
+get_subjects()
+get_topics('Mathematics')
+get_questions('Mathematics', 'Algebra')
