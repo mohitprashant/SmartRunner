@@ -22,13 +22,13 @@ class MainMenuPage(Page):
         self.components["background"] = background
 
         # start button
-        start_button_rel_x = 1 / 10
-        start_button_rel_y = 1 / 2
+        start_button_rel_x = 0 / 10
+        start_button_rel_y = 0 / 2
         start_button_rel_width = 1 / 3
         start_button_rel_height = 1 / 5
         start_button_img = pygame.image.load('assets/img/start_btn.png')
-        start_button = Button("start_button", start_button_rel_x, start_button_rel_y, start_button_rel_width,
-                              start_button_rel_height, screen, start_button_img)
+        start_button = ImageButton("start_button", screen, start_button_rel_x, start_button_rel_y, start_button_rel_width,
+                                    start_button_rel_height, start_button_img)
         self.components["start_button"] = start_button
 
         # username text input box
@@ -36,8 +36,8 @@ class MainMenuPage(Page):
         username_input_rel_y = 1 / 2
         username_input_rel_width = 1 / 3
         username_input_rel_height = 1 / 16
-        username_input_box = Textbox("username_input_box", username_input_rel_x, username_input_rel_y,
-                                     username_input_rel_width, username_input_rel_height, screen)
+        username_input_box = TextInput("username_input_box", screen, username_input_rel_x, username_input_rel_y,
+                                     username_input_rel_width, username_input_rel_height)
         self.components["username_input_box"] = username_input_box
 
         # password text input box
@@ -45,8 +45,8 @@ class MainMenuPage(Page):
         password_input_rel_y = 3 / 5
         password_input_rel_width = 1 / 3
         password_input_rel_height = 1 / 16
-        password_input_box = Textbox("password_input_box", password_input_rel_x, password_input_rel_y,
-                                     password_input_rel_width, password_input_rel_height, screen)
+        password_input_box = TextInput("password_input_box", screen, password_input_rel_x, password_input_rel_y,
+                                     password_input_rel_width, password_input_rel_height)
         self.components["password_input_box"] = password_input_box
 
     # how do the page react to events?

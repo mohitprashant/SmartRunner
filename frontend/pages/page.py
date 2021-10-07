@@ -63,12 +63,12 @@ class Page:
                         if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.MOUSEBUTTONUP:
                             if component.trigger(event):
                                 print(component.name)
-                                triggered_component_list.append(component.name)
+                                triggered_component_list.append(component)
                     if component.keyboard_function:
                         if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
                             if component.trigger(event):
                                 print(component.name)
-                                triggered_component_list.append(component.name)
+                                triggered_component_list.append(component)
                 self.page_function(triggered_component_list)
 
             pygame.display.update()

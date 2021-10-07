@@ -18,7 +18,7 @@ class PageController:
         self.caption = "Smart Runners"
         # define pages
         self.current_page = "login"
-        self.login_page = LoginPage(self.screen)
+        self.login = LoginPage(self.screen)
         self.main_menu = MainMenuPage(self.screen)
 
     def start(self):
@@ -28,7 +28,7 @@ class PageController:
 
         while self.run:
             print(self.current_page)
-            page_output = self.login_page.start(self.screen)
+            page_output = self.login.start(self.screen)
             if page_output["exit"]:
                 break
             if page_output["current_page"] == "login":
