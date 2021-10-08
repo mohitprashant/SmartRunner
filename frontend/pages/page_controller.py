@@ -1,7 +1,13 @@
 import pygame
 from login import *
 from main_menu import *
-
+from singleplayer import *
+from leaderboardselection import *
+from managerooms import *
+from hostroom import *
+from playerroom import *
+from analyticsselection import *
+from uniqueanalytics import *
 '''
 main controller of the system
 int screen_width starting width of screen
@@ -17,9 +23,16 @@ class PageController:
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), pygame.RESIZABLE)
         self.caption = "Smart Runners"
         # define pages
-        self.current_page = "login"
+        self.current_page = "uniqueanalytics"
         self.login = LoginPage(self.screen)
         self.main_menu = MainMenuPage(self.screen)
+        self.singleplayer = SinglePlayerPage(self.screen)
+        self.leadselect = LeadSelectPage(self.screen)
+        self.managerooms = ManageRoomsPage(self.screen)
+        self.hostroom = HostRoomPage(self.screen)
+        self.playerroom = PlayerRoomPage(self.screen)
+        self.analyticsselect = AnalyticsSelectPage(self.screen)
+        self.uniqueanalytics = UniqueAnalyticsPage(self.screen)
 
     def start(self):
         pygame.init()
@@ -29,11 +42,11 @@ class PageController:
 
         while self.run:
             print(self.current_page)
-            page_output = self.login.start(self.screen)
+            page_output = self.analyticsselect.start(self.screen)
             if page_output["exit"]:
                 break
-            if page_output["current_page"] == "login":
-                self.current_page = "main_menu"
+            if page_output["current_page"] == "analyticsselect":
+                print("test")
 
             pygame.display.update()
 

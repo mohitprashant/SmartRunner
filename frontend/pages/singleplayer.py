@@ -44,9 +44,9 @@ class SinglePlayerPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
-            if triggered_component in ["start_button"]:
+            if triggered_component in [self.components["start_button"]]:
                 #pass in scrollable select inputs
                 print("start game session")
-            if triggered_component in ["exit_button"]:
+            if triggered_component in [self.components["exit_button"]]:
                 print("return to main menu")
 
