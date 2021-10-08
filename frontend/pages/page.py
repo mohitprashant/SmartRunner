@@ -15,7 +15,7 @@ class Page:
             "exit": False
         }
         self.components = {}                        # all components within the page
-
+        self.layers = []
     # initialize all components and add them to component list
     def set_components(self):
         pass
@@ -58,17 +58,28 @@ class Page:
                 if event.type == pygame.VIDEORESIZE:
                     self.resize_components()
                 triggered_component_list = []
-                for component in self.components.values():
-                    if component.mouse_function:
-                        if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.MOUSEBUTTONUP:
-                            if component.trigger(event):
-                                print(component.name)
-                                triggered_component_list.append(component)
-                    if component.keyboard_function:
-                        if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
-                            if component.trigger(event):
-                                print(component.name)
-                                triggered_component_list.append(component)
+                top_layer_triggered = False
+                # go down layers at mouse pos and only trigger top layer surface
+                for layer in reversed(self.layers):
+                    pos = pygame.mouse.get_pos()
+                    if event.type == pygame.MOUSEBUTTONDOWN and layer.display_rect.collidepoint(pos):
+                        layer.trigger(event)
+                        print(component.name)
+                        triggered_component_list.append(layer)
+                        top_layer_triggered = True
+                        break
+                if not top_layer_triggered:
+                    for component in self.components.values():
+                        if component.mouse_function:
+                            if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.MOUSEBUTTONUP:
+                                if component.trigger(event):
+                                    print(component.name)
+                                    triggered_component_list.append(component)
+                        if component.keyboard_function:
+                            if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+                                if component.trigger(event):
+                                    print(component.name)
+                                    triggered_component_list.append(component)
                 self.page_function(triggered_component_list)
 
             pygame.display.update()

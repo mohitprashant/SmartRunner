@@ -130,6 +130,36 @@ class ImageButton(ImageDisplay):
         return action
 
 
+class ToggleButton(ImageButton):
+    def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height, image, toggle_image):
+        super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, image)
+        self.original_image = image
+        self.toggle_image = toggle_image
+        self.toggled = False
+
+    # return true if button is clicked
+    def trigger(self, event):
+        action = False
+        # get mouse position
+        pos = pygame.mouse.get_pos()
+        # check mouseover and clicked conditions
+        if self.display_rect.collidepoint(pos):  # when mouse is on top of button
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1 and not self.clicked:  # new left click and not held beforehand
+                    if self.toggled:
+                        self.image = self.original_image
+                        self.toggled = False
+                    else:
+                        self.image = self.toggle_image
+                        self.toggled = True
+                    self.clicked = True  # prevent multiple input by holding click
+                    self.resize(self.screen)
+        if event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:  # when left click is let go
+                self.clicked = False  # set click to false
+
+        return action
+
 # add background for page
 '''
 class for background component
@@ -159,15 +189,16 @@ class Background(Component):
 
 
 class ComponentSurface(Component):
-    def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height, display_screen):
+    def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height):
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height)
         self.components = {}
         self.components_og_pos_size = {}
         self.display_components = {}
 
-        self.display_screen = display_screen
+        self.display_screen = self.screen.get_abs_parent()
         self.display_screen_width = self.display_screen.get_width()
         self.display_screen_height = self.display_screen.get_height()
+
 
         self.surface = pygame.Surface((self.width, self.height))
         self.mouse_function = True
@@ -186,10 +217,12 @@ class ComponentSurface(Component):
     def update(self):
         for component in self.components.values():
             component.relative_display_x = self.relative_display_x + \
-                                           self.components_og_pos_size[component.name]["rel_x"] * self.relative_display_width
+                                           self.components_og_pos_size[component.name][
+                                               "rel_x"] * self.relative_display_width
 
             component.relative_display_y = self.relative_display_y + \
-                                           self.components_og_pos_size[component.name]["rel_y"] * self.relative_display_height
+                                           self.components_og_pos_size[component.name][
+                                               "rel_y"] * self.relative_display_height
 
             component.relative_display_width = self.components_og_pos_size[component.name]["rel_width"] \
                                                * self.relative_display_width
@@ -204,6 +237,7 @@ class ComponentSurface(Component):
             component.display_rect = pygame.Rect(component.display_x, component.display_y,
                                                  component.display_width, component.display_height)
 
+
     def draw(self):
         self.update()
         for component in self.components.values():
@@ -211,8 +245,6 @@ class ComponentSurface(Component):
         self.screen.blit(self.surface, (self.x, self.y))
 
     def trigger(self, event):
-        action = False
-
         self.triggered_component_list.clear()
         # get mouse position
         pos = pygame.mouse.get_pos()
@@ -234,6 +266,9 @@ class ComponentSurface(Component):
     def resize(self, new_screen):
         super().resize(new_screen)
         self.surface = pygame.Surface((self.width, self.height))  # surface of scrollable
+        self.display_screen = self.screen.get_abs_parent()
+        self.display_screen_width = self.display_screen.get_width()
+        self.display_screen_height = self.display_screen.get_height()
         for component in self.components.values():
             component.resize(self.surface)
         self.update()
@@ -242,8 +277,8 @@ class ComponentSurface(Component):
 # add a scrollable component on screen
 class ScrollableComponentSurface(ComponentSurface):
     def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height,
-                 display_screen, shown_relative_width, shown_relative_height, scroll_axis_y=True):
-        super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, display_screen)
+                 shown_relative_width, shown_relative_height, scroll_axis_y=True):
+        super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height)
 
         # display dimensions
         self.shown_relative_x = self.relative_x
@@ -288,10 +323,10 @@ class ScrollableComponentSurface(ComponentSurface):
 # mouse controlled scrollable surface
 class MouseScrollableSurface(ScrollableComponentSurface):
 
-    def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height, display_screen,
+    def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height,
                  shown_relative_width, shown_relative_height, scroll_axis_y=True, relative_scroll_length=1 / 8):
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height,
-                         display_screen, shown_relative_width, shown_relative_height, scroll_axis_y)
+                         shown_relative_width, shown_relative_height, scroll_axis_y)
 
         self.relative_scroll_length = relative_scroll_length  # scroll length per wheel tick
 
@@ -307,9 +342,10 @@ class MouseScrollableSurface(ScrollableComponentSurface):
         self.triggered_component_list.clear()
         # get mouse position
         pos = pygame.mouse.get_pos()
-        # check mouseover and clicked conditions
-        if self.shown_rect.collidepoint(pos):  # when mouse is on top of button
-            if event.type == pygame.MOUSEBUTTONDOWN:
+        # when mouse is on top of button
+        if event.type == pygame.MOUSEBUTTONDOWN:
+         # check mouseover and clicked conditions
+            if self.shown_rect.collidepoint(pos):
                 if event.button == 4:  # wheel roll up
                     if self.scroll_axis_y:
                         if self.scroll_relative_y + self.relative_display_scroll_length >= 0:
@@ -354,11 +390,11 @@ class MouseScrollableSurface(ScrollableComponentSurface):
                             self.triggered_component_list.append(component)
                             action = True
                 self.resize(self.screen)
-            else:
-                for component in self.components.values():
-                    if component.trigger(event):
-                        self.triggered_component_list.append(component)
-                        action = True
+        else:
+            for component in self.components.values():
+                if component.trigger(event):
+                    self.triggered_component_list.append(component)
+                    action = True
         return action
 
     # additional variables to resize not covered by parent resize
@@ -445,7 +481,7 @@ class SelectableTextButton(TextButton):
                  text, font_file=None, font_color=pygame.Color("black"), active_color="dodgerblue",
                  passive_color="white", border_width=0):
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height,
-                 text, font_file, font_color)
+                         text, font_file, font_color)
         self.border_width = border_width
         self.active_color = active_color
         self.passive_color = passive_color
@@ -473,7 +509,65 @@ class SelectableTextButton(TextButton):
                         self.color = self.active_color
         return action
 
+    def resize(self, new_screen):
+        super().resize(new_screen)
+        self.display_width = int(self.screen_width * self.relative_display_width)
+        self.display_rect = pygame.Rect(self.display_x, self.display_y, self.display_width, self.display_height)
 
+
+class SingleSelectableTextButton(SelectableTextButton):
+    def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height,
+                 text, font_file=None, font_color=pygame.Color("black"), active_color="dodgerblue",
+                 passive_color="white", border_width=0):
+        super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height,
+                         text, font_file, font_color, active_color, passive_color, border_width)
+
+    def trigger(self, event):
+        action = False
+        # get mouse position
+        pos = pygame.mouse.get_pos()
+        # when mouse hovers over TextInput and click, TextInput is activated
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                if self.display_rect.collidepoint(pos):
+                    self.active = True
+                    self.color = self.active_color
+                else:
+                    self.active = False
+                    self.color = self.passive_color
+        return action
+
+
+class SelectableTextList(MouseScrollableSurface):
+    def __init__(self, name, screen, relative_x, relative_y, relative_width, text_relative_height,
+                 shown_relative_width, shown_relative_height, text_list, single_select=True, font_file=None,
+                 font_color=pygame.Color("black"), active_color="dodgerblue", passive_color="white", border_width=0):
+        self.text_list = text_list
+        self.list_size = len(text_list)
+        # height of scroll surface is sum of text height
+        relative_height = text_relative_height * self.list_size
+        super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height,
+                         shown_relative_width, shown_relative_height, True)
+        self.single_select = single_select
+        self.text_relative_x = 0
+        self.text_relative_y = 0
+        self.text_relative_height = 1/self.list_size
+        self.text_relative_width = 1
+        # for each text, add a selectable text into scrollable
+        for text in text_list:
+            if self.single_select:
+                selectable_text = SingleSelectableTextButton(text, self.surface, self.text_relative_x,
+                                                             self.text_relative_y, self.text_relative_width,
+                                                             self.text_relative_height, text, font_file, font_color,
+                                                             active_color, passive_color, border_width)
+            else:
+                selectable_text = SelectableTextButton(text, self.surface, self.text_relative_x, self.text_relative_y,
+                                                       self.text_relative_width, self.text_relative_height, text,
+                                                       font_file, font_color, active_color, passive_color, border_width)
+            # add y into scrollable
+            self.add_component(selectable_text)
+            # update y of next text
+            self.text_relative_y = self.text_relative_y + self.text_relative_height
 
 # add textInput to screen
 '''

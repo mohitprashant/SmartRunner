@@ -24,6 +24,7 @@ class PageController:
     def start(self):
         pygame.init()
         pygame.display.set_caption(self.caption)
+        # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
 
         while self.run:
