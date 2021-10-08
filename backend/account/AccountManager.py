@@ -73,7 +73,7 @@ def reset_account_password(email):
         return True
     except:
         print('Account does not exist.')
-        return False
+        return None
 
 
 def get_user_account_info(idToken):
@@ -83,7 +83,9 @@ def get_user_account_info(idToken):
     :return: True if successful. False if idToken invalid.
     """
     try:
-        return auth.get_account_info(idToken)
+        info = auth.get_account_info(idToken)
+        account = info['users'][0]
+        return account
     except:
         return None
 
@@ -111,10 +113,10 @@ def is_user_valid(user):
 
 
 
-print(sign_in('example@mail.com', '123456'))
-print(create_account('example@mail.com', '123456'))
+#print(sign_in('example@mail.com', '123456'))
+#print(create_account('example@mail.com', '123456'))
 # print(create_account_confirm_password('example@mail.com', '123456', '123456'))
 # print(reset_account_password('example@mail.com'))
-# get_user_account_info(sign_in('example@mail.com', '123456')['idToken'])
+#print(get_user_account_info(sign_in('example@mail.com', '123456')['idToken']))
 #save_user_login(sign_in('example@mail.com', '123456'))
 # print(load_user())
