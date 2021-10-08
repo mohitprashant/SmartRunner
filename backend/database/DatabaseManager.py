@@ -2,7 +2,7 @@ import pathlib
 import firebase_admin as fa
 from firebase_admin import credentials
 from firebase_admin import firestore
-from Enums import leaderboardSize, leaderboard_user_fields, question_fields
+from backend.database import Enums
 
 
 cred = credentials.Certificate(str(pathlib.Path(__file__).parent.resolve()) + "/../serviceAccountKey.json")
@@ -75,10 +75,10 @@ def get_leaderboard(subject, topic):
 
 
 def update_leaderboard(user, subject, topic):
-    check_fields(user, leaderboard_user_fields)
+    check_fields(user, Enums.leaderboard_user_fields)
     currentLeaderboard = get_leaderboard(subject, topic)
 
-    if len(currentLeaderboard) < leaderboardSize:
+    if len(currentLeaderboard) < Enums.leaderboardSize:
         # Just insert
         db.collection("leaderboard").document(subject).collection(topic).document().set(user)
     else:
@@ -97,7 +97,7 @@ def add_question(subject, topic, question):
     Add a question to the specified subject and topic
     Throws an exception if the given question is not a dictionary type or does not have the specified keys
     """
-    check_fields(question, question_fields)
+    check_fields(question, Enums.question_fields)
     
     db.collection("subjects").document(subject).collection(topic).document().set(question)
     return question
@@ -131,3 +131,4 @@ def get_user_by_username(username):
 print(get_subjects())
 print(get_topics('Mathematics'))
 print(get_questions('Mathematics', 'Algebra'))
+print(len(get_questions('Mathematics', 'Algebra')))
