@@ -15,7 +15,7 @@ def get_subjects():
     """
         Returns a list of available subjects.
     """
-    subjects = db.collection('subjects').get()
+    subjects = db.collection('subjects').list_documents()
     items = []
 
     for subject in subjects:
