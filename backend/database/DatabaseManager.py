@@ -1,41 +1,43 @@
+import pathlib
 import firebase_admin as fa
 from firebase_admin import credentials
 from firebase_admin import firestore
+from Enums import leaderboardSize, leaderboard_user_fields, question_fields
 
-# from firebase import firebase
-# from firebase_admin import storage
-# from google.cloud import storage
-# from google.auth import load_credentials_from_file
-# import requests
 
-cred = credentials.Certificate("../serviceAccountKey.json")
+cred = credentials.Certificate(str(pathlib.Path(__file__).parent.resolve()) + "/../serviceAccountKey.json")
+
 fa.initialize_app(cred)
 db = firestore.client()
 
 
-def getSubjects():
+def get_subjects():
+    """
+        Returns a list of available subjects.
+    """
     subjects = db.collection('subjects').get()
     items = []
 
     for subject in subjects:
         items.append(subject.id)
 
-    print(items)
     return items
 
 
-def getTopics(subject):
+def get_topics(subject):
+    """
+        Returns a list of available topics for a given subject.
+    """
     topics = db.collection('subjects').document(subject).collections()
     items = []
 
     for topic in topics:
         items.append(topic.id)
 
-    print(items)
     return items
 
 
-def getQuestions(subject, topic):
+def get_questions(subject, topic):
     """
     Returns an array of questions from the subject and topic.
     Each question is of a dictionary type.
@@ -48,37 +50,72 @@ def getQuestions(subject, topic):
         
     return questions
 
-def getLeaderboard(subject, topic):
+
+def get_leaderboard(subject, topic):
     """
-    Returns an unsorted list of users in the specified leaderboard
+    Returns a sorted list of users in the specified leaderboard by increasing order
     """
     query = db.collection("leaderboard").document(subject).collection(topic).get()
-    users = []
+    unsorted_list = []
     for user in query:
-        users.append(user.to_dict())
-    
-    return users
+        unsorted_list.append(user.to_dict())
 
-def addQuestion(subject, topic, question):
+    sorted_list = []
+    smallest_idx = 0
+    while len(unsorted_list) > 0:
+        for i in range(len(unsorted_list)):
+            if unsorted_list[i]["score"] < unsorted_list[smallest_idx]["score"]:
+                smallest_idx = i
+        
+        sorted_list.append(unsorted_list[smallest_idx])
+        unsorted_list.pop(smallest_idx)
+        smallest_idx = 0
+
+    return sorted_list
+
+
+def update_leaderboard(user, subject, topic):
+    check_fields(user, leaderboard_user_fields)
+    currentLeaderboard = get_leaderboard(subject, topic)
+
+    if len(currentLeaderboard) < leaderboardSize:
+        # Just insert
+        db.collection("leaderboard").document(subject).collection(topic).document().set(user)
+    else:
+        # Remove lowest and insert next highest
+        lowestCollection = db.collection("leaderboard").document(subject).collection(topic)\
+                    .where("uid", "==", currentLeaderboard[0]['uid'])\
+                    .where("score", "==", currentLeaderboard[0]['score']).get()
+
+        if len(lowestCollection) > 0 and lowestCollection[0].to_dict()['score'] < user['score']:
+            db.collection("leaderboard").document(subject).collection(topic).document(lowestCollection[0].id).delete()
+            db.collection("leaderboard").document(subject).collection(topic).document().set(user)
+
+
+def add_question(subject, topic, question):
     """
     Add a question to the specified subject and topic
     Throws an exception if the given question is not a dictionary type or does not have the specified keys
     """
-    if type(question) is not dict:
-        raise Exception("Question is not of a dictionary type")
-
-    question_keys = ["Description", "Difficulty_level", "Correct", "Wrong_1", "Wrong_2", "Wrong_3"]
-    for question_key in question_keys:
-        if question_key not in question:
-            raise Exception("Question does not have the key " + question_key)
-         
-        if question_key == "Difficulty_level" and type(question[question_key]) is not int:
-            raise Exception("Given difficulty_level is not of type int")
+    check_fields(question, question_fields)
     
     db.collection("subjects").document(subject).collection(topic).document().set(question)
     return question
-    
-def getUserByUsername(username):
+
+
+def check_fields(item, fields):
+    if type(item) is not dict:
+        raise Exception("Item is not of a dictionary type")
+
+    for field in fields:
+        if field not in item:
+            raise Exception("Item does not have the key " + field)
+         
+        if type(item[field]) is not fields[field]["Type"]:
+            raise Exception("Given " + field + " is not of type " + str(fields[field]["Type"]))
+
+
+def get_user_by_username(username):
     """
     Returns a user dictionary object if given username exists
     """
@@ -90,6 +127,7 @@ def getUserByUsername(username):
     
     return users[0].to_dict()
 
-getSubjects()
-getTopics('Mathematics')
-getQuestions('Mathematics', 'Algebra')
+
+print(get_subjects())
+print(get_topics('Mathematics'))
+print(get_questions('Mathematics', 'Algebra'))
