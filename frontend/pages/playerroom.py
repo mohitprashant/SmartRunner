@@ -6,16 +6,17 @@ class PlayerRoomPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
         self.name = "playerroom"
-        self.output_data = {
-            "current_page": self.name,
-            "roomID": "Room ID",
-            "ready_status": False,
-            "exit": False
-        }
         self.input_data = {
             "player_status": [],
             "roomID": "Room ID",
         }
+        self.output_data = {
+            "current_page": self.name,
+            "roomID": self.input_data["roomID"],
+            "ready_status": False,
+            "exit": False
+        }
+
 
     # set all component variables on input screen
     def set_components(self, screen):
@@ -40,7 +41,7 @@ class PlayerRoomPage(Page):
         text_relative_height = 1 / 10
         shown_relative_width = 0.7
         shown_relative_height = 3 / 5
-        text_list = ["1", "2", "3", "4", "5", "6", "7", "8"]
+        text_list = self.input_data["player_status"]
 
         selectable_text_list = SelectableTextList("selectable_text_list", screen, relative_x,
                                                   relative_y, relative_width,
@@ -85,9 +86,9 @@ class PlayerRoomPage(Page):
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             if triggered_component in [self.components["exit_button"]]:
-                print("return to join room")
+                self.name = "join_room"
             if triggered_component in [self.components["start_button"]]:
-                self.data["ready_status"] = True
+                self.output_data["ready_status"] = True
                 print("Player ready")
             if triggered_component in [self.components["roomID_button"]]:
-                print("navigate to share screen")
+                self.name = "share"

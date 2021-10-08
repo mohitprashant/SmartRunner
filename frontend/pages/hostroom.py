@@ -6,13 +6,14 @@ class HostRoomPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
         self.name = "hostroom"
-        self.output_data = {
-            "current_page": self.name,
-            "exit": False
-        }
         self.input_data = {
             "player_status": [],
             "roomID": "Room ID",
+        }
+        self.output_data = {
+            "current_page": self.name,
+            "room_ID": self.input_data["roomID"],
+            "exit": False
         }
 
     # set all component variables on input screen
@@ -38,7 +39,7 @@ class HostRoomPage(Page):
         text_relative_height = 1 / 10
         shown_relative_width = 0.7
         shown_relative_height = 3 / 5
-        text_list = ["1", "2", "3", "4", "5", "6", "7", "8"]
+        text_list = self.input_data["player_status"]
 
         selectable_text_list = SelectableTextList("selectable_text_list", screen, relative_x,
                                                   relative_y, relative_width,
@@ -68,6 +69,7 @@ class HostRoomPage(Page):
                                    start_button_rel_width,
                                    start_button_rel_height, start_button_img)
         self.components["start_button"] = start_button
+
 
         # analytics button
         analytics_button_rel_x = 0.8
@@ -105,14 +107,13 @@ class HostRoomPage(Page):
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             if triggered_component in [self.components["exit_button"]]:
-                print("return to room selection")
+                self.name = "managerooms"
             if triggered_component in [self.components["start_button"]]:
                 print("navigate to game session")
             if triggered_component in [self.components["analytics_button"]]:
-                print("navigate to analytics screen")
+                self.name = "analyticsselect"
             if triggered_component in [self.components["settings_button"]]:
-                print("navigate to host settings screen")
+                self.name = "host_settings"
             if triggered_component in [self.components["roomID_button"]]:
-                print("navigate to share screen")
-            #add triggered component for scrollable single select
+                self.name = "share"
 

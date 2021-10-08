@@ -6,15 +6,17 @@ class ManageRoomsPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
         self.name = "managerooms"
+        self.input_data = {
+            "roomlist": [],
+        }
         self.output_data = {
             "current_page": self.name,
             "username": "",
             "password": "",
+            "roomID": "",
             "exit": False
         }
-        self.input_data = {
-            "roomlist": [],
-        }
+
 
     # set all component variables on input screen
     def set_components(self, screen):
@@ -35,11 +37,11 @@ class ManageRoomsPage(Page):
         # room list
         relative_x = 1 / 5
         relative_y = 1 / 6
-        relative_width = 3 / 4
+        relative_width = 0.6
         text_relative_height = 1 / 10
         shown_relative_width = 3 / 5
         shown_relative_height = 3 / 5
-        text_list = ["1", "2", "3", "4", "5", "6", "7", "8"]
+        text_list = self.input_data["roomlist"]
 
         selectable_text_list = SelectableTextList("selectable_text_list", screen, relative_x,
                                                   relative_y, relative_width,
@@ -47,6 +49,28 @@ class ManageRoomsPage(Page):
                                                   text_list, single_select=True)
         self.components["selectable_text_list"] = selectable_text_list
         self.layers.append(selectable_text_list)
+
+        # delete button
+        delete_button_rel_x = 0.8
+        delete_button_rel_y = 4 / 5
+        delete_button_rel_width = 1 / 7
+        delete_button_rel_height = 1 / 7
+        delete_button_img = pygame.image.load('assets/img/coin.png')
+        delete_button = ImageButton("delete_button", screen, delete_button_rel_x, delete_button_rel_y,
+                                      delete_button_rel_width,
+                                      delete_button_rel_height, delete_button_img)
+        self.components["delete_button"] = delete_button
+
+        # join button
+        join_button_rel_x = 3 / 7
+        join_button_rel_y = 4 / 5
+        join_button_rel_width = 1 / 7
+        join_button_rel_height = 1 / 7
+        join_button_img = pygame.image.load('assets/img/start_btn.png')
+        join_button = ImageButton("join_button", screen, join_button_rel_x, join_button_rel_y,
+                                   join_button_rel_width,
+                                   join_button_rel_height, join_button_img)
+        self.components["join_button"] = join_button
 
         # back button
         exit_button_rel_x = 1 / 15
@@ -63,7 +87,13 @@ class ManageRoomsPage(Page):
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             if triggered_component in [self.components["exit_button"]]:
-                print("return to rooms tab")
+                self.name = "room_tab"
             if triggered_component in [self.components["selectable_text_list"]]:
-                print("return choice to page controller, load room instance")
+                print("store selection in self.output_data[roomID]")
+            if triggered_component in [self.components["join_button"]]:
+                self.name = "hostroom"
+                #use self.output_data["roomID"] to determine which room
+            if triggered_component in [self.components["delete_button"]]:
+                print("store selection in self.output_data[roomID]")
+                print("delete room from database")
 

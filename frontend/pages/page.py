@@ -1,6 +1,5 @@
 import pygame
 
-
 # parent class for pages
 # python.Surface screen - screen the page is to be displayed
 class Page:
@@ -10,7 +9,8 @@ class Page:
         self.screen = screen                        # screen the page to display on
         self.screen_width = screen.get_width()      # screen width
         self.screen_height = screen.get_height()    # screen height
-        self.data = {                               # data to and from other pages
+        self.input_data = {}
+        self.output_data = {                               # data to and from other pages
             "current_page": self.name,
             "exit": False
         }
@@ -46,15 +46,16 @@ class Page:
         pass
 
     # start running the page
-    def start(self, screen):
-        self.data["current_page"] = self.name
+    def start(self, screen, input_data):
+        self.input_data = input_data
+        self.output_data["current_page"] = self.name
         self.set_components(screen)
         while self.run:
             self.draw_components()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.data["exit"] = True
-                    return self.data
+                    self.output_data["exit"] = True
+                    return self.output_data, self.input_data
                 if event.type == pygame.VIDEORESIZE:
                     self.resize_components()
                 triggered_component_list = []
@@ -81,6 +82,14 @@ class Page:
                                     print(component.name)
                                     triggered_component_list.append(component)
                 self.page_function(triggered_component_list)
+                #for navigation
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.output_data["current_page"] = self.name
+                    #uncomment for navigation(doesn't work w scrollable currently)
+                    #return self.output_data, self.input_data
 
             pygame.display.update()
+
+
+
 

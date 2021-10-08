@@ -1,3 +1,5 @@
+import pygame.cursors
+
 from assets.components import *
 from page import *
 
@@ -6,12 +8,14 @@ class SinglePlayerPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
         self.name = "singleplayer"
-        self.data = {
+        self.input_data = {}
+        self.output_data = {
             "current_page": self.name,
             "username": "",
             "password": "",
             "exit": False
         }
+
 
     # set all component variables on input screen
     def set_components(self, screen):
@@ -48,5 +52,7 @@ class SinglePlayerPage(Page):
                 #pass in scrollable select inputs
                 print("start game session")
             if triggered_component in [self.components["exit_button"]]:
-                print("return to main menu")
+                self.name = "main_menu"
+
+
 

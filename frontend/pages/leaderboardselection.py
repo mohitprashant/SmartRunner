@@ -6,15 +6,16 @@ class LeadSelectPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
         self.name = "leadselect"
+        self.input_data = {
+            "leaderboardlist": []
+        }
         self.output_data = {
             "current_page": self.name,
             "username": "",
             "password": "",
             "exit": False
         }
-        self.input_data = {
-            "leaderboardlist": [],
-        }
+
 
     # set all component variables on input screen
     def set_components(self, screen):
@@ -38,7 +39,7 @@ class LeadSelectPage(Page):
         text_relative_height = 1/10
         shown_relative_width = 3/5
         shown_relative_height = 3/5
-        text_list = ["1", "2", "3", "4", "5", "6", "7", "8"]
+        text_list = self.input_data["leaderboardlist"]
 
         selectable_text_list = SelectableTextList("selectable_text_list", screen, relative_x,
                                                    relative_y, relative_width,
@@ -61,7 +62,7 @@ class LeadSelectPage(Page):
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             if triggered_component in [self.components["exit_button"]]:
-                print("return to main menu")
+                self.name = "main_menu"
             if triggered_component in [self.components["selectable_text_list"]]:
                 print("return choice to page controller, load leaderboard instance")
 

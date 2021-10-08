@@ -6,15 +6,21 @@ class UniqueAnalyticsPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
         self.name = "uniqueanalytics"
-        self.data = {
+        self.input_data = {
+            "analytics": [],
+            "roomID": ""
+        }
+        self.output_data = {
             "current_page": self.name,
-            "username": "",
-            "password": "",
+            "roomID": self.input_data["roomID"],
             "exit": False
         }
 
     # set all component variables on input screen
     def set_components(self, screen):
+        # assign output data
+        self.output_data["roomID"] = self.input_data["roomID"]
+
         # background
         bg_img = pygame.image.load('assets/img/sky.png')
         background = Background("background", screen, bg_img)
@@ -32,11 +38,11 @@ class UniqueAnalyticsPage(Page):
         # analytics list
         relative_x = 1 / 5
         relative_y = 1 / 6
-        relative_width = 3 / 4
+        relative_width = 0.6
         text_relative_height = 1 / 10
         shown_relative_width = 3 / 5
         shown_relative_height = 3 / 5
-        text_list = ["1", "2", "3", "4", "5", "6", "7", "8"]
+        text_list = self.input_data["analytics"]
 
         selectable_text_list = SelectableTextList("selectable_text_list", screen, relative_x,
                                                   relative_y, relative_width,
@@ -72,4 +78,4 @@ class UniqueAnalyticsPage(Page):
             if triggered_component in [self.components["export_button"]]:
                 print("export csv")
             if triggered_component in [self.components["exit_button"]]:
-                print("return to analytics selection")
+                self.name = "analyticsselect"
