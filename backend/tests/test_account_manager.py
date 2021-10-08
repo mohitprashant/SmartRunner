@@ -27,3 +27,31 @@ class TestSignIn(unittest.TestCase):
         result = AccountManager.sign_in('non_existent@mail.com', '123456')
         expected_result = None  # account does not exist
         self.assertEqual(expected_result, result)
+
+
+class TestResetPassword(unittest.TestCase):
+    def test_reset_account_exist(self):
+        result = AccountManager.reset_account_password('example@mail.com')
+        expected_result = True  # reset email sent
+        self.assertEqual(expected_result, expected_result)
+
+    def test_reset_account_not_exist(self):
+        result = AccountManager.reset_account_password('non_existent@mail.com')
+        expected_result = None  # account does not exist
+        self.assertEqual(expected_result, result)
+
+
+class TestGetAccountInfo(unittest.TestCase):
+    def test_get_account_exist(self):
+        local_id = AccountManager.sign_in('example@mail.com', '123456')['idToken']
+        result = AccountManager.get_user_account_info(local_id)
+        email = result['email']
+        expected_result = 'example@mail.com'  # account localId
+        self.assertEqual(expected_result, email)
+
+    def test_get_account_not_exist(self):
+        result = AccountManager.get_user_account_info('invalid_localId')
+        expected_result = None  # account does not exist
+        self.assertEqual(expected_result, result)
+
+
