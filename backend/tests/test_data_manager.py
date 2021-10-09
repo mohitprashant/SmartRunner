@@ -1,6 +1,10 @@
 import unittest
 import uuid
+import sys
+import pathlib
+import time
 
+sys.path.insert(0, str(pathlib.Path(__file__).parent.resolve()) + "/../..")
 from backend.database import DatabaseManager
 from backend.database import Enums
 
@@ -70,3 +74,41 @@ class TestLeaderboard(unittest.TestCase):
             for i in range(1, len(leaderboard)):
                 self.assertLessEqual(curr["score"], leaderboard[i]["score"])
                 curr = leaderboard[i]
+
+    def test_update_full_leaderboard_lower_score(self):
+        # Inserting a score lower than the current lowest should not be successful
+        subject = "Mathematics"
+        topic = "Algebra"
+        leaderboard = DatabaseManager.get_leaderboard(subject, topic)
+        currLowest = leaderboard[0]
+
+        otherUser = { "score": currLowest["score"] - 1, "uid": str(uuid.uuid4()), "epochTimeAdded": currLowest["epochTimeAdded"] }
+        DatabaseManager.update_leaderboard(otherUser, subject, topic)
+        updatedLeaderboard = DatabaseManager.get_leaderboard(subject, topic)
+        self.assertEqual(currLowest, updatedLeaderboard[0])
+        self.assertNotEqual(otherUser, updatedLeaderboard[0])
+
+    def test_update_full_leaderboard_same_score(self):
+        # Inserting a score equal to the current lowest should not be successful
+        subject = "Mathematics"
+        topic = "Algebra"
+        leaderboard = DatabaseManager.get_leaderboard(subject, topic)
+        currLowest = leaderboard[0]
+
+        otherUser = { "score": currLowest["score"], "uid": str(uuid.uuid4()), "epochTimeAdded": time.time() }
+        DatabaseManager.update_leaderboard(otherUser, subject, topic)
+        updatedLeaderboard = DatabaseManager.get_leaderboard(subject, topic)
+        self.assertEqual(currLowest, updatedLeaderboard[0])
+        self.assertNotEqual(otherUser, updatedLeaderboard[0])
+
+    def test_update_full_leaderboard_higher_score(self):
+        # Inserting a score higher than the current lowest should be successful
+        subject = "Mathematics"
+        topic = "Algebra"
+        leaderboard = DatabaseManager.get_leaderboard(subject, topic)
+        currLowest = leaderboard[0]
+
+        otherUser = { "score": currLowest["score"] + 1, "uid": str(uuid.uuid4()), "epochTimeAdded": currLowest["epochTimeAdded"] }
+        DatabaseManager.update_leaderboard(otherUser, subject, topic)
+        updatedLeaderboard = DatabaseManager.get_leaderboard(subject, topic)
+        self.assertNotEqual(currLowest, updatedLeaderboard[0])
