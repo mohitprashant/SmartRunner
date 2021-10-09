@@ -1,7 +1,8 @@
 import unittest
+import uuid
 
 from backend.database import DatabaseManager
-
+from backend.database import Enums
 
 class TestSubjects(unittest.TestCase):
     def test_get_subjects(self):
@@ -57,3 +58,15 @@ class TestQuestions(unittest.TestCase):
         self.assertEqual(wrong_1, question['Wrong_1'])
         self.assertEqual(wrong_2, question['Wrong_2'])
         self.assertEqual(wrong_3, question['Wrong_3'])
+
+class TestLeaderboard(unittest.TestCase):
+    def test_get_leaderboard(self):
+        leaderboard = DatabaseManager.get_leaderboard('Mathematics', 'Algebra')
+        self.assertLessEqual(len(leaderboard), Enums.leaderboardSize)
+        self.assertGreaterEqual(len(leaderboard), 0)
+        
+        if len(leaderboard) > 0:
+            curr = leaderboard[0]
+            for i in range(1, len(leaderboard)):
+                self.assertLessEqual(curr["score"], leaderboard[i]["score"])
+                curr = leaderboard[i]
