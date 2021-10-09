@@ -8,6 +8,9 @@ leaderboard_user_fields = {
     },
     "score": {
         "Type": int
+    },
+    "epochTimeAdded": {
+        "Type": float
     }
 }
 
