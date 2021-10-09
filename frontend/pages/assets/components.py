@@ -39,7 +39,9 @@ class Component:
         self.display_rect = pygame.Rect(self.display_x, self.display_y, self.display_width, self.display_height)
 
         self.mouse_function = False  # Can component interact with mouse
+        self.scrollable = False
         self.keyboard_function = False  # Can component interact with keyboard
+
 
     # blit component onto screen
     def draw(self):
@@ -160,6 +162,7 @@ class ToggleButton(ImageButton):
 
         return action
 
+
 # add background for page
 '''
 class for background component
@@ -193,12 +196,13 @@ class ComponentSurface(Component):
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height)
         self.components = {}
         self.components_og_pos_size = {}
+        self.components_shown_og_pos_size = {}
         self.display_components = {}
+        self.shown_display_components = {}
 
         self.display_screen = self.screen.get_abs_parent()
         self.display_screen_width = self.display_screen.get_width()
         self.display_screen_height = self.display_screen.get_height()
-
 
         self.surface = pygame.Surface((self.width, self.height))
         self.mouse_function = True
@@ -211,6 +215,14 @@ class ComponentSurface(Component):
         component_pos_size = {"rel_x": component.relative_x, "rel_y": component.relative_y,
                               "rel_width": component.relative_width, "rel_height": component.relative_height}
         self.components_og_pos_size[component.name] = component_pos_size
+        # part for scrollable surface
+        if component.scrollable:
+            component_shown_pos_size = {"rel_x": component.relative_shown_x, "rel_y": component.relative_shown_y,
+                                        "rel_width": component.relative_shown_width,
+                                        "rel_height": component.relative_shown_height}
+            self.components_shown_og_pos_size[component.name] = component_shown_pos_size
+
+
 
     # update each component's display size and position on the screen
     # this is to make mouse pos match component pos since mouse pos use display as reference
@@ -237,6 +249,29 @@ class ComponentSurface(Component):
             component.display_rect = pygame.Rect(component.display_x, component.display_y,
                                                  component.display_width, component.display_height)
 
+            if component.scrollable:
+                component.relative_shown_display_x = self.relative_shown_display_x + \
+                                                     self.components_shown_og_pos_size[component.name]["rel_x"]\
+                                                     * self.relative_shown_display_width
+
+                component.relative_shown_display_y = self.relative_shown_display_y + \
+                                                     self.components_shown_og_pos_size[component.name]["rel_y"] \
+                                                     * self.relative_shown_display_height
+
+                component.relative_shown_display_width = self.components_shown_og_pos_size[component.name]["rel_width"]\
+                                                         * self.relative_shown_display_width
+
+                component.relative_shown_display_height = self.components_shown_og_pos_size[component.name][
+                                                              "rel_height"] \
+                                                          * self.relative_shown_display_height
+                component.shown_display_x = int(self.display_screen_width * component.relative_shown_display_x)
+                component.shown_display_y = int(self.display_screen_height * component.relative_shown_display_y)
+                component.shown_display_width = int(self.display_screen_width * component.relative_shown_display_width)
+                component.shown_display_height = int(self.display_screen_height *
+                                                     component.relative_shown_display_height)
+
+                component.shown_display_rect = pygame.Rect(component.shown_display_x, component.shown_display_y,
+                                                           component.shown_display_width, component.shown_display_height)
 
     def draw(self):
         self.update()
@@ -277,19 +312,27 @@ class ComponentSurface(Component):
 # add a scrollable component on screen
 class ScrollableComponentSurface(ComponentSurface):
     def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height,
-                 shown_relative_width, shown_relative_height, scroll_axis_y=True):
+                 relative_shown_width, relative_shown_height, scroll_axis_y=True):
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height)
 
         # display dimensions
-        self.shown_relative_x = self.relative_x
-        self.shown_relative_y = self.relative_y
+        self.relative_shown_x = self.relative_x
+        self.relative_shown_y = self.relative_y
         self.shown_x = self.x
+        self.shown_display_x = self.shown_x
         self.shown_y = self.y
-        self.shown_relative_width = shown_relative_width
-        self.shown_relative_height = shown_relative_height
-        self.shown_width = int(shown_relative_width * screen.get_width())
-        self.shown_height = int(shown_relative_height * screen.get_height())
+        self.shown_display_y = self.shown_y
+        self.relative_shown_width = relative_shown_width
+        self.relative_shown_display_width = relative_shown_width
+        self.relative_shown_height = relative_shown_height
+        self.relative_shown_display_height = relative_shown_height
+        self.shown_width = int(relative_shown_width * screen.get_width())
+        self.shown_display_width = self.shown_width
+        self.shown_height = int(relative_shown_height * screen.get_height())
+        self.shown_display_height = self.shown_height
         self.shown_rect = pygame.Rect(self.shown_x, self.shown_y, self.shown_width, self.shown_height)
+        self.shown_display_rect = self.shown_rect = pygame.Rect(self.shown_display_x, self.shown_display_y,
+                                                                self.shown_display_width, self.shown_display_height)
         self.shown_surface = pygame.Surface((self.shown_width, self.shown_height))
 
         self.scroll_axis_y = scroll_axis_y  # axis of scrolling
@@ -298,6 +341,8 @@ class ScrollableComponentSurface(ComponentSurface):
         self.scroll_relative_y = 0
         self.scroll_x = 0  # x position of surface within display
         self.scroll_y = 0  # y position of surface within display
+
+        self.scrollable = True
 
     # blit component onto screen
     def draw(self):
@@ -312,21 +357,26 @@ class ScrollableComponentSurface(ComponentSurface):
         super().resize(new_screen)
         self.scroll_x = int(self.scroll_relative_x * self.screen_width)
         self.scroll_y = int(self.scroll_relative_y * self.screen_height)
-        self.shown_x = int(self.shown_relative_x * self.screen_width)
-        self.shown_y = int(self.shown_relative_y * self.screen_height)
-        self.shown_width = int(self.shown_relative_width * self.screen_width)
-        self.shown_height = int(self.shown_relative_height * self.screen_height)
-        self.shown_surface = pygame.Surface((self.shown_width, self.shown_height))
+        self.shown_x = int(self.relative_shown_x * self.screen_width)
+        self.shown_display_x = self.shown_x
+        self.shown_y = int(self.relative_shown_y * self.screen_height)
+        self.shown_display_y = self.shown_y
+        self.shown_width = int(self.relative_shown_width * self.screen_width)
+        self.shown_display_width = self.shown_width
+        self.shown_height = int(self.relative_shown_height * self.screen_height)
+        self.shown_display_height = self.shown_height
         self.shown_rect = pygame.Rect(self.shown_x, self.shown_y, self.shown_width, self.shown_height)
+        self.shown_display_rect = self.shown_rect
+        self.shown_surface = pygame.Surface((self.shown_width, self.shown_height))
 
 
 # mouse controlled scrollable surface
 class MouseScrollableSurface(ScrollableComponentSurface):
 
     def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height,
-                 shown_relative_width, shown_relative_height, scroll_axis_y=True, relative_scroll_length=1 / 8):
+                 relative_shown_width, relative_shown_height, scroll_axis_y=True, relative_scroll_length=1 / 8):
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height,
-                         shown_relative_width, shown_relative_height, scroll_axis_y)
+                         relative_shown_width, relative_shown_height, scroll_axis_y)
 
         self.relative_scroll_length = relative_scroll_length  # scroll length per wheel tick
 
@@ -344,20 +394,20 @@ class MouseScrollableSurface(ScrollableComponentSurface):
         pos = pygame.mouse.get_pos()
         # when mouse is on top of button
         if event.type == pygame.MOUSEBUTTONDOWN:
-         # check mouseover and clicked conditions
+            # check mouseover and clicked conditions
             if self.shown_rect.collidepoint(pos):
                 if event.button == 4:  # wheel roll up
                     if self.scroll_axis_y:
                         if self.scroll_relative_y + self.relative_display_scroll_length >= 0:
                             self.scroll_relative_y = 0
-                            self.relative_y = self.scroll_relative_y + self.shown_relative_y
+                            self.relative_y = self.scroll_relative_y + self.relative_shown_y
                         else:
                             self.scroll_relative_y += self.relative_display_scroll_length
                             self.relative_y += self.relative_display_scroll_length
                     else:
                         if self.scroll_relative_x + self.relative_display_scroll_length >= 0:
                             self.scroll_relative_x = 0
-                            self.relative_x = self.scroll_relative_x + self.shown_relative_x
+                            self.relative_x = self.scroll_relative_x + self.relative_shown_x
                         else:
                             self.scroll_relative_x += self.relative_display_scroll_length
                             self.relative_x += self.relative_display_scroll_length
@@ -366,19 +416,19 @@ class MouseScrollableSurface(ScrollableComponentSurface):
                 elif event.button == 5:  # wheel roll down
                     if self.scroll_axis_y:
                         current_y = self.scroll_relative_y - self.relative_display_scroll_length
-                        min_y = self.shown_relative_height - self.relative_height
+                        min_y = self.relative_shown_height - self.relative_height
                         if current_y <= min_y:
                             self.scroll_relative_y = min_y
-                            self.relative_y = self.shown_relative_y + min_y
+                            self.relative_y = self.relative_shown_y + min_y
                         else:
                             self.scroll_relative_y -= self.relative_display_scroll_length
                             self.relative_y -= self.relative_display_scroll_length
                     else:
                         current_x = self.scroll_relative_x - self.relative_display_scroll_length
-                        max_x = self.shown_relative_width - self.relative_width
+                        max_x = self.relative_shown_width - self.relative_width
                         if current_x <= max_x:
                             self.scroll_relative_x = max_x
-                            self.relative_x = self.shown_relative_x + max_x
+                            self.relative_x = self.relative_shown_x + max_x
                         else:
                             self.scroll_relative_x -= self.relative_display_scroll_length
                             self.relative_x -= self.relative_display_scroll_length
@@ -540,18 +590,18 @@ class SingleSelectableTextButton(SelectableTextButton):
 
 class SelectableTextList(MouseScrollableSurface):
     def __init__(self, name, screen, relative_x, relative_y, relative_width, text_relative_height,
-                 shown_relative_width, shown_relative_height, text_list, single_select=True, font_file=None,
+                 relative_shown_width, relative_shown_height, text_list, single_select=True, font_file=None,
                  font_color=pygame.Color("black"), active_color="dodgerblue", passive_color="white", border_width=0):
         self.text_list = text_list
         self.list_size = len(text_list)
         # height of scroll surface is sum of text height
         relative_height = text_relative_height * self.list_size
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height,
-                         shown_relative_width, shown_relative_height, True)
+                         relative_shown_width, relative_shown_height, True)
         self.single_select = single_select
         self.text_relative_x = 0
         self.text_relative_y = 0
-        self.text_relative_height = 1/self.list_size
+        self.text_relative_height = 1 / self.list_size
         self.text_relative_width = 1
         # for each text, add a selectable text into scrollable
         for text in text_list:
@@ -568,6 +618,7 @@ class SelectableTextList(MouseScrollableSurface):
             self.add_component(selectable_text)
             # update y of next text
             self.text_relative_y = self.text_relative_y + self.text_relative_height
+
 
 # add textInput to screen
 '''
