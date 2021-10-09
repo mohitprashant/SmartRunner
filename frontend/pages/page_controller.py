@@ -33,6 +33,14 @@ class PageController:
             if page_output["exit"]:
                 break
             if page_output["current_page"] == "login":
+                username = page_output["data"]["username"]
+                password = page_output["data"]["password"]
+
+                # check with database
+                # if database.verification == True
+                    # page_output["curretn_page"] ==
+
+            if page_output["current_page"] == "main_menu":
                 self.current_page = "main_menu"
 
             pygame.display.update()
