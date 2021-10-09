@@ -69,7 +69,7 @@ class Page:
                         collide = layer.display_rect.collidepoint(pos)
                     if event.type == pygame.MOUSEBUTTONDOWN and collide:
                         layer.trigger(event)
-                        print(component.name)
+                        print(layer.name)
                         triggered_component_list.append(layer)
                         top_layer_triggered = True
                         break

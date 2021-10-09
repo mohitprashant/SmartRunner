@@ -250,20 +250,20 @@ class ComponentSurface(Component):
                                                  component.display_width, component.display_height)
 
             if component.scrollable:
-                component.relative_shown_display_x = self.relative_shown_display_x + \
+                component.relative_shown_display_x = self.relative_display_x + \
                                                      self.components_shown_og_pos_size[component.name]["rel_x"]\
-                                                     * self.relative_shown_display_width
+                                                     * self.relative_display_width
 
-                component.relative_shown_display_y = self.relative_shown_display_y + \
+                component.relative_shown_display_y = self.relative_display_y + \
                                                      self.components_shown_og_pos_size[component.name]["rel_y"] \
-                                                     * self.relative_shown_display_height
+                                                     * self.relative_display_height
 
                 component.relative_shown_display_width = self.components_shown_og_pos_size[component.name]["rel_width"]\
-                                                         * self.relative_shown_display_width
+                                                         * self.relative_display_width
 
                 component.relative_shown_display_height = self.components_shown_og_pos_size[component.name][
                                                               "rel_height"] \
-                                                          * self.relative_shown_display_height
+                                                          * self.relative_display_height
                 component.shown_display_x = int(self.display_screen_width * component.relative_shown_display_x)
                 component.shown_display_y = int(self.display_screen_height * component.relative_shown_display_y)
                 component.shown_display_width = int(self.display_screen_width * component.relative_shown_display_width)
@@ -351,6 +351,7 @@ class ScrollableComponentSurface(ComponentSurface):
             component.draw()
         self.shown_surface.blit(self.surface, (self.scroll_x, self.scroll_y))
         self.screen.blit(self.shown_surface, (self.shown_x, self.shown_y))
+        print(self.name, self.screen)
 
     # additional variables to resize not covered by parent resize
     def resize(self, new_screen):
@@ -395,7 +396,7 @@ class MouseScrollableSurface(ScrollableComponentSurface):
         # when mouse is on top of button
         if event.type == pygame.MOUSEBUTTONDOWN:
             # check mouseover and clicked conditions
-            if self.shown_rect.collidepoint(pos):
+            if self.shown_display_rect.collidepoint(pos):
                 if event.button == 4:  # wheel roll up
                     if self.scroll_axis_y:
                         if self.scroll_relative_y + self.relative_display_scroll_length >= 0:
