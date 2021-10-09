@@ -39,7 +39,9 @@ class Component:
         self.display_rect = pygame.Rect(self.display_x, self.display_y, self.display_width, self.display_height)
 
         self.mouse_function = False  # Can component interact with mouse
+        self.scrollable = False
         self.keyboard_function = False  # Can component interact with keyboard
+
 
     # blit component onto screen
     def draw(self):
@@ -214,7 +216,7 @@ class ComponentSurface(Component):
                               "rel_width": component.relative_width, "rel_height": component.relative_height}
         self.components_og_pos_size[component.name] = component_pos_size
         # part for scrollable surface
-        if "Scrollable" in component.__class__.__name__:
+        if component.scrollable:
             component_shown_pos_size = {"rel_x": component.relative_shown_x, "rel_y": component.relative_shown_y,
                                         "rel_width": component.relative_shown_width,
                                         "rel_height": component.relative_shown_height}
@@ -247,7 +249,7 @@ class ComponentSurface(Component):
             component.display_rect = pygame.Rect(component.display_x, component.display_y,
                                                  component.display_width, component.display_height)
 
-            if "Scrollable" in component.__class__.__name__:
+            if component.scrollable:
                 component.relative_shown_display_x = self.relative_shown_display_x + \
                                                      self.components_shown_og_pos_size[component.name]["rel_x"]\
                                                      * self.relative_shown_display_width
@@ -339,6 +341,8 @@ class ScrollableComponentSurface(ComponentSurface):
         self.scroll_relative_y = 0
         self.scroll_x = 0  # x position of surface within display
         self.scroll_y = 0  # y position of surface within display
+
+        self.scrollable = True
 
     # blit component onto screen
     def draw(self):

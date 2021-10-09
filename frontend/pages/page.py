@@ -63,7 +63,7 @@ class Page:
                 # go down layers at mouse pos and only trigger top layer surface
                 for layer in reversed(self.layers):
                     pos = pygame.mouse.get_pos()
-                    if "Scrollable" in layer.__class__.__name__:
+                    if layer.scrollable:
                         collide = layer.shown_display_rect.collidepoint(pos)
                     else:
                         collide = layer.display_rect.collidepoint(pos)
