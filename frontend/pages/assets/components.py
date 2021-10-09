@@ -584,7 +584,7 @@ class SingleSelectableTextButton(SelectableTextButton):
         return action
 
 
-class ScrollableSelectableTextList(MouseScrollableSurface):
+class SelectableTextList(MouseScrollableSurface):
     def __init__(self, name, screen, relative_x, relative_y, relative_width, text_relative_height,
                  relative_shown_width, relative_shown_height, text_list, single_select=True, font_file=None,
                  font_color=pygame.Color("black"), active_color="dodgerblue", passive_color="white", border_width=0):
@@ -614,8 +614,6 @@ class ScrollableSelectableTextList(MouseScrollableSurface):
             self.add_component(selectable_text)
             # update y of next text
             self.text_relative_y = self.text_relative_y + self.text_relative_height
-
-
 
 
 # add textInput to screen
