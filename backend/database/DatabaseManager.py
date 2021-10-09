@@ -1,9 +1,12 @@
 import pathlib
 import firebase_admin as fa
+import sys
+import time
+
+sys.path.insert(0, str(pathlib.Path(__file__).parent.resolve()) + "/../..")
 from firebase_admin import credentials
 from firebase_admin import firestore
 from backend.database import Enums
-
 
 cred = credentials.Certificate(str(pathlib.Path(__file__).parent.resolve()) + "/../serviceAccountKey.json")
 
@@ -66,6 +69,9 @@ def get_leaderboard(subject, topic):
         for i in range(len(unsorted_list)):
             if unsorted_list[i]["score"] < unsorted_list[smallest_idx]["score"]:
                 smallest_idx = i
+            elif unsorted_list[i]["score"] == unsorted_list[smallest_idx]["score"]:
+                if unsorted_list[i]["epochTimeAdded"] > unsorted_list[smallest_idx]["epochTimeAdded"]:
+                    smallest_idx = i
         
         sorted_list.append(unsorted_list[smallest_idx])
         unsorted_list.pop(smallest_idx)
@@ -85,7 +91,9 @@ def update_leaderboard(user, subject, topic):
         # Remove lowest and insert next highest
         lowestCollection = db.collection("leaderboard").document(subject).collection(topic)\
                     .where("uid", "==", currentLeaderboard[0]['uid'])\
-                    .where("score", "==", currentLeaderboard[0]['score']).get()
+                    .where("score", "==", currentLeaderboard[0]['score'])\
+                    .where("epochTimeAdded", "==", currentLeaderboard[0]['epochTimeAdded'])\
+                    .get()
 
         if len(lowestCollection) > 0 and lowestCollection[0].to_dict()['score'] < user['score']:
             db.collection("leaderboard").document(subject).collection(topic).document(lowestCollection[0].id).delete()
@@ -127,8 +135,7 @@ def get_user_by_username(username):
     
     return users[0].to_dict()
 
-
-print(get_subjects())
-print(get_topics('Mathematics'))
-print(get_questions('Mathematics', 'Algebra'))
-print(len(get_questions('Mathematics', 'Algebra')))
+# print(get_subjects())
+# print(get_topics('Mathematics'))
+# print(get_questions('Mathematics', 'Algebra'))
+# print(len(get_questions('Mathematics', 'Algebra')))
