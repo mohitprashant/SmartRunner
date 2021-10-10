@@ -264,8 +264,7 @@ class ComponentSurface(Component):
     # this is to make mouse pos match component pos since mouse pos use display as reference
     def update(self):
         for component in self.components.values():
-            print(component.name, component.relative_display_y, self.relative_display_y, self.components_og_pos_size[component.name][
-                                               "rel_y"])
+
             component.relative_display_x = self.relative_display_x + \
                                            component.relative_x * self.relative_display_width
 
@@ -310,7 +309,7 @@ class ComponentSurface(Component):
                                                            component.shown_display_width,
                                                            component.shown_display_height)
 
-            print(component.name, component.relative_display_y, self.relative_display_height)
+
     def draw(self):
         self.update()
         for component in self.components.values():
