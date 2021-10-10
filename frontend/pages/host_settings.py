@@ -3,7 +3,7 @@ from assets.components import *
 from page import *
 
 
-class HoseSettingsPage(Page):
+class HostSettingsPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
         self.name = "host_settings"

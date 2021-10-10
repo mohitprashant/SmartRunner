@@ -1,7 +1,13 @@
 import pygame
 from login import *
 from main_menu import *
-
+from end_screen import *
+from topic_leaderboard import *
+from room_tab import *
+from room_creation import *
+from join_room import *
+from host_settings import *
+from share import *
 '''
 main controller of the system
 int screen_width starting width of screen
@@ -17,9 +23,23 @@ class PageController:
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), pygame.RESIZABLE)
         self.caption = "Smart Runners"
         # define pages
+<<<<<<<<< Temporary merge branch 1
+        self.current_page = "join_room"
+        self.login_page = LoginPage(self.screen)
+=========
         self.current_page = "login"
         self.login = LoginPage(self.screen)
+>>>>>>>>> Temporary merge branch 2
         self.main_menu = MainMenuPage(self.screen)
+        self.end_screen = EndScreenPage(self.screen)
+        self.topic_leaderboard = TopicLeaderboardPage(self.screen)
+        self.room_tab = RoomTabPage(self.screen)
+        self.room_creation = RoomCreationPage(self.screen)
+        self.join_room = JoinRoomPage(self.screen)
+        self.host_settings = HoseSettingsPage(self.screen)
+        self.share = SharePage(self.screen)
+
+
 
     def start(self):
         pygame.init()
@@ -29,19 +49,15 @@ class PageController:
 
         while self.run:
             print(self.current_page)
+<<<<<<<<< Temporary merge branch 1
+            page_output = self.share.start(self.screen)
+=========
             page_output = self.login.start(self.screen)
+>>>>>>>>> Temporary merge branch 2
             if page_output["exit"]:
                 break
-            if page_output["current_page"] == "login":
-                username = page_output["data"]["username"]
-                password = page_output["data"]["password"]
-
-                # check with database
-                # if database.verification == True
-                    # page_output["curretn_page"] ==
-
-            if page_output["current_page"] == "main_menu":
-                self.current_page = "main_menu"
+            if page_output["share"] == "share":
+                self.current_page = "share"
 
             pygame.display.update()
 

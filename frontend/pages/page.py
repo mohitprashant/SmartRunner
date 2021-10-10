@@ -10,11 +10,10 @@ class Page:
         self.screen = screen                        # screen the page to display on
         self.screen_width = screen.get_width()      # screen width
         self.screen_height = screen.get_height()    # screen height
-        self.output_data = {                               # data to and from other pages
+        self.data = {                               # data to and from other pages
             "current_page": self.name,
             "exit": False
         }
-        self.input_data = {}
         self.components = {}                        # all components within the page
         self.layers = []
     # initialize all components and add them to component list
@@ -63,13 +62,9 @@ class Page:
                 # go down layers at mouse pos and only trigger top layer surface
                 for layer in reversed(self.layers):
                     pos = pygame.mouse.get_pos()
-                    if layer.scrollable:
-                        collide = layer.shown_display_rect.collidepoint(pos)
-                    else:
-                        collide = layer.display_rect.collidepoint(pos)
-                    if event.type == pygame.MOUSEBUTTONDOWN and collide:
+                    if event.type == pygame.MOUSEBUTTONDOWN and layer.display_rect.collidepoint(pos):
                         layer.trigger(event)
-                        print(layer.name)
+                        print(component.name)
                         triggered_component_list.append(layer)
                         top_layer_triggered = True
                         break
