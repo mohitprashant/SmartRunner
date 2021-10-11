@@ -13,6 +13,7 @@ from host_settings import *
 from share import *
 from join_room import *
 from end_screen import *
+from topic_leaderboard import *
 '''
 main controller of the system
 int screen_width starting width of screen
@@ -27,7 +28,7 @@ analyticsdata = ["Mean= 23", "Median = 20", "Mode = 19", "Highest = 40", "Lowest
 username = ["User1", "User2", "User3", "User 4"]
 password = ["hello", "pen", "bottle", "candle"]
 score_board = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
-
+topicleadselect = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
 
 class PageController:
     def __init__(self, screen_width=720, screen_height=480):
@@ -52,7 +53,7 @@ class PageController:
         self.share = SharePage(self.screen)
         self.join_room = JoinRoomPage(self.screen)
         self.end_screen = EndScreenPage(self.screen)
-
+        self.topic_leaderboard=TopicLeaderboardPage(self.screen)
 
     def start(self):
         pygame.init()
@@ -60,10 +61,10 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            "score_board": score_board,
-            "roomID": "roomID"
+            "topic_leaderboard": topicleadselect,
+            "topic_leaderboard_ID": "topicLeadID"
         }
-        page_data = self.end_screen.start(self.screen, input_data)
+        page_data = self.topic_leaderboard.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print(self.current_page)
@@ -82,6 +83,12 @@ class PageController:
                 page_data = self.join_room.start(self.screen, input_data)
             if page_data[0]["current_page"] == "main_menu":
                 page_data = self.main_menu.start(self.screen, input_data)
+            if page_data[0]["current_page"] == "topic_leaderboard":
+                input_data = {
+                    "topic_leaderboard": topicleadselect,
+                    "topic_leaderboard_ID": page_data[1]["topicLeadID"]
+                }
+                page_data = self.end_screen.start(self.screen, input_data)
             if page_data[0]["current_page"] == "end_screen":
                 input_data = {
                     "score_board": score_board,

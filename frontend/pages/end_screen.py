@@ -14,6 +14,7 @@ class EndScreenPage(Page):
         self.output_data = {
             "current_page": self.name,
             "room_ID": self.input_data["roomID"],
+            "score_board": self.input_data["score_board"],
             "exit": False
         }
 
