@@ -1,6 +1,8 @@
 import pygame
 from login import *
 from main_menu import *
+from end_screen import *
+from topic_leaderboard import *
 from singleplayer import *
 from leaderboardselection import *
 from managerooms import *
@@ -9,6 +11,8 @@ from playerroom import *
 from analyticsselection import *
 from uniqueanalytics import *
 from room_tab import *
+from room_creation import *
+from join_room import *
 from host_settings import *
 from share import *
 from join_room import *
@@ -42,10 +46,17 @@ class PageController:
         self.playerroom = PlayerRoomPage(self.screen)
         self.analyticsselect = AnalyticsSelectPage(self.screen)
         self.uniqueanalytics = UniqueAnalyticsPage(self.screen)
+        self.end_screen = EndScreenPage(self.screen)
+        self.topic_leaderboard = TopicLeaderboardPage(self.screen)
         self.room_tab = RoomTabPage(self.screen)
+        self.room_creation = RoomCreationPage(self.screen)
         self.host_settings = HostSettingsPage(self.screen)
         self.share = SharePage(self.screen)
         self.join_room = JoinRoomPage(self.screen)
+        self.host_settings = HoseSettingsPage(self.screen)
+        self.share = SharePage(self.screen)
+
+
 
     def start(self):
         pygame.init()
