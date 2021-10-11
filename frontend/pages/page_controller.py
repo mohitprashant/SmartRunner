@@ -9,6 +9,7 @@ from playerroom import *
 from analyticsselection import *
 from uniqueanalytics import *
 from room_tab import *
+from room_creation import *
 from host_settings import *
 from share import *
 from join_room import *
@@ -53,7 +54,9 @@ class PageController:
         self.share = SharePage(self.screen)
         self.join_room = JoinRoomPage(self.screen)
         self.end_screen = EndScreenPage(self.screen)
-        self.topic_leaderboard=TopicLeaderboardPage(self.screen)
+        self.topic_leaderboard = TopicLeaderboardPage(self.screen)
+        self.room_creation = RoomCreationPage(self.screen)
+
 
     def start(self):
         pygame.init()
@@ -61,10 +64,9 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            "topic_leaderboard": topicleadselect,
-            "topic_leaderboard_ID": "topicLeadID"
+            "username": username
         }
-        page_data = self.topic_leaderboard.start(self.screen, input_data)
+        page_data = self.room_tab.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print(self.current_page)
@@ -72,16 +74,15 @@ class PageController:
                 break
             if page_data[0]["current_page"] == "singleplayer":
                 page_data = self.singleplayer.start(self.screen, input_data)
-
-            if page_data[0]["current_page"] == "room_tab":
-                page_data = self.room_tab.start(self.screen, input_data)
             if page_data[0]["current_page"] == "host_settings":
                 page_data = self.host_settings.start(self.screen, input_data)
             if page_data[0]["current_page"] == "share":
                 page_data = self.share.start(self.screen, input_data)
-            if page_data[0]["current_page"] == "join_room":
-                page_data = self.join_room.start(self.screen, input_data)
+
             if page_data[0]["current_page"] == "main_menu":
+                input_data = {
+                    "username": username
+                }
                 page_data = self.main_menu.start(self.screen, input_data)
             if page_data[0]["current_page"] == "topic_leaderboard":
                 input_data = {
@@ -95,13 +96,23 @@ class PageController:
                     "roomID": page_data[1]["roomID"]
                 }
                 page_data = self.end_screen.start(self.screen, input_data)
-
             if page_data[0]["current_page"] == "login":
                 input_data ={
                     "username": username,
                     "password": password
                 }
                 page_data = self.login.start(self.screen, input_data)
+
+            if page_data[0]["current_page"] == "room_tab":
+                input_data = {
+                    "username": username,
+                }
+                page_data = self.room_tab.start(self.screen, input_data)
+            if page_data[0]["current_page"] == "room_creation":
+                page_data = self.room_creation.start(self.screen, input_data)
+            if page_data[0]["current_page"] == "join_room":
+                page_data = self.join_room.start(self.screen, input_data)
+
             if page_data[0]["current_page"] == "leadselect":
                 input_data = {
                     #input data goes to the leaderboardselection page

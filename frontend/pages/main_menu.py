@@ -8,9 +8,11 @@ class MainMenuPage(Page):
         super().__init__(screen)
         self.name = "main_menu"
         self.input_data = {
+            "username": ""
         }
         self.output_data = {
             "current_page": self.name,
+            "username": self.input_data["username"],
             "exit": False
         }
 
