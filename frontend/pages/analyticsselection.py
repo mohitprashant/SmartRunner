@@ -49,7 +49,7 @@ class AnalyticsSelectPage(Page):
         selectable_text_list = SelectableTextList("selectable_text_list", screen, relative_x,
                                                   relative_y, relative_width,
                                                   text_relative_height, shown_relative_width, shown_relative_height,
-                                                  text_list, single_select=True)
+                                                  text_list,screen, single_select=True)
         self.components["selectable_text_list"] = selectable_text_list
         self.layers.append(selectable_text_list)
 
