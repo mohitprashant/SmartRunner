@@ -8,8 +8,8 @@ class RoomCreationPage(Page):
         self.name = "room_creation"
         self.input_data = {
             "username": "",
-            # "roomID": "",
-            # "room_password": ""
+            "roomID": "",
+            "room_password": ""
         }
         self.output_data = {
             "current_page": self.name,

@@ -8,8 +8,8 @@ class JoinRoomPage(Page):
         self.name = "join_room"
         self.input_data = {
             "username": "",
-            # "roomID": "",
-            # "room_password": ""
+            "roomID": "",
+            "room_password": ""
         }
         self.output_data = {
             "current_page": self.name,

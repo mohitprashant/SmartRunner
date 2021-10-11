@@ -32,6 +32,7 @@ score_board = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "Us
 topicleadselect = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
 roomID = ["R1", "R2", "R3", "R4"]
 room_password = ["R1_P", "R2_P", "R3_P", "R4_P"]
+Toggle = ["True", "False"]
 
 class PageController:
     def __init__(self, screen_width=720, screen_height=480):
@@ -66,7 +67,8 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            "username": username
+            "username": "username",
+            "roomID": "roomID"
         }
         page_data = self.join_room.start(self.screen, input_data)
         while self.run:
@@ -77,6 +79,9 @@ class PageController:
             if page_data[0]["current_page"] == "singleplayer":
                 page_data = self.singleplayer.start(self.screen, input_data)
             if page_data[0]["current_page"] == "host_settings":
+                input_data = {
+                    "roomID": roomID
+                }
                 page_data = self.host_settings.start(self.screen, input_data)
             if page_data[0]["current_page"] == "share":
                 page_data = self.share.start(self.screen, input_data)
@@ -100,8 +105,8 @@ class PageController:
                 page_data = self.end_screen.start(self.screen, input_data)
             if page_data[0]["current_page"] == "login":
                 input_data ={
-                    # "username": username,
-                    # "password": password
+                    "username": username,
+                    "password": password
                 }
                 page_data = self.login.start(self.screen, input_data)
 
@@ -113,15 +118,15 @@ class PageController:
             if page_data[0]["current_page"] == "room_creation":
                 input_data = {
                     "username": username,
-                    # "roomID": roomID,
-                    # "room_password": room_password
+                    "roomID": roomID,
+                    "room_password": room_password
                 }
                 page_data = self.room_creation.start(self.screen, input_data)
             if page_data[0]["current_page"] == "join_room":
                 input_data = {
                     "username": username,
-                    # "roomID": roomID,
-                    # "room_password": room_password
+                    "roomID": roomID,
+                    "room_password": room_password
                 }
                 page_data = self.join_room.start(self.screen, input_data)
 

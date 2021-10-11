@@ -98,9 +98,10 @@ class HostRoomPage(Page):
         roomID_button_rel_y = 1 / 15
         roomID_button_rel_width = 1 / 7
         roomID_button_rel_height = 1 / 7
+        text="hi"
         roomID_button = TextButton("roomID_button", screen, roomID_button_rel_x, roomID_button_rel_y,
                                       roomID_button_rel_width,
-                                      roomID_button_rel_height, self.input_data["roomID"])
+                                      roomID_button_rel_height, text)
         self.components["roomID_button"] = roomID_button
 
     # how do the page react to events?

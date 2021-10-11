@@ -7,8 +7,8 @@ class LoginPage(Page):
         super().__init__(screen)
         self.name = "login"
         self.input_data = {
-            # "username": "",
-            # "password": ""
+            "username": "",
+            "password": ""
         }
         self.output_data = {
             "current_page": self.name,
