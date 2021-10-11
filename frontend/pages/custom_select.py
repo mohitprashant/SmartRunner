@@ -29,50 +29,50 @@ class CustomSelectPage(Page):
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
-        custom_quiz_display_x = 10 / 20
-        custom_quiz_display_y = 7/8
-        custom_quiz_display_width = 1 / 2
-        custom_quiz_display_height = 1 / 4
-        custom_quiz_display_text = "Custom Questions"
-        custom_quiz_display = TextDisplay("custom_questions", screen, custom_quiz_display_x, custom_quiz_display_y,
-                                           custom_quiz_display_width,
-                                           custom_quiz_display_height, custom_quiz_display_text)
-        self.components["custom_questions"] = custom_quiz_display
-        print("displayed")
+        # custom_quiz_display_x = 10 / 20
+        # custom_quiz_display_y = 7/8
+        # custom_quiz_display_width = 1 / 2
+        # custom_quiz_display_height = 1 / 4
+        # custom_quiz_display_text = "Custom Questions"
+        # custom_quiz_display = TextDisplay("custom_questions", screen, custom_quiz_display_x, custom_quiz_display_y,
+        #                                    custom_quiz_display_width,
+        #                                    custom_quiz_display_height, custom_quiz_display_text)
+        # self.components["custom_questions"] = custom_quiz_display
+        # print("displayed")
 
         # player list
         relative_x = 4 / 20
         relative_y = 7 / 40
         relative_width = 0.8
-        text_relative_height = 1 / 10
+        text_relative_height = 8/ 10
         shown_relative_width = 6 / 10
         shown_relative_height = 3 / 5
-        custom_questions_whole = MouseScrollableSurface("custom_questions", screen, relative_x,
+        custom_questions_whole = MouseScrollableSurface("custom_questions_whole", screen, relative_x,
                                                            relative_y, relative_width,
                                                            text_relative_height, shown_relative_width,
                                                            shown_relative_height,
                                                            screen)
         # create surface
-        self.components["custom_questions"] = custom_questions_whole
+        self.components["custom_questions_whole"] = custom_questions_whole
         self.layers.append(custom_questions_whole)
 
         # SelectableTextList
-        relative_x = 4 / 20
-        relative_y = 7 / 40
-        relative_width = 0.8
-        text_relative_height = 1 / 10
-        shown_relative_width = 6 / 10
-        shown_relative_height = 3 / 5
+        relative_x = 1 / 40
+        relative_y = 1/40
+        relative_width = 0.71
+        text_relative_height = 0.23
+        shown_relative_width = 8 / 10
+        shown_relative_height = 0.8
         custom_questions_list = self.input_data["custom_questions"]
         # print(self.input_data.keys())
         # print(custom_questions_list)
 
-        custom_questions = SelectableTextList("custom_questions", screen, relative_x,
+        custom_questions = SelectableTextList("custom_questions", custom_questions_whole.surface, relative_x,
                                                    relative_y, relative_width,
                                                    text_relative_height, shown_relative_width, shown_relative_height,
-                                                   custom_questions_list, screen, single_select=True, active_color="white")
+                                                   custom_questions_list, screen, single_select=True, active_color="blue")
 
-        self.components["custom_questions"] = custom_questions
+        #self.components["custom_questions"] = custom_questions
         custom_questions_whole.add_component(custom_questions)
         self.layers.append(custom_questions)
 

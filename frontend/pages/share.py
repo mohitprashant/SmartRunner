@@ -7,8 +7,13 @@ class SharePage(Page):
     def __init__(self, screen):
         super().__init__(screen)
         self.name = "share"
-        self.data = {
-            "current_page": self.name,
+        self.input_data = {
+            "roomID": "RoomID",
+            "room_password": "",
+        }
+        self.output_data = {
+            "room_ID": self.input_data["roomID"],
+            "room_password": self.input_data["room_password"],
             "exit": False
         }
 
@@ -45,10 +50,10 @@ class SharePage(Page):
 
         # Twitter Button
         twitter_button_x = 3 / 20
-        twitter_button_y = 1 / 4
+        twitter_button_y = 0.23
         twitter_button_width = 1 / 4
-        twitter_button_height = 1 / 8
-        twitter_button_img = pygame.image.load('assets/img/restart_btn.png')
+        twitter_button_height = 0.30
+        twitter_button_img = pygame.image.load('assets/img/twitter.png')
         twitter_button = ImageButton("twitter_button", screen, twitter_button_x, twitter_button_y,
                                          twitter_button_width,
                                          twitter_button_height, twitter_button_img)
@@ -57,9 +62,9 @@ class SharePage(Page):
         # IG Button
         ig_button_x = 10 / 20
         ig_button_y = 1 / 4
-        ig_button_width = 1 / 4
-        ig_button_height = 1 / 8
-        ig_button_img = pygame.image.load('assets/img/restart_btn.png')
+        ig_button_width = 0.18
+        ig_button_height = 1 / 5
+        ig_button_img = pygame.image.load('assets/img/Instagram.png')
         ig_button = ImageButton("ig_button", screen, ig_button_x, ig_button_y,
                                      ig_button_width,
                                      ig_button_height, ig_button_img)
@@ -70,19 +75,19 @@ class SharePage(Page):
         whatsapp_button_x = 3 / 20
         whatsapp_button_y = 2 / 4
         whatsapp_button_width = 1 / 4
-        whatsapp_button_height = 1 / 8
-        whatsapp_button_img = pygame.image.load('assets/img/restart_btn.png')
+        whatsapp_button_height = 1 / 4
+        whatsapp_button_img = pygame.image.load('assets/img/whatsapp.png')
         whatsapp_button = ImageButton("whatsapp_button", screen, whatsapp_button_x, whatsapp_button_y,
                                 whatsapp_button_width,
                                 whatsapp_button_height, whatsapp_button_img)
         self.components["whatsapp_button"] = whatsapp_button
 
         # Telegram Button
-        telegram_button_x = 10 / 20
+        telegram_button_x = 8.5 / 20
         telegram_button_y = 2 / 4
-        telegram_button_width = 1 / 4
-        telegram_button_height = 1 / 8
-        telegram_button_img = pygame.image.load('assets/img/restart_btn.png')
+        telegram_button_width = 1 / 3
+        telegram_button_height = 1 / 4
+        telegram_button_img = pygame.image.load('assets/img/telegram.png')
         telegram_button = ImageButton("telegram_button", screen, telegram_button_x, telegram_button_y,
                                       telegram_button_width,
                                       telegram_button_height, telegram_button_img)
@@ -104,8 +109,15 @@ class SharePage(Page):
         # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
-            if triggered_component in ["twitter_button", "ig_button", "whatsapp_button", "telegram_button","return_button"]:
-                return self.data
-            else:
-                print("entry failed")
+            if triggered_component in [self.components["twitter_button"]]:
+                print("open twitter")
+            if triggered_component in [self.components["ig_button"]]:
+                print("open instagram")
+            if triggered_component in [self.components["whatsapp_button"]]:
+                print("open whatsapp")
+            if triggered_component in [self.components["telegram_button"]]:
+                print("open telegram")
+            if triggered_component in [self.components["return_button"]]:
+                print("go back to game session")
+
 

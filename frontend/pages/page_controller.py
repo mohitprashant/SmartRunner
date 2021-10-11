@@ -98,8 +98,11 @@ class PageController:
                 }
                 page_data = self.custom_select.start(self.screen, input_data)
             if page_data[0]["current_page"] == "share":
+                input_data = {
+                    "roomID": roomID,
+                    "room_password": room_password
+                }
                 page_data = self.share.start(self.screen, input_data)
-
             if page_data[0]["current_page"] == "main_menu":
                 input_data = {
                     "username": username
