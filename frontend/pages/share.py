@@ -131,7 +131,7 @@ class SharePage(Page):
                 print("open telegram")
             if triggered_component in [self.components["return_button"]]:
                 print("go back to game session")
-            if triggered_component in [self.components["toggle_password"].action == True]:
+            if triggered_component in [self.components["toggle_password"].activated == True]:
                 print("go back to game session")
 
 

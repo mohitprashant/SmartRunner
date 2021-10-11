@@ -71,9 +71,9 @@ class PageController:
         pygame.key.set_repeat(500, 30)
         input_data = {
             "roomID": "roomID",
-            "score_board": score_board
+            "room_password":"password"
         }
-        page_data = self.share_results.start(self.screen, input_data)
+        page_data = self.share.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print(self.current_page)
