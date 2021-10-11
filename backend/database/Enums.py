@@ -4,10 +4,13 @@ import uuid
 leaderboardSize = 30
 leaderboard_user_fields = {
     "uid": {
-        "Type": uuid.UUID
+        "Type": str
     },
     "score": {
         "Type": int
+    },
+    "epochTimeAdded": {
+        "Type": float
     }
 }
 

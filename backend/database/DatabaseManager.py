@@ -1,9 +1,12 @@
 import pathlib
 import firebase_admin as fa
+import sys
+import time
+
+sys.path.insert(0, str(pathlib.Path(__file__).parent.resolve()) + "/../..")
 from firebase_admin import credentials
 from firebase_admin import firestore
-from Enums import leaderboardSize, leaderboard_user_fields, question_fields
-
+from backend.database import Enums
 
 cred = credentials.Certificate(str(pathlib.Path(__file__).parent.resolve()) + "/../serviceAccountKey.json")
 
@@ -15,7 +18,7 @@ def get_subjects():
     """
         Returns a list of available subjects.
     """
-    subjects = db.collection('subjects').get()
+    subjects = db.collection('subjects').list_documents()
     items = []
 
     for subject in subjects:
@@ -66,6 +69,9 @@ def get_leaderboard(subject, topic):
         for i in range(len(unsorted_list)):
             if unsorted_list[i]["score"] < unsorted_list[smallest_idx]["score"]:
                 smallest_idx = i
+            elif unsorted_list[i]["score"] == unsorted_list[smallest_idx]["score"]:
+                if unsorted_list[i]["epochTimeAdded"] > unsorted_list[smallest_idx]["epochTimeAdded"]:
+                    smallest_idx = i
         
         sorted_list.append(unsorted_list[smallest_idx])
         unsorted_list.pop(smallest_idx)
@@ -75,17 +81,19 @@ def get_leaderboard(subject, topic):
 
 
 def update_leaderboard(user, subject, topic):
-    check_fields(user, leaderboard_user_fields)
+    check_fields(user, Enums.leaderboard_user_fields)
     currentLeaderboard = get_leaderboard(subject, topic)
 
-    if len(currentLeaderboard) < leaderboardSize:
+    if len(currentLeaderboard) < Enums.leaderboardSize:
         # Just insert
         db.collection("leaderboard").document(subject).collection(topic).document().set(user)
     else:
         # Remove lowest and insert next highest
         lowestCollection = db.collection("leaderboard").document(subject).collection(topic)\
                     .where("uid", "==", currentLeaderboard[0]['uid'])\
-                    .where("score", "==", currentLeaderboard[0]['score']).get()
+                    .where("score", "==", currentLeaderboard[0]['score'])\
+                    .where("epochTimeAdded", "==", currentLeaderboard[0]['epochTimeAdded'])\
+                    .get()
 
         if len(lowestCollection) > 0 and lowestCollection[0].to_dict()['score'] < user['score']:
             db.collection("leaderboard").document(subject).collection(topic).document(lowestCollection[0].id).delete()
@@ -97,7 +105,7 @@ def add_question(subject, topic, question):
     Add a question to the specified subject and topic
     Throws an exception if the given question is not a dictionary type or does not have the specified keys
     """
-    check_fields(question, question_fields)
+    check_fields(question, Enums.question_fields)
     
     db.collection("subjects").document(subject).collection(topic).document().set(question)
     return question
@@ -127,7 +135,7 @@ def get_user_by_username(username):
     
     return users[0].to_dict()
 
-
-print(get_subjects())
-print(get_topics('Mathematics'))
-print(get_questions('Mathematics', 'Algebra'))
+# print(get_subjects())
+# print(get_topics('Mathematics'))
+# print(get_questions('Mathematics', 'Algebra'))
+# print(len(get_questions('Mathematics', 'Algebra')))
