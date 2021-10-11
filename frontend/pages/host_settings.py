@@ -17,7 +17,7 @@ class HostSettingsPage(Page):
             "room_ID": self.input_data["roomID"],
             "username": self.input_data["username"],
             "room_password": self.input_data["room_password"],
-            "Toggle_Host": "",
+            "Toggle_Host": False,
             "exit": False
         }
 
@@ -28,29 +28,17 @@ class HostSettingsPage(Page):
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
-        #component
-        relative_x = 9 / 20
-        relative_y = 1 / 20
-        relative_width = 1/10
-        relative_height = 1 / 10
+        # toggle test
+        toggle_rel_x = 9/20
+        toggle_rel_y = 1/20
+        toggle_rel_width = 1 / 10
+        toggle_rel_height = 1 / 10
+        toggle_image = pygame.image.load('assets/img/save_btn.png')
+        toggle_image2 = pygame.image.load('assets/img/load_btn.png')
+        toggle = ToggleButton("toggle", screen, toggle_rel_x, toggle_rel_y, toggle_rel_width, toggle_rel_height,
+                              toggle_image, toggle_image2)
+        self.components["toggle"] = toggle
 
-        toggle_surface = ComponentSurface("toggle_surface", screen,relative_x,relative_y,
-                                        relative_width, relative_height,screen)
-        self.components["toggle_surface"] = toggle_surface
-
-        #Join as Host Toggle
-        JoinAsHost_toggle_x = 9 / 20
-        JoinAsHost_toggle_y = 1 / 20
-        JoinAsHost_toggle_width = 1 / 10
-        JoinAsHost_toggle_height = 1 / 10
-        JoinAsHost_toggle_img = pygame.image.load('assets/img/start_btn.png')
-        JoinAsHost_toggle_img2 = pygame.image.load('assets/img/exit_btn.png')
-        JoinAsHost_toggle = ToggleButton("JoinAsHost_toggle", toggle_surface, JoinAsHost_toggle_x, JoinAsHost_toggle_y,
-                                         JoinAsHost_toggle_width,
-                                         JoinAsHost_toggle_height, JoinAsHost_toggle_img, JoinAsHost_toggle_img2)
-        toggle_surface.add_component(JoinAsHost_toggle)
-        #self.components["JoinAsHost_toggle"] = JoinAsHost_toggle
-        # print("toggle")
 
         # Player Score display
         JoinAsHost_display_x = 1 / 20
@@ -157,10 +145,9 @@ class HostSettingsPage(Page):
                 self.name = "custom_select"
             if triggered_component in [self.components["return_button"]]:
                 self.name = "hostroom"
-            # if triggered_component in [self.components["JoinAsHost_toggle"]]:
-            #     self.output_data["Toggle_Host"] = self.components["JoinAsHost_toggle"].input
-            #     self.name = "hostroom"
-
+            if triggered_component in [self.components["toggle"]]:
+                self.output_data["Toggle_Host"] = True
+                print("True")
     # # go button
         # go_button_x = 12 / 20
         # go_button_y = 41 / 64

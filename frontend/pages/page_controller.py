@@ -16,6 +16,7 @@ from share import *
 from end_screen import *
 from topic_leaderboard import *
 from custom_select import *
+from share_results import *
 '''
 main controller of the system
 int screen_width starting width of screen
@@ -33,7 +34,6 @@ score_board = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "Us
 topicleadselect = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
 roomID = ["R1", "R2", "R3", "R4"]
 room_password = ["R1_P", "R2_P", "R3_P", "R4_P"]
-Toggle = ["True", "False"]
 custom_questions = ["1+1: 2  4   5", "4+4: 3  8  10", "3+2: 1  2   5"]
 
 class PageController:
@@ -62,6 +62,7 @@ class PageController:
         self.topic_leaderboard = TopicLeaderboardPage(self.screen)
         self.room_creation = RoomCreationPage(self.screen)
         self.custom_select = CustomSelectPage(self.screen)
+        self.share_results = ShareResultsPage(self.screen)
 
     def start(self):
         pygame.init()
@@ -69,11 +70,10 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            "username": "username",
             "roomID": "roomID",
-            "room_password": "password"
+            "score_board": score_board
         }
-        page_data = self.host_settings.start(self.screen, input_data)
+        page_data = self.share_results.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print(self.current_page)
@@ -102,6 +102,12 @@ class PageController:
                     "room_password": room_password
                 }
                 page_data = self.share.start(self.screen, input_data)
+            if page_data[0]["current_page"] == "share_results":
+                input_data = {
+                    "roomID": roomID,
+                    "score_board": score_board
+                }
+                page_data = self.share_results.start(self.screen, input_data)
             if page_data[0]["current_page"] == "main_menu":
                 input_data = {
                     "username": username

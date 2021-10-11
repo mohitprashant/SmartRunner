@@ -86,7 +86,7 @@ class Page:
                 if event.type == pygame.MOUSEBUTTONDOWN and top_layer_triggered == False:
                     self.output_data["current_page"] = self.name
                     #uncomment for navigation(doesn't work w scrollable currently)
-                    return self.output_data, self.input_data
+                    #return self.output_data, self.input_data
 
             pygame.display.update()
 
