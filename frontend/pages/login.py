@@ -7,8 +7,8 @@ class LoginPage(Page):
         super().__init__(screen)
         self.name = "login"
         self.input_data = {
-            "username": "",
-            "password": ""
+            # "username": "",
+            # "password": ""
         }
         self.output_data = {
             "current_page": self.name,
@@ -78,6 +78,7 @@ class LoginPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+
             if triggered_component in [self.components["sign_in_button"]]:
                 print("check input value against database")
                 self.name = "main_menu"

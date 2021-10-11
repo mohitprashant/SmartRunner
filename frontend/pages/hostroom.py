@@ -8,7 +8,7 @@ class HostRoomPage(Page):
         self.name = "hostroom"
         self.input_data = {
             "player_status": [],
-            "roomID": "Room ID",
+            "roomID": "RoomID",
         }
         self.output_data = {
             "current_page": self.name,
@@ -44,7 +44,7 @@ class HostRoomPage(Page):
         selectable_text_list = SelectableTextList("selectable_text_list", screen, relative_x,
                                                   relative_y, relative_width,
                                                   text_relative_height, shown_relative_width, shown_relative_height,
-                                                  text_list, single_select=True, active_color="white")
+                                                  text_list, screen, single_select=True, active_color="white")
         self.components["selectable_text_list"] = selectable_text_list
         self.layers.append(selectable_text_list)
 

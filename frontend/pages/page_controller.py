@@ -3,16 +3,16 @@ from login import *
 from main_menu import *
 from singleplayer import *
 from leaderboardselection import *
-from managerooms import *
 from hostroom import *
 from playerroom import *
 from analyticsselection import *
 from uniqueanalytics import *
 from room_tab import *
 from room_creation import *
+from join_room import *
+from managerooms import *
 from host_settings import *
 from share import *
-from join_room import *
 from end_screen import *
 from topic_leaderboard import *
 '''
@@ -30,6 +30,8 @@ username = ["User1", "User2", "User3", "User 4"]
 password = ["hello", "pen", "bottle", "candle"]
 score_board = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
 topicleadselect = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
+roomID = ["R1", "R2", "R3", "R4"]
+room_password = ["R1_P", "R2_P", "R3_P", "R4_P"]
 
 class PageController:
     def __init__(self, screen_width=720, screen_height=480):
@@ -66,7 +68,7 @@ class PageController:
         input_data = {
             "username": username
         }
-        page_data = self.room_tab.start(self.screen, input_data)
+        page_data = self.join_room.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print(self.current_page)
@@ -98,19 +100,29 @@ class PageController:
                 page_data = self.end_screen.start(self.screen, input_data)
             if page_data[0]["current_page"] == "login":
                 input_data ={
-                    "username": username,
-                    "password": password
+                    # "username": username,
+                    # "password": password
                 }
                 page_data = self.login.start(self.screen, input_data)
 
             if page_data[0]["current_page"] == "room_tab":
                 input_data = {
-                    "username": username,
+                    "username": username
                 }
                 page_data = self.room_tab.start(self.screen, input_data)
             if page_data[0]["current_page"] == "room_creation":
+                input_data = {
+                    "username": username,
+                    # "roomID": roomID,
+                    # "room_password": room_password
+                }
                 page_data = self.room_creation.start(self.screen, input_data)
             if page_data[0]["current_page"] == "join_room":
+                input_data = {
+                    "username": username,
+                    # "roomID": roomID,
+                    # "room_password": room_password
+                }
                 page_data = self.join_room.start(self.screen, input_data)
 
             if page_data[0]["current_page"] == "leadselect":

@@ -6,10 +6,16 @@ class JoinRoomPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
         self.name = "join_room"
-        self.data = {
+        self.input_data = {
+            "username": "",
+            # "roomID": "",
+            # "room_password": ""
+        }
+        self.output_data = {
             "current_page": self.name,
+            "username": self.input_data["username"],
             "roomID": "",
-            "password": "",
+            "room_password": "",
             "exit": False
         }
 
@@ -75,11 +81,22 @@ class JoinRoomPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
-            if triggered_component in ["room_confirm_button", "roomID_input_box", "password_input_box"]:
-                self.data["roomID"] = self.components["roomID_input_box"].input
-                self.data["password"] = self.components["password_input_box"].input
-                # using placeholder for now
-                if self.data["roomID"] == "1234" and self.data["password"] == "hello":
-                    return self.data
-                else:
-                    print("entry failed")
+            if triggered_component in [self.components["room_confirm_button"]]:
+                self.output_data["roomID"] = self.components["roomID_input_box"].input
+                self.output_data["room_password"] = self.components["password_input_box"].input
+                print("input value")
+                self.name = "hostroom"
+            elif triggered_component in [self.components["back_button"]]:
+                self.name = "room_tab"
+            else:
+                print("login failed")
+
+            #
+            # if triggered_component in ["room_confirm_button", "roomID_input_box", "password_input_box"]:
+            #     self.data["roomID"] = self.components["roomID_input_box"].input
+            #     self.data["password"] = self.components["password_input_box"].input
+            #     # using placeholder for now
+            #     if self.data["roomID"] == "1234" and self.data["password"] == "hello":
+            #         return self.data
+            #     else:
+            #         print("entry failed")
