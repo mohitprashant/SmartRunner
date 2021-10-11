@@ -6,10 +6,16 @@ class RoomCreationPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
         self.name = "room_creation"
-        self.data = {
-            "current_page": self.name,
+        self.input_data = {
+            "username": "",
             "roomID": "",
-            "password": "",
+            "room_password": ""
+        }
+        self.output_data = {
+            "current_page": self.name,
+            "username": self.input_data["username"],
+            "roomID": "",
+            "room_password": "",
             "exit": False
         }
 
@@ -19,7 +25,6 @@ class RoomCreationPage(Page):
         bg_img = pygame.image.load('assets/img/sky.png')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
-
 
         # picture display - sun to be replaced with a game image
         game_image_rel_x = 1 / 10
@@ -75,10 +80,13 @@ class RoomCreationPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
-            if triggered_component in ["room_confirm_button", "roomID_input_box", "password_input_box", "back_button"]:
-                self.data["roomID"] = self.components["roomID_input_box"].input
-                self.data["password"] = self.components["password_input_box"].input
-                return self.data
+            if triggered_component in [self.components["room_confirm_button"]]:
+                self.output_data["roomID"] = self.components["roomID_input_box"].input
+                self.output_data["room_password"] = self.components["password_input_box"].input
+                print("input value")
+                self.name = "hostroom"
+            elif triggered_component in [self.components["back_button"]]:
+                self.name = "room_tab"
             else:
                 print("login failed")
 

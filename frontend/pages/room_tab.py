@@ -7,8 +7,12 @@ class RoomTabPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
         self.name = "room_tab"
-        self.data = {
+        self.input_data = {
+            "username": ""
+        }
+        self.output_data = {
             "current_page": self.name,
+            "username": self.input_data["username"],
             "exit": False
         }
 
@@ -94,10 +98,15 @@ class RoomTabPage(Page):
 
 
     # how do the page react to events?
-    #each button should link to a new screen
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
-            if triggered_component in ["create_room_button", "manage_room_button", "join_room_button","return_button"]:
-                return self.data
+            if triggered_component in [self.components["create_room_button"]]:
+                self.name = "room_creation"
+            elif triggered_component in [self.components["manage_room_button"]]:
+                self.name = "managerooms"
+            elif triggered_component in [self.components["join_room_button"]]:
+                self.name = "join_room"
+            elif triggered_component in [self.components["return_button"]]:
+                self.name = "main_menu"
             else:
                 print("entry failed")
