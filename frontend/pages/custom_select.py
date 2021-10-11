@@ -6,7 +6,7 @@ from page import *
 class CustomSelectPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
-        self.name = "host_settings"
+        self.name = "custom_select"
         self.input_data = {
             "roomID": "RoomID",
             "username": "",
@@ -82,21 +82,21 @@ class CustomSelectPage(Page):
         return_button2_width = 1 / 10
         return_button2_height = 1 / 10
         return_button2__img = pygame.image.load('assets/img/exit_btn.png')
-        return_button2 = ImageButton("return_button", screen, return_button2_x, return_button2_y,
+        return_button2 = ImageButton("return_button2", screen, return_button2_x, return_button2_y,
                                     return_button2_width,
                                     return_button2_height, return_button2__img)
-        self.components["return_button"] = return_button2
+        self.components["return_button2"] = return_button2
 
         # confirm button
-        confirm_button_x = 17 / 20
-        confirm_button_y = 17 / 20
-        confirm_button_width = 1 / 10
-        confirm_button_height = 1 / 10
-        confirm_button__img = pygame.image.load('assets/img/save_btn.png')
-        confirm_button2 = ImageButton("confirm_button", screen, confirm_button_x, confirm_button_y,
-                                    confirm_button_width,
-                                    confirm_button_height, confirm_button__img)
-        self.components["confirm_button"] = confirm_button2
+        confirm_button2_x = 17 / 20
+        confirm_button2_y = 17 / 20
+        confirm_button2_width = 1 / 10
+        confirm_button2_height = 1 / 10
+        confirm_button2__img = pygame.image.load('assets/img/save_btn.png')
+        confirm_button2 = ImageButton("confirm_button2", screen, confirm_button2_x, confirm_button2_y,
+                                    confirm_button2_width,
+                                    confirm_button2_height, confirm_button2__img)
+        self.components["confirm_button2"] = confirm_button2
 
         # how do the page react to events?
     def page_function(self, triggered_component_list):
