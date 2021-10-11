@@ -23,6 +23,8 @@ roomlist = ["Room 1", "Room 2", "Room 3", "Room 4", "Room 5", "Room 6", "Room 7"
 player_status = ["Player 1               Active", "Player 2               Active", "Player 3               Active", "Player 4               Active", "Player 5               Active", "Player 6               Active", "Player 7               Active", "Player 8               Active"]
 analyticslist = ["Analytics 1", "Analytics 2", "Analytics 3", "Analytics 4", "Analytics 5", "Analytics 6", "Analytics 7", "Analytics 8"]
 analyticsdata = ["Mean= 23", "Median = 20", "Mode = 19", "Highest = 40", "Lowest = 12", "Standard Deviation = 3"]
+username = ["User1", "User2", "User3", "User 4"]
+password = ["hello", "pen", "bottle", "candle"]
 
 class PageController:
     def __init__(self, screen_width=720, screen_height=480):
@@ -56,7 +58,7 @@ class PageController:
             "analyticslist": analyticslist,
             "roomID": "RoomID"
         }
-        page_data = self.analyticsselect.start(self.screen, input_data)
+        page_data = self.main_menu.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print(self.current_page)
@@ -64,8 +66,7 @@ class PageController:
                 break
             if page_data[0]["current_page"] == "singleplayer":
                 page_data = self.singleplayer.start(self.screen, input_data)
-            if page_data[0]["current_page"] == "main_menu":
-                page_data = self.main_menu.start(self.screen, input_data)
+
             if page_data[0]["current_page"] == "room_tab":
                 page_data = self.room_tab.start(self.screen, input_data)
             if page_data[0]["current_page"] == "host_settings":
@@ -74,6 +75,14 @@ class PageController:
                 page_data = self.share.start(self.screen, input_data)
             if page_data[0]["current_page"] == "join_room":
                 page_data = self.join_room.start(self.screen, input_data)
+            if page_data[0]["current_page"] == "main_menu":
+                page_data = self.main_menu.start(self.screen, input_data)
+            if page_data[0]["current_page"] == "login":
+                input_data ={
+                    "username": username,
+                    "password": password
+                }
+                page_data = self.login.start(self.screen, input_data)
             if page_data[0]["current_page"] == "leadselect":
                 input_data = {
                     #input data goes to the leaderboardselection page
