@@ -28,6 +28,16 @@ class HostSettingsPage(Page):
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
+        #component
+        relative_x = 9 / 20
+        relative_y = 1 / 20
+        relative_width = 1/10
+        relative_height = 1 / 10
+
+        toggle_surface = ComponentSurface("toggle_surface", screen,relative_x,relative_y,
+                                        relative_width, relative_height,screen)
+        self.components["toggle_surface"] = toggle_surface
+
         #Join as Host Toggle
         JoinAsHost_toggle_x = 9 / 20
         JoinAsHost_toggle_y = 1 / 20
@@ -35,10 +45,11 @@ class HostSettingsPage(Page):
         JoinAsHost_toggle_height = 1 / 10
         JoinAsHost_toggle_img = pygame.image.load('assets/img/start_btn.png')
         JoinAsHost_toggle_img2 = pygame.image.load('assets/img/exit_btn.png')
-        JoinAsHost_toggle = ToggleButton("JoinAsHost_toggle", screen, JoinAsHost_toggle_x, JoinAsHost_toggle_y,
+        JoinAsHost_toggle = ToggleButton("JoinAsHost_toggle", toggle_surface, JoinAsHost_toggle_x, JoinAsHost_toggle_y,
                                          JoinAsHost_toggle_width,
                                          JoinAsHost_toggle_height, JoinAsHost_toggle_img, JoinAsHost_toggle_img2)
-        self.components["JoinAsHost_toggle"] = JoinAsHost_toggle
+        toggle_surface.add_component(JoinAsHost_toggle)
+        #self.components["JoinAsHost_toggle"] = JoinAsHost_toggle
         # print("toggle")
 
         # Player Score display
@@ -91,7 +102,7 @@ class HostSettingsPage(Page):
         # global qns button
         global_question_button_x = 5 / 20
         global_question_button_y = 7 / 16
-        global_question_button_width = 1 / 2
+        global_question_button_width = 0.55
         global_question_button_height = 1 / 8
         global_question_text = "From database"
         global_question_button = TextboxButton("global_question_button", screen, global_question_button_x, global_question_button_y,
@@ -104,7 +115,7 @@ class HostSettingsPage(Page):
         #If Clicked on add new qn, go to a different screen
         custom_quiz_button_x = 5 / 20
         custom_quiz_button_y = 5 / 8
-        custom_quiz_button_width = 1 / 2
+        custom_quiz_button_width = 0.55
         custom_quiz_button_height = 1 / 8
         custom_quiz_text = "Custom Questions"
         custom_quiz_button = TextboxButton("custom_quiz_button", screen, custom_quiz_button_x,

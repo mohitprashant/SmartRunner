@@ -70,7 +70,7 @@ class CustomSelectPage(Page):
         custom_questions = SelectableTextList("custom_questions", custom_questions_whole.surface, relative_x,
                                                    relative_y, relative_width,
                                                    text_relative_height, shown_relative_width, shown_relative_height,
-                                                   custom_questions_list, screen, single_select=True, active_color="blue")
+                                                   custom_questions_list, screen, single_select=False, active_color="blue")
 
         #self.components["custom_questions"] = custom_questions
         custom_questions_whole.add_component(custom_questions)
