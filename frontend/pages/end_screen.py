@@ -36,16 +36,30 @@ class EndScreenPage(Page):
                                                   relative_y, relative_width,
                                                   text_relative_height, shown_relative_width, shown_relative_height,
                                                   screen)
-        self.layers.append(player_results)
         #create surface
         self.components["player_results"] = player_results
-        #SelectableTextButton
+        self.layers.append(player_results)
 
 
-        # player_results.add_component(textlist)
-        #
-        # #only need to append for surface
-        # self.layers.append(textlist)
+        #SelectableTextList
+        relative_x = 0.05
+        relative_y = 0.15
+        relative_width = 0.8
+        text_relative_height = 1 / 10
+        shown_relative_width = 0.7
+        shown_relative_height = 3 / 5
+        score_text_list = self.input_data["score_board"]
+        # print(self.input_data.keys())
+        # print(score_text_list)
+
+        score_board_text_list = SelectableTextList("score_board_text_list", screen, relative_x,
+                                                  relative_y, relative_width,
+                                                  text_relative_height, shown_relative_width, shown_relative_height,
+                                                  score_text_list, screen, single_select=True, active_color="white")
+
+        self.components["score_board_text_list"] = score_board_text_list
+        player_results.add_component(score_board_text_list)
+        self.layers.append(score_board_text_list)
 
 
         # Player Score display
@@ -71,13 +85,11 @@ class EndScreenPage(Page):
         self.components["share_button"] = share_button
 
     # how do the page react to events?
-    #player score needs to be taken from backend
-    #share button needs to link to share page
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             if triggered_component in [self.components["share_button"]]:
                 self.name = "share"
-            if triggered_component in [self.components["player_results"]]:
-                print("Extract results from database")
+            # if triggered_component in [self.components["player_results"]]:
+            #     print("store  in self.output_data[roomID] for sharing")
             else:
                 print("entry failed")

@@ -26,7 +26,7 @@ analyticslist = ["Analytics 1", "Analytics 2", "Analytics 3", "Analytics 4", "An
 analyticsdata = ["Mean= 23", "Median = 20", "Mode = 19", "Highest = 40", "Lowest = 12", "Standard Deviation = 3"]
 username = ["User1", "User2", "User3", "User 4"]
 password = ["hello", "pen", "bottle", "candle"]
-scoreboard = ["User1= 23", "User2 = 20", "User3 = 19"]
+score_board = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
 
 
 class PageController:
@@ -60,8 +60,8 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            "analyticslist": analyticslist,
-            "roomID": "RoomID"
+            "score_board": score_board,
+            "roomID": "roomID"
         }
         page_data = self.end_screen.start(self.screen, input_data)
         while self.run:
@@ -84,7 +84,7 @@ class PageController:
                 page_data = self.main_menu.start(self.screen, input_data)
             if page_data[0]["current_page"] == "end_screen":
                 input_data = {
-                    "score_board": scoreboard,
+                    "score_board": score_board,
                     "roomID": page_data[1]["roomID"]
                 }
                 page_data = self.end_screen.start(self.screen, input_data)
