@@ -15,6 +15,7 @@ from host_settings import *
 from share import *
 from end_screen import *
 from topic_leaderboard import *
+from custom_select import *
 '''
 main controller of the system
 int screen_width starting width of screen
@@ -33,6 +34,7 @@ topicleadselect = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40",
 roomID = ["R1", "R2", "R3", "R4"]
 room_password = ["R1_P", "R2_P", "R3_P", "R4_P"]
 Toggle = ["True", "False"]
+custom_questions = ["1+1: 2  4   5", "4+4: 3  8  10", "3+2: 1  2   5"]
 
 class PageController:
     def __init__(self, screen_width=720, screen_height=480):
@@ -59,7 +61,7 @@ class PageController:
         self.end_screen = EndScreenPage(self.screen)
         self.topic_leaderboard = TopicLeaderboardPage(self.screen)
         self.room_creation = RoomCreationPage(self.screen)
-
+        self.custom_select = CustomSelectPage(self.screen)
 
     def start(self):
         pygame.init()
@@ -67,10 +69,12 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            "username": "username",
-            "roomID": "roomID"
+            "custom_questions": custom_questions,
+            "roomID": "roomID",
+            "room_password": "password",
+            "username": "username"
         }
-        page_data = self.join_room.start(self.screen, input_data)
+        page_data = self.custom_select.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print(self.current_page)
@@ -80,9 +84,19 @@ class PageController:
                 page_data = self.singleplayer.start(self.screen, input_data)
             if page_data[0]["current_page"] == "host_settings":
                 input_data = {
-                    "roomID": roomID
+                    "roomID": roomID,
+                    "username": username,
+                    "room_password": room_password
                 }
                 page_data = self.host_settings.start(self.screen, input_data)
+            if page_data[0]["current_page"] == "custom_select":
+                input_data = {
+                    "username": username,
+                    "roomID": roomID,
+                    "room_password": room_password,
+                    "custom_questions": custom_questions
+                }
+                page_data = self.custom_select.start(self.screen, input_data)
             if page_data[0]["current_page"] == "share":
                 page_data = self.share.start(self.screen, input_data)
 

@@ -9,10 +9,14 @@ class HostSettingsPage(Page):
         self.name = "host_settings"
         self.input_data = {
             "roomID": "",
+            "username": "",
+            "room_password": ""
         }
         self.output_data = {
             "current_page": self.name,
             "room_ID": self.input_data["roomID"],
+            "username": self.input_data["username"],
+            "room_password": self.input_data["room_password"],
             "Toggle_Host": "",
             "exit": False
         }
@@ -139,8 +143,7 @@ class HostSettingsPage(Page):
             if triggered_component in [self.components["global_question_button"]]:
                 self.name = "singleplayer"
             if triggered_component in [self.components["custom_quiz_button"]]:
-                #self.name = "customquizselect"
-                print("navigate to game session")
+                self.name = "custom_select"
             if triggered_component in [self.components["return_button"]]:
                 self.name = "hostroom"
             # if triggered_component in [self.components["JoinAsHost_toggle"]]:
