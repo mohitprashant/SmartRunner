@@ -12,6 +12,7 @@ from room_tab import *
 from host_settings import *
 from share import *
 from join_room import *
+from end_screen import *
 '''
 main controller of the system
 int screen_width starting width of screen
@@ -25,6 +26,8 @@ analyticslist = ["Analytics 1", "Analytics 2", "Analytics 3", "Analytics 4", "An
 analyticsdata = ["Mean= 23", "Median = 20", "Mode = 19", "Highest = 40", "Lowest = 12", "Standard Deviation = 3"]
 username = ["User1", "User2", "User3", "User 4"]
 password = ["hello", "pen", "bottle", "candle"]
+scoreboard = ["User1= 23", "User2 = 20", "User3 = 19"]
+
 
 class PageController:
     def __init__(self, screen_width=720, screen_height=480):
@@ -48,6 +51,8 @@ class PageController:
         self.host_settings = HostSettingsPage(self.screen)
         self.share = SharePage(self.screen)
         self.join_room = JoinRoomPage(self.screen)
+        self.end_screen = EndScreenPage(self.screen)
+
 
     def start(self):
         pygame.init()
@@ -58,7 +63,7 @@ class PageController:
             "analyticslist": analyticslist,
             "roomID": "RoomID"
         }
-        page_data = self.main_menu.start(self.screen, input_data)
+        page_data = self.end_screen.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print(self.current_page)
@@ -77,6 +82,13 @@ class PageController:
                 page_data = self.join_room.start(self.screen, input_data)
             if page_data[0]["current_page"] == "main_menu":
                 page_data = self.main_menu.start(self.screen, input_data)
+            if page_data[0]["current_page"] == "end_screen":
+                input_data = {
+                    "score_board": scoreboard,
+                    "roomID": page_data[1]["roomID"]
+                }
+                page_data = self.end_screen.start(self.screen, input_data)
+
             if page_data[0]["current_page"] == "login":
                 input_data ={
                     "username": username,
