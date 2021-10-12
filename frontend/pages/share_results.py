@@ -3,17 +3,16 @@ from assets.components import *
 from page import *
 
 
-class SharePage(Page):
+class ShareResultsPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
-        self.name = "share"
+        self.name = "share_results"
         self.input_data = {
             "roomID": "RoomID",
-            "room_password": "",
+            "score_board": []
         }
         self.output_data = {
             "room_ID": self.input_data["roomID"],
-            "room_password": self.input_data["room_password"],
             "toggle_password": False,
             "exit": False
         }
@@ -26,35 +25,24 @@ class SharePage(Page):
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
-        # toggle test
-        toggle_rel_x = 9 / 20
-        toggle_rel_y = 1 / 20
-        toggle_rel_width = 1 / 10
-        toggle_rel_height = 1 / 10
-        toggle_image = pygame.image.load('assets/img/save_btn.png')
-        toggle_image2 = pygame.image.load('assets/img/load_btn.png')
-        toggle_password = ToggleButton("toggle", screen, toggle_rel_x, toggle_rel_y, toggle_rel_width, toggle_rel_height,
-                              toggle_image, toggle_image2)
-        self.components["toggle"] = toggle_password
+        # # toggle test
+        # toggle_rel_x = 9 / 20
+        # toggle_rel_y = 1 / 20
+        # toggle_rel_width = 1 / 10
+        # toggle_rel_height = 1 / 10
+        # toggle_image = pygame.image.load('assets/img/save_btn.png')
+        # toggle_image2 = pygame.image.load('assets/img/load_btn.png')
+        # toggle_password = ToggleButton("toggle", screen, toggle_rel_x, toggle_rel_y, toggle_rel_width, toggle_rel_height,
+        #                       toggle_image, toggle_image2)
+        # self.components["toggle"] = toggle_password
 
-        #Include Room password Toggle
-        #Need to change it to toggle
-        # roompassword_toggle_x = 9 / 20
-        # roompassword_toggle_y = 1 / 20
-        # roompassword_toggle_width = 1 / 10
-        # roompassword_toggle_height = 1 / 10
-        # roompassword_toggle_img = pygame.image.load('assets/img/start_btn.png')
-        # roompassword_toggle = ImageButton("roompassword", screen, roompassword_toggle_x, roompassword_toggle_y,
-        #                                  roompassword_toggle_width,
-        #                                  roompassword_toggle_height, roompassword_toggle_img)
-        # self.components["roompassword"] = roompassword_toggle
 
         # Room Password display
-        diplay_roompassword_display_x = 1 / 20
+        diplay_roompassword_display_x = 4 / 20
         diplay_roompassword_display_y = 3 / 40
-        diplay_roompassword_display_width = 1 / 3
-        diplay_roompassword_display_height = 1 / 3
-        diplay_roompassword_text = "Include Room Password"
+        diplay_roompassword_display_width = 1 / 2
+        diplay_roompassword_display_height = 0.9
+        diplay_roompassword_text = "Share results to social media"
         diplay_roompassword_display = TextDisplay("diplay_roompassword_display", screen, diplay_roompassword_display_x,
                                              diplay_roompassword_display_y, diplay_roompassword_display_width,
                                              diplay_roompassword_display_height, diplay_roompassword_text)
@@ -131,7 +119,6 @@ class SharePage(Page):
                 print("open telegram")
             if triggered_component in [self.components["return_button"]]:
                 print("go back to game session")
-            if triggered_component in [self.components["toggle_password"].activated == True]:
-                print("go back to game session")
+
 
 

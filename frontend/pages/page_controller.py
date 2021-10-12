@@ -10,8 +10,11 @@ from uniqueanalytics import *
 from room_tab import *
 from room_creation import *
 from join_room import *
+from managerooms import *
 from host_settings import *
 from share import *
+from end_screen import *
+from topic_leaderboard import *
 '''
 main controller of the system
 int screen_width starting width of screen
@@ -62,7 +65,6 @@ class PageController:
         self.room_creation = RoomCreationPage(self.screen)
 
 
-
     def start(self):
         pygame.init()
         pygame.display.set_caption(self.caption)
@@ -88,26 +90,9 @@ class PageController:
                     "room_password": room_password
                 }
                 page_data = self.host_settings.start(self.screen, input_data)
-            if page_data[0]["current_page"] == "custom_select":
-                input_data = {
-                    "username": username,
-                    "roomID": roomID,
-                    "room_password": room_password,
-                    "custom_questions": custom_questions
-                }
-                page_data = self.custom_select.start(self.screen, input_data)
             if page_data[0]["current_page"] == "share":
-                input_data = {
-                    "roomID": roomID,
-                    "room_password": room_password
-                }
                 page_data = self.share.start(self.screen, input_data)
-            if page_data[0]["current_page"] == "share_results":
-                input_data = {
-                    "roomID": roomID,
-                    "score_board": score_board
-                }
-                page_data = self.share_results.start(self.screen, input_data)
+
             if page_data[0]["current_page"] == "main_menu":
                 input_data = {
                     "username": username

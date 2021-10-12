@@ -9,11 +9,15 @@ class HostSettingsPage(Page):
         self.name = "host_settings"
         self.input_data = {
             "roomID": "",
+            "username": "",
+            "room_password": ""
         }
         self.output_data = {
             "current_page": self.name,
             "room_ID": self.input_data["roomID"],
-            "Toggle_Host": "",
+            "username": self.input_data["username"],
+            "room_password": self.input_data["room_password"],
+            "Toggle_Host": False,
             "exit": False
         }
 
@@ -24,18 +28,17 @@ class HostSettingsPage(Page):
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
-        #Join as Host Toggle
-        JoinAsHost_toggle_x = 9 / 20
-        JoinAsHost_toggle_y = 1 / 20
-        JoinAsHost_toggle_width = 1 / 10
-        JoinAsHost_toggle_height = 1 / 10
-        JoinAsHost_toggle_img = pygame.image.load('assets/img/start_btn.png')
-        JoinAsHost_toggle_img2 = pygame.image.load('assets/img/exit_btn.png')
-        JoinAsHost_toggle = ToggleButton("JoinAsHost_toggle", screen, JoinAsHost_toggle_x, JoinAsHost_toggle_y,
-                                         JoinAsHost_toggle_width,
-                                         JoinAsHost_toggle_height, JoinAsHost_toggle_img, JoinAsHost_toggle_img2)
-        self.components["JoinAsHost_toggle"] = JoinAsHost_toggle
-        # print("toggle")
+        # toggle test
+        toggle_rel_x = 9/20
+        toggle_rel_y = 1/20
+        toggle_rel_width = 1 / 10
+        toggle_rel_height = 1 / 10
+        toggle_image = pygame.image.load('assets/img/save_btn.png')
+        toggle_image2 = pygame.image.load('assets/img/load_btn.png')
+        toggle = ToggleButton("toggle", screen, toggle_rel_x, toggle_rel_y, toggle_rel_width, toggle_rel_height,
+                              toggle_image, toggle_image2)
+        self.components["toggle"] = toggle
+
 
         # Player Score display
         JoinAsHost_display_x = 1 / 20
@@ -87,7 +90,7 @@ class HostSettingsPage(Page):
         # global qns button
         global_question_button_x = 5 / 20
         global_question_button_y = 7 / 16
-        global_question_button_width = 1 / 2
+        global_question_button_width = 0.55
         global_question_button_height = 1 / 8
         global_question_text = "From database"
         global_question_button = TextboxButton("global_question_button", screen, global_question_button_x, global_question_button_y,
@@ -100,7 +103,7 @@ class HostSettingsPage(Page):
         #If Clicked on add new qn, go to a different screen
         custom_quiz_button_x = 5 / 20
         custom_quiz_button_y = 5 / 8
-        custom_quiz_button_width = 1 / 2
+        custom_quiz_button_width = 0.55
         custom_quiz_button_height = 1 / 8
         custom_quiz_text = "Custom Questions"
         custom_quiz_button = TextboxButton("custom_quiz_button", screen, custom_quiz_button_x,
@@ -139,14 +142,12 @@ class HostSettingsPage(Page):
             if triggered_component in [self.components["global_question_button"]]:
                 self.name = "singleplayer"
             if triggered_component in [self.components["custom_quiz_button"]]:
-                #self.name = "customquizselect"
-                print("navigate to game session")
+                self.name = "custom_select"
             if triggered_component in [self.components["return_button"]]:
                 self.name = "hostroom"
-            # if triggered_component in [self.components["JoinAsHost_toggle"]]:
-            #     self.output_data["Toggle_Host"] = self.components["JoinAsHost_toggle"].input
-            #     self.name = "hostroom"
-
+            if triggered_component in [self.components["toggle"]]:
+                self.output_data["Toggle_Host"] = True
+                print("True")
     # # go button
         # go_button_x = 12 / 20
         # go_button_y = 41 / 64
