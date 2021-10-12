@@ -722,6 +722,25 @@ class SelectableTextList(MouseScrollableSurface):
             # update y of next text
             self.text_relative_y = self.text_relative_y + self.text_relative_height
 
+        if self.single_select:
+            self.selected_text = ""
+        else:
+            self.selected_text = []
+
+    def trigger(self, event):
+        super().trigger(event)
+
+        if self.single_select:
+            self.selected_text = ""
+        else:
+            self.selected_text = []
+        for selectable_text in self.components.values():
+            if selectable_text.active:
+                if self.single_select:
+                    self.selected_text = selectable_text.text
+                else:
+                    self.selected_text.append(selectable_text.text)
+
 
 class ExpandButton(ComponentSurface):
     # fixed shown width and height to 1 single textbox
