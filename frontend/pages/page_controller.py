@@ -73,10 +73,10 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            "roomID": "roomID",
-            "room_password":"password"
-        }
-        page_data = self.join_room.start(self.screen, input_data)
+                "username": username,
+                "password": password
+            }
+        page_data = self.login.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print(self.current_page)
@@ -86,7 +86,9 @@ class PageController:
                 page_data = self.singleplayer.start(self.screen, input_data)
             if page_data[0]["current_page"] == "host_settings":
                 input_data = {
-                    "roomID": roomID
+                    "roomID": roomID,
+                    "username": username,
+                    "password": password
                 }
                 page_data = self.host_settings.start(self.screen, input_data)
             if page_data[0]["current_page"] == "share":
@@ -100,9 +102,9 @@ class PageController:
             if page_data[0]["current_page"] == "topic_leaderboard":
                 input_data = {
                     "topic_leaderboard": topicleadselect,
-                    "topic_leaderboard_ID": page_data[1]["topicLeadID"]
+                    "topic_leaderboard_ID": page_data[1]["topic_leaderboard_ID"]
                 }
-                page_data = self.end_screen.start(self.screen, input_data)
+                page_data = self.topic_leaderboard.start(self.screen, input_data)
             if page_data[0]["current_page"] == "end_screen":
                 input_data = {
                     "score_board": score_board,

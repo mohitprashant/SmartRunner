@@ -146,8 +146,10 @@ class HostSettingsPage(Page):
             if triggered_component in [self.components["return_button"]]:
                 self.name = "hostroom"
             if triggered_component in [self.components["toggle"]]:
-                self.output_data["Toggle_Host"] = True
-                print("True")
+                print("hello")
+                if triggered_component.toggled:
+                    self.output_data["Toggle_Host"] = True
+                    print("True")
     # # go button
         # go_button_x = 12 / 20
         # go_button_y = 41 / 64

@@ -27,27 +27,27 @@ class EndScreenPage(Page):
 
 #relative_x, relative_y, relative_width, relative_height,relative_shown_width, relative_shown_height,
         # player list
-        relative_x = 0.05
-        relative_y = 0.15
-        relative_width = 0.8
-        text_relative_height = 1 / 10
-        shown_relative_width = 6 / 10
-        shown_relative_height = 3 / 5
-        player_results = MouseScrollableSurface("player_results", screen, relative_x,
-                                                  relative_y, relative_width,
-                                                  text_relative_height, shown_relative_width, shown_relative_height,
-                                                  screen)
-        #create surface
-        self.components["player_results"] = player_results
-        self.layers.append(player_results)
+        # relative_x = 0.05
+        # relative_y = 0.15
+        # relative_width = 0.8
+        # text_relative_height = 8 / 10
+        # shown_relative_width = 6 / 10
+        # shown_relative_height = 3 / 5
+        # player_results = MouseScrollableSurface("player_results", screen, relative_x,
+        #                                           relative_y, relative_width,
+        #                                           text_relative_height, shown_relative_width, shown_relative_height,
+        #                                           screen)
+        # #create surface
+        # self.components["player_results"] = player_results
+        # self.layers.append(player_results)
 
 
         #SelectableTextList
-        relative_x = 0.05
-        relative_y = 0.15
+        relative_x = 1/20
+        relative_y = 3/20
         relative_width = 0.8
         text_relative_height = 1 / 10
-        shown_relative_width = 0.7
+        shown_relative_width = 7 /10
         shown_relative_height = 3 / 5
         score_text_list = self.input_data["score_board"]
         # print(self.input_data.keys())
@@ -59,7 +59,7 @@ class EndScreenPage(Page):
                                                   score_text_list, screen, single_select=True, active_color="white")
 
         self.components["score_board_text_list"] = score_board_text_list
-        player_results.add_component(score_board_text_list)
+       # player_results.add_component(score_board_text_list)
         self.layers.append(score_board_text_list)
 
 

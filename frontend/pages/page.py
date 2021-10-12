@@ -85,7 +85,7 @@ class Page:
                                     triggered_component_list.append(component)
                 self.page_function(triggered_component_list)
                 #for navigation
-                if event.type == pygame.MOUSEBUTTONDOWN and top_layer_triggered==False:
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button==1:
                     self.output_data["current_page"] = self.name
                     #uncomment for navigation(doesn't work w scrollable currently)
                     pygame.display.update()
