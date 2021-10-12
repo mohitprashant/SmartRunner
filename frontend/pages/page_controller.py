@@ -1,11 +1,8 @@
 import pygame
 from login import *
 from main_menu import *
-from end_screen import *
-from topic_leaderboard import *
 from singleplayer import *
 from leaderboardselection import *
-from managerooms import *
 from hostroom import *
 from playerroom import *
 from analyticsselection import *
@@ -79,40 +76,49 @@ class PageController:
         page_data = self.join_room.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
-            print("current page", self.current_page)
+            print(self.current_page)
             if page_data[0]["exit"]:
                 break
             if page_data[0]["current_page"] == "singleplayer":
-                input_data = {
-                    "subjectlist": subjectlist,
-                    "topiclist": topiclist,
-                    "difficultylist": difficultylist,
-                    "subject_topic_list": ["Select Topic"],
-                    "subjectselection": page_data[1]["subjectselection"]
-                }
                 page_data = self.singleplayer.start(self.screen, input_data)
             if page_data[0]["current_page"] == "host_settings":
                 input_data = {
-                    "roomID": roomID
+                    "roomID": roomID,
+                    "username": username,
+                    "room_password": room_password
                 }
                 page_data = self.host_settings.start(self.screen, input_data)
+            if page_data[0]["current_page"] == "custom_select":
+                input_data = {
+                    "username": username,
+                    "roomID": roomID,
+                    "room_password": room_password,
+                    "custom_questions": custom_questions
+                }
+                page_data = self.custom_select.start(self.screen, input_data)
             if page_data[0]["current_page"] == "share":
+                input_data = {
+                    "roomID": roomID,
+                    "room_password": room_password
+                }
                 page_data = self.share.start(self.screen, input_data)
-
+            if page_data[0]["current_page"] == "share_results":
+                input_data = {
+                    "roomID": roomID,
+                    "score_board": score_board
+                }
+                page_data = self.share_results.start(self.screen, input_data)
             if page_data[0]["current_page"] == "main_menu":
                 input_data = {
                     "username": username
                 }
                 page_data = self.main_menu.start(self.screen, input_data)
             if page_data[0]["current_page"] == "topic_leaderboard":
-                if page_data[0]["prev_page"] == "topic_leaderboard":
-                    page_data[0]["topic_leaderboard_ID"] = page_data[1]["topic_leaderboard_ID"]
                 input_data = {
                     "topic_leaderboard": topicleadselect,
-                    "topic_leaderboard_ID": page_data[0]["topic_leaderboard_ID"]
+                    "topic_leaderboard_ID": page_data[1]["topicLeadID"]
                 }
-                page_data = self.topic_leaderboard.start(self.screen, input_data)
-                print(page_data[0]["current_page"], "next")
+                page_data = self.end_screen.start(self.screen, input_data)
             if page_data[0]["current_page"] == "end_screen":
                 input_data = {
                     "score_board": score_board,
@@ -158,28 +164,21 @@ class PageController:
                 }
                 page_data = self.managerooms.start(self.screen, input_data)
             if page_data[0]["current_page"] == "hostroom":
-                if page_data[0]["prev_page"] == "hostroom":
-                    page_data[0]["roomID"] = page_data[1]["roomID"]
                 input_data = {
                     "player_status": player_status,
-                    "roomID": page_data[0]["roomID"]
+                    "roomID": page_data[1]["roomID"]
                 }
                 page_data = self.hostroom.start(self.screen, input_data)
             if page_data[0]["current_page"] == "playerroom":
-                if page_data[0]["current_page"] == "playerroom":
-                    if page_data[0]["prev_page"] == "playerroom":
-                        page_data[0]["roomID"] = page_data[1]["roomID"]
-                    input_data = {
-                        "player_status": player_status,
-                        "roomID": page_data[0]["roomID"]
-                    }
-                    page_data = self.playerroom.start(self.screen, input_data)
+                input_data = {
+                    "player_status": player_status,
+                    "roomID": page_data[1]["roomID"]
+                }
+                page_data = self.playerroom.start(self.screen, input_data)
             if page_data[0]["current_page"] == "analyticsselect":
-                if page_data[0]["prev_page"] == "analyticslist":
-                    page_data[0]["roomID"] = page_data[1]["roomID"]
                 input_data = {
                     "analyticslist": analyticslist,
-                    "roomID": page_data[0]["roomID"]
+                    "roomID": page_data[1]["roomID"]
                 }
                 page_data = self.analyticsselect.start(self.screen, input_data)
             if page_data[0]["current_page"] == "uniqueanalytics":
