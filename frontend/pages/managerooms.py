@@ -7,10 +7,11 @@ class ManageRoomsPage(Page):
         super().__init__(screen)
         self.name = "managerooms"
         self.input_data = {
-            "roomlist": [],
+            "roomlist": []
         }
         self.output_data = {
             "current_page": self.name,
+            "prev_page": "",
             "username": "",
             "password": "",
             "roomID": "",
@@ -87,13 +88,14 @@ class ManageRoomsPage(Page):
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             if triggered_component in [self.components["exit_button"]]:
+                self.output_data["prev_page"] = self.name
                 self.name = "room_tab"
             if triggered_component in [self.components["selectable_text_list"]]:
-                print("store selection in self.output_data[roomID]")
+                self.output_data["roomID"] = triggered_component.selected_text
+                print(self.output_data["roomID"])
             if triggered_component in [self.components["join_button"]]:
                 self.name = "hostroom"
                 #use self.output_data["roomID"] to determine which room
             if triggered_component in [self.components["delete_button"]]:
-                print("store selection in self.output_data[roomID]")
-                print("delete room from database")
+                print("delete room", self.output_data["roomID"], "from database")
 

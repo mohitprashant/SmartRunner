@@ -309,7 +309,6 @@ class ComponentSurface(Component):
                                                            component.shown_display_width,
                                                            component.shown_display_height)
 
-
     def draw(self):
         self.update()
         for component in self.components.values():
@@ -723,6 +722,25 @@ class SelectableTextList(MouseScrollableSurface):
             # update y of next text
             self.text_relative_y = self.text_relative_y + self.text_relative_height
 
+        if self.single_select:
+            self.selected_text = ""
+        else:
+            self.selected_text = []
+
+    def trigger(self, event):
+        super().trigger(event)
+
+        if self.single_select:
+            self.selected_text = ""
+        else:
+            self.selected_text = []
+        for selectable_text in self.components.values():
+            if selectable_text.active:
+                if self.single_select:
+                    self.selected_text = selectable_text.text
+                else:
+                    self.selected_text.append(selectable_text.text)
+
 
 class ExpandButton(ComponentSurface):
     # fixed shown width and height to 1 single textbox
@@ -768,12 +786,15 @@ class ExpandButton(ComponentSurface):
         self.resize(self.screen)
         self.expanded = True
 
-
     def collapse(self):
         self.relative_x = self.original_relative_x
         self.relative_y = self.original_relative_y
         self.relative_width = self.original_relative_width
         self.relative_height = self.original_relative_height
+        self.relative_display_x = self.relative_x
+        self.relative_display_y = self.relative_y
+        self.relative_display_width = self.relative_width
+        self.relative_display_height = self.relative_height
         self.resize(self.screen)
         self.add_component(self.button)
         self.remove_component(self.expandable_surface.name)
@@ -820,7 +841,7 @@ class ExpandButton(ComponentSurface):
 # dropdown
 class DropdownTextSelect(ExpandButton):
     def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height,
-                 text_list, prompt, num_expand_text, display_screen, on_display=True, font_file=None,
+                 text_list, prompt, num_expand_text, display_screen, single_select=True, on_display=True, font_file=None,
                  font_color="black", active_color="dodgerblue", passive_color="white", border_width=0):
         relative_expand_height = (num_expand_text+1) * relative_height
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, relative_x,
@@ -830,6 +851,7 @@ class DropdownTextSelect(ExpandButton):
         relative_text_height = 1 / (num_expand_text + 1)
         selectable_text_list_relative_height = 1 - relative_text_height
 
+        self.prompt = prompt
         self.selected_text = prompt
         self.button = TextboxButton(name + "_button", self.surface, 0, 0,
                                     1, 1, self.selected_text, font_file, font_color)
@@ -843,23 +865,66 @@ class DropdownTextSelect(ExpandButton):
         self.selectable_text_list = SelectableTextList(name+"_selectable_text_list", self.expandable_surface.surface, 0,
                                                        relative_text_height, 1, relative_text_height, 1,
                                                        selectable_text_list_relative_height, text_list, display_screen,
-                                                       False, font_file=font_file, font_color=font_color,
+                                                       False,single_select=single_select, font_file=font_file,
+                                                       font_color=font_color,
                                                        active_color=active_color, passive_color=passive_color,
                                                        border_width=border_width)
         self.expandable_surface.add_component(self.selectable_text_list)
 
+    def trigger(self, event):
+        action = False
 
+        # get mouse position
+        pos = pygame.mouse.get_pos()
+        if self.expanded:
+            self.triggered_component_list.clear()
+            # get mouse position
 
-    """
-    activated = false
-        shown area should be on rela
-        on click, change shown relative width and height to display the whole thing
-        activated = true
-    activated = true
-        if scroll, scroll
-        if click anything, activated = false
-    
-    """
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # check mouseover and clicked conditions
+                if self.display_rect.collidepoint(pos):  # when mouse is on top of button
+                    for component in self.components.values():
+                        if component.trigger(event):
+                            self.triggered_component_list.append(component)
+                            action = True
+                        if component.name == self.expandable_surface.name:
+
+                            for expandable_component in component.components.values():
+
+                                if expandable_component.name == self.selectable_text_list.name:
+                                    for selectable_text in expandable_component.components.values():
+                                        if selectable_text.active:
+                                            self.button.text = selectable_text.text
+            else:
+                for component in self.components.values():
+                    if component.trigger(event):
+                        self.triggered_component_list.append(component)
+                        action = True
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:  # new left click and not held beforehand
+
+                if not self.expanded:
+
+                    # check mouseover and clicked conditions
+                    if self.display_rect.collidepoint(pos):
+                        if not self.clicked:  # when mouse is on top of button
+                            self.expand()
+
+                        self.clicked = True  # prevent multiple input by holding click
+                else:  # when mouse is not on top of button
+                    if not self.selected_textbox.display_rect.collidepoint(pos):
+                        self.expandable_surface.trigger(event)
+                        self.collapse()
+                        self.expanded = False
+
+                self.resize(self.screen)
+
+        if event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:  # when left click is let go
+                self.clicked = False  # set click to false
+
+        return action
 
 
 # add textInput to screen

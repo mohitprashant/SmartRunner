@@ -12,6 +12,7 @@ class AnalyticsSelectPage(Page):
         }
         self.output_data = {
             "current_page": self.name,
+            "prev_page": "",
             "roomID": "",
             "analyticsID": "",
             "all_time": False,
@@ -77,16 +78,15 @@ class AnalyticsSelectPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["prev_page"] = self.name
+            self.output_data["roomID"] = self.input_data["roomID"]
             if triggered_component in [self.components["selectable_text_list"]]:
-                print("store selection in self.output_data[analyticsID]")
+                self.output_data["analyticsID"] = triggered_component.selected_text
                 self.name = "uniqueanalytics"
-                #use self.output_data["roomID"] to determine which room
             if triggered_component in [self.components["alltime_button"]]:
                 print("navigate to alltime analytics")
                 self.output_data["all_time"] = True
                 self.name = "uniqueanalytics"
-                #use self.output_data["all_time"] to navigate to alltime analytics
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "hostroom"
-                #use self.output_data["roomID"] to select correct room
 

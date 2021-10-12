@@ -11,8 +11,10 @@ class LeadSelectPage(Page):
         }
         self.output_data = {
             "current_page": self.name,
+            "prev_page": "",
             "username": "",
             "password": "",
+            "topic_leaderboard_ID": "",
             "exit": False
         }
 
@@ -62,7 +64,9 @@ class LeadSelectPage(Page):
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             if triggered_component in [self.components["exit_button"]]:
+                self.output_data["prev_page"] = self.name
                 self.name = "main_menu"
             if triggered_component in [self.components["selectable_text_list"]]:
-                print("return choice to page controller, load leaderboard instance")
+                self.output_data["topic_leaderboard_ID"] = triggered_component.selected_text
+                self.name = "topic_leaderboard"
 

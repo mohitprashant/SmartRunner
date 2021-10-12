@@ -15,8 +15,6 @@ from host_settings import *
 from share import *
 from end_screen import *
 from topic_leaderboard import *
-from custom_select import *
-from share_results import *
 '''
 main controller of the system
 int screen_width starting width of screen
@@ -31,10 +29,16 @@ analyticsdata = ["Mean= 23", "Median = 20", "Mode = 19", "Highest = 40", "Lowest
 username = ["User1", "User2", "User3", "User 4"]
 password = ["hello", "pen", "bottle", "candle"]
 score_board = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
-topicleadselect = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
+#topicleadselect = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
+#darsh change the topicleadselect to this dictionary format to reflect the topicleadID!! "Leaderboard 1", "Leaderboard 2" are examples of topicleadID
+topicleadselect = {"Leaderboard 1": ["wee",'woo'], "Leaderboard 2": ["hee", "hoo"]}
 roomID = ["R1", "R2", "R3", "R4"]
 room_password = ["R1_P", "R2_P", "R3_P", "R4_P"]
 custom_questions = ["1+1: 2  4   5", "4+4: 3  8  10", "3+2: 1  2   5"]
+Toggle = ["True", "False"]
+subjectlist = ["English", "Math", "Science"]
+topiclist = {"English": ["Noun", "Tense", "Verb", "Adjectives"], "Math": ["Subtraction", "Addition", "Multiplication", "Division"], "Science": ["Matter", "Magnets", "Organism Classification"]}
+difficultylist = ["Easy", "Medium", "Hard"]
 
 class PageController:
     def __init__(self, screen_width=720, screen_height=480):
@@ -61,8 +65,7 @@ class PageController:
         self.end_screen = EndScreenPage(self.screen)
         self.topic_leaderboard = TopicLeaderboardPage(self.screen)
         self.room_creation = RoomCreationPage(self.screen)
-        self.custom_select = CustomSelectPage(self.screen)
-        self.share_results = ShareResultsPage(self.screen)
+
 
     def start(self):
         pygame.init()
@@ -73,7 +76,7 @@ class PageController:
             "roomID": "roomID",
             "room_password":"password"
         }
-        page_data = self.share.start(self.screen, input_data)
+        page_data = self.join_room.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print(self.current_page)
@@ -83,31 +86,12 @@ class PageController:
                 page_data = self.singleplayer.start(self.screen, input_data)
             if page_data[0]["current_page"] == "host_settings":
                 input_data = {
-                    "roomID": roomID,
-                    "username": username,
-                    "room_password": room_password
+                    "roomID": roomID
                 }
                 page_data = self.host_settings.start(self.screen, input_data)
-            if page_data[0]["current_page"] == "custom_select":
-                input_data = {
-                    "username": username,
-                    "roomID": roomID,
-                    "room_password": room_password,
-                    "custom_questions": custom_questions
-                }
-                page_data = self.custom_select.start(self.screen, input_data)
             if page_data[0]["current_page"] == "share":
-                input_data = {
-                    "roomID": roomID,
-                    "room_password": room_password
-                }
                 page_data = self.share.start(self.screen, input_data)
-            if page_data[0]["current_page"] == "share_results":
-                input_data = {
-                    "roomID": roomID,
-                    "score_board": score_board
-                }
-                page_data = self.share_results.start(self.screen, input_data)
+
             if page_data[0]["current_page"] == "main_menu":
                 input_data = {
                     "username": username
