@@ -8,11 +8,12 @@ class PlayerRoomPage(Page):
         self.name = "playerroom"
         self.input_data = {
             "player_status": [],
-            "roomID": "Room ID",
+            "roomID": ""
         }
         self.output_data = {
             "current_page": self.name,
-            "roomID": self.input_data["roomID"],
+            "prev_page": "",
+            "roomID": "",
             "ready_status": False,
             "exit": False
         }
@@ -46,7 +47,7 @@ class PlayerRoomPage(Page):
         selectable_text_list = SelectableTextList("selectable_text_list", screen, relative_x,
                                                   relative_y, relative_width,
                                                   text_relative_height, shown_relative_width, shown_relative_height,
-                                                  text_list, single_select=True, active_color="white")
+                                                  text_list, screen, single_select=True, active_color="white")
         self.components["selectable_text_list"] = selectable_text_list
         self.layers.append(selectable_text_list)
 
@@ -77,9 +78,10 @@ class PlayerRoomPage(Page):
         roomID_button_rel_y = 1 / 15
         roomID_button_rel_width = 1 / 7
         roomID_button_rel_height = 1 / 7
+        text = self.input_data["roomID"]
         roomID_button = TextButton("roomID_button", screen, roomID_button_rel_x, roomID_button_rel_y,
-                                      roomID_button_rel_width,
-                                      roomID_button_rel_height, self.input_data["roomID"])
+                                   roomID_button_rel_width,
+                                   roomID_button_rel_height, text)
         self.components["roomID_button"] = roomID_button
 
     # how do the page react to events?

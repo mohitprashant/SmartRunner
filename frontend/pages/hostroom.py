@@ -8,11 +8,12 @@ class HostRoomPage(Page):
         self.name = "hostroom"
         self.input_data = {
             "player_status": [],
-            "roomID": "RoomID",
+            "roomID": "",
         }
         self.output_data = {
             "current_page": self.name,
-            "room_ID": self.input_data["roomID"],
+            "prev_page": "",
+            "roomID": "",
             "exit": False
         }
 
@@ -98,7 +99,7 @@ class HostRoomPage(Page):
         roomID_button_rel_y = 1 / 15
         roomID_button_rel_width = 1 / 7
         roomID_button_rel_height = 1 / 7
-        text="hi"
+        text= self.input_data["roomID"]
         roomID_button = TextButton("roomID_button", screen, roomID_button_rel_x, roomID_button_rel_y,
                                       roomID_button_rel_width,
                                       roomID_button_rel_height, text)
@@ -107,11 +108,15 @@ class HostRoomPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["prev_page"] = self.name
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "managerooms"
             if triggered_component in [self.components["start_button"]]:
                 print("navigate to game session")
+                #placeholder, stay on page
+                self.name = "hostroom"
             if triggered_component in [self.components["analytics_button"]]:
+                self.output_data["roomID"] = self.input_data["roomID"]
                 self.name = "analyticsselect"
             if triggered_component in [self.components["settings_button"]]:
                 self.name = "host_settings"

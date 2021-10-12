@@ -29,11 +29,15 @@ analyticsdata = ["Mean= 23", "Median = 20", "Mode = 19", "Highest = 40", "Lowest
 username = ["User1", "User2", "User3", "User 4"]
 password = ["hello", "pen", "bottle", "candle"]
 score_board = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
-topicleadselect = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
+#topicleadselect = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
+#darsh change the topicleadselect to this dictionary format to reflect the topicleadID!! "Leaderboard 1", "Leaderboard 2" are examples of topicleadID
+topicleadselect = {"Leaderboard 1": ["wee",'woo'], "Leaderboard 2": ["hee", "hoo"]}
 roomID = ["R1", "R2", "R3", "R4"]
 room_password = ["R1_P", "R2_P", "R3_P", "R4_P"]
 Toggle = ["True", "False"]
-
+subjectlist = ["English", "Math", "Science"]
+topiclist = {"English": ["Noun", "Tense", "Verb", "Adjectives"], "Math": ["Subtraction", "Addition", "Multiplication", "Division"], "Science": ["Matter", "Magnets", "Organism Classification"]}
+difficultylist = ["Easy", "Medium", "Hard"]
 class PageController:
     def __init__(self, screen_width=720, screen_height=480):
         self.run = True
@@ -68,16 +72,24 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            "username": "username",
-            "roomID": "roomID"
+            "username": username,
+            "roomID": roomID,
+            "room_password": room_password
         }
         page_data = self.join_room.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
-            print(self.current_page)
+            print("current page", self.current_page)
             if page_data[0]["exit"]:
                 break
             if page_data[0]["current_page"] == "singleplayer":
+                input_data = {
+                    "subjectlist": subjectlist,
+                    "topiclist": topiclist,
+                    "difficultylist": difficultylist,
+                    "subject_topic_list": ["Select Topic"],
+                    "subjectselection": page_data[1]["subjectselection"]
+                }
                 page_data = self.singleplayer.start(self.screen, input_data)
             if page_data[0]["current_page"] == "host_settings":
                 input_data = {
@@ -93,11 +105,14 @@ class PageController:
                 }
                 page_data = self.main_menu.start(self.screen, input_data)
             if page_data[0]["current_page"] == "topic_leaderboard":
+                if page_data[0]["prev_page"] == "topic_leaderboard":
+                    page_data[0]["topic_leaderboard_ID"] = page_data[1]["topic_leaderboard_ID"]
                 input_data = {
                     "topic_leaderboard": topicleadselect,
-                    "topic_leaderboard_ID": page_data[1]["topicLeadID"]
+                    "topic_leaderboard_ID": page_data[0]["topic_leaderboard_ID"]
                 }
-                page_data = self.end_screen.start(self.screen, input_data)
+                page_data = self.topic_leaderboard.start(self.screen, input_data)
+                print(page_data[0]["current_page"], "next")
             if page_data[0]["current_page"] == "end_screen":
                 input_data = {
                     "score_board": score_board,
@@ -143,21 +158,28 @@ class PageController:
                 }
                 page_data = self.managerooms.start(self.screen, input_data)
             if page_data[0]["current_page"] == "hostroom":
+                if page_data[0]["prev_page"] == "hostroom":
+                    page_data[0]["roomID"] = page_data[1]["roomID"]
                 input_data = {
                     "player_status": player_status,
-                    "roomID": page_data[1]["roomID"]
+                    "roomID": page_data[0]["roomID"]
                 }
                 page_data = self.hostroom.start(self.screen, input_data)
             if page_data[0]["current_page"] == "playerroom":
-                input_data = {
-                    "player_status": player_status,
-                    "roomID": page_data[1]["roomID"]
-                }
-                page_data = self.playerroom.start(self.screen, input_data)
+                if page_data[0]["current_page"] == "playerroom":
+                    if page_data[0]["prev_page"] == "playerroom":
+                        page_data[0]["roomID"] = page_data[1]["roomID"]
+                    input_data = {
+                        "player_status": player_status,
+                        "roomID": page_data[0]["roomID"]
+                    }
+                    page_data = self.playerroom.start(self.screen, input_data)
             if page_data[0]["current_page"] == "analyticsselect":
+                if page_data[0]["prev_page"] == "analyticslist":
+                    page_data[0]["roomID"] = page_data[1]["roomID"]
                 input_data = {
                     "analyticslist": analyticslist,
-                    "roomID": page_data[1]["roomID"]
+                    "roomID": page_data[0]["roomID"]
                 }
                 page_data = self.analyticsselect.start(self.screen, input_data)
             if page_data[0]["current_page"] == "uniqueanalytics":

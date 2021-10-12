@@ -13,6 +13,7 @@ class JoinRoomPage(Page):
         }
         self.output_data = {
             "current_page": self.name,
+            "prev_page": "",
             "username": self.input_data["username"],
             "roomID": "",
             "room_password": "",
@@ -85,7 +86,7 @@ class JoinRoomPage(Page):
                 self.output_data["roomID"] = self.components["roomID_input_box"].input
                 self.output_data["room_password"] = self.components["password_input_box"].input
                 print("input value")
-                self.name = "hostroom"
+                self.name = "playerroom"
             elif triggered_component in [self.components["back_button"]]:
                 self.name = "room_tab"
             else:

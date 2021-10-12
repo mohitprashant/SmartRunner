@@ -60,11 +60,13 @@ class Page:
                     self.resize_components()
                 triggered_component_list = []
                 top_layer_triggered = False
+
                 # go down layers at mouse pos and only trigger top layer surface
                 for layer in reversed(self.layers):
+                    active_layer = layer
                     pos = pygame.mouse.get_pos()
                     if event.type == pygame.MOUSEBUTTONDOWN and layer.display_rect.collidepoint(pos):
-                        layer.trigger(event)
+                        print(layer.trigger(event))
                         print(component.name)
                         triggered_component_list.append(layer)
                         top_layer_triggered = True
@@ -83,9 +85,10 @@ class Page:
                                     triggered_component_list.append(component)
                 self.page_function(triggered_component_list)
                 #for navigation
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.type == pygame.MOUSEBUTTONDOWN and top_layer_triggered==False:
                     self.output_data["current_page"] = self.name
                     #uncomment for navigation(doesn't work w scrollable currently)
+                    pygame.display.update()
                     return self.output_data, self.input_data
 
             pygame.display.update()
