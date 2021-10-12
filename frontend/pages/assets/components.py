@@ -180,6 +180,7 @@ class ToggleButton(ImageButton):
                         self.image = self.toggle_image
                         self.toggled = True
                     self.clicked = True  # prevent multiple input by holding click
+                    action = True
                     self.resize(self.screen)
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:  # when left click is let go
@@ -659,6 +660,7 @@ class SelectableTextButton(TextboxButton):
                     else:
                         self.active = True
                         self.back_color = self.active_color
+                    action = True
         return action
 
     def resize(self, new_screen):
@@ -687,6 +689,7 @@ class SingleSelectableTextButton(SelectableTextButton):
                 else:
                     self.active = False
                     self.back_color = self.passive_color
+                action = True
         return action
 
 
