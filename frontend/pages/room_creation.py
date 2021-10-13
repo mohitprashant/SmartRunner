@@ -60,6 +60,7 @@ class RoomCreationPage(Page):
                                         back_button_rel_height, back_button_img)
         self.components["back_button"] = back_button
 
+
         # room ID text input box
         roomID_input_rel_x = 1 / 2
         roomID_input_rel_y = 1 / 2

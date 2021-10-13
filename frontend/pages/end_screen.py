@@ -93,7 +93,7 @@ class EndScreenPage(Page):
             self.output_data["score_board"] = self.input_data["score_board"]
             if triggered_component in [self.components["share_button"]]:
                 self.output_data["prev_page"] = self.name
-                self.name = "share"
+                self.name = "share_results"
             # if triggered_component in [self.components["player_results"]]:
             #     print("store  in self.output_data[roomID] for sharing")
             else:
