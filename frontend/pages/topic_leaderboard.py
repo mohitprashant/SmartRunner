@@ -10,12 +10,14 @@ class TopicLeaderboardPage(Page):
         self.input_data = {
             "topic_leaderboard_ID": "",
             "topic_leaderboard": [],
+            "username":"username"
         }
         self.output_data = {
             "current_page": self.name,
             "prev_page": "",
             "topic_leaderboard_ID":"",
             "topic_leaderboard":"",
+            "username":"",
             "exit": False
         }
 
@@ -99,9 +101,10 @@ class TopicLeaderboardPage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["topic_leaderboard_ID"] = self.input_data["topic_leaderboard_ID"]
             self.output_data["topic_leaderboard"] = self.input_data["topic_leaderboard"]
+            self.output_data["username"] = self.input_data["username"]
             self.output_data["prev_page"] = self.name
             if triggered_component in [self.components["share_button"]]:
-                self.name = "share"
+                self.name = "share_results"
             if triggered_component in [self.components["return_button"]]:
                 self.name = "leadselect"
             # if triggered_component in ["player_score_display", "share_button", "return_button"]:

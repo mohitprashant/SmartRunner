@@ -8,9 +8,9 @@ class CustomSelectPage(Page):
         super().__init__(screen)
         self.name = "custom_select"
         self.input_data = {
-            "roomID": "RoomID",
+            "roomID": "",
             "username": "",
-            "room_password": "",
+            # "room_password": "",
             "custom_questions": [],
         }
         self.output_data = {
@@ -18,7 +18,8 @@ class CustomSelectPage(Page):
             "prev_page": "",
             "room_ID": "",
             "username": "",
-            "room_password": "",
+            # "room_password": "",
+            "custom_questions":"",
             "exit": False
         }
 
@@ -105,13 +106,27 @@ class CustomSelectPage(Page):
                                     confirm_button2_height, confirm_button2__img)
         self.components["confirm_button2"] = confirm_button2
 
+        # confirm button
+        add_question_button2_x = 0.78
+        add_question_button2_y = 13 / 20
+        add_question_button2_width = 1 / 10
+        add_question_button2_height = 1 / 10
+        add_question_button2__img = pygame.image.load('assets/img/load_btn.png')
+        add_question_button2 = ImageButton("add_question_button2", screen, add_question_button2_x, add_question_button2_y,
+                                      add_question_button2_width,
+                                      add_question_button2_height, add_question_button2__img)
+        self.components["add_question_button2"] = add_question_button2
+
         # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["username"] = self.input_data["username"]
+            self.output_data["custom_questions"] = self.input_data["custom_questions"]
             #self.output_data["room_password"] = self.input_data["room_password"]
             if triggered_component in [self.components["return_button2"]]:
                 self.name = "host_settings"
-            if triggered_component in [self.components["confirm_button2"]]:
+            if triggered_component in [self.components["add_question_button2"]]:
                 print("Go to custom quiz creation page")
+            if triggered_component in [self.components["confirm_button2"]]:
+                print("Go to game session")
