@@ -10,14 +10,14 @@ class HostSettingsPage(Page):
         self.input_data = {
             "roomID": "",
             "username": "",
-            "room_password": ""
+            # "room_password": ""
         }
         self.output_data = {
             "current_page": self.name,
             "prev_page": "",
             "room_ID": "",
             "username": "",
-            "room_password": "",
+            # "room_password": "",
             "Toggle_Host": False,
             "exit": False
         }

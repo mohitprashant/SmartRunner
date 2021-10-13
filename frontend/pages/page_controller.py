@@ -17,6 +17,7 @@ from end_screen import *
 from topic_leaderboard import *
 from share_results import *
 from custom_select import *
+from create_account import *
 '''
 main controller of the system
 int screen_width starting width of screen
@@ -36,7 +37,7 @@ score_board = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "Us
 topicleadselect = {"Leaderboard 1": ["wee",'woo'], "Leaderboard 2": ["hee", "hoo"]}
 roomID = ["R1", "R2", "R3", "R4"]
 room_password = ["R1_P", "R2_P", "R3_P", "R4_P"]
-custom_questions = ["1+1: 2  4   5", "4+4: 3  8  10", "3+2: 1  2   5", "3+3: 6 3   5", "7+2: 1  9   6", "8+2: 10  2   5", "6+2: 8  1   5"]
+custom_questions = ["1+1: 2  4   5", "4+4: 3  8  10", "3+2: 1  2   5", "3+3: 6  3   5", "7+2: 1  9   6", "8+2: 10  2   5", "6+2: 8  1   5"]
 Toggle = ["True", "False"]
 subjectlist = ["English", "Math", "Science"]
 topiclist = {"English": ["Noun", "Tense", "Verb", "Adjectives"], "Math": ["Subtraction", "Addition", "Multiplication", "Division"], "Science": ["Matter", "Magnets", "Organism Classification"]}
@@ -69,6 +70,7 @@ class PageController:
         self.topic_leaderboard = TopicLeaderboardPage(self.screen)
         self.room_creation = RoomCreationPage(self.screen)
         self.custom_select = CustomSelectPage(self.screen)
+        self.create_account = CreateAccountPage(self.screen)
 
 
 
@@ -78,10 +80,8 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            # input data goes to the leaderboardselection page
-            "leaderboardlist": leadselect
         }
-        page_data = self.leadselect.start(self.screen, input_data)
+        page_data = self.create_account.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print(self.current_page)
@@ -100,27 +100,29 @@ class PageController:
                 input_data = {
                     "roomID": roomID,
                     "username": username,
-                    "password": password
+                    # "password": password
                 }
                 page_data = self.host_settings.start(self.screen, input_data)
             if page_data[0]["current_page"] == "custom_select":
                 input_data = {
                     "roomID": roomID,
                     "username": username,
-                    "password": password,
+                    # "password": password,
                     "custom_questions": custom_questions
                 }
                 page_data = self.custom_select.start(self.screen, input_data)
             if page_data[0]["current_page"] == "share":
                 input_data = {
                     "roomID": roomID,
-                    "room_password": room_password
+                    "room_password": room_password,
+                    "username": username
                 }
                 page_data = self.share.start(self.screen, input_data)
             if page_data[0]["current_page"] == "share_results":
                 input_data = {
                     "roomID": roomID,
-                    "score_board": score_board
+                    "score_board": score_board,
+                    "username": username
                 }
                 page_data = self.share_results.start(self.screen, input_data)
             if page_data[0]["current_page"] == "main_menu":
@@ -133,14 +135,16 @@ class PageController:
                         page_data[0]["topic_leaderboard_ID"] = page_data[1]["topic_leaderboard_ID"]
                     input_data = {
                         "topic_leaderboard": topicleadselect,
-                        "topic_leaderboard_ID": page_data[0]["topic_leaderboard_ID"]
+                        "topic_leaderboard_ID": page_data[0]["topic_leaderboard_ID"],
+                        "username":username
                     }
                 page_data = self.topic_leaderboard.start(self.screen, input_data)
                 print(page_data[0]["current_page"], "next")
             if page_data[0]["current_page"] == "end_screen":
                 input_data = {
                     "score_board": score_board,
-                    "roomID": page_data[1]["roomID"]
+                    "roomID": page_data[1]["roomID"],
+                    "username": username
                 }
                 page_data = self.end_screen.start(self.screen, input_data)
             if page_data[0]["current_page"] == "login":
@@ -149,7 +153,10 @@ class PageController:
                     "password": password
                 }
                 page_data = self.login.start(self.screen, input_data)
-
+            if page_data[0]["current_page"] == "create_account":
+                input_data = {
+                }
+                page_data = self.create_account.start(self.screen, input_data)
             if page_data[0]["current_page"] == "room_tab":
                 input_data = {
                     "username": username
@@ -158,15 +165,15 @@ class PageController:
             if page_data[0]["current_page"] == "room_creation":
                 input_data = {
                     "username": username,
-                    "roomID": roomID,
-                    "room_password": room_password
+                    # "roomID": roomID,
+                    # "room_password": room_password
                 }
                 page_data = self.room_creation.start(self.screen, input_data)
             if page_data[0]["current_page"] == "join_room":
                 input_data = {
                     "username": username,
-                    "roomID": roomID,
-                    "room_password": room_password
+                    # "roomID": roomID,
+                    # "room_password": room_password
                 }
                 page_data = self.join_room.start(self.screen, input_data)
 

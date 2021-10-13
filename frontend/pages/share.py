@@ -10,10 +10,12 @@ class SharePage(Page):
         self.input_data = {
             "roomID": "RoomID",
             "room_password": "",
+            "username":"username"
         }
         self.output_data = {
             "room_ID": "",
             "room_password": "",
+            "username":"",
             "prev_page": "",
             "toggle_password": False,
             "exit": False
@@ -135,6 +137,7 @@ class SharePage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["room_password"] = self.input_data["room_password"]
+            self.output_data["username"] = self.input_data["username"]
             self.output_data["prev_page"] = self.name
             if triggered_component in [self.components["twitter_button"]]:
                 print("open twitter")

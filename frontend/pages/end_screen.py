@@ -10,12 +10,14 @@ class EndScreenPage(Page):
         self.input_data = {
             "score_board": [],
             "roomID": "Room ID",
+            "username":"",
         }
         self.output_data = {
             "current_page": self.name,
             "prev_page": "",
             "room_ID": "",
             "score_board": "",
+            "username":"",
             "exit": False
         }
 
@@ -91,8 +93,9 @@ class EndScreenPage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["score_board"] = self.input_data["score_board"]
+            self.output_data["username"] = self.input_data["username"]
+            self.output_data["prev_page"] = self.name
             if triggered_component in [self.components["share_button"]]:
-                self.output_data["prev_page"] = self.name
                 self.name = "share_results"
             # if triggered_component in [self.components["player_results"]]:
             #     print("store  in self.output_data[roomID] for sharing")
