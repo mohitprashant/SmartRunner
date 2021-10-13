@@ -12,7 +12,8 @@ class MainMenuPage(Page):
         }
         self.output_data = {
             "current_page": self.name,
-            "username": self.input_data["username"],
+            "prev_page": "",
+            "username": "",
             "exit": False
         }
 
@@ -58,6 +59,7 @@ class MainMenuPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["username"] = self.input_data["username"]
             if triggered_component in [self.components["single_player_button"]]:
                 self.name = "singleplayer"
             elif triggered_component in [self.components["room_button"]]:

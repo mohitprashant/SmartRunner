@@ -15,9 +15,10 @@ class CustomSelectPage(Page):
         }
         self.output_data = {
             "current_page": self.name,
-            "room_ID": self.input_data["roomID"],
-            "username": self.input_data["username"],
-            "room_password": self.input_data["room_password"],
+            "prev_page": "",
+            "room_ID": "",
+            "username": "",
+            "room_password": "",
             "exit": False
         }
 
@@ -40,40 +41,46 @@ class CustomSelectPage(Page):
         # self.components["custom_questions"] = custom_quiz_display
         # print("displayed")
 
-        # player list
-        relative_x = 4 / 20
-        relative_y = 7 / 40
-        relative_width = 0.8
-        text_relative_height = 8/ 10
-        shown_relative_width = 6 / 10
-        shown_relative_height = 3 / 5
-        custom_questions_whole = MouseScrollableSurface("custom_questions_whole", screen, relative_x,
-                                                           relative_y, relative_width,
-                                                           text_relative_height, shown_relative_width,
-                                                           shown_relative_height,
-                                                           screen)
-        # create surface
-        self.components["custom_questions_whole"] = custom_questions_whole
-        self.layers.append(custom_questions_whole)
+        # # player list
+        # relative_x = 4 / 20
+        # relative_y = 7 / 40
+        # relative_width = 0.8
+        # text_relative_height = 8/ 10
+        # shown_relative_width = 6 / 10
+        # shown_relative_height = 3 / 5
+        # custom_questions_whole = MouseScrollableSurface("custom_questions_whole", screen, relative_x,
+        #                                                    relative_y, relative_width,
+        #                                                    text_relative_height, shown_relative_width,
+        #                                                    shown_relative_height,
+        #                                                    screen)
+        # # create surface
+        # self.components["custom_questions_whole"] = custom_questions_whole
+        # self.layers.append(custom_questions_whole)
 
         # SelectableTextList
-        relative_x = 1 / 40
-        relative_y = 1/40
-        relative_width = 0.71
-        text_relative_height = 0.23
-        shown_relative_width = 8 / 10
-        shown_relative_height = 0.8
+        relative_x = 1 / 20
+        relative_y = 3 / 20
+        relative_width = 0.8
+        text_relative_height = 1 / 10
+        shown_relative_width = 7 / 10
+        shown_relative_height = 3 / 5
+        # relative_x = 4/20
+        # relative_y = 7/40
+        # relative_width = 0.8
+        # text_relative_height = 8/10
+        # shown_relative_width = 6 / 10
+        # shown_relative_height = 0.6
         custom_questions_list = self.input_data["custom_questions"]
         # print(self.input_data.keys())
         # print(custom_questions_list)
 
-        custom_questions = SelectableTextList("custom_questions", custom_questions_whole.surface, relative_x,
+        custom_questions = SelectableTextList("custom_questions", screen, relative_x,
                                                    relative_y, relative_width,
                                                    text_relative_height, shown_relative_width, shown_relative_height,
                                                    custom_questions_list, screen, single_select=False, active_color="blue")
 
-        #self.components["custom_questions"] = custom_questions
-        custom_questions_whole.add_component(custom_questions)
+        self.components["custom_questions"] = custom_questions
+        #custom_questions_whole.add_component(custom_questions)
         self.layers.append(custom_questions)
 
         # return button
@@ -101,6 +108,9 @@ class CustomSelectPage(Page):
         # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["roomID"] = self.input_data["roomID"]
+            self.output_data["username"] = self.input_data["username"]
+            self.output_data["room_password"] = self.input_data["room_password"]
             if triggered_component in [self.components["return_button2"]]:
                 self.name = "host_settings"
             if triggered_component in [self.components["confirm_button2"]]:

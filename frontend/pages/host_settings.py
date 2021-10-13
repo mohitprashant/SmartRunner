@@ -14,9 +14,10 @@ class HostSettingsPage(Page):
         }
         self.output_data = {
             "current_page": self.name,
-            "room_ID": self.input_data["roomID"],
-            "username": self.input_data["username"],
-            "room_password": self.input_data["room_password"],
+            "prev_page": "",
+            "room_ID": "",
+            "username": "",
+            "room_password": "",
             "Toggle_Host": False,
             "exit": False
         }
@@ -139,6 +140,9 @@ class HostSettingsPage(Page):
         # each button should link to a new screen
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["roomID"] = self.input_data["roomID"]
+            self.output_data["username"] = self.input_data["username"]
+            self.output_data["room_password"] = self.input_data["room_password"]
             if triggered_component in [self.components["global_question_button"]]:
                 self.name = "singleplayer"
             if triggered_component in [self.components["custom_quiz_button"]]:

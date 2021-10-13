@@ -14,8 +14,8 @@ class TopicLeaderboardPage(Page):
         self.output_data = {
             "current_page": self.name,
             "prev_page": "",
-            "topic_leaderboard_ID": self.input_data["topic_leaderboard_ID"],
-            "topic_leaderboard": self.input_data["topic_leaderboard"],
+            "topic_leaderboard_ID":"",
+            "topic_leaderboard":"",
             "exit": False
         }
 
@@ -97,6 +97,8 @@ class TopicLeaderboardPage(Page):
     #how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["topic_leaderboard_ID"] = self.input_data["topic_leaderboard_ID"]
+            self.output_data["topic_leaderboard"] = self.input_data["topic_leaderboard"]
             self.output_data["prev_page"] = self.name
             if triggered_component in [self.components["share_button"]]:
                 self.name = "share"

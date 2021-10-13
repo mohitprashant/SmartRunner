@@ -12,7 +12,8 @@ class RoomTabPage(Page):
         }
         self.output_data = {
             "current_page": self.name,
-            "username": self.input_data["username"],
+            "prev_page": "",
+            "username": "",
             "exit": False
         }
 
@@ -100,6 +101,7 @@ class RoomTabPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["username"] = self.input_data["username"]
             if triggered_component in [self.components["create_room_button"]]:
                 self.name = "room_creation"
             elif triggered_component in [self.components["manage_room_button"]]:

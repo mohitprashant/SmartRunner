@@ -12,7 +12,8 @@ class ShareResultsPage(Page):
             "score_board": []
         }
         self.output_data = {
-            "room_ID": self.input_data["roomID"],
+            "room_ID": "",
+            "prev_page": "",
             "toggle_password": False,
             "exit": False
         }
@@ -54,10 +55,10 @@ class ShareResultsPage(Page):
         twitter_button_width = 1 / 4
         twitter_button_height = 0.30
         twitter_button_img = pygame.image.load('assets/img/twitter.png')
-        twitter_button = ImageButton("twitter_button", screen, twitter_button_x, twitter_button_y,
+        twitter_button2 = ImageButton("twitter_button", screen, twitter_button_x, twitter_button_y,
                                          twitter_button_width,
                                          twitter_button_height, twitter_button_img)
-        self.components["twitter_button"] = twitter_button
+        self.components["twitter_button"] = twitter_button2
 
         # IG Button
         ig_button_x = 10 / 20
@@ -65,10 +66,10 @@ class ShareResultsPage(Page):
         ig_button_width = 0.18
         ig_button_height = 1 / 5
         ig_button_img = pygame.image.load('assets/img/Instagram.png')
-        ig_button = ImageButton("ig_button", screen, ig_button_x, ig_button_y,
+        ig_button2 = ImageButton("ig_button", screen, ig_button_x, ig_button_y,
                                      ig_button_width,
                                      ig_button_height, ig_button_img)
-        self.components["ig_button"] = ig_button
+        self.components["ig_button"] = ig_button2
 
 
         # whatsapp Button
@@ -77,10 +78,10 @@ class ShareResultsPage(Page):
         whatsapp_button_width = 1 / 4
         whatsapp_button_height = 1 / 4
         whatsapp_button_img = pygame.image.load('assets/img/whatsapp.png')
-        whatsapp_button = ImageButton("whatsapp_button", screen, whatsapp_button_x, whatsapp_button_y,
+        whatsapp_button2 = ImageButton("whatsapp_button", screen, whatsapp_button_x, whatsapp_button_y,
                                 whatsapp_button_width,
                                 whatsapp_button_height, whatsapp_button_img)
-        self.components["whatsapp_button"] = whatsapp_button
+        self.components["whatsapp_button"] = whatsapp_button2
 
         # Telegram Button
         telegram_button_x = 8.5 / 20
@@ -88,10 +89,10 @@ class ShareResultsPage(Page):
         telegram_button_width = 1 / 3
         telegram_button_height = 1 / 4
         telegram_button_img = pygame.image.load('assets/img/telegram.png')
-        telegram_button = ImageButton("telegram_button", screen, telegram_button_x, telegram_button_y,
+        telegram_button2 = ImageButton("telegram_button", screen, telegram_button_x, telegram_button_y,
                                       telegram_button_width,
                                       telegram_button_height, telegram_button_img)
-        self.components["telegram_button"] = telegram_button
+        self.components["telegram_button"] = telegram_button2
 
         # return button
         return_button_x = 17 / 20
@@ -99,16 +100,18 @@ class ShareResultsPage(Page):
         return_button_width = 1 / 10
         return_button_height = 1 / 10
         return_button__img = pygame.image.load('assets/img/exit_btn.png')
-        return_button = ImageButton("return_button", screen, return_button_x, return_button_y,
+        return_button2 = ImageButton("return_button", screen, return_button_x, return_button_y,
                                     return_button_width,
                                     return_button_height, return_button__img)
-        self.components["return_button"] = return_button
+        self.components["return_button"] = return_button2
 
 
 
         # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["roomID"] = self.input_data["roomID"]
+            self.output_data["prev_page"] = self.name
             if triggered_component in [self.components["twitter_button"]]:
                 print("open twitter")
             if triggered_component in [self.components["ig_button"]]:

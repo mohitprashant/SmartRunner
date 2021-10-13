@@ -12,8 +12,9 @@ class SharePage(Page):
             "room_password": "",
         }
         self.output_data = {
-            "room_ID": self.input_data["roomID"],
-            "room_password": self.input_data["room_password"],
+            "room_ID": "",
+            "room_password": "",
+            "prev_page": "",
             "toggle_password": False,
             "exit": False
         }
@@ -33,9 +34,20 @@ class SharePage(Page):
         toggle_rel_height = 1 / 10
         toggle_image = pygame.image.load('assets/img/save_btn.png')
         toggle_image2 = pygame.image.load('assets/img/load_btn.png')
-        toggle_password = ToggleButton("toggle", screen, toggle_rel_x, toggle_rel_y, toggle_rel_width, toggle_rel_height,
+        toggle_pw = ToggleButton("toggle_pw", screen, toggle_rel_x, toggle_rel_y, toggle_rel_width, toggle_rel_height,
                               toggle_image, toggle_image2)
-        self.components["toggle"] = toggle_password
+        self.components["toggle_pw"] = toggle_pw
+
+        # toggle test
+        # toggle_rel_x = 9 / 20
+        # toggle_rel_y = 1 / 20
+        # toggle_rel_width = 1 / 10
+        # toggle_rel_height = 1 / 10
+        # toggle_image = pygame.image.load('assets/img/save_btn.png')
+        # toggle_image2 = pygame.image.load('assets/img/load_btn.png')
+        # toggle_password = ToggleButton("toggle", screen, toggle_rel_x, toggle_rel_y, toggle_rel_width, toggle_rel_height,
+        #                       toggle_image, toggle_image2)
+        # self.components["toggle"] = toggle_password
 
         #Include Room password Toggle
         #Need to change it to toggle
@@ -121,6 +133,9 @@ class SharePage(Page):
         # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["roomID"] = self.input_data["roomID"]
+            self.output_data["room_password"] = self.input_data["room_password"]
+            self.output_data["prev_page"] = self.name
             if triggered_component in [self.components["twitter_button"]]:
                 print("open twitter")
             if triggered_component in [self.components["ig_button"]]:
@@ -131,7 +146,10 @@ class SharePage(Page):
                 print("open telegram")
             if triggered_component in [self.components["return_button"]]:
                 print("go back to game session")
-            if triggered_component in [self.components["toggle_password"].activated == True]:
-                print("go back to game session")
+            if triggered_component in [self.components["toggle_pw"]]:
+                #print("hello")
+                if triggered_component.toggled:
+                    self.output_data["toggle_password"] = True
+                    print("Include room password")
 
 

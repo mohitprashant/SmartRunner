@@ -13,8 +13,9 @@ class EndScreenPage(Page):
         }
         self.output_data = {
             "current_page": self.name,
-            "room_ID": self.input_data["roomID"],
-            "score_board": self.input_data["score_board"],
+            "prev_page": "",
+            "room_ID": "",
+            "score_board": "",
             "exit": False
         }
 
@@ -88,7 +89,10 @@ class EndScreenPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["roomID"] = self.input_data["roomID"]
+            self.output_data["score_board"] = self.input_data["score_board"]
             if triggered_component in [self.components["share_button"]]:
+                self.output_data["prev_page"] = self.name
                 self.name = "share"
             # if triggered_component in [self.components["player_results"]]:
             #     print("store  in self.output_data[roomID] for sharing")
