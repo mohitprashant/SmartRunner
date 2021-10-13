@@ -47,7 +47,7 @@ class HostRoomPage(Page):
                                                   text_relative_height, shown_relative_width, shown_relative_height,
                                                   text_list, screen, single_select=True, active_color="white")
         self.components["selectable_text_list"] = selectable_text_list
-        self.layers.append(selectable_text_list)
+        #self.layers.append(selectable_text_list)
 
         # exit button
         exit_button_rel_x = 1 / 15

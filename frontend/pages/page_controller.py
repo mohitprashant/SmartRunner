@@ -3,6 +3,7 @@ from login import *
 from main_menu import *
 from singleplayer import *
 from leaderboardselection import *
+from managerooms import *
 from hostroom import *
 from playerroom import *
 from analyticsselection import *
@@ -10,7 +11,6 @@ from uniqueanalytics import *
 from room_tab import *
 from room_creation import *
 from join_room import *
-from managerooms import *
 from host_settings import *
 from share import *
 from end_screen import *
@@ -68,7 +68,7 @@ class PageController:
         self.end_screen = EndScreenPage(self.screen)
         self.topic_leaderboard = TopicLeaderboardPage(self.screen)
         self.room_creation = RoomCreationPage(self.screen)
-        self.custom_select = CustomSelectPage(self.screen)
+        #self.custom_select = CustomSelectPage(self.screen)
 
 
 
@@ -78,23 +78,26 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            # input data goes to the leaderboardselection page
-            "leaderboardlist": leadselect
+            "subjectlist": subjectlist,
+            "topiclist": topiclist,
+            "difficultylist": difficultylist,
+            "subject_topic_list": ["Select Topic"],
+            "subjectselection": "English"
         }
-        page_data = self.leadselect.start(self.screen, input_data)
+        page_data = self.singleplayer.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
-            print(self.current_page)
+            print("current page", self.current_page)
             if page_data[0]["exit"]:
                 break
             if page_data[0]["current_page"] == "singleplayer":
                 input_data = {
-                        "subjectlist": subjectlist,
-                        "topiclist": topiclist,
-                        "difficultylist": difficultylist,
-                        "subject_topic_list": ["Select Topic"],
-                        "subjectselection": page_data[1]["subjectselection"]
-                    }
+                    "subjectlist": subjectlist,
+                    "topiclist": topiclist,
+                    "difficultylist": difficultylist,
+                    "subject_topic_list": ["Select Topic"],
+                    "subjectselection": page_data[1]["subjectselection"]
+                }
                 page_data = self.singleplayer.start(self.screen, input_data)
             if page_data[0]["current_page"] == "host_settings":
                 input_data = {
@@ -128,13 +131,13 @@ class PageController:
                     "username": username
                 }
                 page_data = self.main_menu.start(self.screen, input_data)
-                if page_data[0]["current_page"] == "topic_leaderboard":
-                    if page_data[0]["prev_page"] == "topic_leaderboard":
-                        page_data[0]["topic_leaderboard_ID"] = page_data[1]["topic_leaderboard_ID"]
-                    input_data = {
-                        "topic_leaderboard": topicleadselect,
-                        "topic_leaderboard_ID": page_data[0]["topic_leaderboard_ID"]
-                    }
+            if page_data[0]["current_page"] == "topic_leaderboard":
+                if page_data[0]["prev_page"] == "topic_leaderboard":
+                    page_data[0]["topic_leaderboard_ID"] = page_data[1]["topic_leaderboard_ID"]
+                input_data = {
+                    "topic_leaderboard": topicleadselect,
+                    "topic_leaderboard_ID": page_data[0]["topic_leaderboard_ID"]
+                }
                 page_data = self.topic_leaderboard.start(self.screen, input_data)
                 print(page_data[0]["current_page"], "next")
             if page_data[0]["current_page"] == "end_screen":
