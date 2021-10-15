@@ -2,6 +2,8 @@ import pathlib
 import firebase_admin as fa
 import sys
 import time
+import hashlib
+import random
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent.resolve()) + "/../..")
 from firebase_admin import credentials
@@ -40,9 +42,9 @@ def get_topics(subject):
     return items
 
 
-def get_questions(subject, topic):
+def get_questions(subject, topic, room_id = "", quiz_name = ""):
     """
-    Returns an array of questions from the subject and topic.
+    Returns a randomised array of questions from the subject and topic.
     Each question is of a dictionary type.
     """
     query = db.collection("subjects").document(subject).collection(topic).get()
@@ -51,8 +53,49 @@ def get_questions(subject, topic):
     for question in query:
         questions.append(question.to_dict())
         
-    return questions
+    if room_id != "":
+        if quiz_name == "":
+            raise Exception("Quiz name is missing")
 
+        custom_questions = db.collection("rooms")\
+                            .document(room_id)\
+                            .collection("quizzes")\
+                            .document(quiz_name)\
+                            .collection("questions")\
+                            .get()
+        for custom_question in custom_questions:
+            questions.append(custom_question.to_dict())
+
+    # This randomises the questions to prevent the same questions from being selected each time
+    numQuestions = len(questions)
+    randomised_questions = []
+    samples = random.sample(range(numQuestions), numQuestions)
+    for sample in samples:
+        randomised_questions.append(questions[sample])
+
+    return randomised_questions
+
+def add_custom_questions(room_id, quiz_name, questions):
+    """
+    Adds the given list of custom questions to the room_id
+    """
+    if type(room_id) is not str or type(quiz_name) is not str:
+        raise Exception("Given arguments are not of type str")
+
+    if room_id == "" or quiz_name == "":
+        raise Exception("Given arguments cannot be empty")
+
+    if type(questions) is not list:
+        raise Exception("Given question object is not a list")
+
+    # Must check entire list before adding to database, or there will be duplicate additions
+    for question in questions:
+        check_fields(question, Enums.question_fields)
+
+    for question in questions:
+        db.collection("rooms").document(room_id)\
+            .collection("quizzes").document(quiz_name)\
+            .collection("questions").document().set(question)
 
 def get_leaderboard(subject, topic):
     """
@@ -100,14 +143,18 @@ def update_leaderboard(user, subject, topic):
             db.collection("leaderboard").document(subject).collection(topic).document().set(user)
 
 
-def add_question(subject, topic, question):
+def add_global_questions(subject, topic, questions):
     """
     Add a question to the specified subject and topic
     Throws an exception if the given question is not a dictionary type or does not have the specified keys
     """
-    check_fields(question, Enums.question_fields)
-    
-    db.collection("subjects").document(subject).collection(topic).document().set(question)
+    # Must check entire list before adding to database, or there will be duplicate additions
+    for question in questions:
+        check_fields(question, Enums.question_fields)
+
+    for question in questions:
+        db.collection("subjects").document(subject).collection(topic).document().set(question)
+
     return question
 
 
@@ -134,6 +181,124 @@ def get_user_by_username(username):
         return {}
     
     return users[0].to_dict()
+
+def create_room(host_id, room_name, room_password):
+    """
+    Creates a custom game room given host_id, room_name, room_password
+    Returns the random 6 digit room_id as a string if successfully created, or an empty string if the room already exists
+    """
+    if type(host_id) is not str or type(room_name) is not str or type(room_password) is not str:
+        raise Exception("Given arguments are not of type str")
+
+    if host_id == "" or room_name == "" or room_password == "":
+        raise Exception("Given arguments cannot be empty")
+
+    if room_name_exists(room_name) is True:
+        return ""
+
+    # add password restriction checks here if required
+
+    set_data = {
+        "host_id": host_id, 
+        "room_name": room_name, 
+        "room_password_hash": hash_string_sha256(room_password)
+    }
+
+    room_id = generate_room_id()
+    # Regenerate room_id until we get a unique one
+    while room_id_exists(room_id):
+        room_id = generate_room_id()
+
+    db.collection("rooms").document(room_id).set(set_data)
+
+    return room_id
+
+def get_room_by_id(room_id):
+    """
+    Returns the DocumentSnapshot of a room if it exists. Returns an empty string if it does not.
+    """
+    if type(room_id) is not str:
+        raise Exception("Given argument is not of type str")
+
+    if room_id_exists(room_id) is False:
+        return ""
+
+    room = db.collection("rooms").document(room_id).get()
+    return room
+
+def join_room(room_id, room_password):
+    if type(room_id) is not str or type(room_password) is not str:
+        raise Exception("Given arguments are not of type str")
+
+    if room_id == "" or room_password == "":
+        raise Exception("Given arguments cannot be empty")
+    
+    room = get_room_by_id(room_id)
+    if room == "":
+        return False
+
+    storedHash = room.to_dict()["room_password_hash"]
+    if storedHash != hash_string_sha256(room_password):
+        return False
+    else:
+        return True
+
+def room_name_exists(room_name):
+    """
+    Returns True if room exists based on room_name, else False
+    """
+    if type(room_name) is not str:
+        raise Exception("Given argument is not of type str")
+    
+    result = db.collection("rooms")\
+                .where("room_name", "==", room_name)\
+                .get()
+    
+    if len(result) != 0:
+        return True
+    else:
+        return False
+
+def room_id_exists(room_id):
+    """
+    Returns True if room exists based on room_id, else False
+    """
+    if type(room_id) is not str:
+        raise Exception("Given argument is not of type str")
+    
+    result = db.collection("rooms").document(room_id).get()
+    if result.exists:
+        return True
+    else:
+        return False
+
+def get_room_quizzes(room_id):
+    """
+    Returns a list of quizzes in this room_id. 
+    Returns an empty list if the room does not have any custom quizzes or if the room does not exist.
+    """
+    if type(room_id) is not str:
+        raise Exception("Given argument is not of type str")
+
+    if room_id_exists(room_id) is False:
+        return []
+
+    quizzes = []
+    
+    query = db.collection("rooms").document(room_id).collection("quizzes").get()
+    for quiz in query:
+        quizzes.append(quiz.id)
+
+    return quizzes
+    
+def generate_room_id():
+    return str(random.randint(0, 999999)).rjust(6, '0')
+
+def hash_string_sha256(plaintext):
+    if type(plaintext) is not str:
+        raise Exception("Given arguments is not of type str")
+    
+    return hashlib.sha256(plaintext.encode()).hexdigest()
 
 # print(get_subjects())
 # print(get_topics('Mathematics'))
