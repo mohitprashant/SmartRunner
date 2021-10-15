@@ -57,12 +57,7 @@ def get_questions(subject, topic, room_id = "", quiz_name = ""):
         if quiz_name == "":
             raise Exception("Quiz name is missing")
 
-        custom_questions = db.collection("rooms")\
-                            .document(room_id)\
-                            .collection("quizzes")\
-                            .document(quiz_name)\
-                            .collection("questions")\
-                            .get()
+        custom_questions = get_custom_questions()
         for custom_question in custom_questions:
             questions.append(custom_question.to_dict())
 
@@ -74,6 +69,22 @@ def get_questions(subject, topic, room_id = "", quiz_name = ""):
         randomised_questions.append(questions[sample])
 
     return randomised_questions
+
+def get_custom_questions(room_id, quiz_name):
+    if type(room_id) is not str or type(quiz_name) is not str:
+        raise Exception("Given arguments are not of type str")
+
+    if room_id == "" or quiz_name == "":
+        raise Exception("Given arguments cannot be empty")
+
+    questions = db.collection("rooms")\
+                            .document(room_id)\
+                            .collection("quizzes")\
+                            .document(quiz_name)\
+                            .collection("questions")\
+                            .get()
+    
+    return questions
 
 def add_custom_questions(room_id, quiz_name, questions):
     """
