@@ -114,7 +114,7 @@ def is_user_valid(user):
 
 
 #print(sign_in('example@mail.com', '123456'))
-#print(create_account('example@mail.com', '123456'))
+#print(create_account.py('example@mail.com', '123456'))
 # print(create_account_confirm_password('example@mail.com', '123456', '123456'))
 # print(reset_account_password('example@mail.com'))
 #print(get_user_account_info(sign_in('example@mail.com', '123456')['idToken']))
