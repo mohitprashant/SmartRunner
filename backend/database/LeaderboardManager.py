@@ -1,4 +1,4 @@
-import FirebaseManager
+from backend.database import FirebaseManager
 from backend.database import Enums
 from backend.database.DatabaseManager import check_fields
 

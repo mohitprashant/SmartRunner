@@ -1,5 +1,5 @@
 import random
-import FirebaseManager
+from backend.database import FirebaseManager
 from backend.database import Enums
 from backend.database.DatabaseManager import check_fields
 from backend.database.RoomManager import room_id_exists, is_room_host
@@ -146,6 +146,7 @@ def delete_custom_question(user_id, room_id, quiz_name, question_id):
 
     question = query[0]
 
-    db.collection("rooms").document(room_id).collection("quizzes").document(quiz_name).collection("questions").document(question.id).delete()
+    db.collection("rooms").document(room_id).collection("quizzes").document(quiz_name).collection("questions")\
+        .document(question.id).delete()
 
     return True

@@ -1,5 +1,5 @@
 import random
-import FirebaseManager
+from backend.database import FirebaseManager
 from backend.util.util import hash_string_sha256
 
 db = FirebaseManager.get_firestore()

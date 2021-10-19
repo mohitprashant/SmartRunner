@@ -3,16 +3,17 @@ import uuid
 import sys
 import pathlib
 import time
+from backend.database import DatabaseManager, QuestionManager, LeaderboardManager, RoomManager
+from backend.database import Enums
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent.resolve()) + "/../..")
-from backend.database import DatabaseManager
-from backend.database import Enums
+
 
 class TestSubjects(unittest.TestCase):
     def test_get_subjects(self):
         num_subjects = 5
         valid_subjects = ['Biology', 'Chemistry', 'Economics', 'Mathematics', 'Physics']
-        subjects = DatabaseManager.get_subjects()
+        subjects = QuestionManager.get_subjects()
         # check number of Math topics
         self.assertEqual(num_subjects, len(subjects))
         # check all topic names
@@ -24,7 +25,7 @@ class TestTopics(unittest.TestCase):
     def test_get_math_topics(self):
         num_math_topics = 5
         valid_topics = ['Algebra', 'Calculus', 'Geometry', 'Numbers', 'Statistics']
-        topics = DatabaseManager.get_topics('Mathematics')
+        topics = QuestionManager.get_topics('Mathematics')
         # check number of Math topics
         self.assertEqual(num_math_topics, len(topics))
         # check all topic names
@@ -37,18 +38,18 @@ class TestQuestions(unittest.TestCase):
         num_math_questions = 25
         topic = 'Mathematics'
         # check number of Algebra questions
-        self.assertEqual(num_math_questions, len(DatabaseManager.get_questions(topic, 'Algebra')))
+        self.assertEqual(num_math_questions, len(QuestionManager.get_questions(topic, 'Algebra')))
         # check number of Calculus questions
-        self.assertEqual(num_math_questions, len(DatabaseManager.get_questions(topic, 'Calculus')))
+        self.assertEqual(num_math_questions, len(QuestionManager.get_questions(topic, 'Calculus')))
         # check number of Calculus questions
-        self.assertEqual(num_math_questions, len(DatabaseManager.get_questions(topic, 'Geometry')))
+        self.assertEqual(num_math_questions, len(QuestionManager.get_questions(topic, 'Geometry')))
         # check number of Numbers questions
-        self.assertEqual(num_math_questions, len(DatabaseManager.get_questions(topic, 'Numbers')))
+        self.assertEqual(num_math_questions, len(QuestionManager.get_questions(topic, 'Numbers')))
         # check number of Statistics questions
-        self.assertEqual(num_math_questions, len(DatabaseManager.get_questions(topic, 'Statistics')))
+        self.assertEqual(num_math_questions, len(QuestionManager.get_questions(topic, 'Statistics')))
 
     def test_get_math_algebra_questions(self):
-        questions = DatabaseManager.get_questions('Mathematics', 'Algebra')
+        questions = QuestionManager.get_questions('Mathematics', 'Algebra')
         question = questions[0]
         description = '(0.001)² ÷ 1000'
         difficulty_level = 3
@@ -63,12 +64,13 @@ class TestQuestions(unittest.TestCase):
         self.assertEqual(wrong_2, question['Wrong_2'])
         self.assertEqual(wrong_3, question['Wrong_3'])
 
+
 class TestLeaderboard(unittest.TestCase):
     def test_get_leaderboard(self):
-        leaderboard = DatabaseManager.get_leaderboard('Mathematics', 'Algebra')
+        leaderboard = LeaderboardManager.get_leaderboard('Mathematics', 'Algebra')
         self.assertLessEqual(len(leaderboard), Enums.leaderboardSize)
         self.assertGreaterEqual(len(leaderboard), 0)
-        
+
         if len(leaderboard) > 0:
             curr = leaderboard[0]
             for i in range(1, len(leaderboard)):
@@ -79,12 +81,13 @@ class TestLeaderboard(unittest.TestCase):
         # Inserting a score lower than the current lowest should not be successful
         subject = "Mathematics"
         topic = "Algebra"
-        leaderboard = DatabaseManager.get_leaderboard(subject, topic)
+        leaderboard = LeaderboardManager.get_leaderboard(subject, topic)
         currLowest = leaderboard[0]
 
-        otherUser = { "score": currLowest["score"] - 1, "uid": str(uuid.uuid4()), "epochTimeAdded": currLowest["epochTimeAdded"] }
-        DatabaseManager.update_leaderboard(otherUser, subject, topic)
-        updatedLeaderboard = DatabaseManager.get_leaderboard(subject, topic)
+        otherUser = {"score": currLowest["score"] - 1, "uid": str(uuid.uuid4()),
+                     "epochTimeAdded": currLowest["epochTimeAdded"]}
+        LeaderboardManager.update_leaderboard(otherUser, subject, topic)
+        updatedLeaderboard = LeaderboardManager.get_leaderboard(subject, topic)
         self.assertEqual(currLowest, updatedLeaderboard[0])
         self.assertNotEqual(otherUser, updatedLeaderboard[0])
 
@@ -92,12 +95,12 @@ class TestLeaderboard(unittest.TestCase):
         # Inserting a score equal to the current lowest should not be successful
         subject = "Mathematics"
         topic = "Algebra"
-        leaderboard = DatabaseManager.get_leaderboard(subject, topic)
+        leaderboard = LeaderboardManager.get_leaderboard(subject, topic)
         currLowest = leaderboard[0]
 
-        otherUser = { "score": currLowest["score"], "uid": str(uuid.uuid4()), "epochTimeAdded": time.time() }
-        DatabaseManager.update_leaderboard(otherUser, subject, topic)
-        updatedLeaderboard = DatabaseManager.get_leaderboard(subject, topic)
+        otherUser = {"score": currLowest["score"], "uid": str(uuid.uuid4()), "epochTimeAdded": time.time()}
+        LeaderboardManager.update_leaderboard(otherUser, subject, topic)
+        updatedLeaderboard = LeaderboardManager.get_leaderboard(subject, topic)
         self.assertEqual(currLowest, updatedLeaderboard[0])
         self.assertNotEqual(otherUser, updatedLeaderboard[0])
 
@@ -105,13 +108,15 @@ class TestLeaderboard(unittest.TestCase):
         # Inserting a score higher than the current lowest should be successful
         subject = "Mathematics"
         topic = "Algebra"
-        leaderboard = DatabaseManager.get_leaderboard(subject, topic)
+        leaderboard = LeaderboardManager.get_leaderboard(subject, topic)
         currLowest = leaderboard[0]
 
-        otherUser = { "score": currLowest["score"] + 1, "uid": str(uuid.uuid4()), "epochTimeAdded": currLowest["epochTimeAdded"] }
-        DatabaseManager.update_leaderboard(otherUser, subject, topic)
-        updatedLeaderboard = DatabaseManager.get_leaderboard(subject, topic)
+        otherUser = {"score": currLowest["score"] + 1, "uid": str(uuid.uuid4()),
+                     "epochTimeAdded": currLowest["epochTimeAdded"]}
+        LeaderboardManager.update_leaderboard(otherUser, subject, topic)
+        updatedLeaderboard = LeaderboardManager.get_leaderboard(subject, topic)
         self.assertNotEqual(currLowest, updatedLeaderboard[0])
+
 
 class TestRooms(unittest.TestCase):
     def test_create_delete_room(self):
@@ -119,19 +124,19 @@ class TestRooms(unittest.TestCase):
         room_name = "Unit Test Room"
         room_password = "UnitTest"
 
-        current_room_count = len(DatabaseManager.get_hosted_rooms_list(user_id))
-        room_id = DatabaseManager.create_room(user_id, room_name, room_password)
-        after_add_room_count = len(DatabaseManager.get_hosted_rooms_list(user_id))
+        current_room_count = len(RoomManager.get_hosted_rooms_list(user_id))
+        room_id = RoomManager.create_room(user_id, room_name, room_password)
+        after_add_room_count = len(RoomManager.get_hosted_rooms_list(user_id))
         self.assertEqual(current_room_count, after_add_room_count - 1)
-        DatabaseManager.delete_room(user_id, room_id)
-        after_del_room_count = len(DatabaseManager.get_hosted_rooms_list(user_id))
+        RoomManager.delete_room(user_id, room_id)
+        after_del_room_count = len(RoomManager.get_hosted_rooms_list(user_id))
         self.assertEqual(after_add_room_count, after_del_room_count + 1)
 
     def test_add_get_delete_custom_questions(self):
         user_id = "123"
         room_name = "Unit Test Room"
         room_password = "UnitTest"
-        room_id = DatabaseManager.create_room(user_id, room_name, room_password)
+        room_id = RoomManager.create_room(user_id, room_name, room_password)
         quiz_name = "Unit Test Quiz"
         question = {
             'Correct': "This is the correct answer",
@@ -142,13 +147,13 @@ class TestRooms(unittest.TestCase):
             "Wrong_3": "This is the third wrong option",
             "question_id": str(uuid.uuid4())
         }
-        questions = [ question ]
-        
-        curr_num_custom_questions = len(DatabaseManager.get_custom_questions(room_id, quiz_name))
-        DatabaseManager.add_custom_questions(room_id, quiz_name, questions)
-        after_add_num_custom_questions = len(DatabaseManager.get_custom_questions(room_id, quiz_name))
+        questions = [question]
+
+        curr_num_custom_questions = len(QuestionManager.get_custom_questions(room_id, quiz_name))
+        QuestionManager.add_custom_questions(room_id, quiz_name, questions)
+        after_add_num_custom_questions = len(QuestionManager.get_custom_questions(room_id, quiz_name))
         self.assertEqual(curr_num_custom_questions, after_add_num_custom_questions - 1)
-        DatabaseManager.delete_custom_question(user_id, room_id, quiz_name, question["question_id"])
-        after_delete_num_custom_questions = len(DatabaseManager.get_custom_questions(room_id, quiz_name))
+        QuestionManager.delete_custom_question(user_id, room_id, quiz_name, question["question_id"])
+        after_delete_num_custom_questions = len(QuestionManager.get_custom_questions(room_id, quiz_name))
         self.assertEqual(after_add_num_custom_questions, after_delete_num_custom_questions + 1)
-        DatabaseManager.delete_room(user_id, room_id)
+        RoomManager.delete_room(user_id, room_id)
