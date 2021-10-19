@@ -1,6 +1,8 @@
 import json
 import pyrebase
 
+from backend.account.AccountHelper import add_to_user_collection
+
 firebaseConfig = {
     "apiKey": "AIzaSyBUtttg0k-sJRCbGd4VTR0vEVU-28bqNmc",
     "authDomain": "smartrun-1f871.firebaseapp.com",
@@ -41,6 +43,7 @@ def create_account(email, password):
         user = auth.create_user_with_email_and_password(email, password)
         print('Successfully created account.')
         username = user['email']
+        add_to_user_collection(username)
         return username
     except:
         print('Email already exists.')
@@ -114,7 +117,7 @@ def save_user(user):
 
 
 def load_user():
-    data = open('user.json',)
+    data = open('user.json', )
     user = json.load(data)
 
     if not is_user_valid(user):
@@ -129,12 +132,10 @@ def is_user_valid(user):
         return False
 
 
-
-
-#print(login('example@mail.com', '123456'))
-#print(create_account('example@mail.com', '123456'))
+# print(login('example@mail.com', '123456'))
+# print(create_account('example@mail.com', '123456'))
 # print(create_account_confirm_password('example@mail.com', '123456', '123456'))
 # print(reset_account_password('example@mail.com'))
-#print(get_user_account_info(sign_in('example@mail.com', '123456')['idToken']))
-#save_user_login(sign_in('example@mail.com', '123456'))
+# print(get_user_account_info(sign_in('example@mail.com', '123456')['idToken']))
+# save_user_login(sign_in('example@mail.com', '123456'))
 # print(load_user())
