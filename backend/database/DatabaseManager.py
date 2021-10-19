@@ -42,10 +42,11 @@ def get_topics(subject):
     return items
 
 
-def get_questions(subject, topic, room_id = "", quiz_name = ""):
+def get_questions(subject, topic, room_id = "", quiz_name = "", randomise = False):
     """
-    Returns a randomised array of questions from the subject and topic.
+    Returns an array of questions from the subject and topic.
     Each question is of a dictionary type.
+    Array of questions will be randomised if randomise argument is set to True
     """
     query = db.collection("subjects").document(subject).collection(topic).get()
     questions = []
@@ -57,9 +58,12 @@ def get_questions(subject, topic, room_id = "", quiz_name = ""):
         if quiz_name == "":
             raise Exception("Quiz name is missing")
 
-        custom_questions = get_custom_questions()
+        custom_questions = get_custom_questions(room_id, quiz_name)
         for custom_question in custom_questions:
             questions.append(custom_question.to_dict())
+
+    if randomise is False:
+        return questions
 
     # This randomises the questions to prevent the same questions from being selected each time
     numQuestions = len(questions)
@@ -77,12 +81,15 @@ def get_custom_questions(room_id, quiz_name):
     if room_id == "" or quiz_name == "":
         raise Exception("Given arguments cannot be empty")
 
-    questions = db.collection("rooms")\
+    query = db.collection("rooms")\
                             .document(room_id)\
                             .collection("quizzes")\
                             .document(quiz_name)\
                             .collection("questions")\
                             .get()
+    questions = []
+    for question in query:
+        questions.append(question.to_dict())
     
     return questions
 
@@ -133,7 +140,6 @@ def get_leaderboard(subject, topic):
 
     return sorted_list
 
-
 def update_leaderboard(user, subject, topic):
     check_fields(user, Enums.leaderboard_user_fields)
     currentLeaderboard = get_leaderboard(subject, topic)
@@ -168,6 +174,31 @@ def add_global_questions(subject, topic, questions):
 
     return question
 
+def delete_custom_question(user_id, room_id, quiz_name, question_id):
+    """
+    Deletes a custom question entry.
+    """
+    if type(user_id) is not str or type(room_id) is not str or type(quiz_name) is not str or type(question_id) is not str:
+        raise Exception("Given arguments are not of type str")
+
+    if user_id == "" or room_id == "" or quiz_name == "" or question_id == "":
+        raise Exception("Given arguments cannot be empty")
+
+    if room_id_exists(room_id) is False or is_room_host(user_id, room_id) is False:
+        return False
+
+    query = db.collection("rooms").document(room_id).collection("quizzes").document(quiz_name).collection("questions").\
+        where("question_id", "==", question_id)\
+        .get()
+
+    if len(query) == 0:
+        return False
+
+    question = query[0]
+
+    db.collection("rooms").document(room_id).collection("quizzes").document(quiz_name).collection("questions").document(question.id).delete()
+
+    return True
 
 def check_fields(item, fields):
     if type(item) is not dict:
@@ -180,7 +211,6 @@ def check_fields(item, fields):
         if type(item[field]) is not fields[field]["Type"]:
             raise Exception("Given " + field + " is not of type " + str(fields[field]["Type"]))
 
-
 def get_user_by_username(username):
     """
     Returns a user dictionary object if given username exists
@@ -192,6 +222,23 @@ def get_user_by_username(username):
         return {}
     
     return users[0].to_dict()
+
+def get_hosted_rooms_list(user_id):
+    """
+    Returns a list of room ids that are hosted by the given user_id
+    """
+    if type(user_id) is not str:
+        raise Exception("Given arguments is not of type str")
+
+    if user_id == "":
+        raise Exception("Given argument cannot be empty")
+
+    rooms = []
+    query = db.collection("rooms").where("host_id", "==", user_id).get()
+    for room in query:
+        rooms.append(room.id)
+    
+    return rooms
 
 def create_room(host_id, room_name, room_password):
     """
@@ -223,6 +270,23 @@ def create_room(host_id, room_name, room_password):
     db.collection("rooms").document(room_id).set(set_data)
 
     return room_id
+
+def delete_room(user_id, room_id):
+    """
+    Deletes a room entry. Returns True if successfully deleted, else False
+    """
+    if type(user_id) is not str or type(room_id) is not str:
+        raise Exception("Given arguments are not of type str")
+
+    if user_id == "" or room_id == "":
+        raise Exception("Given arguments cannot be empty")
+
+    if room_id_exists(room_id) is False or is_room_host(user_id, room_id) is False:
+        return False
+
+    result = db.collection("rooms").document(room_id).delete()
+
+    return True
 
 def get_room_by_id(room_id):
     """
@@ -301,7 +365,30 @@ def get_room_quizzes(room_id):
         quizzes.append(quiz.id)
 
     return quizzes
+
+def is_room_host(user_id, room_id):
+    """
+    Checks if a given user id is the room's host. Returns True if yes, else False
+    """
+    if type(user_id) is not str or type(room_id) is not str:
+        raise Exception("Given arguments are not of type str")
+
+    if user_id == "" or room_id == "":
+        raise Exception("Given arguments cannot be empty")
+
+    if room_id_exists(room_id) is False:
+        return False
+
+    rooms = db.collection("rooms").where("host_id", "==", user_id).get()
+    if len(rooms) == 0:
+        return False
     
+    for room in rooms:
+        if room.id == room_id:
+            return True
+
+    return False
+
 def generate_room_id():
     return str(random.randint(0, 999999)).rjust(6, '0')
 
