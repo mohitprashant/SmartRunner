@@ -34,4 +34,7 @@ question_fields = {
     "Wrong_3": {
         "Type": str
     },
+    "question_id": {
+        "Type": str
+    }
 }

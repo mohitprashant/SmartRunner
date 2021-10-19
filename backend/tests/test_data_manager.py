@@ -50,7 +50,7 @@ class TestQuestions(unittest.TestCase):
     def test_get_math_algebra_questions(self):
         questions = DatabaseManager.get_questions('Mathematics', 'Algebra')
         question = questions[0]
-        description = '（0.001）² ÷ 1000'
+        description = '(0.001)² ÷ 1000'
         difficulty_level = 3
         correct = 1e-09
         wrong_1 = 1000
@@ -112,3 +112,43 @@ class TestLeaderboard(unittest.TestCase):
         DatabaseManager.update_leaderboard(otherUser, subject, topic)
         updatedLeaderboard = DatabaseManager.get_leaderboard(subject, topic)
         self.assertNotEqual(currLowest, updatedLeaderboard[0])
+
+class TestRooms(unittest.TestCase):
+    def test_create_delete_room(self):
+        user_id = "123abc"
+        room_name = "Unit Test Room"
+        room_password = "UnitTest"
+
+        current_room_count = len(DatabaseManager.get_hosted_rooms_list(user_id))
+        room_id = DatabaseManager.create_room(user_id, room_name, room_password)
+        after_add_room_count = len(DatabaseManager.get_hosted_rooms_list(user_id))
+        self.assertEqual(current_room_count, after_add_room_count - 1)
+        DatabaseManager.delete_room(user_id, room_id)
+        after_del_room_count = len(DatabaseManager.get_hosted_rooms_list(user_id))
+        self.assertEqual(after_add_room_count, after_del_room_count + 1)
+
+    def test_add_get_delete_custom_questions(self):
+        user_id = "123"
+        room_name = "Unit Test Room"
+        room_password = "UnitTest"
+        room_id = DatabaseManager.create_room(user_id, room_name, room_password)
+        quiz_name = "Unit Test Quiz"
+        question = {
+            'Correct': "This is the correct answer",
+            "Description": "This is the description",
+            "Difficulty_level": 2,
+            "Wrong_1": "This is the first wrong option",
+            "Wrong_2": "This is the second wrong option",
+            "Wrong_3": "This is the third wrong option",
+            "question_id": str(uuid.uuid4())
+        }
+        questions = [ question ]
+        
+        curr_num_custom_questions = len(DatabaseManager.get_custom_questions(room_id, quiz_name))
+        DatabaseManager.add_custom_questions(room_id, quiz_name, questions)
+        after_add_num_custom_questions = len(DatabaseManager.get_custom_questions(room_id, quiz_name))
+        self.assertEqual(curr_num_custom_questions, after_add_num_custom_questions - 1)
+        DatabaseManager.delete_custom_question(user_id, room_id, quiz_name, question["question_id"])
+        after_delete_num_custom_questions = len(DatabaseManager.get_custom_questions(room_id, quiz_name))
+        self.assertEqual(after_add_num_custom_questions, after_delete_num_custom_questions + 1)
+        DatabaseManager.delete_room(user_id, room_id)
