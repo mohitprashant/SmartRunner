@@ -1,19 +1,9 @@
-import pathlib
-import firebase_admin as fa
-import sys
-import time
 import hashlib
 import random
-
-sys.path.insert(0, str(pathlib.Path(__file__).parent.resolve()) + "/../..")
-from firebase_admin import credentials
-from firebase_admin import firestore
+import FirebaseManager
 from backend.database import Enums
 
-cred = credentials.Certificate(str(pathlib.Path(__file__).parent.resolve()) + "/../serviceAccountKey.json")
-
-fa.initialize_app(cred)
-db = firestore.client()
+db = FirebaseManager.get_firestore()
 
 
 def get_subjects():
@@ -42,7 +32,7 @@ def get_topics(subject):
     return items
 
 
-def get_questions(subject, topic, room_id = "", quiz_name = "", randomise = False):
+def get_questions(subject, topic, room_id="", quiz_name="", randomise=False):
     """
     Returns an array of questions from the subject and topic.
     Each question is of a dictionary type.
@@ -50,10 +40,10 @@ def get_questions(subject, topic, room_id = "", quiz_name = "", randomise = Fals
     """
     query = db.collection("subjects").document(subject).collection(topic).get()
     questions = []
-    
+
     for question in query:
         questions.append(question.to_dict())
-        
+
     if room_id != "":
         if quiz_name == "":
             raise Exception("Quiz name is missing")
@@ -74,6 +64,7 @@ def get_questions(subject, topic, room_id = "", quiz_name = "", randomise = Fals
 
     return randomised_questions
 
+
 def get_custom_questions(room_id, quiz_name):
     if type(room_id) is not str or type(quiz_name) is not str:
         raise Exception("Given arguments are not of type str")
@@ -90,8 +81,9 @@ def get_custom_questions(room_id, quiz_name):
     questions = []
     for question in query:
         questions.append(question.to_dict())
-    
+
     return questions
+
 
 def add_custom_questions(room_id, quiz_name, questions):
     """
@@ -115,6 +107,7 @@ def add_custom_questions(room_id, quiz_name, questions):
             .collection("quizzes").document(quiz_name)\
             .collection("questions").document().set(question)
 
+
 def get_leaderboard(subject, topic):
     """
     Returns a sorted list of users in the specified leaderboard by increasing order
@@ -133,12 +126,13 @@ def get_leaderboard(subject, topic):
             elif unsorted_list[i]["score"] == unsorted_list[smallest_idx]["score"]:
                 if unsorted_list[i]["epochTimeAdded"] > unsorted_list[smallest_idx]["epochTimeAdded"]:
                     smallest_idx = i
-        
+
         sorted_list.append(unsorted_list[smallest_idx])
         unsorted_list.pop(smallest_idx)
         smallest_idx = 0
 
     return sorted_list
+
 
 def update_leaderboard(user, subject, topic):
     check_fields(user, Enums.leaderboard_user_fields)
@@ -174,6 +168,7 @@ def add_global_questions(subject, topic, questions):
 
     return question
 
+
 def delete_custom_question(user_id, room_id, quiz_name, question_id):
     """
     Deletes a custom question entry.
@@ -200,6 +195,7 @@ def delete_custom_question(user_id, room_id, quiz_name, question_id):
 
     return True
 
+
 def check_fields(item, fields):
     if type(item) is not dict:
         raise Exception("Item is not of a dictionary type")
@@ -207,21 +203,23 @@ def check_fields(item, fields):
     for field in fields:
         if field not in item:
             raise Exception("Item does not have the key " + field)
-         
+
         if type(item[field]) is not fields[field]["Type"]:
             raise Exception("Given " + field + " is not of type " + str(fields[field]["Type"]))
+
 
 def get_user_by_username(username):
     """
     Returns a user dictionary object if given username exists
     """
     users = db.collection("users").where("username", "==", username).get()
-    
+
     if len(users) != 1:
         # username should be unique. return empty dict if more than 1 users (something is wrong) or no user found
         return {}
-    
+
     return users[0].to_dict()
+
 
 def get_hosted_rooms_list(user_id):
     """
@@ -237,8 +235,9 @@ def get_hosted_rooms_list(user_id):
     query = db.collection("rooms").where("host_id", "==", user_id).get()
     for room in query:
         rooms.append(room.id)
-    
+
     return rooms
+
 
 def create_room(host_id, room_name, room_password):
     """
@@ -257,8 +256,8 @@ def create_room(host_id, room_name, room_password):
     # add password restriction checks here if required
 
     set_data = {
-        "host_id": host_id, 
-        "room_name": room_name, 
+        "host_id": host_id,
+        "room_name": room_name,
         "room_password_hash": hash_string_sha256(room_password)
     }
 
@@ -270,6 +269,7 @@ def create_room(host_id, room_name, room_password):
     db.collection("rooms").document(room_id).set(set_data)
 
     return room_id
+
 
 def delete_room(user_id, room_id):
     """
@@ -288,6 +288,7 @@ def delete_room(user_id, room_id):
 
     return True
 
+
 def get_room_by_id(room_id):
     """
     Returns the DocumentSnapshot of a room if it exists. Returns an empty string if it does not.
@@ -301,13 +302,14 @@ def get_room_by_id(room_id):
     room = db.collection("rooms").document(room_id).get()
     return room
 
+
 def join_room(room_id, room_password):
     if type(room_id) is not str or type(room_password) is not str:
         raise Exception("Given arguments are not of type str")
 
     if room_id == "" or room_password == "":
         raise Exception("Given arguments cannot be empty")
-    
+
     room = get_room_by_id(room_id)
     if room == "":
         return False
@@ -318,21 +320,23 @@ def join_room(room_id, room_password):
     else:
         return True
 
+
 def room_name_exists(room_name):
     """
     Returns True if room exists based on room_name, else False
     """
     if type(room_name) is not str:
         raise Exception("Given argument is not of type str")
-    
+
     result = db.collection("rooms")\
                 .where("room_name", "==", room_name)\
                 .get()
-    
+
     if len(result) != 0:
         return True
     else:
         return False
+
 
 def room_id_exists(room_id):
     """
@@ -340,12 +344,13 @@ def room_id_exists(room_id):
     """
     if type(room_id) is not str:
         raise Exception("Given argument is not of type str")
-    
+
     result = db.collection("rooms").document(room_id).get()
     if result.exists:
         return True
     else:
         return False
+
 
 def get_room_quizzes(room_id):
     """
@@ -359,12 +364,13 @@ def get_room_quizzes(room_id):
         return []
 
     quizzes = []
-    
+
     query = db.collection("rooms").document(room_id).collection("quizzes").get()
     for quiz in query:
         quizzes.append(quiz.id)
 
     return quizzes
+
 
 def is_room_host(user_id, room_id):
     """
@@ -382,20 +388,22 @@ def is_room_host(user_id, room_id):
     rooms = db.collection("rooms").where("host_id", "==", user_id).get()
     if len(rooms) == 0:
         return False
-    
+
     for room in rooms:
         if room.id == room_id:
             return True
 
     return False
 
+
 def generate_room_id():
     return str(random.randint(0, 999999)).rjust(6, '0')
+
 
 def hash_string_sha256(plaintext):
     if type(plaintext) is not str:
         raise Exception("Given arguments is not of type str")
-    
+
     return hashlib.sha256(plaintext.encode()).hexdigest()
 
 # print(get_subjects())

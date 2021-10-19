@@ -40,13 +40,14 @@ def create_account(email, password):
     try:
         user = auth.create_user_with_email_and_password(email, password)
         print('Successfully created account.')
-        return user
+        username = user['email']
+        return username
     except:
         print('Email already exists.')
         return None
 
 
-def sign_in(email, password):
+def login(email, password):
     """
     Sign in to an account.
     :param email: Sign in email
@@ -56,7 +57,8 @@ def sign_in(email, password):
     try:
         user = auth.sign_in_with_email_and_password(email, password)
         print('Successfully logged in.')
-        return user
+        username = user['email']
+        return username
     except:
         print('Invalid email or password.')
         return None
@@ -113,8 +115,8 @@ def is_user_valid(user):
 
 
 
-#print(sign_in('example@mail.com', '123456'))
-#print(create_account.py('example@mail.com', '123456'))
+#print(login('example@mail.com', '123456'))
+#print(create_account('example@mail.com', '123456'))
 # print(create_account_confirm_password('example@mail.com', '123456', '123456'))
 # print(reset_account_password('example@mail.com'))
 #print(get_user_account_info(sign_in('example@mail.com', '123456')['idToken']))
