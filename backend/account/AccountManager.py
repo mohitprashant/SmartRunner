@@ -52,13 +52,29 @@ def login(email, password):
     Sign in to an account.
     :param email: Sign in email
     :param password: Account password
-    :return: user
+    :return: username
     """
     try:
         user = auth.sign_in_with_email_and_password(email, password)
         print('Successfully logged in.')
         username = user['email']
         return username
+    except:
+        print('Invalid email or password.')
+        return None
+
+
+def login_return_user(email, password):
+    """
+    Sign in to an account.
+    :param email: Sign in email
+    :param password: Account password
+    :return: user
+    """
+    try:
+        user = auth.sign_in_with_email_and_password(email, password)
+        print('Successfully logged in.')
+        return user
     except:
         print('Invalid email or password.')
         return None
