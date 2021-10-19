@@ -1,5 +1,3 @@
-import uuid
-
 # Leaderboards
 leaderboardSize = 30
 leaderboard_user_fields = {

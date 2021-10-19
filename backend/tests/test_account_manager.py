@@ -16,15 +16,16 @@ class TestCreateConfirmPassword(unittest.TestCase):
                           '12345')
 
 
-class TestSignIn(unittest.TestCase):
-    def test_sign_in_exist(self):
-        result = AccountManager.sign_in('example@mail.com', '123456')
-        local_id = result['localId']
-        expected_result = 'mwoWFrnH5wa8Xcv1VlJDXaeBNP92'  # account localId
-        self.assertEqual(expected_result, local_id)
+class TestLogin(unittest.TestCase):
+    def test_login_exist(self):
+        result = AccountManager.login('example@mail.com', '123456')
+        # local_id = result['localId']
+        # expected_result = 'mwoWFrnH5wa8Xcv1VlJDXaeBNP92'  # account localId
+        expected_result = 'example@mail.com'
+        self.assertEqual(expected_result, result)
 
-    def test_sign_in_not_exist(self):
-        result = AccountManager.sign_in('non_existent@mail.com', '123456')
+    def test_login_not_exist(self):
+        result = AccountManager.login('non_existent@mail.com', '123456')
         expected_result = None  # account does not exist
         self.assertEqual(expected_result, result)
 
@@ -43,7 +44,7 @@ class TestResetPassword(unittest.TestCase):
 
 class TestGetAccountInfo(unittest.TestCase):
     def test_get_account_exist(self):
-        local_id = AccountManager.sign_in('example@mail.com', '123456')['idToken']
+        local_id = AccountManager.login_return_user('example@mail.com', '123456')['idToken']
         result = AccountManager.get_user_account_info(local_id)
         email = result['email']
         expected_result = 'example@mail.com'  # account localId
