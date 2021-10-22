@@ -87,14 +87,15 @@ class ManageRoomsPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["prev_page"] = self.output_data["current_page"]
             if triggered_component in [self.components["exit_button"]]:
-                self.output_data["prev_page"] = self.name
                 self.name = "room_tab"
             if triggered_component in [self.components["selectable_text_list"]]:
                 self.output_data["roomID"] = triggered_component.selected_text
                 print(self.output_data["roomID"])
             if triggered_component in [self.components["join_button"]]:
                 self.name = "hostroom"
+                print("join")
                 #use self.output_data["roomID"] to determine which room
             if triggered_component in [self.components["delete_button"]]:
                 print("delete room", self.output_data["roomID"], "from database")

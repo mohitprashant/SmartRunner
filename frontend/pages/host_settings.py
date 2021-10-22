@@ -19,6 +19,7 @@ class HostSettingsPage(Page):
             "username": "",
             # "room_password": "",
             "Toggle_Host": False,
+            "gametypeselection": "",
             "exit": False
         }
 

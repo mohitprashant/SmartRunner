@@ -87,6 +87,7 @@ class PlayerRoomPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["prev_page"] = self.output_data["current_page"]
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "join_room"
             if triggered_component in [self.components["start_button"]]:

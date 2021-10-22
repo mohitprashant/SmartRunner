@@ -80,20 +80,24 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
+            "analyticslist": analyticslist,
+            "roomID": "roomID"
         }
-        page_data = self.create_account.start(self.screen, input_data)
+        page_data = self.analyticsselect.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print("current page", self.current_page)
             if page_data[0]["exit"]:
                 break
             if page_data[0]["current_page"] == "singleplayer":
+                # if page_data[0]["prev_page"] == "singleplayer":
+                #     page_data[1]["subjectselection"] = page_data[1]["subjectselection"]
                 input_data = {
                     "subjectlist": subjectlist,
                     "topiclist": topiclist,
                     "difficultylist": difficultylist,
                     "subject_topic_list": ["Select Topic"],
-                    "subjectselection": page_data[1]["subjectselection"]
+                    "subjectselection": "English"
                 }
                 page_data = self.singleplayer.start(self.screen, input_data)
             if page_data[0]["current_page"] == "host_settings":
@@ -130,14 +134,14 @@ class PageController:
                     "username": username
                 }
                 page_data = self.main_menu.start(self.screen, input_data)
-                if page_data[0]["current_page"] == "topic_leaderboard":
-                    if page_data[0]["prev_page"] == "topic_leaderboard":
-                        page_data[0]["topic_leaderboard_ID"] = page_data[1]["topic_leaderboard_ID"]
-                    input_data = {
-                        "topic_leaderboard": topicleadselect,
-                        "topic_leaderboard_ID": page_data[0]["topic_leaderboard_ID"],
-                        "username":username
-                    }
+            if page_data[0]["current_page"] == "topic_leaderboard":
+                if page_data[0]["prev_page"] == "topic_leaderboard":
+                    page_data[0]["topic_leaderboard_ID"] = page_data[1]["topic_leaderboard_ID"]
+                input_data = {
+                    "topic_leaderboard": topicleadselect,
+                    "topic_leaderboard_ID": page_data[0]["topic_leaderboard_ID"],
+                    "username":username
+                }
                 page_data = self.topic_leaderboard.start(self.screen, input_data)
                 print(page_data[0]["current_page"], "next")
             if page_data[0]["current_page"] == "end_screen":

@@ -60,7 +60,7 @@ class TopicLeaderboardPage(Page):
         text_relative_height = 1 / 10
         shown_relative_width = 6 / 10
         shown_relative_height = 3 / 5
-        score_text_list = self.input_data["topic_leaderboard"][self.input_data["Leaderboard 1"]]
+        score_text_list = self.input_data["topic_leaderboard"][self.input_data["topic_leaderboard_ID"]]
         # print(self.input_data.keys())
         # print(score_text_list)
 
