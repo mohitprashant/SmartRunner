@@ -18,6 +18,7 @@ from topic_leaderboard import *
 from share_results import *
 from custom_select import *
 from create_account import *
+from question_select import *
 '''
 main controller of the system
 int screen_width starting width of screen
@@ -32,8 +33,6 @@ analyticsdata = ["Mean= 23", "Median = 20", "Mode = 19", "Highest = 40", "Lowest
 username = ["User1", "User2", "User3", "User 4"]
 password = ["hello", "pen", "bottle", "candle"]
 score_board = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
-#topicleadselect = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
-#darsh change the topicleadselect to this dictionary format to reflect the topicleadID!! "Leaderboard 1", "Leaderboard 2" are examples of topicleadID
 topicleadselect = {"Leaderboard 1": ["wee",'woo'], "Leaderboard 2": ["hee", "hoo"]}
 roomID = ["R1", "R2", "R3", "R4"]
 room_password = ["R1_P", "R2_P", "R3_P", "R4_P"]
@@ -42,6 +41,7 @@ Toggle = ["True", "False"]
 subjectlist = ["English", "Math", "Science"]
 topiclist = {"English": ["Noun", "Tense", "Verb", "Adjectives"], "Math": ["Subtraction", "Addition", "Multiplication", "Division"], "Science": ["Matter", "Magnets", "Organism Classification"]}
 difficultylist = ["Easy", "Medium", "Hard"]
+custom_questions_selection = ["a+b: c  d   e",  "9+2: 11  12   25"]
 
 class PageController:
     def __init__(self, screen_width=720, screen_height=480):
@@ -71,6 +71,7 @@ class PageController:
         self.room_creation = RoomCreationPage(self.screen)
         self.custom_select = CustomSelectPage(self.screen)
         self.create_account = CreateAccountPage(self.screen)
+        self.question_select = QuestionSelectPage(self.screen)
 
 
 
@@ -80,8 +81,12 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
+            "roomID": roomID,
+            "username": username,
+            "custom_question_selection": custom_questions_selection
+            # "password": password
         }
-        page_data = self.create_account.start(self.screen, input_data)
+        page_data = self.question_select.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print("current page", self.current_page)
@@ -111,6 +116,14 @@ class PageController:
                     "custom_questions": custom_questions
                 }
                 page_data = self.custom_select.start(self.screen, input_data)
+                if page_data[0]["current_page"] == "question_select":
+                    input_data = {
+                        "roomID": roomID,
+                        "username": username,
+                        "custom_question_selection": custom_questions_selection
+                        # "password": password
+                    }
+                    page_data = self.question_select.start(self.screen, input_data)
             if page_data[0]["current_page"] == "share":
                 input_data = {
                     "roomID": roomID,

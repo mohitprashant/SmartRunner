@@ -3,7 +3,7 @@ from assets.components import *
 from page import *
 
 
-class CustomSelectPage(Page):
+class QuestionSelectPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
         self.name = "custom_select"
@@ -11,7 +11,7 @@ class CustomSelectPage(Page):
             "roomID": "",
             "username": "",
             # "room_password": "",
-            "custom_questions": [],
+            "custom_question_selection": [],
         }
         self.output_data = {
             "current_page": self.name,
@@ -19,7 +19,7 @@ class CustomSelectPage(Page):
             "room_ID": "",
             "username": "",
             # "room_password": "",
-            "custom_questions": "",
+            "custom_question_selection": "",
             "exit": False
         }
 
@@ -71,7 +71,7 @@ class CustomSelectPage(Page):
         # text_relative_height = 8/10
         # shown_relative_width = 6 / 10
         # shown_relative_height = 0.6
-        custom_questions_list = self.input_data["custom_questions"]
+        custom_questions_list = self.input_data["custom_question_selection"]
         # print(self.input_data.keys())
         # print(custom_questions_list)
 
@@ -122,11 +122,11 @@ class CustomSelectPage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["username"] = self.input_data["username"]
-            self.output_data["custom_questions"] = self.input_data["custom_questions"]
+            self.output_data["custom_question_selection"] = self.input_data["custom_question_selection"]
             #self.output_data["room_password"] = self.input_data["room_password"]
             if triggered_component in [self.components["return_button2"]]:
-                self.name = "host_settings"
+                self.name = "custom_select"
             if triggered_component in [self.components["add_question_button2"]]:
-                self.name = "question_select"
+                print("Go to add question page")
             if triggered_component in [self.components["confirm_button2"]]:
                 print("Go to game session")

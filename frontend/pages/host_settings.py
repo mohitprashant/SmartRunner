@@ -17,6 +17,7 @@ class HostSettingsPage(Page):
             "prev_page": "",
             "room_ID": "",
             "username": "",
+            "gametypeselection":"",
             # "room_password": "",
             "Toggle_Host": False,
             "exit": False
@@ -154,14 +155,3 @@ class HostSettingsPage(Page):
                 if triggered_component.toggled:
                     self.output_data["Toggle_Host"] = True
                     print("True")
-    # # go button
-        # go_button_x = 12 / 20
-        # go_button_y = 41 / 64
-        # go_button_width = 1 / 10
-        # go_button_height = 1 / 10
-        # go_button__img = pygame.image.load('assets/img/exit_btn.png')
-        # go_button = ImageButton("go_button", screen, go_button_x, go_button_y,
-        #                             go_button_width,
-        #                             go_button_height, go_button__img)
-        # self.components["go_button"] = go_button
-
