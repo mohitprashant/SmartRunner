@@ -19,6 +19,7 @@ from share_results import *
 from custom_select import *
 from create_account import *
 from question_select import *
+from add_question import *
 '''
 main controller of the system
 int screen_width starting width of screen
@@ -72,6 +73,7 @@ class PageController:
         self.custom_select = CustomSelectPage(self.screen)
         self.create_account = CreateAccountPage(self.screen)
         self.question_select = QuestionSelectPage(self.screen)
+        self.add_question = AddQuestionPage(self.screen)
 
 
 
@@ -83,10 +85,10 @@ class PageController:
         input_data = {
             "roomID": roomID,
             "username": username,
-            "custom_question_selection": custom_questions_selection
+            "custom_question_selection": ""
             # "password": password
         }
-        page_data = self.question_select.start(self.screen, input_data)
+        page_data = self.add_question.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print("current page", self.current_page)
@@ -124,6 +126,14 @@ class PageController:
                         # "password": password
                     }
                     page_data = self.question_select.start(self.screen, input_data)
+                if page_data[0]["current_page"] == "add_question":
+                    input_data = {
+                        "roomID": roomID,
+                        "username": username,
+                        "custom_question_selection": ""
+                        # "password": password
+                    }
+                    page_data = self.add_question.start(self.screen, input_data)
             if page_data[0]["current_page"] == "share":
                 input_data = {
                     "roomID": roomID,

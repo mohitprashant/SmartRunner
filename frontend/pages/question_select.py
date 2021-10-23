@@ -6,7 +6,7 @@ from page import *
 class QuestionSelectPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
-        self.name = "custom_select"
+        self.name = "question_select"
         self.input_data = {
             "roomID": "",
             "username": "",
