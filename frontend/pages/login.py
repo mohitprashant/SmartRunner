@@ -45,16 +45,16 @@ class LoginPage(Page):
                                    sign_in_button_rel_height, sign_in_button_img)
         self.components["sign_in_button"] = sign_in_button
 
-        #new acc creation
-        create_acc_button_rel_x = 41 / 80
-        create_acc_button_rel_y = 3 / 4
-        create_acc_button_rel_width = 1 / 8
-        create_acc_button_rel_height = 1 / 8
-        create_acc_button_img = pygame.image.load('assets/img/start_btn.png')
-        create_acc_button = ImageButton("create_acc_button", screen, create_acc_button_rel_x, create_acc_button_rel_y,
-                                        create_acc_button_rel_width,
-                                        create_acc_button_rel_height, create_acc_button_img)
-        self.components["create_acc_button"] = create_acc_button
+        # #new acc creation
+        # create_acc_button_rel_x = 41 / 80
+        # create_acc_button_rel_y = 3 / 4
+        # create_acc_button_rel_width = 1 / 8
+        # create_acc_button_rel_height = 1 / 8
+        # create_acc_button_img = pygame.image.load('assets/img/start_btn.png')
+        # create_acc_button = ImageButton("create_acc_button", screen, create_acc_button_rel_x, create_acc_button_rel_y,
+        #                                 create_acc_button_rel_width,
+        #                                 create_acc_button_rel_height, create_acc_button_img)
+        # self.components["create_acc_button"] = create_acc_button
 
         # username text input box
         username_input_rel_x = 1 / 2
@@ -77,6 +77,7 @@ class LoginPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["prev_page"] = self.output_data["current_page"]
             if triggered_component in [self.components["sign_in_button"]]:
                 print("check input value against database")
                 self.name = "main_menu"

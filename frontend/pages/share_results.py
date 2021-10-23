@@ -8,15 +8,19 @@ class ShareResultsPage(Page):
         super().__init__(screen)
         self.name = "share_results"
         self.input_data = {
-            "roomID": "RoomID",
+            # "roomID": "RoomID",
             "username": "username",
-            "score_board": []
+            "topic_leaderboard_ID":"",
+            "score_board": [],
+            "back_navigation": ""
         }
         self.output_data = {
-            "room_ID": "",
+            # "room_ID": "",
             "prev_page": "",
             "score_board": "",
             "username": "",
+            "topic_leaderboard_ID": "",
+            # "back_navigation":"",
             "exit": False
         }
 
@@ -112,10 +116,13 @@ class ShareResultsPage(Page):
         # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
-            self.output_data["roomID"] = self.input_data["roomID"]
-            self.output_data["score_board"] = self.input_data["score_board"]
+            # self.output_data["back_navigation"]=self.output_data["prev_page"]
+            #test
+            # print("test", self.output_data["back_navigation"])
+            self.output_data["prev_page"] = self.output_data["current_page"]
+            # self.output_data["roomID"] = self.input_data["roomID"]
+            # self.output_data["score_board"] = self.input_data["score_board"]
             self.output_data["username"] = self.input_data["username"]
-            self.output_data["prev_page"] = self.name
             if triggered_component in [self.components["twitter_button"]]:
                 print("open twitter")
             if triggered_component in [self.components["ig_button"]]:
@@ -125,7 +132,10 @@ class ShareResultsPage(Page):
             if triggered_component in [self.components["telegram_button"]]:
                 print("open telegram")
             if triggered_component in [self.components["return_button"]]:
-                print("go back to game session")
+                print("test", self.input_data["back_navigation"])
+                if self.input_data["back_navigation"] == "topic_leaderboard":
+                    self.output_data["topic_leaderboard_ID"] = self.input_data["topic_leaderboard_ID"]
+                    self.name = self.input_data["back_navigation"]
 
 
 

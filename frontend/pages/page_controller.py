@@ -33,16 +33,16 @@ analyticslist = ["Analytics 1", "Analytics 2", "Analytics 3", "Analytics 4", "An
 analyticsdata = ["Mean= 23", "Median = 20", "Mode = 19", "Highest = 40", "Lowest = 12", "Standard Deviation = 3"]
 username = ["User1", "User2", "User3", "User 4"]
 password = ["hello", "pen", "bottle", "candle"]
-score_board = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
+# score_board = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
 topicleadselect = {"Leaderboard 1": ["wee",'woo'], "Leaderboard 2": ["hee", "hoo"]}
 roomID = ["R1", "R2", "R3", "R4"]
 room_password = ["R1_P", "R2_P", "R3_P", "R4_P"]
-custom_questions = ["1+1: 2  4   5", "4+4: 3  8  10", "3+2: 1  2   5", "3+3: 6  3   5", "7+2: 1  9   6", "8+2: 10  2   5", "6+2: 8  1   5"]
+custom_quiz = ["Custom Quiz 1", "Custom Quiz 2", "Custom Quiz 3", "Custom Quiz 4", "Custom Quiz 5", "Custom Quiz 6", "Custom Quiz 7"]
 Toggle = ["True", "False"]
 subjectlist = ["English", "Math", "Science"]
 topiclist = {"English": ["Noun", "Tense", "Verb", "Adjectives"], "Math": ["Subtraction", "Addition", "Multiplication", "Division"], "Science": ["Matter", "Magnets", "Organism Classification"]}
 difficultylist = ["Easy", "Medium", "Hard"]
-custom_questions_selection = ["a+b: c  d   e",  "9+2: 11  12   25"]
+custom_questions_selection = ["1+1: 2  4   5", "4+4: 3  8  10", "3+2: 1  2   5", "3+3: 6  3   5", "7+2: 1  9   6", "8+2: 10  2   5", "6+2: 8  1   5"]
 
 class PageController:
     def __init__(self, screen_width=720, screen_height=480):
@@ -83,84 +83,110 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            "roomID": roomID,
+            "roomID": "roomID",
             "username": username,
-            "custom_question_selection": ""
+            "custom_quiz_selection": "hello"
             # "password": password
         }
-        page_data = self.add_question.start(self.screen, input_data)
+        page_data = self.host_settings.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print("current page", self.current_page)
             if page_data[0]["exit"]:
                 break
             if page_data[0]["current_page"] == "singleplayer":
-                input_data = {
-                    "subjectlist": subjectlist,
-                    "topiclist": topiclist,
-                    "difficultylist": difficultylist,
-                    "subject_topic_list": ["Select Topic"],
-                    "subjectselection": page_data[1]["subjectselection"]
-                }
+                if page_data[0]["prev_page"]== "singleplayer":
+                    # page_data[0]["subjectselection"]= page_data[1]["subjectselection"]
+                    input_data = {
+                        "subjectlist": subjectlist,
+                        "topiclist": topiclist,
+                        "difficultylist": difficultylist,
+                        "subject_topic_list": ["Select Topic"],
+                        "subjectselection": page_data[1]["subjectselection"]
+                    }
+                else:
+                    input_data = {
+                        "subjectlist": subjectlist,
+                        "topiclist": topiclist,
+                        "difficultylist": difficultylist,
+                        "subject_topic_list": ["Select Topic"],
+                        "subjectselection": "English"
+                    }
                 page_data = self.singleplayer.start(self.screen, input_data)
             if page_data[0]["current_page"] == "host_settings":
-                input_data = {
-                    "roomID": roomID,
-                    "username": username,
-                    # "password": password
-                }
+                if page_data[0]["prev_page"] == "custom_select":
+                    input_data = {
+                        "roomID": page_data[0]["roomID"],
+                        "username": username,
+                        "custom_quiz_selection": page_data[0]["custom_quiz_selection"]
+                        # "password": password
+                    }
+                else:
+                    input_data = {
+                        "roomID": page_data[0]["roomID"],
+                        "username": username,
+                        "custom_quiz_selection": page_data[0]["custom_quiz_selection"]
+                        # "password": password
+                    }
                 page_data = self.host_settings.start(self.screen, input_data)
             if page_data[0]["current_page"] == "custom_select":
                 input_data = {
                     "roomID": roomID,
                     "username": username,
-                    # "password": password,
-                    "custom_questions": custom_questions
+                    "custom_quiz": custom_quiz
                 }
                 page_data = self.custom_select.start(self.screen, input_data)
-                if page_data[0]["current_page"] == "question_select":
-                    input_data = {
-                        "roomID": roomID,
-                        "username": username,
-                        "custom_question_selection": custom_questions_selection
-                        # "password": password
-                    }
-                    page_data = self.question_select.start(self.screen, input_data)
-                if page_data[0]["current_page"] == "add_question":
-                    input_data = {
-                        "roomID": roomID,
-                        "username": username,
-                        "custom_question_selection": ""
-                        # "password": password
-                    }
-                    page_data = self.add_question.start(self.screen, input_data)
-            if page_data[0]["current_page"] == "share":
+            if page_data[0]["current_page"] == "question_select":
                 input_data = {
                     "roomID": roomID,
-                    "room_password": room_password,
-                    "username": username
+                    "username": username,
+                    "custom_question_selection": custom_questions_selection
+                        # "password": password
                 }
+                page_data = self.question_select.start(self.screen, input_data)
+            if page_data[0]["current_page"] == "add_question":
+                input_data = {
+                    "roomID": roomID,
+                    "username": username,
+                    "custom_question_new": ""
+                        # "password": password
+                }
+                page_data = self.add_question.start(self.screen, input_data)
+            if page_data[0]["current_page"] == "share":
+                if page_data[0]["current_page"] == "share":
+                    # if page_data[0]["prev_page"] == "playerroom":
+                    input_data = {
+                        "roomID": page_data[0]["roomID"],
+                        "room_password": room_password,
+                        "username": username,
+                        "back_navigation":page_data[0]["prev_page"]
+                    }
                 page_data = self.share.start(self.screen, input_data)
             if page_data[0]["current_page"] == "share_results":
-                input_data = {
-                    "roomID": roomID,
-                    "score_board": score_board,
-                    "username": username
-                }
+                if page_data[0]["prev_page"] == "topic_leaderboard":
+                    # page_data[0]["topic_leaderboard_ID"] = page_data[1]["topic_leaderboard_ID"]
+                    input_data = {
+                        # "roomID": roomID,
+                        # "score_board": score_board,
+                        "username": username,
+                        "back_navigation": page_data[0]["prev_page"],
+                        "topic_leaderboard_ID": page_data[0]["topic_leaderboard_ID"],
+                        "score_board": page_data[0]["score_board"]
+                    }
                 page_data = self.share_results.start(self.screen, input_data)
             if page_data[0]["current_page"] == "main_menu":
                 input_data = {
                     "username": username
                 }
                 page_data = self.main_menu.start(self.screen, input_data)
-                if page_data[0]["current_page"] == "topic_leaderboard":
-                    if page_data[0]["prev_page"] == "topic_leaderboard":
-                        page_data[0]["topic_leaderboard_ID"] = page_data[1]["topic_leaderboard_ID"]
-                    input_data = {
-                        "topic_leaderboard": topicleadselect,
-                        "topic_leaderboard_ID": page_data[0]["topic_leaderboard_ID"],
-                        "username":username
-                    }
+            if page_data[0]["current_page"] == "topic_leaderboard":
+                if page_data[0]["prev_page"] == "topic_leaderboard":
+                    page_data[0]["topic_leaderboard_ID"] = page_data[1]["topic_leaderboard_ID"]
+                input_data = {
+                    "topic_leaderboard": topicleadselect,
+                    "topic_leaderboard_ID": page_data[0]["topic_leaderboard_ID"],
+                    "username":username
+                }
                 page_data = self.topic_leaderboard.start(self.screen, input_data)
                 print(page_data[0]["current_page"], "next")
             if page_data[0]["current_page"] == "end_screen":

@@ -121,5 +121,6 @@ class HostRoomPage(Page):
             if triggered_component in [self.components["settings_button"]]:
                 self.name = "host_settings"
             if triggered_component in [self.components["roomID_button"]]:
+                self.output_data["roomID"] = self.input_data["roomID"]
                 self.name = "share"
 

@@ -10,13 +10,15 @@ class SharePage(Page):
         self.input_data = {
             "roomID": "RoomID",
             "room_password": "",
-            "username":"username"
+            "username":"username",
+            "back_navigation":""
         }
         self.output_data = {
             "room_ID": "",
             "room_password": "",
             "username":"",
             "prev_page": "",
+            # "back_navigation":"",
             "toggle_password": False,
             "exit": False
         }
@@ -135,10 +137,11 @@ class SharePage(Page):
         # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["back_navigation"]=self.output_data["prev_page"]
+            self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["room_password"] = self.input_data["room_password"]
             self.output_data["username"] = self.input_data["username"]
-            self.output_data["prev_page"] = self.name
             if triggered_component in [self.components["twitter_button"]]:
                 print("open twitter")
             if triggered_component in [self.components["ig_button"]]:
@@ -148,7 +151,10 @@ class SharePage(Page):
             if triggered_component in [self.components["telegram_button"]]:
                 print("open telegram")
             if triggered_component in [self.components["return_button"]]:
-                print("go back to game session")
+                self.output_data["roomID"] = self.input_data["roomID"]
+                print("test", self.output_data["roomID"])
+                self.name = self.input_data["back_navigation"]
+                # self.name = self.output_data["back_navigation"]
             if triggered_component in [self.components["toggle_pw"]]:
                 #print("hello")
                 if triggered_component.toggled:

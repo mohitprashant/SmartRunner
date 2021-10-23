@@ -129,10 +129,12 @@ class AddQuestionPage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["username"] = self.input_data["username"]
+            self.output_data["prev_page"] = self.output_data["current_page"]
             # self.output_data["custom_question_selection"] = self.input_data["custom_question_selection"]
             if triggered_component in [self.components["confirm_button2"]]:
                 print("Put new question in database")
                 self.output_data["custom_question_new"] = self.components["question_new"].input
                 print("question added")
             if triggered_component in [self.components["return_button2"]]:
+                print("go back to question select")
                 self.name = "question_select"

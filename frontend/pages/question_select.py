@@ -61,7 +61,7 @@ class QuestionSelectPage(Page):
         # SelectableTextList
         relative_x = 1 / 20
         relative_y = 3 / 20
-        relative_width = 0.8
+        relative_width = 0.7
         text_relative_height = 1 / 10
         shown_relative_width = 7 / 10
         shown_relative_height = 3 / 5
@@ -95,16 +95,16 @@ class QuestionSelectPage(Page):
                                     return_button2_height, return_button2__img)
         self.components["return_button2"] = return_button2
 
-        # confirm button
-        confirm_button2_x = 17 / 20
-        confirm_button2_y = 17 / 20
-        confirm_button2_width = 1 / 10
-        confirm_button2_height = 1 / 10
-        confirm_button2__img = pygame.image.load('assets/img/save_btn.png')
-        confirm_button2 = ImageButton("confirm_button2", screen, confirm_button2_x, confirm_button2_y,
-                                    confirm_button2_width,
-                                    confirm_button2_height, confirm_button2__img)
-        self.components["confirm_button2"] = confirm_button2
+        # # confirm button
+        # confirm_button2_x = 17 / 20
+        # confirm_button2_y = 17 / 20
+        # confirm_button2_width = 1 / 10
+        # confirm_button2_height = 1 / 10
+        # confirm_button2__img = pygame.image.load('assets/img/save_btn.png')
+        # confirm_button2 = ImageButton("confirm_button2", screen, confirm_button2_x, confirm_button2_y,
+        #                             confirm_button2_width,
+        #                             confirm_button2_height, confirm_button2__img)
+        # self.components["confirm_button2"] = confirm_button2
 
         # confirm button
         add_question_button2_x = 0.78
@@ -122,11 +122,12 @@ class QuestionSelectPage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["username"] = self.input_data["username"]
+            self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["custom_question_selection"] = self.input_data["custom_question_selection"]
             #self.output_data["room_password"] = self.input_data["room_password"]
             if triggered_component in [self.components["return_button2"]]:
                 self.name = "custom_select"
             if triggered_component in [self.components["add_question_button2"]]:
-                print("Go to add question page")
-            if triggered_component in [self.components["confirm_button2"]]:
-                print("Go to game session")
+                self.name = "add_question"
+            # if triggered_component in [self.components["confirm_button2"]]:
+            #     print("Go to game session")

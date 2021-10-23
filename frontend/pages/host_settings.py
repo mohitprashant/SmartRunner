@@ -10,6 +10,7 @@ class HostSettingsPage(Page):
         self.input_data = {
             "roomID": "",
             "username": "",
+            "custom_quiz_selection":""
             # "room_password": ""
         }
         self.output_data = {
@@ -20,6 +21,7 @@ class HostSettingsPage(Page):
             # "room_password": "",
             "Toggle_Host": False,
             "gametypeselection": "",
+            "custom_quiz_selection": "",
             "exit": False
         }
 
@@ -107,7 +109,7 @@ class HostSettingsPage(Page):
         custom_quiz_button_y = 5 / 8
         custom_quiz_button_width = 0.55
         custom_quiz_button_height = 1 / 8
-        custom_quiz_text = "Custom Questions"
+        custom_quiz_text = self.input_data["custom_quiz_selection"]
         custom_quiz_button = TextboxButton("custom_quiz_button", screen, custom_quiz_button_x,
                                                  custom_quiz_button_y,
                                                  custom_quiz_button_width,
@@ -116,7 +118,7 @@ class HostSettingsPage(Page):
 
 
         # return button
-        return_button_x = 1 / 20
+        return_button_x = 17 / 20
         return_button_y = 17 / 20
         return_button_width = 1 / 10
         return_button_height = 1 / 10
@@ -143,12 +145,16 @@ class HostSettingsPage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["username"] = self.input_data["username"]
+            self.output_data["prev_page"] = self.output_data["current_page"]
 #            self.output_data["room_password"] = self.input_data["room_password"]
             if triggered_component in [self.components["global_question_button"]]:
-                self.name = "singleplayer"
+                self.output_data["gametypeselection"]="global_questions"
+                self.name = "hostroom"
             if triggered_component in [self.components["custom_quiz_button"]]:
+                self.output_data["gametypeselection"]="custom_questions"
                 self.name = "custom_select"
             if triggered_component in [self.components["return_button"]]:
+                # self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
                 self.name = "hostroom"
             if triggered_component in [self.components["toggle"]]:
                 print("hello")

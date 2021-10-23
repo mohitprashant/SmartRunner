@@ -11,7 +11,7 @@ class CustomSelectPage(Page):
             "roomID": "",
             "username": "",
             # "room_password": "",
-            "custom_questions": [],
+            "custom_quiz": [],
         }
         self.output_data = {
             "current_page": self.name,
@@ -19,7 +19,7 @@ class CustomSelectPage(Page):
             "room_ID": "",
             "username": "",
             # "room_password": "",
-            "custom_questions":"",
+            "custom_quiz_selection":"",
             "exit": False
         }
 
@@ -61,24 +61,18 @@ class CustomSelectPage(Page):
         # SelectableTextList
         relative_x = 1 / 20
         relative_y = 3 / 20
-        relative_width = 0.8
+        relative_width = 0.7
         text_relative_height = 1 / 10
         shown_relative_width = 7 / 10
         shown_relative_height = 3 / 5
-        # relative_x = 4/20
-        # relative_y = 7/40
-        # relative_width = 0.8
-        # text_relative_height = 8/10
-        # shown_relative_width = 6 / 10
-        # shown_relative_height = 0.6
-        custom_questions_list = self.input_data["custom_questions"]
+        custom_questions_list = self.input_data["custom_quiz"]
         # print(self.input_data.keys())
         # print(custom_questions_list)
 
         custom_questions = SelectableTextList("custom_questions", screen, relative_x,
                                                    relative_y, relative_width,
                                                    text_relative_height, shown_relative_width, shown_relative_height,
-                                                   custom_questions_list, screen, single_select=False, active_color="blue")
+                                                   custom_questions_list, screen, single_select=True, active_color="blue")
 
         self.components["custom_questions"] = custom_questions
         #custom_questions_whole.add_component(custom_questions)
@@ -106,7 +100,7 @@ class CustomSelectPage(Page):
                                     confirm_button2_height, confirm_button2__img)
         self.components["confirm_button2"] = confirm_button2
 
-        # confirm button
+        # add question button
         add_question_button2_x = 0.78
         add_question_button2_y = 13 / 20
         add_question_button2_width = 1 / 10
@@ -122,11 +116,18 @@ class CustomSelectPage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["username"] = self.input_data["username"]
-            self.output_data["custom_questions"] = self.input_data["custom_questions"]
+            self.output_data["prev_page"] = self.output_data["current_page"]
+            # self.output_data["custom_questions"] = self.input_data["custom_questions"]
             #self.output_data["room_password"] = self.input_data["room_password"]
+
+            if triggered_component in[self.components["custom_questions"]]:
+                self.output_data["custom_quiz_selection"]= triggered_component.selected_text
+                print(self.output_data["custom_quiz_selection"])
+
             if triggered_component in [self.components["return_button2"]]:
                 self.name = "host_settings"
             if triggered_component in [self.components["add_question_button2"]]:
-                print("Go to custom quiz creation page")
-            if triggered_component in [self.components["confirm_button2"]]:
-                print("Go to game session")
+                print("go question select")
+                self.name = "question_select"
+            # if triggered_component in [self.components["confirm_button2"]]:
+            #    self.name = "hostroom"
