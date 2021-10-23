@@ -55,6 +55,27 @@ class HostSettingsPage(Page):
                                              JoinAsHost_display_height, JoinAsHost_text)
         self.components["JoinAsHost_display"] = JoinAsHost_display
 
+        mode_toggle_rel_x = 9 / 20
+        mode_toggle_rel_y = 15 / 40
+        mode_toggle_rel_width = 3 / 10
+        mode_toggle_rel_height = 1 / 10
+        mode_toggle_image = pygame.image.load('assets/img/save_btn.png')
+        mode_toggle_image2 = pygame.image.load('assets/img/load_btn.png')
+        mode_toggle = ToggleButton("mode_toggle", screen, mode_toggle_rel_x, mode_toggle_rel_y, mode_toggle_rel_width, mode_toggle_rel_height,
+                              mode_toggle_image, mode_toggle_image2)
+        self.components["mode_toggle"] = mode_toggle
+
+        # Player Score display
+        Mode_display_x = 3 / 20
+        Mode_display_y = 15 / 40
+        Mode_display_width = 1 / 5
+        Mode_display_height = 1 / 3
+        Mode_text = "Mode: "
+        Mode_display = TextDisplay("Mode_display", screen, Mode_display_x,
+                                         Mode_display_y, Mode_display_width,
+                                         Mode_display_height, Mode_text)
+        self.components["Mode_display"] = Mode_display
+
         # # Subject dropdown
         # #need to change to dropdown
         # subject_dropdown_x = 1 / 20
@@ -92,23 +113,23 @@ class HostSettingsPage(Page):
         # self.components["difficulty_dropdown_button"] = difficulty_dropdown_button
 
         # global qns button
-        global_question_button_x = 5 / 20
-        global_question_button_y = 7 / 16
-        global_question_button_width = 0.55
-        global_question_button_height = 1 / 8
-        global_question_text = "From database"
-        global_question_button = TextboxButton("global_question_button", screen, global_question_button_x, global_question_button_y,
-                                       global_question_button_width,
-                                       global_question_button_height, global_question_text)
-        self.components["global_question_button"] = global_question_button
+        # global_question_button_x = 5 / 20
+        # global_question_button_y = 7 / 16
+        # global_question_button_width = 0.55
+        # global_question_button_height = 1 / 8
+        # global_question_text = "From database"
+        # global_question_button = TextboxButton("global_question_button", screen, global_question_button_x, global_question_button_y,
+        #                                global_question_button_width,
+        #                                global_question_button_height, global_question_text)
+        # self.components["global_question_button"] = global_question_button
 
         # Custom Quiz Dropdown
         # need to change to dropdown
         #If Clicked on add new qn, go to a different screen
-        custom_quiz_button_x = 5 / 20
-        custom_quiz_button_y = 5 / 8
-        custom_quiz_button_width = 0.55
-        custom_quiz_button_height = 1 / 8
+        custom_quiz_button_x = 9 / 20
+        custom_quiz_button_y = 4 / 8
+        custom_quiz_button_width = 0.3
+        custom_quiz_button_height = 1 / 10
         custom_quiz_text = self.input_data["custom_quiz_selection"]
         custom_quiz_button = TextboxButton("custom_quiz_button", screen, custom_quiz_button_x,
                                                  custom_quiz_button_y,
@@ -146,12 +167,14 @@ class HostSettingsPage(Page):
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["username"] = self.input_data["username"]
             self.output_data["prev_page"] = self.output_data["current_page"]
-#            self.output_data["room_password"] = self.input_data["room_password"]
-            if triggered_component in [self.components["global_question_button"]]:
-                self.output_data["gametypeselection"]="global_questions"
-                self.name = "hostroom"
+            if triggered_component in [self.components["mode_toggle"]]:
+                if triggered_component.toggled:
+                    self.output_data["gametypeselection"] = "custom_questions"
+                    self.output_data["Toggle_Host"] = True
+                else:
+                    self.output_data["gametypeselection"]="global_questions"
             if triggered_component in [self.components["custom_quiz_button"]]:
-                self.output_data["gametypeselection"]="custom_questions"
+                # self.output_data["gametypeselection"]="custom_questions"
                 self.name = "custom_select"
             if triggered_component in [self.components["return_button"]]:
                 # self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
@@ -161,14 +184,3 @@ class HostSettingsPage(Page):
                 if triggered_component.toggled:
                     self.output_data["Toggle_Host"] = True
                     print("True")
-    # # go button
-        # go_button_x = 12 / 20
-        # go_button_y = 41 / 64
-        # go_button_width = 1 / 10
-        # go_button_height = 1 / 10
-        # go_button__img = pygame.image.load('assets/img/exit_btn.png')
-        # go_button = ImageButton("go_button", screen, go_button_x, go_button_y,
-        #                             go_button_width,
-        #                             go_button_height, go_button__img)
-        # self.components["go_button"] = go_button
-
