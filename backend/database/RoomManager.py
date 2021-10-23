@@ -182,3 +182,20 @@ def is_room_host(user_id, room_id):
 
 def generate_room_id():
     return str(random.randint(0, 999999)).rjust(6, '0')
+
+
+def get_room_name_from_id(room_id):
+    """
+    Returns room_name of a room if it exists. Returns an empty string if it does not.
+    """
+    if type(room_id) is not str:
+        raise Exception("Given argument is not of type str")
+
+    if room_id_exists(room_id) is False:
+        return ""
+
+    query = db.collection("rooms").document(room_id).get()
+    room = query.to_dict()
+    room_name = room.get('room_name')
+
+    return room_name
