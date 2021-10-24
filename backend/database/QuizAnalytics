@@ -1,0 +1,275 @@
+import datetime
+from datetime import timedelta
+import numpy as np
+import FirebaseManager
+db = FirebaseManager.get_firestore()
+
+
+#######################################################
+## Sample Data => Firebase
+#######################################################
+
+# sample data -----------------------------------------
+def generate_sample_data():
+    start_t = datetime.datetime(2021,10,13,5,9,26)
+    end_t = datetime.datetime(2021,10,13,5,20,26)
+    end_t1 = datetime.datetime(2021,10,13,5,20,26)
+    end_t2 = datetime.datetime(2021,10,13,5,17,26)
+    end_t3 = datetime.datetime(2021,10,13,5,18,0)
+    end_t4 = datetime.datetime(2021,10,13,5,19,43)
+    end_t5 = datetime.datetime(2021,10,13,5,19,12)
+
+    global quiz, result_by_player, result_by_question
+    quiz = {
+        'room_id': '576463',
+        'quiz_id': 'Custom Quiz 3',
+        'quiz_name': 'Algebra Quiz 1',
+        'quiz_subject': 'Mathematics',
+        'quiz_topic': 'Algebra',
+        'quiz_difficulty': 3,
+        'quiz_length': 6,
+        'quiz_start_time': start_t,
+        'quiz_end_time': end_t,
+        'mode': 1 # 1 - challenge/multi player mode; 0 - single player mode
+        }
+
+    result_by_player = {
+        'Ztss74jqnUvqdAuP0LZ1': {
+            'player_name': 'Smart Runner 1',
+            'no_of_questions_attempted': 6,
+            'no_of_questions_correct': 5,
+            'player_end_time': end_t1
+            },
+
+        'Ztss74jqnUvqdAuP0LZ2': {
+            'player_name': 'Smart Runner 2',
+            'no_of_questions_attempted': 6,
+            'no_of_questions_correct': 6,
+            'player_end_time': end_t2
+            },
+
+        'Ztss74jqnUvqdAuP0LZ3': {
+            'player_name': 'Smart Runner 3',
+            'no_of_questions_attempted': 5,
+            'no_of_questions_correct': 3,
+            'player_end_time': end_t3
+            },
+
+        'Ztss74jqnUvqdAuP0LZ4': {
+            'player_name': 'Smart Runner 4',
+            'no_of_questions_attempted': 2,
+            'no_of_questions_correct': 0,
+            'player_end_time': end_t4
+            },
+
+        'Ztss74jqnUvqdAuP0LZ5': {
+            'player_name': 'Smart Runner 5',
+            'no_of_questions_attempted': 4,
+            'no_of_questions_correct': 3,
+            'player_end_time': end_t5
+            }
+        }
+
+    result_by_question = {
+        '28sXoewEEP8PdMdwlSig': {
+            'description': '(0.001)² ÷ 1000',
+            'correct': '1e-9',
+            'wrong_1': '1000',
+            'wrong_2': '0.001',
+            'wrong_3': '1e-8',
+            'count_attempts': 5,
+            'count_correct': 2,
+            'count_wrong_1': 1,
+            'count_wrong_2': 2,
+            'count_wrong_3': 0
+            },
+
+        '3EmSAFZ23dqPaijvkKPf': {
+            'description': 'Arrange the following fractions in ascending order: (2/7), (4/9), (1/5), (3/8)',
+            'correct': '(1/5), (2/7), (3/8), (4/9)',
+            'wrong_1': '(1/5), (4/9), (2/7), (3/8)',
+            'wrong_2': '(1/5), (4/9), (3/8), (2/7)',
+            'wrong_3': '(4/9), (3/8), (2/7), (1/5)',
+            'count_attempts': 3,
+            'count_correct': 2,
+            'count_wrong_1': 0,
+            'count_wrong_2': 1,
+            'count_wrong_3': 0
+            },
+        
+        '4rWsiXIWR1JztLARuQDk': {
+            'description': '2.05 in fraction form is equal to',
+            'correct': '41/20',
+            'wrong_1': '21/20',
+            'wrong_2': '31/20',
+            'wrong_3': '2',
+            'count_attempts': 3,
+            'count_correct': 3,
+            'count_wrong_1': 0,
+            'count_wrong_2': 0,
+            'count_wrong_3': 0
+            },
+            
+        'BhqXT4l5Dyxa7LUgz9Ha': {
+            'description': '9.1+19',
+            'correct': '28.1',
+            'wrong_1': '9.9',
+            'wrong_2': '11',
+            'wrong_3': '110',
+            'count_attempts': 5,
+            'count_correct': 4,
+            'count_wrong_1': 0,
+            'count_wrong_2': 1,
+            'count_wrong_3': 0
+            },
+        
+        'C9i4MmwWW9vCQs6CO7sU': {
+            'description': 'Among 1, 2, 3, 4, 5, 6, 12, 13, 14, 15, 16, 17, the prime numbers include',
+            'correct': '2, 3, 5, 13, 17',
+            'wrong_1': '2, 3, 5, 12, 13, 15, 17',
+            'wrong_2': '1, 3, 5, 13, 15, 17',
+            'wrong_3': '2, 3, 13, 17',
+            'count_attempts': 3,
+            'count_correct': 3,
+            'count_wrong_1': 0,
+            'count_wrong_2': 0,
+            'count_wrong_3': 0
+            },
+            
+        'CE6Gy2JbAfaGkvaNYZZq': {
+            'description': 'The cube of 4 is equal to',
+            'correct': '64',
+            'wrong_1': '5',
+            'wrong_2': '7',
+            'wrong_3': 'None of the above',
+            'count_attempts': 4,
+            'count_correct': 3,
+            'count_wrong_1': 0,
+            'count_wrong_2': 0,
+            'count_wrong_3': 1
+            }
+        }
+generate_sample_data()
+
+# upload data -----------------------------------------
+def store_in_firebase():
+    results_ref = db.collection(u'rooms').document(quiz.get('room_id')).collection('quizzes').document(quiz.get('quiz_id'))
+    results_ref.set(quiz)
+    for player_id, player_result in result_by_player.items():
+        results_ref.collection('player results').document(player_id).set(player_result)
+    for question_id, question_result in result_by_question.items():
+        results_ref.collection('question results').document(question_id).set(question_result)
+store_in_firebase()
+
+
+#######################################################
+## Metrics Calculation
+#######################################################
+
+# quiz info -------------------------------------------
+def quiz_info():
+    print('\n--------------------------')
+    global quiz_difficulty, quiz_start_time
+
+    # quiz name
+    print('Quiz Name: ',quiz.get('quiz_name'))
+
+    # quiz subject 
+    print('Subject: ',quiz.get('quiz_subject'))
+
+    # quiz topic
+    print('Topic: ',quiz.get('quiz_topic'))
+
+    # quiz difficulty 
+    quiz_difficulty = quiz.get('quiz_difficulty')
+    print('Difficulty: ', quiz_difficulty)
+
+    # quiz date (yyyy-mm-dd)
+    quiz_start_time = quiz.get('quiz_start_time')
+    print('Date: ', quiz_start_time.strftime("%B %d, %Y "))
+
+    # quiz duration (mm:ss)
+    quiz_duration = (quiz.get('quiz_end_time') - quiz_start_time)
+    print('Duration: ', str(quiz_duration))
+    print('--------------------------')
+quiz_info()
+
+# player results --------------------------------------
+def player_results():
+    
+    # computation
+    for player_id, player_result in result_by_player.items():
+        player_result['completion_time'] = (player_result.get('player_end_time') - quiz_start_time).total_seconds()
+        player_result['accuracy'] = player_result.get('no_of_questions_correct')/player_result.get('no_of_questions_attempted')
+        player_result['score'] = quiz_difficulty * 1/(player_result.get('completion_time')/86400) * (1+0.5*quiz.get('mode'))/2 * player_result.get('accuracy') 
+
+    # player score (x):
+    ## (name, score) sorted by descending score
+    print('\n\nPlayer Scores:')
+    for player_id, player_result in sorted(result_by_player.items(), key=lambda x:x[1]['score'], reverse=True):
+        print(' ',player_result.get('player_name'),': {0:.1f}'.format(player_result.get('score')))
+    ## min, medium, max, average, standard deviation of score
+    scores = list(player_result.get('score') for player_result in result_by_player.values())
+    print(' -----------------\n  Min: {0:.1f}'.format(np.min(scores)))
+    print('  Median: {0:.1f}'.format(np.median(scores)))
+    print('  Max: {0:.1f}'.format(np.max(scores)))
+    print('  Mean: {0:.1f}'.format(np.mean(scores)))
+    print('  Std: {0:.1f}'.format(np.std(scores)))
+
+    # player accuracy (x%):
+    ## (name, accuracy) sorted by descending accuracy
+    print('\n\nPlayer Accuracy:')
+    for player_id, player_result in sorted(result_by_player.items(), key=lambda x:x[1]['accuracy'], reverse=True):
+        print(' ',player_result.get('player_name'),': {0:.1f}%'.format(player_result.get('accuracy')*100))
+    ## min, medium, max, average, standard deviation of accuracy
+    accuracies = list(player_result.get('accuracy') for player_result in result_by_player.values())
+    print(' -----------------\n  Min: {0:.1f}%'.format(np.min(accuracies)))
+    print('  Median: {0:.1f}%'.format(np.median(accuracies)*100))
+    print('  Max: {0:.1f}%'.format(np.max(accuracies)*100))
+    print('  Mean: {0:.1f}%'.format(np.mean(accuracies)*100))
+    print('  Std: {0:.1f}%'.format(np.std(accuracies)*100))
+
+
+    # player completion time (mm:ss):
+    ## (name, completion time) sorted by ascending completion time
+    print('\n\nPlayer Completion Time:')
+    for player_id, player_result in sorted(result_by_player.items(), key=lambda x:x[1]['completion_time']):
+        print(' ',player_result.get('player_name'),': {0:.0f}s'.format(player_result.get('completion_time')))
+    ## min, medium, max, average, standard deviation of completion time
+    completion_times = list(player_result.get('completion_time') for player_result in result_by_player.values())
+    print(' -----------------\n  Min: {0:.0f}s'.format(np.min(completion_times)))
+    print('  Median: {0:.0f}s'.format(np.median(completion_times)))
+    print('  Max: {0:.0f}s'.format(np.max(completion_times)))
+    print('  Mean: {0:.0f}s'.format(np.mean(completion_times)))
+    print('  Std: {0:.0f}s'.format(np.std(completion_times)))
+player_results()
+
+# question results ------------------------------------
+def question_results():
+    print('\n')
+
+    # question 
+    ## description
+    ## attempts count, correct count, accuracy (x%)
+    ## (correct, %correct)
+    ## (wrong_1, %correct)
+    ## (wrong_2, %correct)
+    ## (wrong_3, %correct)
+    i = 0
+    for question_id, question_result in result_by_question.items():
+        i = i+1
+        count_attempts = question_result.get('count_attempts')
+        print('\n\nQ'+str(i)+'.',question_result.get('description'))
+        print('Correct:')
+        print('  {0:.1f}% =>'.format(question_result.get('count_correct')/count_attempts*100),question_result.get('correct'))
+        print('Wrong:')
+        print('  {0:.1f}% =>'.format(question_result.get('count_wrong_1')/count_attempts*100),question_result.get('wrong_1'))
+        print('  {0:.1f}% =>'.format(question_result.get('count_wrong_2')/count_attempts*100),question_result.get('wrong_2'))
+        print('  {0:.1f}% =>'.format(question_result.get('count_wrong_3')/count_attempts*100),question_result.get('wrong_3'))
+question_results()    
+
+
+#######################################################
+## Page Display
+#######################################################
+
