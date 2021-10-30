@@ -112,9 +112,9 @@ def room_name_exists(room_name):
     if type(room_name) is not str:
         raise Exception("Given argument is not of type str")
 
-    result = db.collection("rooms")\
-                .where("room_name", "==", room_name)\
-                .get()
+    result = db.collection("rooms") \
+        .where("room_name", "==", room_name) \
+        .get()
 
     if len(result) != 0:
         return True
@@ -199,3 +199,52 @@ def get_room_name_from_id(room_id):
     room_name = room.get('room_name')
 
     return room_name
+
+
+def set_member_status(room_id, user_id, status=0):
+    """
+    Saves the scores that a user has attained for a game in the room.
+    :param room_id: Room that this quiz is for.
+    :param user_id: Member whose ready status is to be updated.
+    :param status: Status to be updated. Has to be 0 (unready) or 1 (ready).
+    :return: true if status was saved.
+    """
+
+    if type(room_id) is not str:
+        raise Exception("Given arguments is not of type str")
+
+    if type(user_id) is not str:
+        raise Exception("Given arguments is not of type str")
+
+    if type(status) is not int:
+        raise Exception("Given arguments is not of type int")
+
+    if status != 1 & status != 0:
+        raise Exception("Given status is not 0 or 1")
+
+    status_dict = {"status":status}
+
+    try:
+        db.collection("rooms").document(room_id).collection("members").document(user_id).set(status_dict)
+        return True
+    except:
+        raise Exception("Status could not be saved")
+
+
+def get_room_member_statuses(room_id):
+    """
+    Returns dictionary of members in a room and their corresponding ready statuses.
+    :param room_id: Room whose status to retrieve.
+    :return: Returns a dictionary of user_id's and the corresponding ready statuses.
+    """
+
+    if type(room_id) is not str:
+        raise Exception("Given arguments is not of type str")
+
+    members = {}
+    query = db.collection("rooms").document(room_id).collection("members").get()
+    for member in query:
+        temp_status = member.to_dict()
+        members[member.id] = temp_status["status"]
+
+    return members
