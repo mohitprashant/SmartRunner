@@ -201,6 +201,22 @@ def get_room_name_from_id(room_id):
     return room_name
 
 
+def get_list_of_rooms_by_host(host_id):
+    """
+    Returns room_name of a room if it exists. Returns an empty string if it does not.
+    """
+    if type(host_id) is not str:
+        raise Exception("Given argument is not of type str")
+
+    query = db.collection("rooms").where("host_id", "==", host_id).get()
+
+    rooms = []
+    for room in query:
+        rooms.append(room.id)
+
+    return rooms
+
+
 def set_member_status(room_id, user_id, status=0):
     """
     Saves the scores that a user has attained for a game in the room.
