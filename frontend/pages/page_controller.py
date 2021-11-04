@@ -83,10 +83,13 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            # input data goes to the leaderboardselection page
-            "leaderboardlist": leadselect
+            "subjectlist": subjectlist,
+            "topiclist": topiclist,
+            "difficultylist": difficultylist,
+            "subject_topic_list": ["Select Topic"],
+            "subjectselection": "English"
         }
-        page_data = self.leadselect.start(self.screen, input_data)
+        page_data = self.singleplayer.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print("current page", self.current_page)

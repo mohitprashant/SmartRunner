@@ -29,7 +29,7 @@ class SinglePlayerPage(Page):
     # set all component variables on input screen
     def set_components(self, screen):
         # background
-        bg_img = pygame.image.load('assets/img/sky.png')
+        bg_img = pygame.image.load('assets/Backgrounds/background.png')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -38,7 +38,7 @@ class SinglePlayerPage(Page):
         start_button_rel_y = 4 / 5
         start_button_rel_width = 1 / 7
         start_button_rel_height = 1 / 7
-        start_button_img = pygame.image.load('assets/img/start_btn.png')
+        start_button_img = pygame.image.load('assets/Buttons/btn_start.png')
         start_button = ImageButton("start_button", screen, start_button_rel_x, start_button_rel_y, start_button_rel_width,
                               start_button_rel_height, start_button_img)
         self.components["start_button"] = start_button
@@ -48,7 +48,7 @@ class SinglePlayerPage(Page):
         exit_button_rel_y = 4 / 5
         exit_button_rel_width = 1 / 7
         exit_button_rel_height = 1 / 7
-        exit_button_img = pygame.image.load('assets/img/exit_btn.png')
+        exit_button_img = pygame.image.load('assets/Buttons/btn_back.png')
         exit_button = ImageButton("exit_button", screen, exit_button_rel_x, exit_button_rel_y,
                                    exit_button_rel_width,
                                    exit_button_rel_height, exit_button_img)
