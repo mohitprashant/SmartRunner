@@ -23,7 +23,7 @@ class UniqueAnalyticsPage(Page):
         self.output_data["roomID"] = self.input_data["roomID"]
 
         # background
-        bg_img = pygame.image.load('assets/img/sky.png')
+        bg_img = pygame.image.load('assets/Backgrounds/background.png')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -55,9 +55,9 @@ class UniqueAnalyticsPage(Page):
         # export button
         export_button_rel_x = 11 / 15
         export_button_rel_y = 4 / 5
-        export_button_rel_width = 1 / 7
+        export_button_rel_width = 0.2
         export_button_rel_height = 1 / 7
-        export_button_img = pygame.image.load('assets/img/load_btn.png')
+        export_button_img = pygame.image.load('assets/Buttons/btn_export.png')
         export_button = ImageButton("export_button", screen, export_button_rel_x, export_button_rel_y, export_button_rel_width,
                               export_button_rel_height, export_button_img)
         self.components["export_button"] = export_button
@@ -67,7 +67,7 @@ class UniqueAnalyticsPage(Page):
         exit_button_rel_y = 4 / 5
         exit_button_rel_width = 1 / 7
         exit_button_rel_height = 1 / 7
-        exit_button_img = pygame.image.load('assets/img/exit_btn.png')
+        exit_button_img = pygame.image.load('assets/Buttons/btn_back.png')
         exit_button = ImageButton("exit_button", screen, exit_button_rel_x, exit_button_rel_y,
                                    exit_button_rel_width,
                                    exit_button_rel_height, exit_button_img)
