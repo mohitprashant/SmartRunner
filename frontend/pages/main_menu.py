@@ -20,7 +20,7 @@ class MainMenuPage(Page):
     # set all component variables on input screen
     def set_components(self, screen):
         # background
-        bg_img = pygame.image.load('assets/img/sky.png')
+        bg_img = pygame.image.load('assets/Backgrounds/background.png')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -29,7 +29,7 @@ class MainMenuPage(Page):
         single_player_button_y = 1 / 2
         single_player_button_width = 1 / 4
         single_player_button_height = 1 / 5
-        single_player_button_img = pygame.image.load('assets/img/start_btn.png')
+        single_player_button_img = pygame.image.load('assets/Buttons/btn_singleplayer.png')
         single_player_button = ImageButton("single_player_button", screen, single_player_button_x, single_player_button_y, single_player_button_width,
                               single_player_button_height, single_player_button_img)
         self.components["single_player_button"] = single_player_button
@@ -39,7 +39,7 @@ class MainMenuPage(Page):
         room_button_y = 1 / 2
         room_button_width = 1 / 4
         room_button_height = 1 / 5
-        room_button__img = pygame.image.load('assets/img/restart_btn.png')
+        room_button__img = pygame.image.load('assets/Buttons/btn_rooms.png')
         room_button = ImageButton("room_button",screen, room_button_x, room_button_y,
                                       room_button_width,
                                       room_button_height, room_button__img)
@@ -50,7 +50,7 @@ class MainMenuPage(Page):
         leaderboard_button_y = 1 / 2
         leaderboard_button_width = 1 / 4
         leaderboard_button_height = 1 / 5
-        leaderboard_button__img = pygame.image.load('assets/img/load_btn.png')
+        leaderboard_button__img = pygame.image.load('assets/Buttons/btn_leaderboards.png')
         leaderboard_button = ImageButton("leaderboard_button", screen, leaderboard_button_x, leaderboard_button_y,
                              leaderboard_button_width,
                              leaderboard_button_height, leaderboard_button__img)

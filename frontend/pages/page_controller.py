@@ -83,13 +83,14 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            "subjectlist": subjectlist,
-            "topiclist": topiclist,
-            "difficultylist": difficultylist,
-            "subject_topic_list": ["Select Topic"],
-            "subjectselection": "English"
+            # "roomID": roomID,
+            # "score_board": score_board,
+            "username": username,
+            "back_navigation": "back",
+            "topic_leaderboard_ID": "1",
+            "score_board": "score"
         }
-        page_data = self.singleplayer.start(self.screen, input_data)
+        page_data = self.share_results.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print("current page", self.current_page)
