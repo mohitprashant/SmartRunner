@@ -18,20 +18,20 @@ class CreateAccountPage(Page):
     # set all component variables on input screen
     def set_components(self, screen):
         # background
-        bg_img = pygame.image.load('assets/img/sky.png')
+        bg_img = pygame.image.load('assets/Backgrounds/background.png')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
 
         # picture display - sun to be replaced with a game introduction image
-        home_image_rel_x = 1 / 10
-        home_image_rel_y = 1 / 2
-        home_image_rel_width = 1 / 3
-        home_image_rel_height = 1 / 5
-        home_image_img = pygame.image.load('assets/img/sun.png')
-        home_image_box = ImageDisplay("home_image_box", screen, home_image_rel_x, home_image_rel_y,
-                                       home_image_rel_width, home_image_rel_height,home_image_img)
-        self.components["home_image_box"] = home_image_box
+        # home_image_rel_x = 1 / 10
+        # home_image_rel_y = 1 / 2
+        # home_image_rel_width = 1 / 3
+        # home_image_rel_height = 1 / 5
+        # home_image_img = pygame.image.load('assets/img/sky.png')
+        # home_image_box = ImageDisplay("home_image_box", screen, home_image_rel_x, home_image_rel_y,
+        #                                home_image_rel_width, home_image_rel_height,home_image_img)
+        # self.components["home_image_box"] = home_image_box
 
         # #user signs in
         # sign_in_button_rel_x = 7 / 10
@@ -45,11 +45,11 @@ class CreateAccountPage(Page):
         # self.components["sign_in_button"] = sign_in_button
 
         #new acc creation
-        create_acc_button_rel_x = 7/10
+        create_acc_button_rel_x = 0.65
         create_acc_button_rel_y = 3 / 4
-        create_acc_button_rel_width = 1 / 8
+        create_acc_button_rel_width = 1 / 6
         create_acc_button_rel_height = 1 / 8
-        create_acc_button_img = pygame.image.load('assets/img/start_btn.png')
+        create_acc_button_img = pygame.image.load('assets/Buttons/btn_createacct.png')
         create_acc_button = ImageButton("create_acc_button", screen, create_acc_button_rel_x, create_acc_button_rel_y,
                                         create_acc_button_rel_width,
                                         create_acc_button_rel_height, create_acc_button_img)

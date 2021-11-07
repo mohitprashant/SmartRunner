@@ -23,27 +23,27 @@ class JoinRoomPage(Page):
     # set all component variables on input screen
     def set_components(self, screen):
         # background
-        bg_img = pygame.image.load('assets/img/sky.png')
+        bg_img = pygame.image.load('assets/Backgrounds/background.png')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
 
         # picture display - sun to be replaced with a game image
-        game_image_rel_x = 1 / 10
-        game_image_rel_y = 1 / 2
-        game_image_rel_width = 1 / 3
-        game_image_rel_height = 1 / 5
-        game_image_img = pygame.image.load('assets/img/sun.png')
-        game_image_box = ImageDisplay("game_image_box", screen, game_image_rel_x, game_image_rel_y,
-                                       game_image_rel_width, game_image_rel_height,game_image_img)
-        self.components["game_image_box"] = game_image_box
+        # game_image_rel_x = 1 / 10
+        # game_image_rel_y = 1 / 2
+        # game_image_rel_width = 1 / 3
+        # game_image_rel_height = 1 / 5
+        # game_image_img = pygame.image.load('assets/img/sun.png')
+        # game_image_box = ImageDisplay("game_image_box", screen, game_image_rel_x, game_image_rel_y,
+        #                                game_image_rel_width, game_image_rel_height,game_image_img)
+        # self.components["game_image_box"] = game_image_box
 
         # confirm roomid and password
         room_confirm_button_rel_x = 7 / 10
         room_confirm_button_rel_y = 3 / 4
         room_confirm_button_rel_width = 1 / 8
         room_confirm_button_rel_height = 1 / 8
-        room_confirm_button_img = pygame.image.load('assets/img/start_btn.png')
+        room_confirm_button_img = pygame.image.load('assets/Buttons/btn_joinroom.png')
         room_confirm_button = ImageButton("room_confirm_button", screen, room_confirm_button_rel_x, room_confirm_button_rel_y,
                                    room_confirm_button_rel_width,
                                    room_confirm_button_rel_height, room_confirm_button_img)
@@ -55,7 +55,7 @@ class JoinRoomPage(Page):
         back_button_rel_y = 3 / 4
         back_button_rel_width = 1 / 8
         back_button_rel_height = 1 / 8
-        back_button_img = pygame.image.load('assets/img/start_btn.png')
+        back_button_img = pygame.image.load('assets/Buttons/btn_back.png')
         back_button = ImageButton("back_button", screen, back_button_rel_x, back_button_rel_y,
                                         back_button_rel_width,
                                         back_button_rel_height, back_button_img)

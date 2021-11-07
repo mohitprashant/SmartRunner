@@ -25,7 +25,7 @@ class AddQuestionPage(Page):
 
     def set_components(self, screen):
         # background
-        bg_img = pygame.image.load('assets/img/sky.png')
+        bg_img = pygame.image.load('assets/Backgrounds/background.png')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -96,7 +96,7 @@ class AddQuestionPage(Page):
         return_button2_y = 17 / 20
         return_button2_width = 1 / 10
         return_button2_height = 1 / 10
-        return_button2__img = pygame.image.load('assets/img/exit_btn.png')
+        return_button2__img = pygame.image.load('assets/Buttons/btn_back.png')
         return_button2 = ImageButton("return_button2", screen, return_button2_x, return_button2_y,
                                     return_button2_width,
                                     return_button2_height, return_button2__img)
@@ -107,7 +107,7 @@ class AddQuestionPage(Page):
         confirm_button2_y = 17 / 20
         confirm_button2_width = 1 / 10
         confirm_button2_height = 1 / 10
-        confirm_button2__img = pygame.image.load('assets/img/save_btn.png')
+        confirm_button2__img = pygame.image.load('assets/Buttons/btn_confirm.png')
         confirm_button2 = ImageButton("confirm_button2", screen, confirm_button2_x, confirm_button2_y,
                                     confirm_button2_width,
                                     confirm_button2_height, confirm_button2__img)
