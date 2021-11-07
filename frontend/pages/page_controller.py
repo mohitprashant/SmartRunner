@@ -36,7 +36,7 @@ analyticslist = ["Analytics 1", "Analytics 2", "Analytics 3", "Analytics 4", "An
 analyticsdata = ["Mean= 23", "Median = 20", "Mode = 19", "Highest = 40", "Lowest = 12", "Standard Deviation = 3"]
 username = ["User1", "User2", "User3", "User 4"]
 password = ["hello", "pen", "bottle", "candle"]
-# score_board = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
+score_board = ["User1 23", "User2 20", "User3 19", "User 4 25", "User 5 40", "User 6 34", "User 7 54"]
 topicleadselect = {"Leaderboard 1": ["wee",'woo'], "Leaderboard 2": ["hee", "hoo"]}
 roomID = ["R1", "R2", "R3", "R4"]
 room_password = ["R1_P", "R2_P", "R3_P", "R4_P"]
@@ -86,14 +86,11 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            # "roomID": roomID,
-            # "score_board": score_board,
-            "username": username,
-            "back_navigation": "back",
-            "topic_leaderboard_ID": "1",
-            "score_board": "score"
+            "topic_leaderboard": topicleadselect,
+            "topic_leaderboard_ID": "Leaderboard 2",
+            "username": username
         }
-        page_data = self.share_results.start(self.screen, input_data)
+        page_data = self.topic_leaderboard.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print("current page", self.current_page)
@@ -130,7 +127,7 @@ class PageController:
                     input_data = {
                         "roomID": page_data[0]["roomID"],
                         "username": username,
-                        "custom_quiz_selection": page_data[0]["custom_quiz_selection"]
+                        # "custom_quiz_selection": page_data[0]["custom_quiz_selection"]
                         # "password": password
                     }
                 page_data = self.host_settings.start(self.screen, input_data)
@@ -158,24 +155,27 @@ class PageController:
                 }
                 page_data = self.add_question.start(self.screen, input_data)
             if page_data[0]["current_page"] == "share":
-                if page_data[0]["current_page"] == "share":
-                    # if page_data[0]["prev_page"] == "playerroom":
+                if page_data[0]["prev_page"] == "playerroom":
                     input_data = {
                         "roomID": page_data[0]["roomID"],
                         "room_password": room_password,
                         "username": username,
-                        "back_navigation":page_data[0]["prev_page"]
+                        "back_navigation":page_data[0]["prev_page"],
+                        "toggled": False
                     }
                 page_data = self.share.start(self.screen, input_data)
             if page_data[0]["current_page"] == "share_results":
                 if page_data[0]["prev_page"] == "topic_leaderboard":
-                    # page_data[0]["topic_leaderboard_ID"] = page_data[1]["topic_leaderboard_ID"]
                     input_data = {
-                        # "roomID": roomID,
-                        # "score_board": score_board,
                         "username": username,
                         "back_navigation": page_data[0]["prev_page"],
                         "topic_leaderboard_ID": page_data[0]["topic_leaderboard_ID"],
+                    }
+                elif page_data[0]["prev_page"] == "end_screen":
+                    input_data = {
+                        "roomID": roomID,
+                        "username": username,
+                        "back_navigation": page_data[0]["prev_page"],
                         "score_board": page_data[0]["score_board"]
                     }
                 page_data = self.share_results.start(self.screen, input_data)

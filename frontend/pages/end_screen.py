@@ -16,7 +16,7 @@ class EndScreenPage(Page):
             "current_page": self.name,
             "prev_page": "",
             "room_ID": "",
-            "score_board": "",
+            "score_board": [],
             "username":"",
             "exit": False
         }
