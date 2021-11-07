@@ -20,6 +20,9 @@ from custom_select import *
 from create_account import *
 from question_select import *
 from add_question import *
+import sys
+sys.path.insert(1, '../../backend/database')
+from FirebaseManager import *
 '''
 main controller of the system
 int screen_width starting width of screen
