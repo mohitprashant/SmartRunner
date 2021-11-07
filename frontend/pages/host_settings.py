@@ -28,7 +28,7 @@ class HostSettingsPage(Page):
 
     def set_components(self, screen):
         # background
-        bg_img = pygame.image.load('assets/img/sky.png')
+        bg_img = pygame.image.load('assets/Backgrounds/background.png')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -37,8 +37,8 @@ class HostSettingsPage(Page):
         toggle_rel_y = 1/20
         toggle_rel_width = 1 / 10
         toggle_rel_height = 1 / 10
-        toggle_image = pygame.image.load('assets/img/save_btn.png')
-        toggle_image2 = pygame.image.load('assets/img/load_btn.png')
+        toggle_image = pygame.image.load('assets/Buttons/btn_togglenotpressed.png')
+        toggle_image2 = pygame.image.load('assets/Buttons/btn_togglepressed.png')
         toggle = ToggleButton("toggle", screen, toggle_rel_x, toggle_rel_y, toggle_rel_width, toggle_rel_height,
                               toggle_image, toggle_image2)
         self.components["toggle"] = toggle
@@ -143,7 +143,7 @@ class HostSettingsPage(Page):
         return_button_y = 17 / 20
         return_button_width = 1 / 10
         return_button_height = 1 / 10
-        return_button__img = pygame.image.load('assets/img/exit_btn.png')
+        return_button__img = pygame.image.load('assets/Buttons/btn_back.png')
         return_button = ImageButton("return_button", screen, return_button_x, return_button_y,
                                     return_button_width,
                                     return_button_height, return_button__img)

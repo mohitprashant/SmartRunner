@@ -27,7 +27,7 @@ class CustomSelectPage(Page):
 
     def set_components(self, screen):
         # background
-        bg_img = pygame.image.load('assets/img/sky.png')
+        bg_img = pygame.image.load('assets/Backgrounds/background.png')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -57,14 +57,25 @@ class CustomSelectPage(Page):
         # # create surface
         # self.components["custom_questions_whole"] = custom_questions_whole
         # self.layers.append(custom_questions_whole)
+        # analytics list image
+
+        list_image_rel_x = 0.095
+        list_image_rel_y = 0.1
+        list_image_rel_width = 0.8
+        list_image_rel_height = 0.7
+        list_img = pygame.image.load('assets/Backgrounds/scrollable.png')
+        analyticslist_image = ImageDisplay("analyticslist_image", screen, list_image_rel_x, list_image_rel_y,
+                                           list_image_rel_width,
+                                           list_image_rel_height, list_img)
+        self.components["analyticslist_image"] = analyticslist_image
 
         # SelectableTextList
-        relative_x = 1 / 20
-        relative_y = 3 / 20
-        relative_width = 0.7
-        text_relative_height = 1 / 10
-        shown_relative_width = 7 / 10
-        shown_relative_height = 3 / 5
+        relative_x = 0.2
+        relative_y = 0.2
+        relative_width = 0.55
+        text_relative_height = 0.1
+        shown_relative_width = 0.55
+        shown_relative_height = 0.5
         custom_questions_list = self.input_data["custom_quiz"]
         # print(self.input_data.keys())
         # print(custom_questions_list)
@@ -78,34 +89,34 @@ class CustomSelectPage(Page):
         #custom_questions_whole.add_component(custom_questions)
         self.layers.append(custom_questions)
 
-        # return button
-        return_button2_x = 1 / 20
+        # confirm and go back button
+        return_button2_x = 17 / 20
         return_button2_y = 17 / 20
         return_button2_width = 1 / 10
         return_button2_height = 1 / 10
-        return_button2__img = pygame.image.load('assets/img/exit_btn.png')
+        return_button2__img = pygame.image.load('assets/Buttons/btn_confirm.png')
         return_button2 = ImageButton("return_button2", screen, return_button2_x, return_button2_y,
                                     return_button2_width,
                                     return_button2_height, return_button2__img)
         self.components["return_button2"] = return_button2
 
         # confirm button
-        confirm_button2_x = 17 / 20
-        confirm_button2_y = 17 / 20
-        confirm_button2_width = 1 / 10
-        confirm_button2_height = 1 / 10
-        confirm_button2__img = pygame.image.load('assets/img/save_btn.png')
-        confirm_button2 = ImageButton("confirm_button2", screen, confirm_button2_x, confirm_button2_y,
-                                    confirm_button2_width,
-                                    confirm_button2_height, confirm_button2__img)
-        self.components["confirm_button2"] = confirm_button2
+        # confirm_button2_x = 17 / 20
+        # confirm_button2_y = 17 / 20
+        # confirm_button2_width = 1 / 10
+        # confirm_button2_height = 1 / 10
+        # confirm_button2__img = pygame.image.load('assets/Buttons/btn_confirm.png')
+        # confirm_button2 = ImageButton("confirm_button2", screen, confirm_button2_x, confirm_button2_y,
+        #                             confirm_button2_width,
+        #                             confirm_button2_height, confirm_button2__img)
+        # self.components["confirm_button2"] = confirm_button2
 
         # add question button
-        add_question_button2_x = 0.78
+        add_question_button2_x = 0.83
         add_question_button2_y = 13 / 20
         add_question_button2_width = 1 / 10
         add_question_button2_height = 1 / 10
-        add_question_button2__img = pygame.image.load('assets/img/load_btn.png')
+        add_question_button2__img = pygame.image.load('assets/Buttons/btn_add.png')
         add_question_button2 = ImageButton("add_question_button2", screen, add_question_button2_x, add_question_button2_y,
                                       add_question_button2_width,
                                       add_question_button2_height, add_question_button2__img)
@@ -123,7 +134,6 @@ class CustomSelectPage(Page):
             if triggered_component in[self.components["custom_questions"]]:
                 self.output_data["custom_quiz_selection"]= triggered_component.selected_text
                 print(self.output_data["custom_quiz_selection"])
-
             if triggered_component in [self.components["return_button2"]]:
                 self.name = "host_settings"
             if triggered_component in [self.components["add_question_button2"]]:
