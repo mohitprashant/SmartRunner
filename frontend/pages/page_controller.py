@@ -86,13 +86,10 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            "roomID": "Room 1",
             "username": username,
-            "custom_quiz_selection": "Custom Quiz",
-            "toggled": False
-            # "password": password
+            "password": password
         }
-        page_data = self.host_settings.start(self.screen, input_data)
+        page_data = self.login.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print("current page", self.current_page)

@@ -29,7 +29,7 @@ class SinglePlayerPage(Page):
     # set all component variables on input screen
     def set_components(self, screen):
         # background
-        bg_img = pygame.image.load('assets/Backgrounds/background.png')
+        bg_img = pygame.image.load('assets/Backgrounds/singleplayerbg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
