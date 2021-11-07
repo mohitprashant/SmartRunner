@@ -158,11 +158,12 @@ class ColorButton(ImageButton):
 
 
 class ToggleButton(ImageButton):
-    def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height, image, toggle_image):
+    def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height, image, toggle_image,
+                 toggled=False):
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, image)
         self.original_image = image
         self.toggle_image = toggle_image
-        self.toggled = False
+        self.toggled = toggled
 
     # return true if button is clicked
     def trigger(self, event):
