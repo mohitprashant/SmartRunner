@@ -10,7 +10,9 @@ class HostSettingsPage(Page):
         self.input_data = {
             "roomID": "",
             "username": "",
-            "custom_quiz_selection":""
+            "custom_quiz_selection":"",
+            "back_navigation": "",
+            "toggled": False
             # "room_password": ""
         }
         self.output_data = {
@@ -19,7 +21,6 @@ class HostSettingsPage(Page):
             "room_ID": "",
             "username": "",
             # "room_password": "",
-            "Toggle_Host": False,
             "gametypeselection": "",
             "custom_quiz_selection": "",
             "exit": False
@@ -40,7 +41,7 @@ class HostSettingsPage(Page):
         toggle_image = pygame.image.load('assets/Buttons/btn_togglenotpressed.png')
         toggle_image2 = pygame.image.load('assets/Buttons/btn_togglepressed.png')
         toggle = ToggleButton("toggle", screen, toggle_rel_x, toggle_rel_y, toggle_rel_width, toggle_rel_height,
-                              toggle_image, toggle_image2)
+                              toggle_image, toggle_image2, self.input_data["toggled"])
         self.components["toggle"] = toggle
 
 
@@ -76,41 +77,6 @@ class HostSettingsPage(Page):
                                          Mode_display_height, Mode_text)
         self.components["Mode_display"] = Mode_display
 
-        # # Subject dropdown
-        # #need to change to dropdown
-        # subject_dropdown_x = 1 / 20
-        # subject_dropdown_y = 1 / 4
-        # subject_dropdown_width = 1 / 4
-        # subject_dropdown_height = 1 / 8
-        # subject_dropdown_img = pygame.image.load('assets/img/restart_btn.png')
-        # subject_dropdown = ImageButton("subject_dropdown", screen, subject_dropdown_x, subject_dropdown_y,
-        #                                  subject_dropdown_width,
-        #                                  subject_dropdown_height, subject_dropdown_img)
-        # self.components["subject_dropdown"] = subject_dropdown
-        #
-        # # Topic room button
-        # #need to change to dropdown
-        # topic_dropdown_x = 7 / 20
-        # topic_dropdown_y = 1 / 4
-        # topic_dropdown_width = 1 / 4
-        # topic_dropdown_height = 1 / 8
-        # topic_dropdown_img = pygame.image.load('assets/img/load_btn.png')
-        # topic_dropdown = ImageButton("topic_dropdown", screen, topic_dropdown_x, topic_dropdown_y,
-        #                                topic_dropdown_width,
-        #                                topic_dropdown_height, topic_dropdown_img)
-        # self.components["topic_dropdown"] = topic_dropdown
-        #
-        # # Difficulty button
-        # #need to change to dropdown
-        # difficulty_dropdown_x = 13 / 20
-        # difficulty_dropdown_y = 1 / 4
-        # difficulty_dropdown_width = 1 / 4
-        # difficulty_dropdown_height = 1 / 8
-        # difficulty_dropdown_img = pygame.image.load('assets/img/exit_btn.png')
-        # difficulty_dropdown_button = ImageButton("difficulty_dropdown_button", screen, difficulty_dropdown_x, difficulty_dropdown_y,
-        #                                  difficulty_dropdown_width,
-        #                                  difficulty_dropdown_height, difficulty_dropdown_img)
-        # self.components["difficulty_dropdown_button"] = difficulty_dropdown_button
 
         # global qns button
         # global_question_button_x = 5 / 20
@@ -164,6 +130,7 @@ class HostSettingsPage(Page):
         # each button should link to a new screen
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["back_navigation"]=self.output_data["prev_page"]
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["username"] = self.input_data["username"]
             self.output_data["prev_page"] = self.output_data["current_page"]
@@ -182,5 +149,9 @@ class HostSettingsPage(Page):
             if triggered_component in [self.components["toggle"]]:
                 print("hello")
                 if triggered_component.toggled:
-                    self.output_data["Toggle_Host"] = True
-                    print("True")
+                    # self.output_data["toggle_password"] = True
+                    self.input_data["toggled"] = True
+                    print("Join room as host")
+                else:
+                    self.input_data["toggled"] = False
+                    print("False")
