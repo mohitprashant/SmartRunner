@@ -164,6 +164,8 @@ class ToggleButton(ImageButton):
         self.original_image = image
         self.toggle_image = toggle_image
         self.toggled = toggled
+        if toggled:
+            self.image = toggle_image
 
     # return true if button is clicked
     def trigger(self, event):
