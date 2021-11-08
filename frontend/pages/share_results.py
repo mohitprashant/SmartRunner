@@ -66,28 +66,6 @@ class ShareResultsPage(Page):
                                          twitter_button_height, twitter_button_img)
         self.components["twitter_button"] = twitter_button2
 
-        # # IG Button
-        # ig_button_x = 10 / 20
-        # ig_button_y = 1 / 4
-        # ig_button_width = 0.18
-        # ig_button_height = 1 / 5
-        # ig_button_img = pygame.image.load('assets/img/Instagram.png')
-        # ig_button2 = ImageButton("ig_button", screen, ig_button_x, ig_button_y,
-        #                              ig_button_width,
-        #                              ig_button_height, ig_button_img)
-        # self.components["ig_button"] = ig_button2
-        #
-        #
-        # # whatsapp Button
-        # whatsapp_button_x = 3 / 20
-        # whatsapp_button_y = 2 / 4
-        # whatsapp_button_width = 1 / 4
-        # whatsapp_button_height = 1 / 4
-        # whatsapp_button_img = pygame.image.load('assets/img/whatsapp.png')
-        # whatsapp_button2 = ImageButton("whatsapp_button", screen, whatsapp_button_x, whatsapp_button_y,
-        #                         whatsapp_button_width,
-        #                         whatsapp_button_height, whatsapp_button_img)
-        # self.components["whatsapp_button"] = whatsapp_button2
 
         # Facebook Button
         facebook_button_x = 10 / 20

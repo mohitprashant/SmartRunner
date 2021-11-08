@@ -86,10 +86,10 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            "username": username,
-            "password": password
+            "player_status": player_status,
+            "roomID": "Room 1"
         }
-        page_data = self.login.start(self.screen, input_data)
+        page_data = self.hostroom.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print("current page", self.current_page)
@@ -115,21 +115,25 @@ class PageController:
                     }
                 page_data = self.singleplayer.start(self.screen, input_data)
             if page_data[0]["current_page"] == "host_settings":
+                if page_data[0]["prev_page"] == "host_settings":
+                    page_data[0]["roomID"] = page_data[1]["roomID"]
                 if page_data[0]["prev_page"] == "custom_select":
                     input_data = {
                         "roomID": page_data[0]["roomID"],
                         "username": username,
                         "custom_quiz_selection": page_data[0]["custom_quiz_selection"],
-                        "toggled": False
-                        # "password": password
+                        "toggled": False,
+                        "mode_toggle":False,
+                        "back_navigation": page_data[0]["prev_page"]
                     }
-                else:
+                elif page_data[0]["prev_page"] == "hostroom":
                     input_data = {
                         "roomID": page_data[0]["roomID"],
                         "username": username,
                         "toggled": False,
-                        # "custom_quiz_selection": page_data[0]["custom_quiz_selection"]
-                        # "password": password
+                        "mode_toggle": False,
+                        "custom_quiz_selection": "Select Custom Quiz",
+                        "back_navigation": page_data[0]["prev_page"]
                     }
                 page_data = self.host_settings.start(self.screen, input_data)
             if page_data[0]["current_page"] == "custom_select":
@@ -144,7 +148,6 @@ class PageController:
                     "roomID": roomID,
                     "username": username,
                     "custom_question_selection": custom_questions_selection
-                        # "password": password
                 }
                 page_data = self.question_select.start(self.screen, input_data)
             if page_data[0]["current_page"] == "add_question":
