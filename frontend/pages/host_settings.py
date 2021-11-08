@@ -61,7 +61,7 @@ class HostSettingsPage(Page):
         mode_toggle_rel_width = 3 / 10
         mode_toggle_rel_height = 1 / 4
         mode_toggle_image = pygame.image.load('assets/Backgrounds/globalquestions.png')
-        mode_toggle_image2 = pygame.image.load('assets/Backgrounds/customquizzes.png')
+        mode_toggle_image2 = pygame.image.load('assets/Backgrounds/fromcustomquiz.png')
         mode_toggle = ToggleButton("mode_toggle", screen, mode_toggle_rel_x, mode_toggle_rel_y, mode_toggle_rel_width, mode_toggle_rel_height,
                               mode_toggle_image, mode_toggle_image2,self.input_data["mode_toggle"])
         self.components["mode_toggle"] = mode_toggle
@@ -77,29 +77,32 @@ class HostSettingsPage(Page):
                                          Mode_display_height, Mode_text)
         self.components["Mode_display"] = Mode_display
 
-        # room ID image
-        custom_quiz_image_rel_x = 9 / 20
-        custom_quiz_image_rel_y = 4/8
-        custom_quiz_image_rel_width = 0.33
-        custom_quiz_image_rel_height = 1 / 10
-        custom_quiz_img = pygame.image.load('assets/Buttons/btn_plain.png')
-        custom_quiz_image = ImageDisplay("custom_quiz_image", screen, custom_quiz_image_rel_x,
-                                               custom_quiz_image_rel_y,
-                                               custom_quiz_image_rel_width,
-                                               custom_quiz_image_rel_height, custom_quiz_img)
-        self.components["custom_quiz_image"] = custom_quiz_image
+        if self.input_data["mode_toggle"] == True:
+            self.output_data["gametypeselection"] = "Custom Quiz"
+            print("Custom Quiz")
+            # room ID image
+            custom_quiz_image_rel_x = 9 / 20
+            custom_quiz_image_rel_y = 4/8
+            custom_quiz_image_rel_width = 0.33
+            custom_quiz_image_rel_height = 1 / 10
+            custom_quiz_img = pygame.image.load('assets/Buttons/btn_plain.png')
+            custom_quiz_image = ImageDisplay("custom_quiz_image", screen, custom_quiz_image_rel_x,
+                                                   custom_quiz_image_rel_y,
+                                                   custom_quiz_image_rel_width,
+                                                   custom_quiz_image_rel_height, custom_quiz_img)
+            self.components["custom_quiz_image"] = custom_quiz_image
 
-        #If Clicked on add new qn, go to a different screen
-        custom_quiz_button_x = 0.47
-        custom_quiz_button_y = 0.52
-        custom_quiz_button_width = 0.3
-        custom_quiz_button_height = 1 / 10
-        custom_quiz_text = self.input_data["custom_quiz_selection"]
-        custom_quiz_button = TextButton("custom_quiz_button", screen, custom_quiz_button_x,
-                                                 custom_quiz_button_y,
-                                                 custom_quiz_button_width,
-                                                 custom_quiz_button_height, custom_quiz_text)
-        self.components["custom_quiz_button"] = custom_quiz_button
+            #If Clicked on add new qn, go to a different screen
+            custom_quiz_button_x = 0.47
+            custom_quiz_button_y = 0.52
+            custom_quiz_button_width = 0.3
+            custom_quiz_button_height = 1 / 10
+            custom_quiz_text = self.input_data["custom_quiz_selection"]
+            custom_quiz_button = TextButton("custom_quiz_button", screen, custom_quiz_button_x,
+                                                     custom_quiz_button_y,
+                                                     custom_quiz_button_width,
+                                                     custom_quiz_button_height, custom_quiz_text)
+            self.components["custom_quiz_button"] = custom_quiz_button
 
 
         # return button
@@ -122,6 +125,9 @@ class HostSettingsPage(Page):
             # print("back nav", self.output_data["back_navigation"])
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["username"] = self.input_data["username"]
+            if self.input_data["mode_toggle"] == True:
+                if triggered_component in [self.components["custom_quiz_button"]]:
+                    self.name = "custom_select"
             if triggered_component in [self.components["mode_toggle"]]:
                 if triggered_component.toggled:
                     self.input_data["mode_toggle"] = True
@@ -131,8 +137,6 @@ class HostSettingsPage(Page):
                     self.input_data["mode_toggle"] = False
                     self.output_data["gametypeselection"]="Global Questions"
                     print("Global Questions")
-            if triggered_component in [self.components["custom_quiz_button"]]:
-                self.name = "custom_select"
             if triggered_component in [self.components["return_button"]]:
                 if self.input_data["back_navigation"] == "hostroom":
                     if self.output_data["gametypeselection"] == "Custom Quiz":
