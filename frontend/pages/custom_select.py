@@ -31,16 +31,6 @@ class CustomSelectPage(Page):
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
-        # custom_quiz_display_x = 10 / 20
-        # custom_quiz_display_y = 7/8
-        # custom_quiz_display_width = 1 / 2
-        # custom_quiz_display_height = 1 / 4
-        # custom_quiz_display_text = "Custom Questions"
-        # custom_quiz_display = TextDisplay("custom_questions", screen, custom_quiz_display_x, custom_quiz_display_y,
-        #                                    custom_quiz_display_width,
-        #                                    custom_quiz_display_height, custom_quiz_display_text)
-        # self.components["custom_questions"] = custom_quiz_display
-        # print("displayed")
 
         # # player list
         # relative_x = 4 / 20
@@ -89,6 +79,16 @@ class CustomSelectPage(Page):
         #custom_questions_whole.add_component(custom_questions)
         self.layers.append(custom_questions)
 
+        custom_quiz_display_x = 4 / 20
+        custom_quiz_display_y = 2 / 40
+        custom_quiz_display_width = 1 / 2
+        custom_quiz_display_height = 0.15
+        custom_quiz_text = pygame.image.load('assets/Backgrounds/customquizzes.png')
+        custom_quiz_display = ImageDisplay("custom_quiz_display", screen, custom_quiz_display_x,
+                                           custom_quiz_display_y, custom_quiz_display_width,
+                                           custom_quiz_display_height, custom_quiz_text)
+        self.components["custom_quiz_display"] = custom_quiz_display
+
         # confirm and go back button
         return_button2_x = 17 / 20
         return_button2_y = 17 / 20
@@ -100,16 +100,6 @@ class CustomSelectPage(Page):
                                     return_button2_height, return_button2__img)
         self.components["return_button2"] = return_button2
 
-        # confirm button
-        # confirm_button2_x = 17 / 20
-        # confirm_button2_y = 17 / 20
-        # confirm_button2_width = 1 / 10
-        # confirm_button2_height = 1 / 10
-        # confirm_button2__img = pygame.image.load('assets/Buttons/btn_confirm.png')
-        # confirm_button2 = ImageButton("confirm_button2", screen, confirm_button2_x, confirm_button2_y,
-        #                             confirm_button2_width,
-        #                             confirm_button2_height, confirm_button2__img)
-        # self.components["confirm_button2"] = confirm_button2
 
         # add question button
         add_question_button2_x = 0.83

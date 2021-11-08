@@ -43,17 +43,15 @@ class ShareResultsPage(Page):
         #                       toggle_image, toggle_image2)
         # self.components["toggle"] = toggle_password
 
-
-        # Room Password display
-        display_roompassword_display_x = 4 / 20
-        display_roompassword_display_y = 3 / 40
-        display_roompassword_display_width = 1 / 2
-        display_roompassword_display_height = 0.9
-        display_roompassword_text = "Share results to social media"
-        display_roompassword_display = TextDisplay("display_roompassword_display", screen, display_roompassword_display_x,
-                                             display_roompassword_display_y, display_roompassword_display_width,
-                                             display_roompassword_display_height, display_roompassword_text)
-        self.components["display_roompassword_display"] = display_roompassword_display
+        share_results_display_x = 4 / 20
+        share_results_display_y = 3 / 40
+        share_results_display_width = 1 / 2
+        share_results_display_height = 0.2
+        share_results_text = pygame.image.load('assets/Backgrounds/shareresults.png')
+        share_results_display = ImageDisplay("share_results_display", screen, share_results_display_x,
+                                             share_results_display_y, share_results_display_width,
+                                             share_results_display_height, share_results_text)
+        self.components["share_results_display"] = share_results_display
 
         # Twitter Button
         twitter_button_x = 3 / 20
@@ -66,28 +64,6 @@ class ShareResultsPage(Page):
                                          twitter_button_height, twitter_button_img)
         self.components["twitter_button"] = twitter_button2
 
-        # # IG Button
-        # ig_button_x = 10 / 20
-        # ig_button_y = 1 / 4
-        # ig_button_width = 0.18
-        # ig_button_height = 1 / 5
-        # ig_button_img = pygame.image.load('assets/img/Instagram.png')
-        # ig_button2 = ImageButton("ig_button", screen, ig_button_x, ig_button_y,
-        #                              ig_button_width,
-        #                              ig_button_height, ig_button_img)
-        # self.components["ig_button"] = ig_button2
-        #
-        #
-        # # whatsapp Button
-        # whatsapp_button_x = 3 / 20
-        # whatsapp_button_y = 2 / 4
-        # whatsapp_button_width = 1 / 4
-        # whatsapp_button_height = 1 / 4
-        # whatsapp_button_img = pygame.image.load('assets/img/whatsapp.png')
-        # whatsapp_button2 = ImageButton("whatsapp_button", screen, whatsapp_button_x, whatsapp_button_y,
-        #                         whatsapp_button_width,
-        #                         whatsapp_button_height, whatsapp_button_img)
-        # self.components["whatsapp_button"] = whatsapp_button2
 
         # Facebook Button
         facebook_button_x = 10 / 20

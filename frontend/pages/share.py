@@ -68,12 +68,12 @@ class SharePage(Page):
         # self.components["roompassword"] = roompassword_toggle
 
         # Room Password display
-        diplay_roompassword_display_x = 1 / 20
-        diplay_roompassword_display_y = 3 / 40
+        diplay_roompassword_display_x = 0.08
+        diplay_roompassword_display_y = 0.04
         diplay_roompassword_display_width = 1 / 3
-        diplay_roompassword_display_height = 1 / 3
-        diplay_roompassword_text = "Include Room Password"
-        diplay_roompassword_display = TextDisplay("diplay_roompassword_display", screen, diplay_roompassword_display_x,
+        diplay_roompassword_display_height = 1 / 6
+        diplay_roompassword_text = pygame.image.load('assets/Backgrounds/includepwd.png')
+        diplay_roompassword_display = ImageDisplay("diplay_roompassword_display", screen, diplay_roompassword_display_x,
                                              diplay_roompassword_display_y, diplay_roompassword_display_width,
                                              diplay_roompassword_display_height, diplay_roompassword_text)
         self.components["diplay_roompassword_display"] = diplay_roompassword_display
