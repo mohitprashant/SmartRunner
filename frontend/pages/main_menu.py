@@ -8,9 +8,11 @@ class MainMenuPage(Page):
         super().__init__(screen)
         self.name = "main_menu"
         self.input_data = {
+            "back_navigation":"",
             "username": ""
         }
         self.output_data = {
+            "back_navigation": "",
             "current_page": self.name,
             "prev_page": "",
             "username": "",
@@ -19,6 +21,9 @@ class MainMenuPage(Page):
 
     # set all component variables on input screen
     def set_components(self, screen):
+        #change back navigation every time page changes
+        if self.output_data["prev_page"]!=self.name:
+            self.output_data["back_navigation"]=self.output_data["prev_page"]
         # background
         bg_img = pygame.image.load('assets/Backgrounds/loginbg.jpg')
         background = Background("background", screen, bg_img)

@@ -97,9 +97,19 @@ class PageController:
             if page_data[0]["exit"]:
                 break
             if page_data[0]["current_page"] == "singleplayer":
-                if page_data[0]["prev_page"] == "singleplayer":
+                if page_data[0]["back_navigation"]=="main_menu":
+                    input_data = {
+                        "back_navigation": "",
+                        "subjectlist": subjectlist,
+                        "topiclist": topiclist,
+                        "difficultylist": difficultylist,
+                        "subject_topic_list": ["Select Topic"],
+                        "subjectselection": "English"
+                    }
+                elif page_data[0]["prev_page"] == "singleplayer":
                     # page_data[0]["subjectselection"]= page_data[1]["subjectselection"]
                     input_data = {
+                        "back_navigation": "",
                         "subjectlist": subjectlist,
                         "topiclist": topiclist,
                         "difficultylist": difficultylist,
@@ -108,6 +118,7 @@ class PageController:
                     }
                 else:
                     input_data = {
+                        "back_navigation": "",
                         "subjectlist": subjectlist,
                         "topiclist": topiclist,
                         "difficultylist": difficultylist,
