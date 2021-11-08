@@ -27,16 +27,23 @@ class JoinRoomPage(Page):
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
+        roomID_image_rel_x = 0.22
+        roomID_image_rel_y = 0.49
+        roomID_image_rel_width = 1 / 4
+        roomID_image_rel_height = 1 / 10
+        roomID_image_img = pygame.image.load('assets/Backgrounds/roomid.png')
+        roomID_image_box = ImageDisplay("roomID_image_box", screen, roomID_image_rel_x, roomID_image_rel_y,
+                                        roomID_image_rel_width, roomID_image_rel_height, roomID_image_img)
+        self.components["roomID_image_box"] = roomID_image_box
 
-        # picture display - sun to be replaced with a game image
-        # game_image_rel_x = 1 / 10
-        # game_image_rel_y = 1 / 2
-        # game_image_rel_width = 1 / 3
-        # game_image_rel_height = 1 / 5
-        # game_image_img = pygame.image.load('assets/img/sun.png')
-        # game_image_box = ImageDisplay("game_image_box", screen, game_image_rel_x, game_image_rel_y,
-        #                                game_image_rel_width, game_image_rel_height,game_image_img)
-        # self.components["game_image_box"] = game_image_box
+        password_image_rel_x = 0.22
+        password_image_rel_y = 0.59
+        password_image_rel_width = 1 / 4
+        password_image_rel_height = 1 / 10
+        password_image_img = pygame.image.load('assets/Backgrounds/password.png')
+        password_image_box = ImageDisplay("password_image_box", screen, password_image_rel_x, password_image_rel_y,
+                                          password_image_rel_width, password_image_rel_height, password_image_img)
+        self.components["password_image_box"] = password_image_box
 
         # confirm roomid and password
         room_confirm_button_rel_x = 7 / 10

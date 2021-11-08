@@ -12,8 +12,8 @@ class HostSettingsPage(Page):
             "username": "",
             "custom_quiz_selection":"",
             "back_navigation": "",
-            "toggled": False,
-            "mode_toggle": False
+            "toggled":"",
+            "mode_toggle": ""
         }
         self.output_data = {
             "current_page": self.name,
@@ -29,7 +29,7 @@ class HostSettingsPage(Page):
 
     def set_components(self, screen):
         # background
-        bg_img = pygame.image.load('assets/Backgrounds/background.png')
+        bg_img = pygame.image.load('assets/Backgrounds/settingsbg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 

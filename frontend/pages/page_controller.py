@@ -123,7 +123,7 @@ class PageController:
                         "username": username,
                         "custom_quiz_selection": page_data[0]["custom_quiz_selection"],
                         "toggled": False,
-                        "mode_toggle":False,
+                        "mode_toggle":True,
                         "back_navigation": page_data[0]["prev_page"]
                     }
                 elif page_data[0]["prev_page"] == "hostroom":

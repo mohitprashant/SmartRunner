@@ -43,17 +43,15 @@ class ShareResultsPage(Page):
         #                       toggle_image, toggle_image2)
         # self.components["toggle"] = toggle_password
 
-
-        # Room Password display
-        display_roompassword_display_x = 4 / 20
-        display_roompassword_display_y = 3 / 40
-        display_roompassword_display_width = 1 / 2
-        display_roompassword_display_height = 0.9
-        display_roompassword_text = "Share results to social media"
-        display_roompassword_display = TextDisplay("display_roompassword_display", screen, display_roompassword_display_x,
-                                             display_roompassword_display_y, display_roompassword_display_width,
-                                             display_roompassword_display_height, display_roompassword_text)
-        self.components["display_roompassword_display"] = display_roompassword_display
+        share_results_display_x = 4 / 20
+        share_results_display_y = 3 / 40
+        share_results_display_width = 1 / 2
+        share_results_display_height = 0.2
+        share_results_text = pygame.image.load('assets/Backgrounds/shareresults.png')
+        share_results_display = ImageDisplay("share_results_display", screen, share_results_display_x,
+                                             share_results_display_y, share_results_display_width,
+                                             share_results_display_height, share_results_text)
+        self.components["share_results_display"] = share_results_display
 
         # Twitter Button
         twitter_button_x = 3 / 20

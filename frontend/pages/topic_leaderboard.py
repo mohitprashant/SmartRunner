@@ -107,7 +107,6 @@ class TopicLeaderboardPage(Page):
                                    return_button_height, return_button__img)
         self.components["return_button"] = return_button
 
-        # room ID image
         topic_leaderboard_image_rel_x = 5/20
         topic_leaderboard_image_rel_y = 1/40
         topic_leaderboard_image_rel_width = 1/2
@@ -118,7 +117,6 @@ class TopicLeaderboardPage(Page):
                                     topic_leaderboard_image_rel_height, btn_img)
         self.components["topic_leaderboard_image"] = topic_leaderboard_image
 
-        # room ID button
         topic_leaderboard_button_rel_x = 7/20
         topic_leaderboard_button_rel_y = 2/40
         topic_leaderboard_button_rel_width = 1/3
