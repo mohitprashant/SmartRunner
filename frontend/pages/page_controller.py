@@ -93,10 +93,11 @@ class PageController:
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print("current page", self.current_page)
+            print("prev page", page_data[0]["prev_page"])
             if page_data[0]["exit"]:
                 break
             if page_data[0]["current_page"] == "singleplayer":
-                if page_data[0]["prev_page"]== "singleplayer":
+                if page_data[0]["prev_page"] == "singleplayer":
                     # page_data[0]["subjectselection"]= page_data[1]["subjectselection"]
                     input_data = {
                         "subjectlist": subjectlist,

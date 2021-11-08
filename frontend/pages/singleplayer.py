@@ -100,10 +100,11 @@ class SinglePlayerPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
-            self.output_data["prev_page"] = self.output_data["current_page"]
             if triggered_component in [self.components["start_button"]]:
+                self.output_data["prev_page"] = self.output_data["current_page"]
                 print("start game session")
             if triggered_component in [self.components["exit_button"]]:
+                self.output_data["prev_page"] = self.output_data["current_page"]
                 self.name = "main_menu"
             if triggered_component in [self.components["subjectlist"]]:
                 if self.components["subjectlist"].button.text!= "Select Subject":
