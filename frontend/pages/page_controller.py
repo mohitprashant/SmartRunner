@@ -222,14 +222,14 @@ class PageController:
                 page_data = self.room_tab.start(self.screen, input_data)
             if page_data[0]["current_page"] == "room_creation":
                 input_data = {
-                    "username": username,
+                    "username": username
                     # "roomID": roomID,
                     # "room_password": room_password
                 }
                 page_data = self.room_creation.start(self.screen, input_data)
             if page_data[0]["current_page"] == "join_room":
                 input_data = {
-                    "username": username,
+                    "username": username
                     # "roomID": roomID,
                     # "room_password": room_password
                 }
