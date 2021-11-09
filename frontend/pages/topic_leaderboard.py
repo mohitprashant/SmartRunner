@@ -25,7 +25,7 @@ class TopicLeaderboardPage(Page):
     # set all component variables on input screen
     def set_components(self, screen):
         # background
-        bg_img = pygame.image.load('assets/Backgrounds/leaderboardbg.jpg')
+        bg_img = pygame.image.load('assets/Backgrounds/background.png')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -71,7 +71,7 @@ class TopicLeaderboardPage(Page):
         text_relative_height = 0.1
         shown_relative_width = 0.55
         shown_relative_height = 0.5
-        score_text_list = self.input_data["topic_leaderboard"][self.input_data["topic_leaderboard_ID"]]
+        score_text_list = self.input_data["topic_leaderboard"]
         # print(self.input_data.keys())
         # print(score_text_list)
 

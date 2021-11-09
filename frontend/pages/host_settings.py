@@ -79,7 +79,7 @@ class HostSettingsPage(Page):
 
         if self.input_data["mode_toggle"] == True:
             self.output_data["gametypeselection"] = "Custom Quiz"
-            print("Custom Quiz")
+            print("Custom Quiz_component")
             # room ID image
             custom_quiz_image_rel_x = 9 / 20
             custom_quiz_image_rel_y = 4/8
@@ -132,10 +132,12 @@ class HostSettingsPage(Page):
                 if triggered_component.toggled:
                     self.input_data["mode_toggle"] = True
                     self.output_data["gametypeselection"]="Custom Quiz"
+                    pygame.display.flip()
                     print("Custom Quiz")
                 else:
                     self.input_data["mode_toggle"] = False
                     self.output_data["gametypeselection"]="Global Questions"
+                    pygame.display.flip()
                     print("Global Questions")
             if triggered_component in [self.components["return_button"]]:
                 if self.input_data["back_navigation"] == "hostroom":
