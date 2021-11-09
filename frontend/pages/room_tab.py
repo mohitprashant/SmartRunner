@@ -8,7 +8,9 @@ class RoomTabPage(Page):
         super().__init__(screen)
         self.name = "room_tab"
         self.input_data = {
-            "username": ""
+            "username": "",
+            "prev_page": ""
+
         }
         self.output_data = {
             "current_page": self.name,
@@ -19,6 +21,12 @@ class RoomTabPage(Page):
 
     # set all component variables on input screen
     def set_components(self, screen):
+        self.name = "room_tab"
+
+        # change back navigation every time page changes
+        if self.input_data["prev_page"] != self.name:
+            self.output_data["back_navigation"] = self.input_data["prev_page"]
+
         # background
         bg_img = pygame.image.load('assets/Backgrounds/roombg.jpg')
         background = Background("background", screen, bg_img)

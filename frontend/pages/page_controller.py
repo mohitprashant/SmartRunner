@@ -86,10 +86,10 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            "player_status": player_status,
-            "roomID": "Room 1"
+            "username": username,
+            "prev_page": ""
         }
-        page_data = self.hostroom.start(self.screen, input_data)
+        page_data = self.main_menu.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print("current page", self.current_page)
@@ -97,24 +97,27 @@ class PageController:
             if page_data[0]["exit"]:
                 break
             if page_data[0]["current_page"] == "singleplayer":
-                if page_data[0]["back_navigation"]=="main_menu":
+                # add and hostroom/playerroom
+                if page_data[0]["back_navigation"]!="main_menu":
                     input_data = {
                         "back_navigation": "",
                         "subjectlist": subjectlist,
                         "topiclist": topiclist,
                         "difficultylist": difficultylist,
                         "subject_topic_list": ["Select Topic"],
-                        "subjectselection": "English"
+                        "subjectselection": "English",
+                        "prev_page": page_data[0]["back_navigation"]
                     }
                 elif page_data[0]["prev_page"] == "singleplayer":
-                    # page_data[0]["subjectselection"]= page_data[1]["subjectselection"]
+                    # page_data[0]["subjectselection"]= page_data[1]["subjectselection"
                     input_data = {
                         "back_navigation": "",
                         "subjectlist": subjectlist,
                         "topiclist": topiclist,
                         "difficultylist": difficultylist,
                         "subject_topic_list": ["Select Topic"],
-                        "subjectselection": page_data[1]["subjectselection"]
+                        "subjectselection": page_data[1]["subjectselection"],
+                        "prev_page": page_data[0]["prev_page"]
                     }
                 else:
                     input_data = {
@@ -123,7 +126,8 @@ class PageController:
                         "topiclist": topiclist,
                         "difficultylist": difficultylist,
                         "subject_topic_list": ["Select Topic"],
-                        "subjectselection": "English"
+                        "subjectselection": "English",
+                        "prev_page": page_data[0]["prev_page"]
                     }
                 page_data = self.singleplayer.start(self.screen, input_data)
             if page_data[0]["current_page"] == "host_settings":
@@ -197,7 +201,8 @@ class PageController:
                 page_data = self.share_results.start(self.screen, input_data)
             if page_data[0]["current_page"] == "main_menu":
                 input_data = {
-                    "username": username
+                    "username": username,
+                    "prev_page": page_data[0]["prev_page"]
                 }
                 page_data = self.main_menu.start(self.screen, input_data)
             if page_data[0]["current_page"] == "topic_leaderboard":
@@ -206,7 +211,9 @@ class PageController:
                 input_data = {
                     "topic_leaderboard": topicleadselect,
                     "topic_leaderboard_ID": page_data[0]["topic_leaderboard_ID"],
-                    "username":username
+                    "username": username,
+                    "prev_page": page_data[0]["prev_page"]
+
                 }
                 page_data = self.topic_leaderboard.start(self.screen, input_data)
                 print(page_data[0]["current_page"], "next")
@@ -229,7 +236,9 @@ class PageController:
                 page_data = self.create_account.start(self.screen, input_data)
             if page_data[0]["current_page"] == "room_tab":
                 input_data = {
-                    "username": username
+                    "username": username,
+                    "prev_page": page_data[0]["prev_page"]
+
                 }
                 page_data = self.room_tab.start(self.screen, input_data)
             if page_data[0]["current_page"] == "room_creation":
@@ -250,9 +259,11 @@ class PageController:
             if page_data[0]["current_page"] == "leadselect":
                 input_data = {
                     #input data goes to the leaderboardselection page
-                    "leaderboardlist": leadselect
+                    "leaderboardlist": leadselect,
+                    "prev_page": page_data[0]["prev_page"]
                 }
                 page_data = self.leadselect.start(self.screen, input_data)
+                print("cp",page_data[0]["current_page"])
             if page_data[0]["current_page"] == "managerooms":
                 input_data = {
                     "roomlist": roomlist

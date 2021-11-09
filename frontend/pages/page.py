@@ -97,10 +97,14 @@ class Page:
                                     triggered_component_list.append(component)
                 self.page_function(triggered_component_list)
                 #for navigation
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and len(triggered_component_list)==1 and top_layer_triggered==False:
-                    self.output_data["current_page"] = self.name
-                    #to fix: scrollable no highlights --> need it for selectable text list!!
-                    return self.output_data, self.input_data
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and len(triggered_component_list)==1:
+                    if top_layer_triggered and triggered_component_list[0].navigation_surface:
+                        self.output_data["current_page"] = self.name
+                        return self.output_data, self.input_data
+                    elif top_layer_triggered==False:
+                        self.output_data["current_page"] = self.name
+                        return self.output_data, self.input_data
+
 
             pygame.display.update()
 

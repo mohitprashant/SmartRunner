@@ -13,7 +13,9 @@ class SinglePlayerPage(Page):
             "subjectlist": [],
             "topiclist": [],
             "difficultylist": [],
-            "subjectselection": ""
+            "subjectselection": "",
+            "prev_page": ""
+
         }
         self.output_data = {
             "back_navigation": "",
@@ -30,9 +32,11 @@ class SinglePlayerPage(Page):
 
     # set all component variables on input screen
     def set_components(self, screen):
+        self.name = "singleplayer"
+
         # change back navigation every time page changes
-        if self.output_data["prev_page"] != self.name:
-            self.output_data["back_navigation"] = self.output_data["prev_page"]
+        if self.input_data["prev_page"] != self.name:
+            self.output_data["back_navigation"] = self.input_data["prev_page"]
 
         # background
         bg_img = pygame.image.load('assets/Backgrounds/singleplayerbg.jpg')
@@ -109,6 +113,7 @@ class SinglePlayerPage(Page):
             if triggered_component in [self.components["start_button"]]:
                 self.output_data["prev_page"] = self.output_data["current_page"]
                 print("start game session")
+
             if triggered_component in [self.components["exit_button"]]:
                 self.output_data["prev_page"] = self.output_data["current_page"]
                 self.name = "main_menu"
