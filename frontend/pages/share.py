@@ -11,7 +11,8 @@ class SharePage(Page):
             "roomID": "RoomID",
             "room_password": "",
             "username":"username",
-            "back_navigation":""
+            "back_navigation":"",
+            "toggled":False
         }
         self.output_data = {
             "room_ID": "",
@@ -27,7 +28,7 @@ class SharePage(Page):
 
     def set_components(self, screen):
         # background
-        bg_img = pygame.image.load('assets/Backgrounds/background.png')
+        bg_img = pygame.image.load('assets/Backgrounds/sharebg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -38,8 +39,9 @@ class SharePage(Page):
         toggle_rel_height = 1 / 10
         toggle_image = pygame.image.load('assets/Buttons/btn_togglenotpressed.png')
         toggle_image2 = pygame.image.load('assets/Buttons/btn_togglepressed.png')
+        # print("toggled image", self.input_data["toggled"])
         toggle_pw = ToggleButton("toggle_pw", screen, toggle_rel_x, toggle_rel_y, toggle_rel_width, toggle_rel_height,
-                              toggle_image, toggle_image2)
+                              toggle_image, toggle_image2, self.input_data["toggled"])
         self.components["toggle_pw"] = toggle_pw
 
         # toggle test
@@ -156,9 +158,13 @@ class SharePage(Page):
                 self.name = self.input_data["back_navigation"]
                 # self.name = self.output_data["back_navigation"]
             if triggered_component in [self.components["toggle_pw"]]:
-                #print("hello")
+                print("hello")
                 if triggered_component.toggled:
-                    self.output_data["toggle_password"] = True
+                    # self.output_data["toggle_password"] = True
+                    self.input_data["toggled"] = True
                     print("Include room password")
+                else:
+                    self.input_data["toggled"] = False
+                    print("False")
 
 

@@ -23,7 +23,7 @@ class UniqueAnalyticsPage(Page):
         self.output_data["roomID"] = self.input_data["roomID"]
 
         # background
-        bg_img = pygame.image.load('assets/Backgrounds/background.png')
+        bg_img = pygame.image.load('assets/Backgrounds/analyticsbg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 

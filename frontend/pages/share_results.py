@@ -8,16 +8,16 @@ class ShareResultsPage(Page):
         super().__init__(screen)
         self.name = "share_results"
         self.input_data = {
-            # "roomID": "RoomID",
+            "roomID": "RoomID",                     #for end screen
             "username": "username",
-            "topic_leaderboard_ID":"",
-            "score_board": [],
+            "topic_leaderboard_ID":"",              #for topic leaderboard
+            "score_board": [],                      #for end screen
             "back_navigation": ""
         }
         self.output_data = {
-            # "room_ID": "",
+            "roomID": "",
             "prev_page": "",
-            "score_board": "",
+            "score_board": [],
             "username": "",
             "topic_leaderboard_ID": "",
             # "back_navigation":"",
@@ -28,7 +28,7 @@ class ShareResultsPage(Page):
 
     def set_components(self, screen):
         # background
-        bg_img = pygame.image.load('assets/Backgrounds/background.png')
+        bg_img = pygame.image.load('assets/Backgrounds/sharebg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -125,10 +125,6 @@ class ShareResultsPage(Page):
             self.output_data["username"] = self.input_data["username"]
             if triggered_component in [self.components["twitter_button"]]:
                 print("open twitter")
-            # if triggered_component in [self.components["ig_button"]]:
-            #     print("open instagram")
-            # if triggered_component in [self.components["whatsapp_button"]]:
-            #     print("open whatsapp")
             if triggered_component in [self.components["facebook_button"]]:
                 print("open facebook")
             if triggered_component in [self.components["return_button"]]:
@@ -136,6 +132,11 @@ class ShareResultsPage(Page):
                 if self.input_data["back_navigation"] == "topic_leaderboard":
                     self.output_data["topic_leaderboard_ID"] = self.input_data["topic_leaderboard_ID"]
                     self.name = self.input_data["back_navigation"]
+                elif self.input_data["back_navigation"] == "end_screen":
+                    self.output_data["score_board"] = self.input_data["score_board"]
+                    self.output_data["roomID"]=self.input_data["roomID"]
+                    self.name = self.input_data["back_navigation"]
+
 
 
 

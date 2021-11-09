@@ -27,7 +27,7 @@ class CustomSelectPage(Page):
 
     def set_components(self, screen):
         # background
-        bg_img = pygame.image.load('assets/Backgrounds/background.png')
+        bg_img = pygame.image.load('assets/Backgrounds/settingsbg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 

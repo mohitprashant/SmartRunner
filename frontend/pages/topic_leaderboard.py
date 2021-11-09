@@ -25,19 +25,19 @@ class TopicLeaderboardPage(Page):
     # set all component variables on input screen
     def set_components(self, screen):
         # background
-        bg_img = pygame.image.load('assets/Backgrounds/background.png')
+        bg_img = pygame.image.load('assets/Backgrounds/leaderboardbg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
-        # Player Score display
-        player_score_display_x = 5 / 20
-        player_score_display_y = 2 / 40
-        player_score_display_width = 1 / 2
-        player_score_display_height = 1 / 4
-        player_score_text ="Topic Leaderboard"
-        player_score_display = TextDisplay("Topic Leaderboard", screen, player_score_display_x, player_score_display_y, player_score_display_width,
-                              player_score_display_height,player_score_text)
-        self.components["player_score_display"] = player_score_display
+        # # Player Score display
+        # player_score_display_x = 5 / 20
+        # player_score_display_y = 2 / 40
+        # player_score_display_width = 1 / 2
+        # player_score_display_height = 1 / 4
+        # player_score_text ="Topic Leaderboard"
+        # player_score_display = TextDisplay("Topic Leaderboard", screen, player_score_display_x, player_score_display_y, player_score_display_width,
+        #                       player_score_display_height,player_score_text)
+        # self.components["player_score_display"] = player_score_display
 
         # player list
         relative_x = 0.2
@@ -106,6 +106,28 @@ class TopicLeaderboardPage(Page):
                                    return_button_width,
                                    return_button_height, return_button__img)
         self.components["return_button"] = return_button
+
+        # room ID image
+        topic_leaderboard_image_rel_x = 5/20
+        topic_leaderboard_image_rel_y = 1/40
+        topic_leaderboard_image_rel_width = 1/2
+        topic_leaderboard_image_rel_height = 1/8
+        btn_img = pygame.image.load('assets/Buttons/btn_plain.png')
+        topic_leaderboard_image = ImageDisplay("topic_leaderboard_image", screen, topic_leaderboard_image_rel_x, topic_leaderboard_image_rel_y,
+                                    topic_leaderboard_image_rel_width,
+                                    topic_leaderboard_image_rel_height, btn_img)
+        self.components["topic_leaderboard_image"] = topic_leaderboard_image
+
+        # room ID button
+        topic_leaderboard_button_rel_x = 7/20
+        topic_leaderboard_button_rel_y = 2/40
+        topic_leaderboard_button_rel_width = 1/3
+        topic_leaderboard_button_rel_height = 1/7
+        text = self.input_data["topic_leaderboard_ID"]
+        topic_leaderboard_button = TextButton("topic_leaderboard_button", screen, topic_leaderboard_button_rel_x, topic_leaderboard_button_rel_y,
+                                   topic_leaderboard_button_rel_width,
+                                   topic_leaderboard_button_rel_height, text)
+        self.components["topic_leaderboard_button"] = topic_leaderboard_button
 
     #how do the page react to events?
     def page_function(self, triggered_component_list):
