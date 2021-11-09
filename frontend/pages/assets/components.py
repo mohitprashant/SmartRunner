@@ -244,6 +244,7 @@ class ComponentSurface(Component):
         self.mouse_function = True
         self.keyboard_function = True
         self.triggered_component_list = []
+        self.navigation_surface = True
 
     # todo might be useless
     def add_component(self, component):
@@ -710,6 +711,7 @@ class SelectableTextList(MouseScrollableSurface):
         relative_height = text_relative_height * self.list_size
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height,
                          relative_shown_width, relative_shown_height, display_screen, on_display)
+        self.navigation_surface = False
         self.single_select = single_select
         self.text_relative_x = 0
         self.text_relative_y = 0
@@ -882,7 +884,7 @@ class DropdownTextSelect(ExpandButton):
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, relative_x,
                          relative_y, relative_width, relative_expand_height, display_screen, on_display)
 
-
+        self.navigation_surface = False
         relative_text_height = 1 / (num_expand_text + 1)
         selectable_text_list_relative_height = 1 - relative_text_height
 
