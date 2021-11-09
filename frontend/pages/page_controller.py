@@ -88,8 +88,10 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
+            "player_status": player_status,
+            "roomID": "Room 1"
         }
-        page_data = self.welcome_screen.start(self.screen, input_data)
+        page_data = self.hostroom.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print("current page", self.current_page)
@@ -166,8 +168,6 @@ class PageController:
                 input_data = {
                     "roomID": roomID,
                     "username": username,
-                    "custom_question_new": ""
-                        # "password": password
                 }
                 page_data = self.add_question.start(self.screen, input_data)
             if page_data[0]["current_page"] == "share":

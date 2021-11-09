@@ -10,14 +10,19 @@ class AddQuestionPage(Page):
         self.input_data = {
             "roomID": "",
             "username": "",
-            "custom_question_new": "",
         }
         self.output_data = {
             "current_page": self.name,
             "prev_page": "",
             "room_ID": "",
             "username": "",
-            "custom_question_new": "",
+            "question_id": "",
+            "description":"",
+            "difficulty_level":"", #Need to change to int
+            "correct_option": "",
+            "wrong1":"",
+            "wrong2":"",
+            "wrong3":"",
             "exit": False
         }
 
@@ -40,86 +45,112 @@ class AddQuestionPage(Page):
                                                header_image_rel_height, header_img)
         self.components["addquestions_header"] = addquestions_header
 
-        question_image_rel_x = 0.1
-        question_image_rel_y = 0.3
-        question_image_rel_width = 1 / 4
-        question_image_rel_height = 1 / 8
-        question_image_img = pygame.image.load('assets/Backgrounds/username.png')
-        question_image_box = ImageDisplay("question_image_box", screen, question_image_rel_x, question_image_rel_y,
+        question_id_image_rel_x = 0.18
+        question_id_image_rel_y = 0.25
+        question_id_image_rel_width = 0.2
+        question_id_image_rel_height = 1 / 9
+        question_id_image_img = "Question ID"
+        question_id_image_box = TextDisplay("question_id_image_box", screen, question_id_image_rel_x, question_id_image_rel_y,
+                                         question_id_image_rel_width, question_id_image_rel_height, question_id_image_img)
+        self.components["question_id_image_box"] = question_id_image_box
+
+        question_id_input_rel_x = 0.4
+        question_id_input_rel_y = 0.23
+        question_id_input_rel_width = 0.15
+        question_id_input_rel_height = 1 / 12
+        question_id_input_box = TextInput("question_id_input_box", screen, question_id_input_rel_x, question_id_input_rel_y,
+                                       question_id_input_rel_width, question_id_input_rel_height)
+        self.components["question_id_input_box"] = question_id_input_box
+
+
+        question_image_rel_x = 0.18
+        question_image_rel_y = 0.35
+        question_image_rel_width = 0.2
+        question_image_rel_height = 1 / 9
+        question_image_img = "Description"
+        question_image_box = TextDisplay("question_image_box", screen, question_image_rel_x, question_image_rel_y,
                                           question_image_rel_width, question_image_rel_height, question_image_img)
         self.components["question_image_box"] = question_image_box
 
-        options_image_rel_x = 0.1
-        options_image_rel_y = 0.4
-        options_image_rel_width = 1 / 4
-        options_image_rel_height = 1 / 8
-        options_image_img = pygame.image.load('assets/Backgrounds/password.png')
-        options_image_box = ImageDisplay("options_image_box", screen, options_image_rel_x, options_image_rel_y,
-                                          options_image_rel_width, options_image_rel_height, options_image_img)
-        self.components["options_image_box"] = options_image_box
-
-
         question_input_rel_x = 0.4
-        question_input_rel_y = 0.3
-        question_input_rel_width = 0.4
+        question_input_rel_y = 0.33
+        question_input_rel_width = 0.5
         question_input_rel_height = 1 / 12
-        question_input_box = TextInput("question_new", screen, question_input_rel_x, question_input_rel_y,
+        question_input_box = TextInput("question_input_box", screen, question_input_rel_x, question_input_rel_y,
                                        question_input_rel_width, question_input_rel_height)
-        self.components["question_new"] = question_input_box
+        self.components["question_input_box"] = question_input_box
 
 
-        # custom_quiz_display_x = 10 / 20
-        # custom_quiz_display_y = 7/8
-        # custom_quiz_display_width = 1 / 2
-        # custom_quiz_display_height = 1 / 4
-        # custom_quiz_display_text = "Custom Questions"
-        # custom_quiz_display = TextDisplay("custom_questions", screen, custom_quiz_display_x, custom_quiz_display_y,
-        #                                    custom_quiz_display_width,
-        #                                    custom_quiz_display_height, custom_quiz_display_text)
-        # self.components["custom_questions"] = custom_quiz_display
-        # print("displayed")
+        difficulty_level_image_rel_x = 0.13
+        difficulty_level_image_rel_y = 0.45
+        difficulty_level_image_rel_width = 1 / 4
+        difficulty_level_image_rel_height = 1 / 8
+        difficulty_level_image_img = "Difficulty Level"
+        difficulty_level_image_box = TextDisplay("difficulty_level_image_box", screen, difficulty_level_image_rel_x, difficulty_level_image_rel_y,
+                                         difficulty_level_image_rel_width, difficulty_level_image_rel_height, difficulty_level_image_img)
+        self.components["difficulty_level_image_box"] = difficulty_level_image_box
 
-        # # player list
-        # relative_x = 4 / 20
-        # relative_y = 7 / 40
-        # relative_width = 0.8
-        # text_relative_height = 8/ 10
-        # shown_relative_width = 6 / 10
-        # shown_relative_height = 3 / 5
-        # custom_questions_whole = MouseScrollableSurface("custom_questions_whole", screen, relative_x,
-        #                                                    relative_y, relative_width,
-        #                                                    text_relative_height, shown_relative_width,
-        #                                                    shown_relative_height,
-        #                                                    screen)
-        # # create surface
-        # self.components["custom_questions_whole"] = custom_questions_whole
-        # self.layers.append(custom_questions_whole)
+        difficulty_input_rel_x = 0.4
+        difficulty_input_rel_y = 0.43
+        difficulty_input_rel_width = 0.15
+        difficulty_input_rel_height = 1 / 12
+        difficulty_input_box = TextInput("difficulty_input_box", screen, difficulty_input_rel_x, difficulty_input_rel_y,
+                                       difficulty_input_rel_width, difficulty_input_rel_height)
+        self.components["difficulty_input_box"] = difficulty_input_box
 
-        # SelectableTextList
-        # relative_x = 1 / 20
-        # relative_y = 3 / 20
-        # relative_width = 0.8
-        # text_relative_height = 1 / 10
-        # shown_relative_width = 7 / 10
-        # shown_relative_height = 3 / 5
-        # # relative_x = 4/20
-        # # relative_y = 7/40
-        # # relative_width = 0.8
-        # # text_relative_height = 8/10
-        # # shown_relative_width = 6 / 10
-        # # shown_relative_height = 0.6
-        # selected_question = self.input_data["custom_question_selection"]
-        # # print(self.input_data.keys())
-        # # print(custom_questions_list)
-        #
-        # custom_questions = SelectableTextList("custom_questions", screen, relative_x,
-        #                                            relative_y, relative_width,
-        #                                            text_relative_height, shown_relative_width, shown_relative_height,
-        #                                            selected_question, screen, single_select=False, active_color="blue")
-        #
-        # self.components["custom_questions"] = custom_questions
-        # #custom_questions_whole.add_component(custom_questions)
-        # self.layers.append(custom_questions)
+        correct_image_rel_x = 0.13
+        correct_image_rel_y = 0.55
+        correct_image_rel_width = 1 / 4
+        correct_image_rel_height = 1 / 8
+        correct_image_img = "Correct Option"
+        correct_image_box = TextDisplay("correct_image_box", screen, correct_image_rel_x,
+                                                 correct_image_rel_y,
+                                                 correct_image_rel_width, correct_image_rel_height,
+                                                 correct_image_img)
+        self.components["correct_image_box"] = correct_image_box
+
+        correct_input_rel_x = 0.4
+        correct_input_rel_y = 0.53
+        correct_input_rel_width = 0.15
+        correct_input_rel_height = 1 / 12
+        correct_input_box = TextInput("correct_input_box", screen, correct_input_rel_x, correct_input_rel_y,
+                                         correct_input_rel_width, correct_input_rel_height)
+        self.components["correct_input_box"] = correct_input_box
+
+        wrong_image_rel_x = 0.13
+        wrong_image_rel_y = 0.65
+        wrong_image_rel_width = 1 / 4
+        wrong_image_rel_height = 1 / 8
+        wrong_image_img = "Wrong Options"
+        wrong_image_box = TextDisplay("wrong_image_box", screen, wrong_image_rel_x,
+                                        wrong_image_rel_y,
+                                        wrong_image_rel_width, wrong_image_rel_height,
+                                        wrong_image_img)
+        self.components["wrong_image_box"] = wrong_image_box
+
+        wrong_input_rel_x = 0.4
+        wrong_input_rel_y = 0.63
+        wrong_input_rel_width = 0.15
+        wrong_input_rel_height = 1 / 12
+        wrong_input_box = TextInput("wrong_input_box", screen, wrong_input_rel_x, wrong_input_rel_y,
+                                      wrong_input_rel_width, wrong_input_rel_height)
+        self.components["wrong_input_box"] = wrong_input_box
+
+        wrong2_input_rel_x = 0.57
+        wrong2_input_rel_y = 0.63
+        wrong2_input_rel_width = 0.15
+        wrong2_input_rel_height = 1 / 12
+        wrong2_input_box = TextInput("wrong2_input_box", screen, wrong2_input_rel_x, wrong2_input_rel_y,
+                                    wrong2_input_rel_width, wrong2_input_rel_height)
+        self.components["wrong2_input_box"] = wrong2_input_box
+
+        wrong3_input_rel_x = 0.74
+        wrong3_input_rel_y = 0.63
+        wrong3_input_rel_width = 0.15
+        wrong3_input_rel_height = 1 / 12
+        wrong3_input_box = TextInput("wrong3_input_box", screen, wrong3_input_rel_x, wrong3_input_rel_y,
+                                    wrong3_input_rel_width, wrong3_input_rel_height)
+        self.components["wrong3_input_box"] = wrong3_input_box
 
         # return button
         return_button2_x = 1 / 15
@@ -152,8 +183,13 @@ class AddQuestionPage(Page):
             self.output_data["prev_page"] = self.output_data["current_page"]
             # self.output_data["custom_question_selection"] = self.input_data["custom_question_selection"]
             if triggered_component in [self.components["confirm_button2"]]:
-                print("Put new question in database")
-                self.output_data["custom_question_new"] = self.components["question_new"].input
+                self.output_data["question_id"] = self.components["question_id_input_box"].input
+                self.output_data["description"] = self.components["question_input_box"].input
+                self.output_data["difficulty_level"] = self.components["difficulty_input_box"].input
+                self.output_data["correct_option"] = self.components["correct_input_box"].input
+                self.output_data["wrong1"] = self.components["wrong_input_box"].input
+                self.output_data["wrong2"] = self.components["wrong2_input_box"].input
+                self.output_data["wrong3"] = self.components["wrong3_input_box"].input
                 print("question added")
             if triggered_component in [self.components["return_button2"]]:
                 print("go back to question select")
