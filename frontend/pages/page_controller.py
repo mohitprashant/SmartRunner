@@ -20,6 +20,7 @@ from custom_select import *
 from create_account import *
 from question_select import *
 from add_question import *
+from welcome_screen import *
 import sys
 sys.path.insert(1, '../../backend/database')
 from FirebaseManager import *
@@ -77,6 +78,7 @@ class PageController:
         self.create_account = CreateAccountPage(self.screen)
         self.question_select = QuestionSelectPage(self.screen)
         self.add_question = AddQuestionPage(self.screen)
+        self.welcome_screen =WelcomeScreenPage(self.screen)
 
 
 
@@ -86,13 +88,8 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            "roomID": "Room 1",
-            "room_password": room_password,
-            "username": username,
-            "back_navigation":"playerroom",
-            "toggled": False
         }
-        page_data = self.share.start(self.screen, input_data)
+        page_data = self.welcome_screen.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print("current page", self.current_page)
@@ -292,7 +289,10 @@ class PageController:
                     "roomID": page_data[1]["roomID"]
                 }
                 page_data = self.uniqueanalytics.start(self.screen, input_data)
-
+            if page_data[0]["current_page"] == "welcome_screen":
+                input_data = {
+                }
+                page_data = self.welcome_screen.start(self.screen, input_data)
 
 
             pygame.display.update()
