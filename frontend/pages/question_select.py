@@ -79,9 +79,9 @@ class QuestionSelectPage(Page):
         #custom_questions_whole.add_component(custom_questions)
         self.layers.append(custom_questions)
 
-        custom_quiz_display_x = 4 / 20
+        custom_quiz_display_x = 6 / 20
         custom_quiz_display_y = 2 / 40
-        custom_quiz_display_width = 1 / 2
+        custom_quiz_display_width = 1 / 3
         custom_quiz_display_height = 0.15
         custom_quiz_text = pygame.image.load('assets/Backgrounds/questions.png')
         custom_quiz_display = ImageDisplay("custom_quiz_display", screen, custom_quiz_display_x,
@@ -90,10 +90,10 @@ class QuestionSelectPage(Page):
         self.components["custom_quiz_display"] = custom_quiz_display
 
         # return button
-        return_button2_x = 1 / 20
-        return_button2_y = 17 / 20
-        return_button2_width = 1 / 10
-        return_button2_height = 1 / 10
+        return_button2_x = 1 / 15
+        return_button2_y = 17/20
+        return_button2_width = 1 / 7
+        return_button2_height = 1 / 8
         return_button2__img = pygame.image.load('assets/Buttons/btn_back.png')
         return_button2 = ImageButton("return_button2", screen, return_button2_x, return_button2_y,
                                     return_button2_width,

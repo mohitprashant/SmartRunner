@@ -34,9 +34,9 @@ class SharePage(Page):
 
         # toggle test
         toggle_rel_x = 9 / 20
-        toggle_rel_y = 1 / 20
-        toggle_rel_width = 1 / 10
-        toggle_rel_height = 1 / 10
+        toggle_rel_y = 0.06
+        toggle_rel_width = 1 / 11
+        toggle_rel_height = 1 / 11
         toggle_image = pygame.image.load('assets/Buttons/btn_togglenotpressed.png')
         toggle_image2 = pygame.image.load('assets/Buttons/btn_togglepressed.png')
         # print("toggled image", self.input_data["toggled"])
@@ -44,34 +44,11 @@ class SharePage(Page):
                               toggle_image, toggle_image2, self.input_data["toggled"])
         self.components["toggle_pw"] = toggle_pw
 
-        # toggle test
-        # toggle_rel_x = 9 / 20
-        # toggle_rel_y = 1 / 20
-        # toggle_rel_width = 1 / 10
-        # toggle_rel_height = 1 / 10
-        # toggle_image = pygame.image.load('assets/img/save_btn.png')
-        # toggle_image2 = pygame.image.load('assets/img/load_btn.png')
-        # toggle_password = ToggleButton("toggle", screen, toggle_rel_x, toggle_rel_y, toggle_rel_width, toggle_rel_height,
-        #                       toggle_image, toggle_image2)
-        # self.components["toggle"] = toggle_password
-
-        #Include Room password Toggle
-        #Need to change it to toggle
-        # roompassword_toggle_x = 9 / 20
-        # roompassword_toggle_y = 1 / 20
-        # roompassword_toggle_width = 1 / 10
-        # roompassword_toggle_height = 1 / 10
-        # roompassword_toggle_img = pygame.image.load('assets/img/start_btn.png')
-        # roompassword_toggle = ImageButton("roompassword", screen, roompassword_toggle_x, roompassword_toggle_y,
-        #                                  roompassword_toggle_width,
-        #                                  roompassword_toggle_height, roompassword_toggle_img)
-        # self.components["roompassword"] = roompassword_toggle
-
         # Room Password display
-        diplay_roompassword_display_x = 0.08
-        diplay_roompassword_display_y = 0.04
+        diplay_roompassword_display_x = 2/20
+        diplay_roompassword_display_y = 2/40
         diplay_roompassword_display_width = 1 / 3
-        diplay_roompassword_display_height = 1 / 6
+        diplay_roompassword_display_height = 1 / 7
         diplay_roompassword_text = pygame.image.load('assets/Backgrounds/includepwd.png')
         diplay_roompassword_display = ImageDisplay("diplay_roompassword_display", screen, diplay_roompassword_display_x,
                                              diplay_roompassword_display_y, diplay_roompassword_display_width,
@@ -79,44 +56,22 @@ class SharePage(Page):
         self.components["diplay_roompassword_display"] = diplay_roompassword_display
 
         # Twitter Button
-        twitter_button_x = 3 / 20
+        twitter_button_x = 0.24
         twitter_button_y = 0.4
-        twitter_button_width = 1 / 4
-        twitter_button_height = 0.30
+        twitter_button_width = 1 / 6
+        twitter_button_height = 0.2
         twitter_button_img = pygame.image.load('assets/Buttons/btn_twitter.png')
         twitter_button = ImageButton("twitter_button", screen, twitter_button_x, twitter_button_y,
                                          twitter_button_width,
                                          twitter_button_height, twitter_button_img)
         self.components["twitter_button"] = twitter_button
 
-        # # IG Button
-        # ig_button_x = 10 / 20
-        # ig_button_y = 1 / 4
-        # ig_button_width = 0.18
-        # ig_button_height = 1 / 5
-        # ig_button_img = pygame.image.load('assets/img/Instagram.png')
-        # ig_button = ImageButton("ig_button", screen, ig_button_x, ig_button_y,
-        #                              ig_button_width,
-        #                              ig_button_height, ig_button_img)
-        # self.components["ig_button"] = ig_button
-
-
-        # whatsapp Button
-        # whatsapp_button_x = 3 / 20
-        # whatsapp_button_y = 2 / 4
-        # whatsapp_button_width = 1 / 4
-        # whatsapp_button_height = 1 / 4
-        # whatsapp_button_img = pygame.image.load('assets/img/whatsapp.png')
-        # whatsapp_button = ImageButton("whatsapp_button", screen, whatsapp_button_x, whatsapp_button_y,
-        #                         whatsapp_button_width,
-        #                         whatsapp_button_height, whatsapp_button_img)
-        # self.components["whatsapp_button"] = whatsapp_button
 
         # Facebook Button
-        facebook_button_x = 10 / 20
+        facebook_button_x = 0.53
         facebook_button_y = 0.4
-        facebook_button_width = 1 / 4
-        facebook_button_height = 0.3
+        facebook_button_width = 1 / 6
+        facebook_button_height = 0.2
         facebook_button_img = pygame.image.load('assets/Buttons/btn_fb.png')
         facebook_button = ImageButton("facebook_button", screen, facebook_button_x, facebook_button_y,
                                       facebook_button_width,
@@ -124,10 +79,10 @@ class SharePage(Page):
         self.components["facebook_button"] = facebook_button
 
         # return button
-        return_button_x = 17 / 20
-        return_button_y = 17 / 20
-        return_button_width = 1 / 10
-        return_button_height = 1 / 10
+        return_button_x = 1 / 15
+        return_button_y = 16 / 20
+        return_button_width = 1 / 7
+        return_button_height = 1 / 7
         return_button__img = pygame.image.load('assets/Buttons/btn_back.png')
         return_button = ImageButton("return_button", screen, return_button_x, return_button_y,
                                     return_button_width,

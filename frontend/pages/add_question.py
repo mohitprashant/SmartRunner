@@ -29,10 +29,40 @@ class AddQuestionPage(Page):
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
-        question_input_rel_x = 1 / 4
-        question_input_rel_y = 1 / 3
-        question_input_rel_width = 1 / 2
-        question_input_rel_height = 1 / 4
+        header_image_rel_x = 6/20
+        header_image_rel_y = 2/40
+        header_image_rel_width = 1/3
+        header_image_rel_height = 0.15
+        header_img = pygame.image.load('assets/Backgrounds/addqn.png')
+        addquestions_header = ImageDisplay("addquestions_header", screen, header_image_rel_x,
+                                               header_image_rel_y,
+                                               header_image_rel_width,
+                                               header_image_rel_height, header_img)
+        self.components["addquestions_header"] = addquestions_header
+
+        question_image_rel_x = 0.1
+        question_image_rel_y = 0.3
+        question_image_rel_width = 1 / 4
+        question_image_rel_height = 1 / 8
+        question_image_img = pygame.image.load('assets/Backgrounds/username.png')
+        question_image_box = ImageDisplay("question_image_box", screen, question_image_rel_x, question_image_rel_y,
+                                          question_image_rel_width, question_image_rel_height, question_image_img)
+        self.components["question_image_box"] = question_image_box
+
+        options_image_rel_x = 0.1
+        options_image_rel_y = 0.4
+        options_image_rel_width = 1 / 4
+        options_image_rel_height = 1 / 8
+        options_image_img = pygame.image.load('assets/Backgrounds/password.png')
+        options_image_box = ImageDisplay("options_image_box", screen, options_image_rel_x, options_image_rel_y,
+                                          options_image_rel_width, options_image_rel_height, options_image_img)
+        self.components["options_image_box"] = options_image_box
+
+
+        question_input_rel_x = 0.4
+        question_input_rel_y = 0.3
+        question_input_rel_width = 0.4
+        question_input_rel_height = 1 / 12
         question_input_box = TextInput("question_new", screen, question_input_rel_x, question_input_rel_y,
                                        question_input_rel_width, question_input_rel_height)
         self.components["question_new"] = question_input_box
@@ -92,10 +122,10 @@ class AddQuestionPage(Page):
         # self.layers.append(custom_questions)
 
         # return button
-        return_button2_x = 1 / 20
+        return_button2_x = 1 / 15
         return_button2_y = 17 / 20
-        return_button2_width = 1 / 10
-        return_button2_height = 1 / 10
+        return_button2_width = 1 / 7
+        return_button2_height = 1 / 7
         return_button2__img = pygame.image.load('assets/Buttons/btn_back.png')
         return_button2 = ImageButton("return_button2", screen, return_button2_x, return_button2_y,
                                     return_button2_width,
@@ -103,26 +133,16 @@ class AddQuestionPage(Page):
         self.components["return_button2"] = return_button2
 
         # confirm button
-        confirm_button2_x = 17 / 20
+        confirm_button2_x = 16 / 20
         confirm_button2_y = 17 / 20
-        confirm_button2_width = 1 / 10
-        confirm_button2_height = 1 / 10
+        confirm_button2_width = 1 / 7
+        confirm_button2_height = 1 / 7
         confirm_button2__img = pygame.image.load('assets/Buttons/btn_confirm.png')
         confirm_button2 = ImageButton("confirm_button2", screen, confirm_button2_x, confirm_button2_y,
                                     confirm_button2_width,
                                     confirm_button2_height, confirm_button2__img)
         self.components["confirm_button2"] = confirm_button2
 
-        # # confirm button
-        # add_question_button2_x = 0.78
-        # add_question_button2_y = 13 / 20
-        # add_question_button2_width = 1 / 10
-        # add_question_button2_height = 1 / 10
-        # add_question_button2__img = pygame.image.load('assets/img/load_btn.png')
-        # add_question_button2 = ImageButton("add_question_button2", screen, add_question_button2_x, add_question_button2_y,
-        #                               add_question_button2_width,
-        #                               add_question_button2_height, add_question_button2__img)
-        # self.components["add_question_button2"] = add_question_button2
 
         # how do the page react to events?
     def page_function(self, triggered_component_list):

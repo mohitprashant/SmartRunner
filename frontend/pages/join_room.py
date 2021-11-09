@@ -27,29 +27,29 @@ class JoinRoomPage(Page):
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
-        roomID_image_rel_x = 0.22
-        roomID_image_rel_y = 0.49
-        roomID_image_rel_width = 1 / 4
-        roomID_image_rel_height = 1 / 10
+        roomID_image_rel_x = 0.20
+        roomID_image_rel_y = 0.35
+        roomID_image_rel_width = 1 / 5
+        roomID_image_rel_height = 1 / 8
         roomID_image_img = pygame.image.load('assets/Backgrounds/roomid.png')
         roomID_image_box = ImageDisplay("roomID_image_box", screen, roomID_image_rel_x, roomID_image_rel_y,
                                         roomID_image_rel_width, roomID_image_rel_height, roomID_image_img)
         self.components["roomID_image_box"] = roomID_image_box
 
-        password_image_rel_x = 0.22
-        password_image_rel_y = 0.59
-        password_image_rel_width = 1 / 4
-        password_image_rel_height = 1 / 10
+        password_image_rel_x = 0.2
+        password_image_rel_y = 0.47
+        password_image_rel_width = 1 / 5
+        password_image_rel_height = 1 / 8
         password_image_img = pygame.image.load('assets/Backgrounds/password.png')
         password_image_box = ImageDisplay("password_image_box", screen, password_image_rel_x, password_image_rel_y,
                                           password_image_rel_width, password_image_rel_height, password_image_img)
         self.components["password_image_box"] = password_image_box
 
         # confirm roomid and password
-        room_confirm_button_rel_x = 7 / 10
-        room_confirm_button_rel_y = 3 / 4
-        room_confirm_button_rel_width = 1 / 8
-        room_confirm_button_rel_height = 1 / 8
+        room_confirm_button_rel_x = 0.5
+        room_confirm_button_rel_y = 0.6
+        room_confirm_button_rel_width = 0.18
+        room_confirm_button_rel_height = 1 / 7
         room_confirm_button_img = pygame.image.load('assets/Buttons/btn_joinroom.png')
         room_confirm_button = ImageButton("room_confirm_button", screen, room_confirm_button_rel_x, room_confirm_button_rel_y,
                                    room_confirm_button_rel_width,
@@ -58,10 +58,10 @@ class JoinRoomPage(Page):
 
 
         # go back
-        back_button_rel_x = 41 / 80
-        back_button_rel_y = 3 / 4
-        back_button_rel_width = 1 / 8
-        back_button_rel_height = 1 / 8
+        back_button_rel_x = 1/15
+        back_button_rel_y = 4 / 5
+        back_button_rel_width = 1 / 7
+        back_button_rel_height = 1 / 7
         back_button_img = pygame.image.load('assets/Buttons/btn_back.png')
         back_button = ImageButton("back_button", screen, back_button_rel_x, back_button_rel_y,
                                         back_button_rel_width,
@@ -69,19 +69,19 @@ class JoinRoomPage(Page):
         self.components["back_button"] = back_button
 
         # room ID text input box
-        roomID_input_rel_x = 1 / 2
-        roomID_input_rel_y = 1 / 2
-        roomID_input_rel_width = 1 / 3
-        roomID_input_rel_height = 1 / 16
+        roomID_input_rel_x = 0.43
+        roomID_input_rel_y = 0.36
+        roomID_input_rel_width = 1/4
+        roomID_input_rel_height = 1 / 14
         roomID_input_box = TextInput("roomID_input_box", screen, roomID_input_rel_x, roomID_input_rel_y,
                                      roomID_input_rel_width, roomID_input_rel_height)
         self.components["roomID_input_box"] = roomID_input_box
 
         # password text input box
-        password_input_rel_x = 1 / 2
-        password_input_rel_y = 3 / 5
-        password_input_rel_width = 1 / 3
-        password_input_rel_height = 1 / 16
+        password_input_rel_x = 0.43
+        password_input_rel_y = 0.49
+        password_input_rel_width = 0.25
+        password_input_rel_height = 1 / 14
         password_input_box = TextInput("password_input_box", screen, password_input_rel_x, password_input_rel_y,
                                      password_input_rel_width, password_input_rel_height)
         self.components["password_input_box"] = password_input_box

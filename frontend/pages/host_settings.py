@@ -35,9 +35,9 @@ class HostSettingsPage(Page):
 
         # toggle test
         toggle_rel_x = 9/20
-        toggle_rel_y = 1/20
-        toggle_rel_width = 1 / 10
-        toggle_rel_height = 1 / 10
+        toggle_rel_y = 0.06
+        toggle_rel_width = 1 / 11
+        toggle_rel_height = 1 / 11
         toggle_image = pygame.image.load('assets/Buttons/btn_togglenotpressed.png')
         toggle_image2 = pygame.image.load('assets/Buttons/btn_togglepressed.png')
         toggle = ToggleButton("toggle", screen, toggle_rel_x, toggle_rel_y, toggle_rel_width, toggle_rel_height,
@@ -49,17 +49,17 @@ class HostSettingsPage(Page):
         JoinAsHost_display_x = 2 / 20
         JoinAsHost_display_y = 2 / 40
         JoinAsHost_display_width = 1 / 3
-        JoinAsHost_display_height = 1 / 8
+        JoinAsHost_display_height = 1 / 7
         JoinAsHost_text = pygame.image.load('assets/Backgrounds/joinhost.png')
         JoinAsHost_display = ImageDisplay("JoinAsHost_display", screen, JoinAsHost_display_x,
                                              JoinAsHost_display_y, JoinAsHost_display_width,
                                              JoinAsHost_display_height, JoinAsHost_text)
         self.components["JoinAsHost_display"] = JoinAsHost_display
 
-        mode_toggle_rel_x = 9 / 20
-        mode_toggle_rel_y = 10 / 40
+        mode_toggle_rel_x = 0.44
+        mode_toggle_rel_y = 11 / 40
         mode_toggle_rel_width = 3 / 10
-        mode_toggle_rel_height = 1 / 4
+        mode_toggle_rel_height = 0.23
         mode_toggle_image = pygame.image.load('assets/Backgrounds/globalquestions.png')
         mode_toggle_image2 = pygame.image.load('assets/Backgrounds/fromcustomquiz.png')
         mode_toggle = ToggleButton("mode_toggle", screen, mode_toggle_rel_x, mode_toggle_rel_y, mode_toggle_rel_width, mode_toggle_rel_height,
@@ -67,10 +67,10 @@ class HostSettingsPage(Page):
         self.components["mode_toggle"] = mode_toggle
 
         # Player Score display
-        Mode_display_x = 4 / 20
-        Mode_display_y = 11 / 40
+        Mode_display_x = 0.22
+        Mode_display_y = 14 / 40
         Mode_display_width = 2/10
-        Mode_display_height = 1 / 4
+        Mode_display_height = 1 / 7
         Mode_text =  pygame.image.load('assets/Backgrounds/mode.png')
         Mode_display = ImageDisplay("Mode_display", screen, Mode_display_x,
                                          Mode_display_y, Mode_display_width,
@@ -83,7 +83,7 @@ class HostSettingsPage(Page):
             # room ID image
             custom_quiz_image_rel_x = 9 / 20
             custom_quiz_image_rel_y = 4/8
-            custom_quiz_image_rel_width = 0.33
+            custom_quiz_image_rel_width = 0.3
             custom_quiz_image_rel_height = 1 / 10
             custom_quiz_img = pygame.image.load('assets/Buttons/btn_plain.png')
             custom_quiz_image = ImageDisplay("custom_quiz_image", screen, custom_quiz_image_rel_x,
@@ -95,8 +95,8 @@ class HostSettingsPage(Page):
             #If Clicked on add new qn, go to a different screen
             custom_quiz_button_x = 0.47
             custom_quiz_button_y = 0.52
-            custom_quiz_button_width = 0.3
-            custom_quiz_button_height = 1 / 10
+            custom_quiz_button_width = 0.28
+            custom_quiz_button_height = 1 / 11
             custom_quiz_text = self.input_data["custom_quiz_selection"]
             custom_quiz_button = TextButton("custom_quiz_button", screen, custom_quiz_button_x,
                                                      custom_quiz_button_y,
@@ -104,12 +104,11 @@ class HostSettingsPage(Page):
                                                      custom_quiz_button_height, custom_quiz_text)
             self.components["custom_quiz_button"] = custom_quiz_button
 
-
         # return button
-        return_button_x = 17 / 20
-        return_button_y = 17 / 20
-        return_button_width = 1 / 10
-        return_button_height = 1 / 10
+        return_button_x = 1/15
+        return_button_y = 4/5
+        return_button_width = 1 / 7
+        return_button_height = 1 / 7
         return_button__img = pygame.image.load('assets/Buttons/btn_back.png')
         return_button = ImageButton("return_button", screen, return_button_x, return_button_y,
                                     return_button_width,

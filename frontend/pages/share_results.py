@@ -43,10 +43,10 @@ class ShareResultsPage(Page):
         #                       toggle_image, toggle_image2)
         # self.components["toggle"] = toggle_password
 
-        share_results_display_x = 4 / 20
+        share_results_display_x = 6 / 20
         share_results_display_y = 3 / 40
-        share_results_display_width = 1 / 2
-        share_results_display_height = 0.2
+        share_results_display_width = 1 / 3
+        share_results_display_height = 0.18
         share_results_text = pygame.image.load('assets/Backgrounds/shareresults.png')
         share_results_display = ImageDisplay("share_results_display", screen, share_results_display_x,
                                              share_results_display_y, share_results_display_width,
@@ -54,10 +54,10 @@ class ShareResultsPage(Page):
         self.components["share_results_display"] = share_results_display
 
         # Twitter Button
-        twitter_button_x = 3 / 20
+        twitter_button_x = 0.24
         twitter_button_y = 0.4
-        twitter_button_width = 1 / 4
-        twitter_button_height = 0.30
+        twitter_button_width = 1 / 6
+        twitter_button_height = 0.2
         twitter_button_img = pygame.image.load('assets/Buttons/btn_twitter.png')
         twitter_button2 = ImageButton("twitter_button", screen, twitter_button_x, twitter_button_y,
                                          twitter_button_width,
@@ -66,10 +66,10 @@ class ShareResultsPage(Page):
 
 
         # Facebook Button
-        facebook_button_x = 10 / 20
+        facebook_button_x = 0.53
         facebook_button_y = 0.4
-        facebook_button_width = 1 / 4
-        facebook_button_height = 0.3
+        facebook_button_width = 1 / 6
+        facebook_button_height = 0.2
         facebook_button_img = pygame.image.load('assets/Buttons/btn_fb.png')
         facebook_button = ImageButton("facebook_button", screen, facebook_button_x, facebook_button_y,
                                       facebook_button_width,
@@ -77,10 +77,10 @@ class ShareResultsPage(Page):
         self.components["facebook_button"] = facebook_button
 
         # return button
-        return_button_x = 17 / 20
-        return_button_y = 17 / 20
-        return_button_width = 1 / 10
-        return_button_height = 1 / 10
+        return_button_x = 1/15
+        return_button_y = 16 / 20
+        return_button_width = 1 / 7
+        return_button_height = 1 / 7
         return_button__img = pygame.image.load('assets/Buttons/btn_back.png')
         return_button2 = ImageButton("return_button", screen, return_button_x, return_button_y,
                                     return_button_width,

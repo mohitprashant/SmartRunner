@@ -87,9 +87,9 @@ class EndScreenPage(Page):
 
 
         # Share button
-        share_button_x = 7 / 10
+        share_button_x = 4 / 10
         share_button_y = 4 / 5
-        share_button_width = 1 / 4
+        share_button_width = 1 / 5
         share_button_height = 1 / 7
         share_button__img = pygame.image.load('assets/Buttons/btn_share.png')
         share_button = ImageButton("share_button", screen, share_button_x, share_button_y,
