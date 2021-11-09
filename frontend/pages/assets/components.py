@@ -773,7 +773,6 @@ class TextboxButtonList(MouseScrollableSurface):
             textbox_button = TextboxButton(text, self.surface, self.text_relative_x, self.text_relative_y,
                                            self.text_relative_width, self.text_relative_height, text, font_file,
                                            font_color, back_color, border_width)
-            print(textbox_button.relative_width)
             # add y into scrollable
             self.add_component(textbox_button)
             # update y of next text

@@ -15,6 +15,7 @@ class LeadSelectPage(Page):
             "username": "",
             "password": "",
             "topic_leaderboard_ID": "",
+            "back_navigation": "",
             "exit": False
         }
 
@@ -84,8 +85,8 @@ class LeadSelectPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["prev_page"] = self.output_data["current_page"]
             if triggered_component in [self.components["exit_button"]]:
-                self.output_data["prev_page"] = self.output_data["current_page"]
                 self.name = "main_menu"
             if triggered_component in [self.components["textbox_button_list"]]:
                 for tc in triggered_component.triggered_component_list:

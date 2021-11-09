@@ -34,7 +34,7 @@ class SinglePlayerPage(Page):
     def set_components(self, screen):
         self.name = "singleplayer"
 
-        # change back navigation every time page changes
+        # change back navigation every time page type changes
         if self.input_data["prev_page"] != self.name:
             self.output_data["back_navigation"] = self.input_data["prev_page"]
 

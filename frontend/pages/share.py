@@ -27,6 +27,12 @@ class SharePage(Page):
         # set all component variables on input screen
 
     def set_components(self, screen):
+        self.name = "share"
+
+        # change back navigation every time page changes
+        if self.input_data["prev_page"] != self.name:
+            self.output_data["back_navigation"] = self.input_data["prev_page"]
+
         # background
         bg_img = pygame.image.load('assets/Backgrounds/sharebg.jpg')
         background = Background("background", screen, bg_img)
@@ -68,15 +74,15 @@ class SharePage(Page):
         # self.components["roompassword"] = roompassword_toggle
 
         # Room Password display
-        diplay_roompassword_display_x = 0.08
-        diplay_roompassword_display_y = 0.04
-        diplay_roompassword_display_width = 1 / 3
-        diplay_roompassword_display_height = 1 / 6
-        diplay_roompassword_text = pygame.image.load('assets/Backgrounds/includepwd.png')
-        diplay_roompassword_display = ImageDisplay("diplay_roompassword_display", screen, diplay_roompassword_display_x,
-                                             diplay_roompassword_display_y, diplay_roompassword_display_width,
-                                             diplay_roompassword_display_height, diplay_roompassword_text)
-        self.components["diplay_roompassword_display"] = diplay_roompassword_display
+        display_roompassword_display_x = 0.08
+        display_roompassword_display_y = 0.04
+        display_roompassword_display_width = 1 / 3
+        display_roompassword_display_height = 1 / 6
+        display_roompassword_text = pygame.image.load('assets/Backgrounds/includepwd.png')
+        display_roompassword_display = ImageDisplay("display_roompassword_display", screen, display_roompassword_display_x,
+                                             display_roompassword_display_y, display_roompassword_display_width,
+                                             display_roompassword_display_height, display_roompassword_text)
+        self.components["display_roompassword_display"] = display_roompassword_display
 
         # Twitter Button
         twitter_button_x = 3 / 20
@@ -139,24 +145,19 @@ class SharePage(Page):
         # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
-            self.output_data["back_navigation"]=self.output_data["prev_page"]
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["room_password"] = self.input_data["room_password"]
             self.output_data["username"] = self.input_data["username"]
             if triggered_component in [self.components["twitter_button"]]:
                 print("open twitter")
-            # if triggered_component in [self.components["ig_button"]]:
-            #     print("open instagram")
-            # if triggered_component in [self.components["whatsapp_button"]]:
-            #     print("open whatsapp")
             if triggered_component in [self.components["facebook_button"]]:
                 print("open facebook")
             if triggered_component in [self.components["return_button"]]:
                 self.output_data["roomID"] = self.input_data["roomID"]
                 print("test", self.output_data["roomID"])
-                self.name = self.input_data["back_navigation"]
-                # self.name = self.output_data["back_navigation"]
+                self.name = self.output_data["back_navigation"]
+                #if statement if returned data is very different (refer to share_results)
             if triggered_component in [self.components["toggle_pw"]]:
                 print("hello")
                 if triggered_component.toggled:

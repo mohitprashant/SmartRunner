@@ -27,6 +27,12 @@ class ShareResultsPage(Page):
         # set all component variables on input screen
 
     def set_components(self, screen):
+        self.name = "share_results"
+        # change back navigation every time page changes
+        if self.input_data["prev_page"] != self.name:
+            self.output_data["back_navigation"] = self.input_data["prev_page"]
+            print("bn", self.output_data["back_navigation"])
+
         # background
         bg_img = pygame.image.load('assets/Backgrounds/sharebg.jpg')
         background = Background("background", screen, bg_img)
@@ -104,14 +110,15 @@ class ShareResultsPage(Page):
             if triggered_component in [self.components["facebook_button"]]:
                 print("open facebook")
             if triggered_component in [self.components["return_button"]]:
-                print("test", self.input_data["back_navigation"])
-                if self.input_data["back_navigation"] == "topic_leaderboard":
+                print("topic", self.output_data["back_navigation"])
+                if self.output_data["back_navigation"] == "topic_leaderboard":
                     self.output_data["topic_leaderboard_ID"] = self.input_data["topic_leaderboard_ID"]
-                    self.name = self.input_data["back_navigation"]
-                elif self.input_data["back_navigation"] == "end_screen":
+                    print("topic", self.output_data["topic_leaderboard_ID"])
+                    self.name = "topic_leaderboard"
+                elif self.output_data["back_navigation"] == "end_screen":
                     self.output_data["score_board"] = self.input_data["score_board"]
                     self.output_data["roomID"]=self.input_data["roomID"]
-                    self.name = self.input_data["back_navigation"]
+                    self.name = "end_screen"
 
 
 
