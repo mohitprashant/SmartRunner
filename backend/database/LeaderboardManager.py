@@ -49,3 +49,35 @@ def update_leaderboard(user, subject, topic):
         if len(lowestCollection) > 0 and lowestCollection[0].to_dict()['score'] < user['score']:
             db.collection("leaderboard").document(subject).collection(topic).document(lowestCollection[0].id).delete()
             db.collection("leaderboard").document(subject).collection(topic).document().set(user)
+
+
+def get_leaderboard_subjects():
+    """
+    Returns a list of available leaderboards
+    """
+    query = db.collection('leaderboard').list_documents()
+    subjects = []
+
+    for subject in query:
+        subjects.append(subject.id)
+
+    return subjects
+
+
+def get_leaderboard_topics(subject):
+    """
+    Returns a list of available leaderboards topics for a given subject.
+    :param subject: Subject whose leaderboard topics to retrieve.
+    :return: List of topics.
+    """
+    if type(subject) is not str:
+        raise Exception("Given argument is not of type str")
+
+    topics = db.collection('leaderboard').document(subject).collections()
+    items = []
+
+    for topic in topics:
+        items.append(topic.id)
+
+    return items
+

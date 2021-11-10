@@ -16,7 +16,7 @@ class EndScreenPage(Page):
             "current_page": self.name,
             "prev_page": "",
             "room_ID": "",
-            "score_board": "",
+            "score_board": [],
             "username":"",
             "exit": False
         }
@@ -24,7 +24,7 @@ class EndScreenPage(Page):
     # set all component variables on input screen
     def set_components(self, screen):
         # background
-        bg_img = pygame.image.load('assets/img/sky.png')
+        bg_img = pygame.image.load('assets/Backgrounds/endgamebg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -44,14 +44,23 @@ class EndScreenPage(Page):
         # self.components["player_results"] = player_results
         # self.layers.append(player_results)
 
+        list_image_rel_x = 0.095
+        list_image_rel_y = 0.1
+        list_image_rel_width = 0.8
+        list_image_rel_height = 0.7
+        list_img = pygame.image.load('assets/Backgrounds/scrollable.png')
+        scroll_image = ImageDisplay("scroll_image", screen, list_image_rel_x, list_image_rel_y,
+                                           list_image_rel_width,
+                                           list_image_rel_height, list_img)
+        self.components["analyticslist_image"] = scroll_image
 
         #SelectableTextList
-        relative_x = 1/20
-        relative_y = 3/20
-        relative_width = 0.8
-        text_relative_height = 1 / 10
-        shown_relative_width = 7 /10
-        shown_relative_height = 3 / 5
+        relative_x = 0.2
+        relative_y = 0.2
+        relative_width = 0.55
+        text_relative_height = 0.1
+        shown_relative_width = 0.55
+        shown_relative_height = 0.5
         score_text_list = self.input_data["score_board"]
         # print(self.input_data.keys())
         # print(score_text_list)
@@ -78,11 +87,11 @@ class EndScreenPage(Page):
 
 
         # Share button
-        share_button_x = 7 / 10
+        share_button_x = 4 / 10
         share_button_y = 4 / 5
-        share_button_width = 1 / 4
+        share_button_width = 1 / 5
         share_button_height = 1 / 7
-        share_button__img = pygame.image.load('assets/img/exit_btn.png')
+        share_button__img = pygame.image.load('assets/Buttons/btn_share.png')
         share_button = ImageButton("share_button", screen, share_button_x, share_button_y,
                              share_button_width,
                              share_button_height, share_button__img)

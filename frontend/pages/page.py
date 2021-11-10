@@ -65,13 +65,24 @@ class Page:
                 for layer in reversed(self.layers):
                     active_layer = layer
                     pos = pygame.mouse.get_pos()
-                    if event.type == pygame.MOUSEBUTTONDOWN and layer.display_rect.collidepoint(pos):
-                        #to double check
-                        layer.trigger(event)
-                        print(component.name)
-                        triggered_component_list.append(layer)
-                        top_layer_triggered = True
-                        break
+
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if layer.scrollable:
+                            if layer.shown_display_rect.collidepoint(pos):
+                                # to double check
+                                layer.trigger(event)
+                                print(component.name)
+                                triggered_component_list.append(layer)
+                                top_layer_triggered = True
+                                break
+
+                        elif layer.display_rect.collidepoint(pos):
+                            #to double check
+                            layer.trigger(event)
+                            print(component.name)
+                            triggered_component_list.append(layer)
+                            top_layer_triggered = True
+                            break
                 if not top_layer_triggered:
                     for component in self.components.values():
                         if component.mouse_function:
@@ -86,11 +97,14 @@ class Page:
                                     triggered_component_list.append(component)
                 self.page_function(triggered_component_list)
                 #for navigation
-                if event.type == pygame.MOUSEBUTTONDOWN and top_layer_triggered==False: #and event.button==1:
-                    self.output_data["current_page"] = self.name
-                    #uncomment for navigation(doesn't work w scrollable currently)
-                    pygame.display.update()
-                    return self.output_data, self.input_data
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and len(triggered_component_list)==1:
+                    if top_layer_triggered and triggered_component_list[0].navigation_surface:
+                        self.output_data["current_page"] = self.name
+                        return self.output_data, self.input_data
+                    elif top_layer_triggered==False:
+                        self.output_data["current_page"] = self.name
+                        return self.output_data, self.input_data
+
 
             pygame.display.update()
 

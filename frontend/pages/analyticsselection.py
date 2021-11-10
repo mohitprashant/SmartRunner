@@ -25,41 +25,56 @@ class AnalyticsSelectPage(Page):
         self.output_data["roomID"] = self.input_data["roomID"]
 
         # background
-        bg_img = pygame.image.load('assets/img/sky.png')
+        bg_img = pygame.image.load('assets/Backgrounds/analyticsbg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
-        # text display
-        relative_x = 7 / 20
-        relative_y = 1 / 11
-        relative_width = 1 / 3
-        relative_height = 1 / 12
-        text_display = TextDisplay("text_display", screen, relative_x, relative_y, relative_width, relative_height,
-                                   "Analytics List")
-        self.components["text_display"] = text_display
+        # analytics list image
+        list_image_rel_x = 0.095
+        list_image_rel_y = 0.1
+        list_image_rel_width = 0.8
+        list_image_rel_height = 0.7
+        list_img = pygame.image.load('assets/Backgrounds/scrollable.png')
+        analyticslist_image = ImageDisplay("analyticslist_image", screen, list_image_rel_x, list_image_rel_y,
+                                        list_image_rel_width,
+                                        list_image_rel_height, list_img)
+        self.components["analyticslist_image"] = analyticslist_image
 
         # analytics list
-        relative_x = 1 / 5
-        relative_y = 1 / 6
-        relative_width = 3 / 5
-        text_relative_height = 1 / 10
-        shown_relative_width = 3 / 5
-        shown_relative_height = 3 / 5
+        relative_x = 0.2
+        relative_y = 0.2
+        relative_width = 0.55
+        text_relative_height = 0.1
+        shown_relative_width = 0.55
+        shown_relative_height = 0.5
         text_list = self.input_data["analyticslist"]
 
         selectable_text_list = SelectableTextList("selectable_text_list", screen, relative_x,
                                                   relative_y, relative_width,
                                                   text_relative_height, shown_relative_width, shown_relative_height,
-                                                  text_list,screen, single_select=True)
+                                                  text_list, screen, single_select=True)
         self.components["selectable_text_list"] = selectable_text_list
         self.layers.append(selectable_text_list)
+
+        # player status header
+        header_image_rel_x = 0.27
+        header_image_rel_y = 0.02
+        header_image_rel_width = 0.4
+        header_image_rel_height = 0.15
+        header_img = pygame.image.load('assets/Backgrounds/gamesessions.png')
+        analyticsheader_image = ImageDisplay("analyticsheader_image", screen, header_image_rel_x, header_image_rel_y,
+                                          header_image_rel_width,
+                                          header_image_rel_height, header_img)
+        self.components["analyticsheader_image"] = analyticsheader_image
+
+
 
         # all-time analytics button
         alltime_button_rel_x = 11 / 15
         alltime_button_rel_y = 4 / 5
-        alltime_button_rel_width = 1 / 7
+        alltime_button_rel_width = 0.2
         alltime_button_rel_height = 1 / 7
-        alltime_button_img = pygame.image.load('assets/img/blob.png')
+        alltime_button_img = pygame.image.load('assets/Buttons/btn_alltime.png')
         alltime_button = ImageButton("alltime_button", screen, alltime_button_rel_x, alltime_button_rel_y, alltime_button_rel_width,
                               alltime_button_rel_height, alltime_button_img)
         self.components["alltime_button"] = alltime_button
@@ -69,7 +84,7 @@ class AnalyticsSelectPage(Page):
         exit_button_rel_y = 4 / 5
         exit_button_rel_width = 1 / 7
         exit_button_rel_height = 1 / 7
-        exit_button_img = pygame.image.load('assets/img/exit_btn.png')
+        exit_button_img = pygame.image.load('assets/Buttons/btn_back.png')
         exit_button = ImageButton("exit_button", screen, exit_button_rel_x, exit_button_rel_y,
                                    exit_button_rel_width,
                                    exit_button_rel_height, exit_button_img)
@@ -78,7 +93,7 @@ class AnalyticsSelectPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
-            self.output_data["prev_page"] = self.name
+            self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["roomID"] = self.input_data["roomID"]
             if triggered_component in [self.components["selectable_text_list"]]:
                 self.output_data["analyticsID"] = triggered_component.selected_text

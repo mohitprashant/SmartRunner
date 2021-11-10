@@ -158,14 +158,20 @@ class ColorButton(ImageButton):
 
 
 class ToggleButton(ImageButton):
-    def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height, image, toggle_image):
-        super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, image)
+    def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height, image, toggle_image,
+                 toggled=False):
+        if toggled:
+            super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, toggle_image)
+        else:
+            super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, image)
         self.original_image = image
         self.toggle_image = toggle_image
-        self.toggled = False
+        self.toggled = toggled
+
 
     # return true if button is clicked
     def trigger(self, event):
+
         action = False
         # get mouse position
         pos = pygame.mouse.get_pos()
@@ -179,13 +185,13 @@ class ToggleButton(ImageButton):
                     else:
                         self.image = self.toggle_image
                         self.toggled = True
+
                     self.clicked = True  # prevent multiple input by holding click
                     action = True
                     self.resize(self.screen)
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:  # when left click is let go
                 self.clicked = False  # set click to false
-
         return action
 
 
@@ -238,6 +244,7 @@ class ComponentSurface(Component):
         self.mouse_function = True
         self.keyboard_function = True
         self.triggered_component_list = []
+        self.navigation_surface = True
 
     # todo might be useless
     def add_component(self, component):
@@ -704,6 +711,7 @@ class SelectableTextList(MouseScrollableSurface):
         relative_height = text_relative_height * self.list_size
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height,
                          relative_shown_width, relative_shown_height, display_screen, on_display)
+        self.navigation_surface = False
         self.single_select = single_select
         self.text_relative_x = 0
         self.text_relative_y = 0
@@ -743,6 +751,32 @@ class SelectableTextList(MouseScrollableSurface):
                     self.selected_text = selectable_text.text
                 else:
                     self.selected_text.append(selectable_text.text)
+
+
+class TextboxButtonList(MouseScrollableSurface):
+    def __init__(self, name, screen, relative_x, relative_y, relative_width, text_relative_height,
+                 relative_shown_width, relative_shown_height, text_list, display_screen, on_display=True,
+                 font_file=None,font_color=pygame.Color("black"), back_color="white",
+                 border_width=0):
+        self.text_list = text_list
+        self.list_size = len(text_list)
+        # height of scroll surface is sum of text height
+        relative_height = text_relative_height * self.list_size
+        super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height,
+                         relative_shown_width, relative_shown_height, display_screen, on_display)
+        self.text_relative_x = 0
+        self.text_relative_y = 0
+        self.text_relative_height = 1 / self.list_size
+        self.text_relative_width = 1
+        # for each text, add a selectable text into scrollable
+        for text in text_list:
+            textbox_button = TextboxButton(text, self.surface, self.text_relative_x, self.text_relative_y,
+                                           self.text_relative_width, self.text_relative_height, text, font_file,
+                                           font_color, back_color, border_width)
+            # add y into scrollable
+            self.add_component(textbox_button)
+            # update y of next text
+            self.text_relative_y = self.text_relative_y + self.text_relative_height
 
 
 class ExpandButton(ComponentSurface):
@@ -850,7 +884,7 @@ class DropdownTextSelect(ExpandButton):
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, relative_x,
                          relative_y, relative_width, relative_expand_height, display_screen, on_display)
 
-
+        self.navigation_surface = False
         relative_text_height = 1 / (num_expand_text + 1)
         selectable_text_list_relative_height = 1 - relative_text_height
 

@@ -8,23 +8,33 @@ class ShareResultsPage(Page):
         super().__init__(screen)
         self.name = "share_results"
         self.input_data = {
-            "roomID": "RoomID",
+            "roomID": "RoomID",                     #for end screen
             "username": "username",
-            "score_board": []
+            "topic_leaderboard_ID":"",              #for topic leaderboard
+            "score_board": [],                      #for end screen
+            "back_navigation": ""
         }
         self.output_data = {
-            "room_ID": "",
+            "roomID": "",
             "prev_page": "",
-            "score_board": "",
+            "score_board": [],
             "username": "",
+            "topic_leaderboard_ID": "",
+            # "back_navigation":"",
             "exit": False
         }
 
         # set all component variables on input screen
 
     def set_components(self, screen):
+        self.name = "share_results"
+        # change back navigation every time page changes
+        if self.input_data["prev_page"] != self.name:
+            self.output_data["back_navigation"] = self.input_data["prev_page"]
+            print("bn", self.output_data["back_navigation"])
+
         # background
-        bg_img = pygame.image.load('assets/img/sky.png')
+        bg_img = pygame.image.load('assets/Backgrounds/sharebg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -39,69 +49,45 @@ class ShareResultsPage(Page):
         #                       toggle_image, toggle_image2)
         # self.components["toggle"] = toggle_password
 
-
-        # Room Password display
-        diplay_roompassword_display_x = 4 / 20
-        diplay_roompassword_display_y = 3 / 40
-        diplay_roompassword_display_width = 1 / 2
-        diplay_roompassword_display_height = 0.9
-        diplay_roompassword_text = "Share results to social media"
-        diplay_roompassword_display = TextDisplay("diplay_roompassword_display", screen, diplay_roompassword_display_x,
-                                             diplay_roompassword_display_y, diplay_roompassword_display_width,
-                                             diplay_roompassword_display_height, diplay_roompassword_text)
-        self.components["diplay_roompassword_display"] = diplay_roompassword_display
+        share_results_display_x = 6 / 20
+        share_results_display_y = 3 / 40
+        share_results_display_width = 1 / 3
+        share_results_display_height = 0.18
+        share_results_text = pygame.image.load('assets/Backgrounds/shareresults.png')
+        share_results_display = ImageDisplay("share_results_display", screen, share_results_display_x,
+                                             share_results_display_y, share_results_display_width,
+                                             share_results_display_height, share_results_text)
+        self.components["share_results_display"] = share_results_display
 
         # Twitter Button
-        twitter_button_x = 3 / 20
-        twitter_button_y = 0.23
-        twitter_button_width = 1 / 4
-        twitter_button_height = 0.30
-        twitter_button_img = pygame.image.load('assets/img/twitter.png')
+        twitter_button_x = 0.24
+        twitter_button_y = 0.4
+        twitter_button_width = 1 / 6
+        twitter_button_height = 0.2
+        twitter_button_img = pygame.image.load('assets/Buttons/btn_twitter.png')
         twitter_button2 = ImageButton("twitter_button", screen, twitter_button_x, twitter_button_y,
                                          twitter_button_width,
                                          twitter_button_height, twitter_button_img)
         self.components["twitter_button"] = twitter_button2
 
-        # IG Button
-        ig_button_x = 10 / 20
-        ig_button_y = 1 / 4
-        ig_button_width = 0.18
-        ig_button_height = 1 / 5
-        ig_button_img = pygame.image.load('assets/img/Instagram.png')
-        ig_button2 = ImageButton("ig_button", screen, ig_button_x, ig_button_y,
-                                     ig_button_width,
-                                     ig_button_height, ig_button_img)
-        self.components["ig_button"] = ig_button2
 
-
-        # whatsapp Button
-        whatsapp_button_x = 3 / 20
-        whatsapp_button_y = 2 / 4
-        whatsapp_button_width = 1 / 4
-        whatsapp_button_height = 1 / 4
-        whatsapp_button_img = pygame.image.load('assets/img/whatsapp.png')
-        whatsapp_button2 = ImageButton("whatsapp_button", screen, whatsapp_button_x, whatsapp_button_y,
-                                whatsapp_button_width,
-                                whatsapp_button_height, whatsapp_button_img)
-        self.components["whatsapp_button"] = whatsapp_button2
-
-        # Telegram Button
-        telegram_button_x = 8.5 / 20
-        telegram_button_y = 2 / 4
-        telegram_button_width = 1 / 3
-        telegram_button_height = 1 / 4
-        telegram_button_img = pygame.image.load('assets/img/telegram.png')
-        telegram_button2 = ImageButton("telegram_button", screen, telegram_button_x, telegram_button_y,
-                                      telegram_button_width,
-                                      telegram_button_height, telegram_button_img)
-        self.components["telegram_button"] = telegram_button2
+        # Facebook Button
+        facebook_button_x = 0.53
+        facebook_button_y = 0.4
+        facebook_button_width = 1 / 6
+        facebook_button_height = 0.2
+        facebook_button_img = pygame.image.load('assets/Buttons/btn_fb.png')
+        facebook_button = ImageButton("facebook_button", screen, facebook_button_x, facebook_button_y,
+                                      facebook_button_width,
+                                      facebook_button_height, facebook_button_img)
+        self.components["facebook_button"] = facebook_button
 
         # return button
-        return_button_x = 17 / 20
-        return_button_y = 17 / 20
-        return_button_width = 1 / 10
-        return_button_height = 1 / 10
-        return_button__img = pygame.image.load('assets/img/exit_btn.png')
+        return_button_x = 1/15
+        return_button_y = 16 / 20
+        return_button_width = 1 / 7
+        return_button_height = 1 / 7
+        return_button__img = pygame.image.load('assets/Buttons/btn_back.png')
         return_button2 = ImageButton("return_button", screen, return_button_x, return_button_y,
                                     return_button_width,
                                     return_button_height, return_button__img)
@@ -112,20 +98,28 @@ class ShareResultsPage(Page):
         # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
-            self.output_data["roomID"] = self.input_data["roomID"]
-            self.output_data["score_board"] = self.input_data["score_board"]
+            # self.output_data["back_navigation"]=self.output_data["prev_page"]
+            #test
+            # print("test", self.output_data["back_navigation"])
+            self.output_data["prev_page"] = self.output_data["current_page"]
+            # self.output_data["roomID"] = self.input_data["roomID"]
+            # self.output_data["score_board"] = self.input_data["score_board"]
             self.output_data["username"] = self.input_data["username"]
-            self.output_data["prev_page"] = self.name
             if triggered_component in [self.components["twitter_button"]]:
                 print("open twitter")
-            if triggered_component in [self.components["ig_button"]]:
-                print("open instagram")
-            if triggered_component in [self.components["whatsapp_button"]]:
-                print("open whatsapp")
-            if triggered_component in [self.components["telegram_button"]]:
-                print("open telegram")
+            if triggered_component in [self.components["facebook_button"]]:
+                print("open facebook")
             if triggered_component in [self.components["return_button"]]:
-                print("go back to game session")
+                print("topic", self.output_data["back_navigation"])
+                if self.output_data["back_navigation"] == "topic_leaderboard":
+                    self.output_data["topic_leaderboard_ID"] = self.input_data["topic_leaderboard_ID"]
+                    print("topic", self.output_data["topic_leaderboard_ID"])
+                    self.name = "topic_leaderboard"
+                elif self.output_data["back_navigation"] == "end_screen":
+                    self.output_data["score_board"] = self.input_data["score_board"]
+                    self.output_data["roomID"]=self.input_data["roomID"]
+                    self.name = "end_screen"
+
 
 
 

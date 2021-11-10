@@ -15,46 +15,68 @@ class LeadSelectPage(Page):
             "username": "",
             "password": "",
             "topic_leaderboard_ID": "",
+            "back_navigation": "",
             "exit": False
         }
 
 
     # set all component variables on input screen
     def set_components(self, screen):
+        self.name = "leadselect"
+
+        # change back navigation every time page changes
+        if self.input_data["prev_page"] != self.name:
+            self.output_data["back_navigation"] = self.input_data["prev_page"]
+
         # background
-        bg_img = pygame.image.load('assets/img/sky.png')
+        bg_img = pygame.image.load('assets/Backgrounds/leaderboardbg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
-        #text display
-        relative_x = 7/20
-        relative_y = 1/11
-        relative_width = 1/3
-        relative_height = 1/12
-        text_display = TextDisplay("text_display", screen, relative_x, relative_y, relative_width, relative_height, "Leaderboard List")
-        self.components["text_display"] = text_display
+        # leaderboard list image
+        list_image_rel_x = 0.145
+        list_image_rel_y = 0.1
+        list_image_rel_width = 0.8
+        list_image_rel_height = 0.7
+        list_img = pygame.image.load('assets/Backgrounds/scrollable.png')
+        leaderboardlist_image = ImageDisplay("leaderboardlist_image", screen, list_image_rel_x, list_image_rel_y,
+                                       list_image_rel_width,
+                                       list_image_rel_height, list_img)
+        self.components["leaderboardlist_image"] = leaderboardlist_image
 
         # leaderboard list
-        relative_x = 1/5
-        relative_y = 1/6
-        relative_width = 3/4
-        text_relative_height = 1/10
-        shown_relative_width = 3/5
-        shown_relative_height = 3/5
+        relative_x = 0.25
+        relative_y = 0.2
+        relative_width = 0.55
+        text_relative_height = 0.1
+        shown_relative_width = 0.55
+        shown_relative_height = 0.5
         text_list = self.input_data["leaderboardlist"]
 
-        selectable_text_list = SelectableTextList("selectable_text_list", screen, relative_x,
-                                                   relative_y, relative_width,
-                                                   text_relative_height, shown_relative_width, shown_relative_height, text_list, screen, single_select=True)
-        self.components["selectable_text_list"] = selectable_text_list
-        self.layers.append(selectable_text_list)
+        textbox_button_list = TextboxButtonList("textbox_button_list", screen, relative_x,
+                                                  relative_y, relative_width,
+                                                  text_relative_height, shown_relative_width, shown_relative_height,
+                                                  text_list, screen)
+        self.components["textbox_button_list"] = textbox_button_list
+        self.layers.append(textbox_button_list)
+
+        # leaderboards header
+        header_image_rel_x = 0.38
+        header_image_rel_y = 0.02
+        header_image_rel_width = 0.25
+        header_image_rel_height = 0.15
+        header_img = pygame.image.load('assets/Backgrounds/leaderboards.png')
+        leaderboardheader_image = ImageDisplay("leaderboardheader_image", screen, header_image_rel_x, header_image_rel_y,
+                                        header_image_rel_width,
+                                        header_image_rel_height, header_img)
+        self.components["leaderboardheader_image"] = leaderboardheader_image
 
         # back button
         exit_button_rel_x = 1 / 15
         exit_button_rel_y = 4 / 5
         exit_button_rel_width = 1 / 7
         exit_button_rel_height = 1 / 7
-        exit_button_img = pygame.image.load('assets/img/exit_btn.png')
+        exit_button_img = pygame.image.load('assets/Buttons/btn_back.png')
         exit_button = ImageButton("exit_button", screen, exit_button_rel_x, exit_button_rel_y,
                                    exit_button_rel_width,
                                    exit_button_rel_height, exit_button_img)
@@ -63,10 +85,10 @@ class LeadSelectPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["prev_page"] = self.output_data["current_page"]
             if triggered_component in [self.components["exit_button"]]:
-                self.output_data["prev_page"] = self.name
                 self.name = "main_menu"
-            if triggered_component in [self.components["selectable_text_list"]]:
-                self.output_data["topic_leaderboard_ID"] = triggered_component.selected_text
+            if triggered_component in [self.components["textbox_button_list"]]:
+                for tc in triggered_component.triggered_component_list:
+                    self.output_data["topic_leaderboard_ID"] = tc.text
                 self.name = "topic_leaderboard"
-
