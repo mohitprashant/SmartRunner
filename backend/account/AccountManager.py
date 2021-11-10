@@ -32,7 +32,7 @@ def create_account_confirm_password(email, password, confirm_password):
         return create_account(email, password)
 
 
-def create_account(email, password):
+def create_account(email, password, avatar):
     """
     Create an account.
     :param email: Sign up email
@@ -43,7 +43,7 @@ def create_account(email, password):
         user = auth.create_user_with_email_and_password(email, password)
         print('Successfully created account.')
         username = user['email']
-        add_to_user_collection(username)
+        add_to_user_collection(username, avatar)
         return username
     except:
         print('Email already exists.')
