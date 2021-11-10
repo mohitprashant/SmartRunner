@@ -27,6 +27,7 @@ class MainMenuPage(Page):
         #change back navigation every time page changes
         if self.input_data["prev_page"]!=self.name:
             self.output_data["back_navigation"]=self.input_data["prev_page"]
+            print("main change")
 
         # background
         bg_img = pygame.image.load('assets/Backgrounds/loginbg.jpg')

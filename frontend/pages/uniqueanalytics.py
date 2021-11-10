@@ -19,6 +19,12 @@ class UniqueAnalyticsPage(Page):
 
     # set all component variables on input screen
     def set_components(self, screen):
+        self.name = "uniqueanalytics"
+
+        # change back navigation every time page changes
+        if self.input_data["prev_page"] != self.name:
+            self.output_data["back_navigation"] = self.input_data["prev_page"]
+
         # assign output data
         self.output_data["roomID"] = self.input_data["roomID"]
 

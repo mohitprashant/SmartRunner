@@ -155,7 +155,6 @@ class SharePage(Page):
                 print("open facebook")
             if triggered_component in [self.components["return_button"]]:
                 self.output_data["roomID"] = self.input_data["roomID"]
-                print("test", self.output_data["roomID"])
                 self.name = self.output_data["back_navigation"]
                 #if statement if returned data is very different (refer to share_results)
             if triggered_component in [self.components["toggle_pw"]]:
