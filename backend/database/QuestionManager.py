@@ -33,6 +33,32 @@ def get_topics(subject):
     return items
 
 
+def get_questions_by_difficulty(subject, topic, difficulty_level, randomise=False):
+    if type(subject) is not str or type(topic) is not str:
+        raise Exception("Given arguments are not of type str")
+
+    if type(difficulty_level) is not int:
+        raise Exception("Given argument is not of type int")
+
+    if subject == "" or topic == "":
+        raise Exception("Given arguments cannot be empty")
+
+    query = db.collection("subjects")\
+            .document(subject)\
+            .collection(topic)\
+            .where("Difficulty_level", "==", difficulty_level)\
+            .get()
+
+    questions = []
+    for question in query:
+        questions.append(question.to_dict())
+
+    if randomise is False:
+        return questions
+    randomised_questions = randomise_questions(questions)
+    return randomised_questions
+
+
 def get_questions(subject, topic, room_id="", quiz_name="", randomise=False):
     """
     Returns an array of questions from the subject and topic.
@@ -57,12 +83,7 @@ def get_questions(subject, topic, room_id="", quiz_name="", randomise=False):
         return questions
 
     # This randomises the questions to prevent the same questions from being selected each time
-    numQuestions = len(questions)
-    randomised_questions = []
-    samples = random.sample(range(numQuestions), numQuestions)
-    for sample in samples:
-        randomised_questions.append(questions[sample])
-
+    randomised_questions = randomise_questions(questions)
     return randomised_questions
 
 
@@ -150,3 +171,13 @@ def delete_custom_question(user_id, room_id, quiz_name, question_id):
         .document(question.id).delete()
 
     return True
+
+
+def randomise_questions(questions_arr):
+    num_questions = len(questions_arr)
+    randomised_questions_arr = []
+    samples = random.sample(range(num_questions), num_questions)
+    for sample in samples:
+        randomised_questions_arr.append(questions_arr[sample])
+
+    return randomised_questions_arr
