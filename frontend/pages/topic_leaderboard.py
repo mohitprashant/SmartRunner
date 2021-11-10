@@ -31,7 +31,7 @@ class TopicLeaderboardPage(Page):
             self.output_data["back_navigation"] = self.input_data["prev_page"]
 
         # background
-        bg_img = pygame.image.load('assets/Backgrounds/background.png')
+        bg_img = pygame.image.load('assets/Backgrounds/leaderboardbg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
