@@ -19,6 +19,12 @@ class HostRoomPage(Page):
 
     # set all component variables on input screen
     def set_components(self, screen):
+        self.name = "hostroom"
+
+        # change back navigation every time page changes
+        if self.input_data["prev_page"] != self.name:
+            self.output_data["back_navigation"] = self.input_data["prev_page"]
+
         # background
         bg_img = pygame.image.load('assets/Backgrounds/roombg.jpg')
         background = Background("background", screen, bg_img)

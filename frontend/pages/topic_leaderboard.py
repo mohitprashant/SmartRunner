@@ -10,6 +10,7 @@ class TopicLeaderboardPage(Page):
         self.input_data = {
             "topic_leaderboard_ID": "",
             "topic_leaderboard": [],
+            "prev_page": "",
             "username":"username"
         }
         self.output_data = {
@@ -24,6 +25,11 @@ class TopicLeaderboardPage(Page):
 
     # set all component variables on input screen
     def set_components(self, screen):
+        self.name = "topic_leaderboard"
+        # change back navigation every time page changes
+        if self.input_data["prev_page"] != self.name:
+            self.output_data["back_navigation"] = self.input_data["prev_page"]
+
         # background
         bg_img = pygame.image.load('assets/Backgrounds/background.png')
         background = Background("background", screen, bg_img)
@@ -130,11 +136,11 @@ class TopicLeaderboardPage(Page):
     #how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["score_board"] = self.input_data["topic_leaderboard"][self.input_data["topic_leaderboard_ID"]]
             self.output_data["topic_leaderboard_ID"] = self.input_data["topic_leaderboard_ID"]
             self.output_data["topic_leaderboard"] = self.input_data["topic_leaderboard"]
             self.output_data["username"] = self.input_data["username"]
-            self.output_data["prev_page"] = self.output_data["current_page"]
             if triggered_component in [self.components["share_button"]]:
                 self.name = "share_results"
             if triggered_component in [self.components["return_button"]]:
