@@ -110,6 +110,10 @@ def get_custom_questions(room_id, quiz_name):
 def add_custom_questions(room_id, quiz_name, questions):
     """
     Adds the given list of custom questions to the room_id
+    :param room_id: Room ID of the room that the questions are to be added in
+    :param quiz_name: Quiz name of the room that the questions are to be added in
+    :param questions: List of questions to be added
+    :return:
     """
     if type(room_id) is not str or type(quiz_name) is not str:
         raise Exception("Given arguments are not of type str")
@@ -132,7 +136,10 @@ def add_custom_questions(room_id, quiz_name, questions):
 
 def add_global_questions(subject, topic, questions):
     """
-    Add a question to the specified subject and topic
+    :param subject: Subject required
+    :param topic: Topic required
+    :param questions: List of questions to be added to the global question bank
+    :return:     Add a question to the specified subject and topic
     Throws an exception if the given question is not a dictionary type or does not have the specified keys
     """
     # Must check entire list before adding to database, or there will be duplicate additions
@@ -147,7 +154,11 @@ def add_global_questions(subject, topic, questions):
 
 def delete_custom_question(user_id, room_id, quiz_name, question_id):
     """
-    Deletes a custom question entry.
+    :param user_id: User ID of the host
+    :param room_id: Room ID of the question to be deleted
+    :param quiz_name: Quiz name of the question to be deleted
+    :param question_id: Question ID of the question to be deleted
+    :return: Deletes a custom question entry
     """
     if type(user_id) is not str or type(room_id) is not str or type(quiz_name) is not str or type(question_id) is not str:
         raise Exception("Given arguments are not of type str")
@@ -181,3 +192,21 @@ def randomise_questions(questions_arr):
         randomised_questions_arr.append(questions_arr[sample])
 
     return randomised_questions_arr
+
+
+def get_question_difficulty_list(subject, topic):
+    """
+    :param subject: Subject required
+    :param topic: Topic required
+    :return: Integer list of difficulties available in the Subject and Topic, in ascending order
+    """
+    query = db.collection("subjects").document(subject).collection(topic).get()
+    difficulties = []
+
+    for question in query:
+        difficulty = (question.to_dict()["Difficulty_level"])
+        if difficulty not in difficulties:
+            difficulties.append(difficulty)
+
+    difficulties.sort()
+    return difficulties
