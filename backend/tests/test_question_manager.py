@@ -57,3 +57,14 @@ class TestQuestions(unittest.TestCase):
         self.assertEqual(wrong_1, question['Wrong_1'])
         self.assertEqual(wrong_2, question['Wrong_2'])
         self.assertEqual(wrong_3, question['Wrong_3'])
+
+    def test_get_questions_by_difficulty(self):
+        difficulty_level = 3
+        questions = QuestionManager.get_questions_by_difficulty('Mathematics', 'Calculus', difficulty_level)
+        for question in questions:
+            self.assertEqual(question['Difficulty_level'], difficulty_level)
+
+    def test_get_question_difficulty_list(self):
+        test_difficulty_list = [1, 2, 3, 4, 5]
+        difficulty_list = QuestionManager.get_question_difficulty_list('Mathematics', 'Geometry')
+        self.assertListEqual(test_difficulty_list, difficulty_list)
