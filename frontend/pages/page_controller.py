@@ -22,10 +22,13 @@ from question_select import *
 from add_question import *
 from welcome_screen import *
 import sys
+# sys.path.insert(1, '../../backend/account')
+# import AccountManager
 sys.path.insert(1, '../../backend/database')
 # import FirebaseManager
 # db = FirebaseManager.get_firestore()
 import RoomManager
+import QuestionManager
 
 '''
 main controller of the system
@@ -370,7 +373,8 @@ class PageController:
             elif page_data[0]["current_page"] == "analyticsselect":
                 if page_data[0]["prev_page"] == "analyticslist":
                     page_data[0]["roomID"] = page_data[1]["roomID"]
-                quizzes_col = db.collection(u'rooms').document(page_data[0]["roomID"]).collection('quizzes').stream()
+                # page_data[0]["roomID"] = "576463"
+                quizzes_col = RoomManager.db.collection(u'rooms').document(page_data[0]["roomID"]).collection('quizzes').stream()
                 print("quizzes_col:", quizzes_col)
                 analyticslist = []
                 for quiz in quizzes_col:
@@ -385,9 +389,9 @@ class PageController:
                 print("analytics list:", analyticslist)
                 page_data = self.analyticsselect.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "uniqueanalytics":
-                quiz_info = db.collection(u'rooms').document(page_data[0]["roomID"]).collection('quizzes').document(page_data[0]["analyticsID"]).get().to_dict()
-                players_results_col = db.collection(u'rooms').document(page_data[0]["roomID"]).collection('quizzes').document(page_data[0]["analyticsID"]).collection('player results').stream()
-                questions_results_col = db.collection(u'rooms').document(page_data[0]["roomID"]).collection('quizzes').document(page_data[0]["analyticsID"]).collection('question results').stream()
+                quiz_info = RoomManager.db.collection(u'rooms').document(page_data[0]["roomID"]).collection('quizzes').document(page_data[0]["analyticsID"]).get().to_dict()
+                players_results_col = RoomManager.db.collection(u'rooms').document(page_data[0]["roomID"]).collection('quizzes').document(page_data[0]["analyticsID"]).collection('player results').stream()
+                questions_results_col = RoomManager.db.collection(u'rooms').document(page_data[0]["roomID"]).collection('quizzes').document(page_data[0]["analyticsID"]).collection('question results').stream()
 
                 players_results = []
                 questions_results = []
