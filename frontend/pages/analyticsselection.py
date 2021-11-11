@@ -8,6 +8,7 @@ class AnalyticsSelectPage(Page):
         self.name = "analyticsselect"
         self.input_data = {
             "analyticslist": [],
+            "username":"",
             "roomID": ""
         }
         self.output_data = {
@@ -15,6 +16,7 @@ class AnalyticsSelectPage(Page):
             "prev_page": "",
             "roomID": "",
             "analyticsID": "",
+            "username":"",
             "all_time": False,
             "exit": False
         }
@@ -100,6 +102,7 @@ class AnalyticsSelectPage(Page):
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
+            self.output_data["username"] = self.input_data["username"]
             self.output_data["roomID"] = self.input_data["roomID"]
             if triggered_component in [self.components["textbox_button_list"]]:
                 for tc in triggered_component.triggered_component_list:

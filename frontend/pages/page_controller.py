@@ -217,38 +217,27 @@ class PageController:
                 }
                 page_data = self.add_question.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "share":
-                print("test", page_data[0]["prev_page"])
-                print("test1", page_data[0]["back_navigation"])
 
                 if page_data[0]["back_navigation"] == "share" and page_data[0]["prev_page"] == "share":
                     input_data = {
                         "roomID": page_data[0]["roomID"],
-                        "room_password": room_password,
-                        "username": username,
+                        "username": page_data[0]["username"],
                         "back_navigation": page_data[0]["prev_page"],
-                        "toggled": False,
                         "prev_page": page_data[0]["prev_page"]
-
                     }
                 elif page_data[0]["prev_page"] == "share":
                     input_data = {
                         "roomID": page_data[0]["roomID"],
-                        "room_password": room_password,
-                        "username": username,
+                        "username": page_data[0]["username"],
                         "back_navigation": page_data[0]["prev_page"],
-                        "toggled": page_data[1]["toggled"],
                         "prev_page": page_data[0]["prev_page"]
-
                     }
                 else:
                     input_data = {
                     "roomID": page_data[0]["roomID"],
-                    "room_password": room_password,
-                    "username": username,
+                    "username": page_data[0]["username"],
                     "back_navigation": page_data[0]["prev_page"],
-                    "toggled": False,
                     "prev_page": page_data[0]["prev_page"]
-
                 }
                 page_data = self.share.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "share_results":
@@ -352,8 +341,11 @@ class PageController:
                     pass
                 elif page_data[0]["prev_page"] == "hostroom":
                     page_data[0]["roomID"] = page_data[1]["roomID"]
+                player_status_dict = RoomManager.get_room_member_statuses(page_data[0]["roomID"])
+                player_status = list(player_status_dict.items())
+                player_status_list = ["%s %s" % x for x in player_status]
                 input_data = {
-                    "player_status": player_status,
+                    "player_status": player_status_list,
                     "username": page_data[0]["username"],
                     "roomID": page_data[0]["roomID"],
                     "prev_page": page_data[0]["prev_page"]
@@ -391,6 +383,7 @@ class PageController:
                 input_data = {
                     "analyticslist": analyticslist,
                     "roomID": page_data[0]["roomID"],
+                    "username": page_data[0]["username"],
                     "prev_page": page_data[0]["prev_page"]
                 }
                 print("analytics list:", analyticslist)
@@ -412,6 +405,7 @@ class PageController:
                 analyticsdata = [quiz_info, players_results, questions_results]
                 input_data = {
                     "analytics": analyticsdata,
+                    "username": page_data[0]["username"],
                     "roomID": page_data[0]["roomID"],
                     "analyticsID": page_data[0]["analyticsID"],
                     "prev_page": page_data[0]["prev_page"]

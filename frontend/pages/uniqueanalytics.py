@@ -17,13 +17,17 @@ class UniqueAnalyticsPage(Page):
         self.name = "uniqueanalytics"
         self.input_data = {
             "analytics": [],
-            "roomID": ""
+            "analyticsID":"",
+            "roomID": "",
+            "username":""
         }
         self.criteria = 'score'
         self.output_data = {
             "current_page": self.name,
             "prev_page": "",
+            "username":"",
             "roomID": self.input_data["roomID"],
+            "analyticsID":"",
             "exit": False
         }
 
@@ -250,6 +254,9 @@ class UniqueAnalyticsPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["username"] = self.input_data["username"]
+            self.output_data["analyticsID"] = self.input_data["analyticsID"]
+            self.output_data["roomID"] = self.input_data["roomID"]
             if triggered_component in [self.components["analytics_by_score_button"],
                                        self.components["analytics_by_accuracy_button"],
                                        self.components["analytics_by_speed_button"]]:

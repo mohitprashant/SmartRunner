@@ -141,6 +141,9 @@ class HostRoomPage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["username"] = self.input_data["username"]
+            self.output_data["roomID"] = self.input_data["roomID"]
+            self.output_data["player_status"] = self.input_data["player_status"]
+
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "managerooms"
             if triggered_component in [self.components["start_button"]]:
