@@ -1,6 +1,6 @@
 import pygame
-from assets.components import *
-from page import *
+from frontend.pages.assets.components import *
+from frontend.pages.page import *
 
 
 class AddQuestionPage(Page):

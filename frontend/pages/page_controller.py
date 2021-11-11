@@ -1,29 +1,28 @@
 import pygame
-from login import *
-from main_menu import *
-from singleplayer import *
-from leaderboardselection import *
-from managerooms import *
-from hostroom import *
-from playerroom import *
-from analyticsselection import *
-from uniqueanalytics import *
-from room_tab import *
-from room_creation import *
-from join_room import *
-from host_settings import *
-from share import *
-from end_screen import *
-from topic_leaderboard import *
-from share_results import *
-from custom_select import *
-from create_account import *
-from question_select import *
-from add_question import *
-from welcome_screen import *
-import sys
-sys.path.insert(1, '../../backend/database')
-from FirebaseManager import *
+
+from frontend.pages.login import *
+from frontend.pages.main_menu import *
+from frontend.pages.singleplayer import *
+from frontend.pages.leaderboardselection import *
+from frontend.pages.managerooms import *
+from frontend.pages.hostroom import *
+from frontend.pages.playerroom import *
+from frontend.pages.analyticsselection import *
+from frontend.pages.uniqueanalytics import *
+from frontend.pages.room_tab import *
+from frontend.pages.room_creation import *
+from frontend.pages.join_room import *
+from frontend.pages.host_settings import *
+from frontend.pages.share import *
+from frontend.pages.end_screen import *
+from frontend.pages.topic_leaderboard import *
+from frontend.pages.share_results import *
+from frontend.pages.custom_select import *
+from frontend.pages.create_account import *
+from frontend.pages.question_select import *
+from frontend.pages.add_question import *
+from frontend.pages.welcome_screen import *
+from backend.database.FirebaseManager import *
 '''
 main controller of the system
 int screen_width starting width of screen
