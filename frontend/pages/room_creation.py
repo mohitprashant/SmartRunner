@@ -1,6 +1,8 @@
 from assets.components import *
 from page import *
-
+import sys
+sys.path.insert(1, '../../backend/database')
+import RoomManager
 
 class RoomCreationPage(Page):
     def __init__(self, screen):
@@ -8,8 +10,6 @@ class RoomCreationPage(Page):
         self.name = "room_creation"
         self.input_data = {
             "username": "",
-            # "roomID": "",
-            # "room_password": ""
         }
         self.output_data = {
             "current_page": self.name,
@@ -99,9 +99,10 @@ class RoomCreationPage(Page):
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["username"] = self.input_data["username"]
             if triggered_component in [self.components["room_confirm_button"]]:
-                self.output_data["roomID"] = self.components["roomID_input_box"].input
+                user_room_name = self.components["roomID_input_box"].input
                 self.output_data["room_password"] = self.components["password_input_box"].input
-                print("input value")
+                self.output_data["roomID"] = RoomManager.create_room(self.output_data["username"],user_room_name,self.output_data["room_password"])
+                print("room created:", self.output_data["roomID"])
                 self.name = "hostroom"
             elif triggered_component in [self.components["back_button"]]:
                 self.name = "room_tab"

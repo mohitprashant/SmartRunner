@@ -8,6 +8,7 @@ class AnalyticsSelectPage(Page):
         self.name = "analyticsselect"
         self.input_data = {
             "analyticslist": [],
+            "username":"",
             "roomID": ""
         }
         self.output_data = {
@@ -15,12 +16,19 @@ class AnalyticsSelectPage(Page):
             "prev_page": "",
             "roomID": "",
             "analyticsID": "",
+            "username":"",
             "all_time": False,
             "exit": False
         }
 
     # set all component variables on input screen
     def set_components(self, screen):
+        self.name = "analyticsselect"
+
+        # change back navigation every time page changes
+        if self.input_data["prev_page"] != self.name:
+            self.output_data["back_navigation"] = self.input_data["prev_page"]
+
         #assign output data
         self.output_data["roomID"] = self.input_data["roomID"]
 
@@ -49,12 +57,12 @@ class AnalyticsSelectPage(Page):
         shown_relative_height = 0.5
         text_list = self.input_data["analyticslist"]
 
-        selectable_text_list = SelectableTextList("selectable_text_list", screen, relative_x,
+        textbox_button_list = TextboxButtonList("textbox_button_list", screen, relative_x,
                                                   relative_y, relative_width,
                                                   text_relative_height, shown_relative_width, shown_relative_height,
-                                                  text_list, screen, single_select=True)
-        self.components["selectable_text_list"] = selectable_text_list
-        self.layers.append(selectable_text_list)
+                                                  text_list, screen)
+        self.components["textbox_button_list"] = textbox_button_list
+        self.layers.append(textbox_button_list)
 
         # player status header
         header_image_rel_x = 0.27
@@ -94,9 +102,11 @@ class AnalyticsSelectPage(Page):
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
+            self.output_data["username"] = self.input_data["username"]
             self.output_data["roomID"] = self.input_data["roomID"]
-            if triggered_component in [self.components["selectable_text_list"]]:
-                self.output_data["analyticsID"] = triggered_component.selected_text
+            if triggered_component in [self.components["textbox_button_list"]]:
+                for tc in triggered_component.triggered_component_list:
+                    self.output_data["analyticsID"] = tc.text
                 self.name = "uniqueanalytics"
             if triggered_component in [self.components["alltime_button"]]:
                 print("navigate to alltime analytics")

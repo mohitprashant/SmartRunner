@@ -12,15 +12,12 @@ class SharePage(Page):
             "room_password": "",
             "username":"username",
             "back_navigation":"",
-            "toggled":False
         }
         self.output_data = {
             "room_ID": "",
             "room_password": "",
             "username":"",
             "prev_page": "",
-            # "back_navigation":"",
-            "toggle_password": False,
             "exit": False
         }
 
@@ -38,17 +35,17 @@ class SharePage(Page):
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
-        # toggle test
-        toggle_rel_x = 9 / 20
-        toggle_rel_y = 1 / 20
-        toggle_rel_width = 1 / 10
-        toggle_rel_height = 1 / 10
-        toggle_image = pygame.image.load('assets/Buttons/btn_togglenotpressed.png')
-        toggle_image2 = pygame.image.load('assets/Buttons/btn_togglepressed.png')
-        # print("toggled image", self.input_data["toggled"])
-        toggle_pw = ToggleButton("toggle_pw", screen, toggle_rel_x, toggle_rel_y, toggle_rel_width, toggle_rel_height,
-                              toggle_image, toggle_image2, self.input_data["toggled"])
-        self.components["toggle_pw"] = toggle_pw
+        # # toggle test
+        # toggle_rel_x = 9 / 20
+        # toggle_rel_y = 1 / 20
+        # toggle_rel_width = 1 / 10
+        # toggle_rel_height = 1 / 10
+        # toggle_image = pygame.image.load('assets/Buttons/btn_togglenotpressed.png')
+        # toggle_image2 = pygame.image.load('assets/Buttons/btn_togglepressed.png')
+        # # print("toggled image", self.input_data["toggled"])
+        # toggle_pw = ToggleButton("toggle_pw", screen, toggle_rel_x, toggle_rel_y, toggle_rel_width, toggle_rel_height,
+        #                       toggle_image, toggle_image2, self.input_data["toggled"])
+        # self.components["toggle_pw"] = toggle_pw
 
         # toggle test
         # toggle_rel_x = 9 / 20
@@ -73,16 +70,16 @@ class SharePage(Page):
         #                                  roompassword_toggle_height, roompassword_toggle_img)
         # self.components["roompassword"] = roompassword_toggle
 
-        # Room Password display
-        display_roompassword_display_x = 0.08
-        display_roompassword_display_y = 0.04
-        display_roompassword_display_width = 1 / 3
-        display_roompassword_display_height = 1 / 6
-        display_roompassword_text = pygame.image.load('assets/Backgrounds/includepwd.png')
-        display_roompassword_display = ImageDisplay("display_roompassword_display", screen, display_roompassword_display_x,
-                                             display_roompassword_display_y, display_roompassword_display_width,
-                                             display_roompassword_display_height, display_roompassword_text)
-        self.components["display_roompassword_display"] = display_roompassword_display
+        # # Room Password display
+        # display_roompassword_display_x = 0.08
+        # display_roompassword_display_y = 0.04
+        # display_roompassword_display_width = 1 / 3
+        # display_roompassword_display_height = 1 / 6
+        # display_roompassword_text = pygame.image.load('assets/Backgrounds/includepwd.png')
+        # display_roompassword_display = ImageDisplay("display_roompassword_display", screen, display_roompassword_display_x,
+        #                                      display_roompassword_display_y, display_roompassword_display_width,
+        #                                      display_roompassword_display_height, display_roompassword_text)
+        # self.components["display_roompassword_display"] = display_roompassword_display
 
         # Twitter Button
         twitter_button_x = 3 / 20
@@ -147,7 +144,8 @@ class SharePage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["roomID"] = self.input_data["roomID"]
-            self.output_data["room_password"] = self.input_data["room_password"]
+            print(self.output_data["room_ID"])
+            # self.output_data["room_password"] = self.input_data["room_password"]
             self.output_data["username"] = self.input_data["username"]
             if triggered_component in [self.components["twitter_button"]]:
                 print("open twitter")
@@ -155,17 +153,16 @@ class SharePage(Page):
                 print("open facebook")
             if triggered_component in [self.components["return_button"]]:
                 self.output_data["roomID"] = self.input_data["roomID"]
-                print("test", self.output_data["roomID"])
                 self.name = self.output_data["back_navigation"]
                 #if statement if returned data is very different (refer to share_results)
-            if triggered_component in [self.components["toggle_pw"]]:
-                print("hello")
-                if triggered_component.toggled:
-                    # self.output_data["toggle_password"] = True
-                    self.input_data["toggled"] = True
-                    print("Include room password")
-                else:
-                    self.input_data["toggled"] = False
-                    print("False")
+            # if triggered_component in [self.components["toggle_pw"]]:
+            #     print("hello")
+            #     if triggered_component.toggled:
+            #         # self.output_data["toggle_password"] = True
+            #         self.input_data["toggled"] = True
+            #         print("Include room password")
+            #     else:
+            #         self.input_data["toggled"] = False
+            #         print("False")
 
 

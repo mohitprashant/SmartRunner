@@ -44,24 +44,24 @@ class AddQuestionPage(Page):
                                                header_image_rel_width,
                                                header_image_rel_height, header_img)
         self.components["addquestions_header"] = addquestions_header
-
-        question_id_image_rel_x = 0.18
-        question_id_image_rel_y = 0.25
-        question_id_image_rel_width = 0.2
-        question_id_image_rel_height = 1 / 9
-        question_id_image_img = "Question ID"
-        question_id_image_box = TextDisplay("question_id_image_box", screen, question_id_image_rel_x, question_id_image_rel_y,
-                                         question_id_image_rel_width, question_id_image_rel_height, question_id_image_img)
-        self.components["question_id_image_box"] = question_id_image_box
-
-        question_id_input_rel_x = 0.4
-        question_id_input_rel_y = 0.23
-        question_id_input_rel_width = 0.15
-        question_id_input_rel_height = 1 / 12
-        question_id_input_box = TextInput("question_id_input_box", screen, question_id_input_rel_x, question_id_input_rel_y,
-                                       question_id_input_rel_width, question_id_input_rel_height)
-        self.components["question_id_input_box"] = question_id_input_box
-
+        #
+        # question_id_image_rel_x = 0.18
+        # question_id_image_rel_y = 0.25
+        # question_id_image_rel_width = 0.2
+        # question_id_image_rel_height = 1 / 9
+        # question_id_image_img = "Question ID"
+        # question_id_image_box = TextDisplay("question_id_image_box", screen, question_id_image_rel_x, question_id_image_rel_y,
+        #                                  question_id_image_rel_width, question_id_image_rel_height, question_id_image_img)
+        # self.components["question_id_image_box"] = question_id_image_box
+        #
+        # question_id_input_rel_x = 0.4
+        # question_id_input_rel_y = 0.23
+        # question_id_input_rel_width = 0.15
+        # question_id_input_rel_height = 1 / 12
+        # question_id_input_box = TextInput("question_id_input_box", screen, question_id_input_rel_x, question_id_input_rel_y,
+        #                                question_id_input_rel_width, question_id_input_rel_height)
+        # self.components["question_id_input_box"] = question_id_input_box
+        #
 
         question_image_rel_x = 0.18
         question_image_rel_y = 0.35
@@ -183,7 +183,7 @@ class AddQuestionPage(Page):
             self.output_data["prev_page"] = self.output_data["current_page"]
             # self.output_data["custom_question_selection"] = self.input_data["custom_question_selection"]
             if triggered_component in [self.components["confirm_button2"]]:
-                self.output_data["question_id"] = self.components["question_id_input_box"].input
+                # self.output_data["question_id"] = self.components["question_id_input_box"].input
                 self.output_data["description"] = self.components["question_input_box"].input
                 self.output_data["difficulty_level"] = self.components["difficulty_input_box"].input
                 self.output_data["correct_option"] = self.components["correct_input_box"].input

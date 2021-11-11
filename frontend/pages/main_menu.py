@@ -27,6 +27,7 @@ class MainMenuPage(Page):
         #change back navigation every time page changes
         if self.input_data["prev_page"]!=self.name:
             self.output_data["back_navigation"]=self.input_data["prev_page"]
+            print("main change")
 
         # background
         bg_img = pygame.image.load('assets/Backgrounds/loginbg.jpg')
@@ -70,6 +71,7 @@ class MainMenuPage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["username"] = self.input_data["username"]
+            # print(self.input_data["username"])
             if triggered_component in [self.components["single_player_button"]]:
                 self.name = "singleplayer"
             elif triggered_component in [self.components["room_button"]]:

@@ -26,6 +26,12 @@ class CustomSelectPage(Page):
 
 
     def set_components(self, screen):
+        self.name = "custom_select"
+
+        # change back navigation every time page changes
+        if self.input_data["prev_page"] != self.name:
+            self.output_data["back_navigation"] = self.input_data["prev_page"]
+
         # background
         bg_img = pygame.image.load('assets/Backgrounds/settingsbg.jpg')
         background = Background("background", screen, bg_img)
@@ -118,6 +124,8 @@ class CustomSelectPage(Page):
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["username"] = self.input_data["username"]
             self.output_data["prev_page"] = self.output_data["current_page"]
+            self.output_data["toggled"] = self.input_data["toggled"]
+
             # self.output_data["custom_questions"] = self.input_data["custom_questions"]
             #self.output_data["room_password"] = self.input_data["room_password"]
 

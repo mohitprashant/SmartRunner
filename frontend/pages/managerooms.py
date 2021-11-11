@@ -1,19 +1,19 @@
 from assets.components import *
 from page import *
 
-
 class ManageRoomsPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
         self.name = "managerooms"
         self.input_data = {
-            "roomlist": []
+            "username":"",
+            "roomname_list": [],
+            "roomid_dict":{}
         }
         self.output_data = {
             "current_page": self.name,
             "prev_page": "",
             "username": "",
-            "password": "",
             "roomID": "",
             "exit": False
         }
@@ -50,7 +50,7 @@ class ManageRoomsPage(Page):
         text_relative_height = 0.1
         shown_relative_width = 0.55
         shown_relative_height = 0.5
-        text_list = self.input_data["roomlist"]
+        text_list = self.input_data["roomname_list"]
 
         selectable_text_list = SelectableTextList("selectable_text_list", screen, relative_x,
                                                   relative_y, relative_width,
@@ -106,14 +106,16 @@ class ManageRoomsPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["prev_page"] = self.output_data["current_page"]
+            self.output_data["username"] = self.input_data["username"]
             if triggered_component in [self.components["exit_button"]]:
-                self.output_data["prev_page"] = self.output_data["current_page"]
                 self.name = "room_tab"
             if triggered_component in [self.components["selectable_text_list"]]:
-                self.output_data["roomID"] = triggered_component.selected_text
+                room_name= triggered_component.selected_text
+                # self.output_data["roomID"]=self.input_data["roomid_dict"][room_name]
+                self.output_data["roomID"]= "576463"
                 print(self.output_data["roomID"])
             if triggered_component in [self.components["join_button"]]:
-                self.output_data["prev_page"] = self.output_data["current_page"]
                 self.name = "hostroom"
                 print("join")
                 #use self.output_data["roomID"] to determine which room

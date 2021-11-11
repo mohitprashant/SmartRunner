@@ -83,6 +83,7 @@ class RoomTabPage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["username"] = self.input_data["username"]
+            # print(self.input_data["username"])
             if triggered_component in [self.components["create_room_button"]]:
                 self.name = "room_creation"
             elif triggered_component in [self.components["manage_room_button"]]:

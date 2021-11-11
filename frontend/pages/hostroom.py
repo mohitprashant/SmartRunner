@@ -9,6 +9,7 @@ class HostRoomPage(Page):
         self.input_data = {
             "player_status": [],
             "roomID": "",
+            "username":""
         }
         self.output_data = {
             "current_page": self.name,
@@ -139,6 +140,10 @@ class HostRoomPage(Page):
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
+            self.output_data["username"] = self.input_data["username"]
+            self.output_data["roomID"] = self.input_data["roomID"]
+            self.output_data["player_status"] = self.input_data["player_status"]
+
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "managerooms"
             if triggered_component in [self.components["start_button"]]:
@@ -149,6 +154,7 @@ class HostRoomPage(Page):
                 self.output_data["roomID"] = self.input_data["roomID"]
                 self.name = "analyticsselect"
             if triggered_component in [self.components["settings_button"]]:
+                self.output_data["roomID"] = self.input_data["roomID"]
                 self.name = "host_settings"
             if triggered_component in [self.components["roomID_button"]]:
                 self.output_data["roomID"] = self.input_data["roomID"]

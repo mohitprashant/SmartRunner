@@ -1,18 +1,19 @@
 from assets.components import *
 from page import *
-
+import sys
+sys.path.insert(1, '../../backend/account')
+import AccountManager
 
 class LoginPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
         self.name = "login"
         self.input_data = {
-            "username": "",
-            "password": ""
         }
         self.output_data = {
             "current_page": self.name,
             "username": "",
+            "password": "",
             "exit": False
         }
 
@@ -75,5 +76,10 @@ class LoginPage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
             if triggered_component in [self.components["sign_in_button"]]:
-                print("check input value against database")
-                self.name = "main_menu"
+                self.output_data["username"] = self.components["username_input_box"].input
+                self.output_data["password"] = self.components["password_input_box"].input
+                login_check = AccountManager.login( self.output_data["username"],self.output_data["password"] )
+                if login_check != None:
+                    self.name = "main_menu"
+                else:
+                    print("User not found")
