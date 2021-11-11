@@ -123,13 +123,11 @@ class QuestionSelectPage(Page):
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["username"] = self.input_data["username"]
             self.output_data["prev_page"] = self.output_data["current_page"]
+            self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
             self.output_data["custom_question_selection"] = self.input_data["custom_question_selection"]
             self.output_data["toggled"] = self.input_data["toggled"]
 
-            #self.output_data["room_password"] = self.input_data["room_password"]
             if triggered_component in [self.components["return_button2"]]:
                 self.name = "custom_select"
             if triggered_component in [self.components["add_question_button2"]]:
                 self.name = "add_question"
-            # if triggered_component in [self.components["confirm_button2"]]:
-            #     print("Go to game session")

@@ -1,7 +1,9 @@
 import pygame
 from assets.components import *
 from page import *
-
+import sys
+sys.path.insert(1, '../../backend/database')
+import QuestionManager
 
 class AddQuestionPage(Page):
     def __init__(self, screen):
@@ -10,6 +12,10 @@ class AddQuestionPage(Page):
         self.input_data = {
             "roomID": "",
             "username": "",
+            "toggled": "",
+            "custom_quiz_selection": "",
+            "custom_question_selection": "",
+            "prev_page": ""
         }
         self.output_data = {
             "current_page": self.name,
@@ -196,7 +202,9 @@ class AddQuestionPage(Page):
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["username"] = self.input_data["username"]
             self.output_data["prev_page"] = self.output_data["current_page"]
-            # self.output_data["custom_question_selection"] = self.input_data["custom_question_selection"]
+            self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
+            self.output_data["custom_question_selection"] = self.input_data["custom_question_selection"]
+            self.output_data["toggled"] = self.input_data["toggled"]
             if triggered_component in [self.components["confirm_button2"]]:
                 # self.output_data["question_id"] = self.components["question_id_input_box"].input
                 self.output_data["description"] = self.components["question_input_box"].input
@@ -213,6 +221,10 @@ class AddQuestionPage(Page):
                 elif self.components["correct_option"].button.text == "D":
                     self.output_data["correct_option"] = self.components["option4_input_box"].input
                     self.output_data["wrong1"], self.output_data["wrong2"],self.output_data["wrong3"] = self.components["option1_input_box"].input,self.components["option2_input_box"].input,self.components["option3_input_box"].input
+                question = [self.output_data["description"], self.output_data["difficulty_level"], self.output_data["correct_option"],self.output_data["wrong1"],self.output_data["wrong2"],self.output_data["wrong3"]]
+                QuestionManager.add_custom_questions(self.output_data["roomID"], self.output_data["custom_quiz_selection"], question)
+                self.name = "question_select"
+
             if triggered_component in [self.components["return_button2"]]:
                 print("go back to question select")
                 self.name = "question_select"

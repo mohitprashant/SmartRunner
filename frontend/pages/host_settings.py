@@ -20,7 +20,6 @@ class HostSettingsPage(Page):
             "prev_page": "",
             "room_ID": "",
             "username": "",
-            "gametypeselection": "",
             "custom_quiz_selection": "",
             "back_navigation":"",
             "exit": False
@@ -33,6 +32,8 @@ class HostSettingsPage(Page):
         # change back navigation every time page changes
         if self.input_data["prev_page"] != self.name:
             self.output_data["back_navigation"] = self.input_data["prev_page"]
+
+        print("weeeeeh", "MT", self.input_data["mode_toggle"], "T", self.input_data["toggled"])
 
         # background
         bg_img = pygame.image.load('assets/Backgrounds/settingsbg.jpg')
@@ -131,7 +132,8 @@ class HostSettingsPage(Page):
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["username"] = self.input_data["username"]
             self.output_data["toggled"] = self.input_data["toggled"]
-
+            self.output_data["mode_toggle"] = self.input_data["mode_toggle"]
+            self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
 
             if self.input_data["mode_toggle"] == True:
                 if triggered_component in [self.components["custom_quiz_button"]]:
@@ -139,18 +141,18 @@ class HostSettingsPage(Page):
             if triggered_component in [self.components["mode_toggle"]]:
                 if triggered_component.toggled:
                     self.input_data["mode_toggle"] = True
-                    self.output_data["gametypeselection"]="Custom Quiz"
+                    self.output_data["mode_toggle"] = self.input_data["mode_toggle"]
                     print("Custom Quiz")
                 else:
                     self.input_data["mode_toggle"] = False
-                    self.output_data["gametypeselection"]="Global Questions"
+                    self.output_data["mode_toggle"] = self.input_data["mode_toggle"]
                     self.components.pop("custom_quiz_image")
                     self.components.pop("custom_quiz_button")
                     print("Global Questions")
             if triggered_component in [self.components["return_button"]]:
-                if self.output_data["gametypeselection"] == "Custom Quiz":
+                if self.output_data["mode_toggle"] == True:
                     print("Use Custom Questions")
-                    self.output_data["custom_quiz_selection"]= self.input_data["custom_quiz_selection"]
+                    self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
                 else:
                     # self.output_data["custom_quiz_selection"]= self.input_data["custom_quiz_selection"]
                     print("Use Global Questions")
@@ -159,10 +161,13 @@ class HostSettingsPage(Page):
             if triggered_component in [self.components["toggle"]]:
                 print("hello")
                 if triggered_component.toggled:
-                    # self.output_data["toggle_password"] = True
                     self.input_data["toggled"] = True
-                    print("Join room as host")
+                    self.output_data["toggled"] = self.input_data["toggled"]
+                    print("Join room as host", self.output_data["toggled"])
                 else:
                     self.input_data["toggled"] = False
+                    self.output_data["toggled"] = self.input_data["toggled"]
+                    print("Don't join room as host", self.output_data["toggled"])
+
                     print("False")
 

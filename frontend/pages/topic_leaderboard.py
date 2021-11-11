@@ -8,17 +8,18 @@ class TopicLeaderboardPage(Page):
         super().__init__(screen)
         self.name = "topic_leaderboard"
         self.input_data = {
-            "topic_leaderboard_ID": "",
+            "subject": "",
+            "topic": "",
             "topic_leaderboard": [],
             "prev_page": "",
-            "username":"username"
+            "username":""
         }
         self.output_data = {
             "current_page": self.name,
             "prev_page": "",
-            "topic_leaderboard_ID":"",
+            "subject": "",
+            "topic":"",
             "topic_leaderboard":[],
-            "score_board":[],
             "username":"",
             "exit": False
         }
@@ -127,7 +128,7 @@ class TopicLeaderboardPage(Page):
         topic_leaderboard_button_rel_y = 2/40
         topic_leaderboard_button_rel_width = 1/3
         topic_leaderboard_button_rel_height = 1/7
-        topicleadname = self.input_data["subject"] + self.input_data["topic"]
+        topicleadname = self.input_data["subject"] + ": " + self.input_data["topic"]
         text = topicleadname
         topic_leaderboard_button = TextButton("topic_leaderboard_button", screen, topic_leaderboard_button_rel_x, topic_leaderboard_button_rel_y,
                                    topic_leaderboard_button_rel_width,
