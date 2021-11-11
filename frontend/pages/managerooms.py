@@ -122,3 +122,4 @@ class ManageRoomsPage(Page):
             if triggered_component in [self.components["delete_button"]]:
                 print("delete room", self.output_data["roomID"], "from database")
 
+
