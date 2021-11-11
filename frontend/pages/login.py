@@ -101,7 +101,7 @@ class LoginPage(Page):
             if triggered_component in [self.components["sign_in_button"]]:
                 self.output_data["username"] = self.components["username_input_box"].input
                 self.output_data["password"] = self.components["password_input_box"].input
-                login_check = AccountManager.login( self.output_data["username"],self.output_data["password"] )
+                login_check = AccountManager.login(self.output_data["username"],self.output_data["password"])
                 if login_check != None:
                     self.name = "main_menu"
                 else:

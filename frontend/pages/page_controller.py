@@ -28,7 +28,7 @@ sys.path.insert(1, '../../backend/database')
 # import FirebaseManager
 # db = FirebaseManager.get_firestore()
 import RoomManager
-import QuestionManager
+import LeaderboardManager
 
 
 '''
@@ -95,10 +95,9 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            "roomID": "Room 1",
-            "username": "User 1",
+
         }
-        page_data = self.add_question.start(self.screen, input_data)
+        page_data = self.welcome_screen.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print("current page", page_data[0]["current_page"])
@@ -270,13 +269,15 @@ class PageController:
                 if page_data[0]["back_navigation"] != ("leadselect" or "share_results"):
                     pass
                 elif page_data[0]["prev_page"] == "topic_leaderboard":
-                    page_data[0]["topic_leaderboard_ID"] = page_data[1]["topic_leaderboard_ID"]
+                    page_data[0]["subject"] = page_data[1]["subject"]
+                    page_data[0]["topic"] = page_data[1]["topic"]
+                print("lm", LeaderboardManager.get_leaderboard(page_data[0]["subject"],page_data[0]["topic"]))
                 input_data = {
-                    "topic_leaderboard": topicleadselect,
-                    "topic_leaderboard_ID": page_data[0]["topic_leaderboard_ID"],
-                    "username": username,
+                    "topic_leaderboard": LeaderboardManager.get_leaderboard(page_data[0]["subject"],page_data[0]["topic"]),
+                    "subject": page_data[0]["subject"],
+                    "topic": page_data[0]["topic"],
+                    "username": page_data[0]["username"],
                     "prev_page": page_data[0]["prev_page"]
-
                 }
                 page_data = self.topic_leaderboard.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "end_screen":
@@ -318,9 +319,18 @@ class PageController:
                 page_data = self.join_room.start(self.screen, input_data)
 
             elif page_data[0]["current_page"] == "leadselect":
+                leadlist = LeaderboardManager.get_leaderboard_subjects()
+                print("leadlist", leadlist)
+                lead_subjectlist = []
+                for subject in leadlist:
+                    topiclist = LeaderboardManager.get_leaderboard_topics(subject)
+                    for topic in topiclist:
+                        subjecttopic = subject + ": " + topic
+                        lead_subjectlist.append(subjecttopic)
                 input_data = {
                     #input data goes to the leaderboardselection page
-                    "leaderboardlist": leadselect,
+                    "username": page_data[0]["username"],
+                    "leaderboardlist": lead_subjectlist,
                     "prev_page": page_data[0]["prev_page"]
                 }
                 page_data = self.leadselect.start(self.screen, input_data)

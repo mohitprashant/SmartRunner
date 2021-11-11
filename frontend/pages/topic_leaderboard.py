@@ -77,7 +77,7 @@ class TopicLeaderboardPage(Page):
         text_relative_height = 0.1
         shown_relative_width = 0.55
         shown_relative_height = 0.5
-        score_text_list = self.input_data["topic_leaderboard"][self.input_data["topic_leaderboard_ID"]]
+        score_text_list = self.input_data["topic_leaderboard"]
         # print(self.input_data.keys())
         # print(score_text_list)
 
@@ -127,7 +127,8 @@ class TopicLeaderboardPage(Page):
         topic_leaderboard_button_rel_y = 2/40
         topic_leaderboard_button_rel_width = 1/3
         topic_leaderboard_button_rel_height = 1/7
-        text = self.input_data["topic_leaderboard_ID"]
+        topicleadname = self.input_data["subject"] + self.input_data["topic"]
+        text = topicleadname
         topic_leaderboard_button = TextButton("topic_leaderboard_button", screen, topic_leaderboard_button_rel_x, topic_leaderboard_button_rel_y,
                                    topic_leaderboard_button_rel_width,
                                    topic_leaderboard_button_rel_height, text)
@@ -137,8 +138,9 @@ class TopicLeaderboardPage(Page):
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
-            self.output_data["score_board"] = self.input_data["topic_leaderboard"][self.input_data["topic_leaderboard_ID"]]
-            self.output_data["topic_leaderboard_ID"] = self.input_data["topic_leaderboard_ID"]
+            # self.output_data["score_board"] = self.input_data["topic_leaderboard"][self.input_data["topic_leaderboard_ID"]]
+            self.output_data["subject"] = self.input_data["subject"]
+            self.output_data["topic"] = self.input_data["topic"]
             self.output_data["topic_leaderboard"] = self.input_data["topic_leaderboard"]
             self.output_data["username"] = self.input_data["username"]
             if triggered_component in [self.components["share_button"]]:
