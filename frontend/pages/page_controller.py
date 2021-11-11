@@ -23,8 +23,9 @@ from add_question import *
 from welcome_screen import *
 import sys
 sys.path.insert(1, '../../backend/database')
-import FirebaseManager
-db = FirebaseManager.get_firestore()
+# import FirebaseManager
+# db = FirebaseManager.get_firestore()
+import RoomManager
 
 '''
 main controller of the system
@@ -266,7 +267,7 @@ class PageController:
                 page_data = self.share_results.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "main_menu":
                 input_data = {
-                    "username": username,
+                    "username": page_data[0]["username"],
                     "prev_page": page_data[0]["prev_page"]
                 }
                 page_data = self.main_menu.start(self.screen, input_data)
@@ -292,8 +293,6 @@ class PageController:
                 page_data = self.end_screen.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "login":
                 input_data ={
-                    "username": username,
-                    "password": password
                 }
                 page_data = self.login.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "create_account":
@@ -302,17 +301,16 @@ class PageController:
                 page_data = self.create_account.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "room_tab":
                 input_data = {
-                    "username": username,
+                    "username": page_data[0]["username"],
                     "prev_page": page_data[0]["prev_page"]
 
                 }
                 page_data = self.room_tab.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "room_creation":
                 input_data = {
-                    "username": username,
+                    "username": page_data[0]["username"],
                     "prev_page": page_data[0]["prev_page"]
-                    # "roomID": roomID,
-                    # "room_password": room_password
+
                 }
                 page_data = self.room_creation.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "join_room":
@@ -332,10 +330,18 @@ class PageController:
                 }
                 page_data = self.leadselect.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "managerooms":
+                roomname_list=[]
+                roomid_list =RoomManager.get_list_of_rooms_by_host(page_data[0]["username"])
+                for room in roomid_list:
+                    roomname_list.append(RoomManager.get_room_name_from_id(room))
+                roomid_dict=dict(zip(roomname_list,roomid_list))
                 input_data = {
-                    "roomlist": roomlist,
+                    "username": page_data[0]["username"],
+                    "roomname_list": roomname_list,
+                    "roomid_dict":roomid_dict,
                     "prev_page": page_data[0]["prev_page"]
                 }
+                print("username:", page_data[0]["username"])
                 page_data = self.managerooms.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "hostroom":
                 if page_data[0]["back_navigation"]!=("managerooms" or "room_creation" or "share"):
@@ -344,6 +350,7 @@ class PageController:
                     page_data[0]["roomID"] = page_data[1]["roomID"]
                 input_data = {
                     "player_status": player_status,
+                    "username": page_data[0]["username"],
                     "roomID": page_data[0]["roomID"],
                     "prev_page": page_data[0]["prev_page"]
                 }
