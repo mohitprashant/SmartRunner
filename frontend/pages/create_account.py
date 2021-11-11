@@ -1,4 +1,3 @@
-
 import sys
 import pathlib
 sys.path.insert(0, '../../backend/account')
@@ -8,6 +7,8 @@ from assets.components import *
 from page import *
 
 curr_dir = str(pathlib.Path(__file__).parent.resolve()) + '/'
+
+
 class CreateAccountPage(Page):
     def __init__(self, screen):
         super().__init__(screen)

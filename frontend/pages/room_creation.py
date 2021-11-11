@@ -1,8 +1,16 @@
+import sys
+import pathlib
+
+sys.path.insert(0, '../../backend/database')
+sys.path.insert(1, '../../frontend/pages')
+
+import RoomManager
+
 from assets.components import *
 from page import *
-import sys
-sys.path.insert(1, '../../backend/database')
-import RoomManager
+
+curr_dir = str(pathlib.Path(__file__).parent.resolve()) + '/'
+
 
 class RoomCreationPage(Page):
     def __init__(self, screen):
@@ -29,7 +37,7 @@ class RoomCreationPage(Page):
             self.output_data["back_navigation"] = self.input_data["prev_page"]
 
         # background
-        bg_img = pygame.image.load('assets/Backgrounds/roombg.jpg')
+        bg_img = pygame.image.load(curr_dir + 'assets/Backgrounds/roombg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -37,7 +45,7 @@ class RoomCreationPage(Page):
         roomID_image_rel_y = 0.35
         roomID_image_rel_width = 1 / 5
         roomID_image_rel_height = 1 / 8
-        roomID_image_img = pygame.image.load('assets/Backgrounds/roomid.png')
+        roomID_image_img = pygame.image.load(curr_dir + 'assets/Backgrounds/roomid.png')
         roomID_image_box = ImageDisplay("roomID_image_box", screen, roomID_image_rel_x, roomID_image_rel_y,
                                           roomID_image_rel_width, roomID_image_rel_height, roomID_image_img)
         self.components["roomID_image_box"] = roomID_image_box
@@ -46,7 +54,7 @@ class RoomCreationPage(Page):
         password_image_rel_y = 0.47
         password_image_rel_width = 1 / 5
         password_image_rel_height = 1 / 8
-        password_image_img = pygame.image.load('assets/Backgrounds/password.png')
+        password_image_img = pygame.image.load(curr_dir + 'assets/Backgrounds/password.png')
         password_image_box = ImageDisplay("password_image_box", screen, password_image_rel_x, password_image_rel_y,
                                           password_image_rel_width, password_image_rel_height, password_image_img)
         self.components["password_image_box"] = password_image_box
@@ -56,7 +64,7 @@ class RoomCreationPage(Page):
         room_confirm_button_rel_y = 0.6
         room_confirm_button_rel_width = 0.18
         room_confirm_button_rel_height = 1 / 7
-        room_confirm_button_img = pygame.image.load('assets/Buttons/btn_createroom.png')
+        room_confirm_button_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_createroom.png')
         room_confirm_button = ImageButton("room_confirm_button", screen, room_confirm_button_rel_x, room_confirm_button_rel_y,
                                    room_confirm_button_rel_width,
                                    room_confirm_button_rel_height, room_confirm_button_img)
@@ -68,7 +76,7 @@ class RoomCreationPage(Page):
         back_button_rel_y = 4/5
         back_button_rel_width = 1 / 7
         back_button_rel_height = 1 / 7
-        back_button_img = pygame.image.load('assets/Buttons/btn_back.png')
+        back_button_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_back.png')
         back_button = ImageButton("back_button", screen, back_button_rel_x, back_button_rel_y,
                                         back_button_rel_width,
                                         back_button_rel_height, back_button_img)
