@@ -23,8 +23,6 @@ class TestCreateAccount(unittest.TestCase):
 
         triggered_component_list = [create_account_page.components["create_acc_button"]]
         create_account_page.page_function(triggered_component_list)
-        print("after")
-        print(create_account_page.output_data)
 
         self.assertListEqual([username, password],
                              [create_account_page.output_data['username'], create_account_page.output_data['password']])
