@@ -87,7 +87,7 @@ def get_room_by_id(room_id):
     return room
 
 
-def join_room(room_id, room_password):
+def join_room(room_id, room_password, username):
     if type(room_id) is not str or type(room_password) is not str:
         raise Exception("Given arguments are not of type str")
 
@@ -101,8 +101,9 @@ def join_room(room_id, room_password):
     storedHash = room.to_dict()["room_password_hash"]
     if storedHash != hash_string_sha256(room_password):
         return False
-    else:
-        return True
+
+    db.collection("rooms").document(room_id).collection("members").document(username).set({"status": 0})
+    return True
 
 
 def room_name_exists(room_name):
