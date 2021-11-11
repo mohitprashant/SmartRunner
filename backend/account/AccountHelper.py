@@ -3,7 +3,7 @@ from backend.database import FirebaseManager
 db = FirebaseManager.get_firestore()
 
 
-def add_to_user_collection(username, avatar):
+def add_to_user_collection(username):
     """
     Returns a user dictionary object if given username exists
     """
@@ -12,7 +12,6 @@ def add_to_user_collection(username, avatar):
 
     user = {
         'username': username,
-        'avatar': avatar,
     }
 
     try:
@@ -35,3 +34,12 @@ def add_to_user_collection(username, avatar):
     except:
         raise Exception("Could not add user")
 
+
+def set_avatar(username, avatar):
+    existing_user = db.collection("users").where("username", "==", username).get()
+
+    if len(existing_user) == 0:
+        raise Exception("User dooes not exist")
+
+    existing_user = existing_user[0]
+    db.collection("users").document(existing_user.id).update({"avatar": avatar})

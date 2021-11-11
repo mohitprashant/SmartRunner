@@ -1,9 +1,13 @@
+
+import sys
+import pathlib
+sys.path.insert(0, '../../backend/account')
+sys.path.insert(1, '../../frontend/pages')
+import AccountManager
 from assets.components import *
 from page import *
-import sys
-sys.path.insert(1, '../../backend/account')
-import AccountManager
 
+curr_dir = str(pathlib.Path(__file__).parent.resolve()) + '/'
 class CreateAccountPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
@@ -21,7 +25,7 @@ class CreateAccountPage(Page):
     # set all component variables on input screen
     def set_components(self, screen):
         # background
-        bg_img = pygame.image.load('assets/Backgrounds/loginbg.jpg')
+        bg_img = pygame.image.load(curr_dir + '/assets/Backgrounds/loginbg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -30,7 +34,7 @@ class CreateAccountPage(Page):
         username_image_rel_y = 0.4
         username_image_rel_width = 0.18
         username_image_rel_height = 1 / 9
-        username_image_img = pygame.image.load('assets/Backgrounds/username.png')
+        username_image_img = pygame.image.load(curr_dir + 'assets/Backgrounds/username.png')
         username_image_box = ImageDisplay("username_image_box", screen, username_image_rel_x, username_image_rel_y,
                                        username_image_rel_width, username_image_rel_height,username_image_img)
         self.components["username_image_box"] = username_image_box
@@ -39,7 +43,7 @@ class CreateAccountPage(Page):
         password_image_rel_y = 0.5
         password_image_rel_width = 0.18
         password_image_rel_height = 1 / 9
-        password_image_img = pygame.image.load('assets/Backgrounds/password.png')
+        password_image_img = pygame.image.load(curr_dir + 'assets/Backgrounds/password.png')
         password_image_box = ImageDisplay("password_image_box", screen, password_image_rel_x, password_image_rel_y,
                                       password_image_rel_width, password_image_rel_height, password_image_img)
         self.components["password_image_box"] = password_image_box
@@ -50,7 +54,7 @@ class CreateAccountPage(Page):
         create_acc_button_rel_y = 0.7
         create_acc_button_rel_width = 0.18
         create_acc_button_rel_height = 1 / 8
-        create_acc_button_img = pygame.image.load('assets/Buttons/btn_createacct.png')
+        create_acc_button_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_createacct.png')
         create_acc_button = ImageButton("create_acc_button", screen, create_acc_button_rel_x, create_acc_button_rel_y,
                                         create_acc_button_rel_width,
                                         create_acc_button_rel_height, create_acc_button_img)
