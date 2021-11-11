@@ -14,6 +14,7 @@ class LoginPage(Page):
             "current_page": self.name,
             "username": "",
             "password": "",
+            "error_check":"",
             "exit": False
         }
 
@@ -42,20 +43,9 @@ class LoginPage(Page):
                                           password_image_rel_width, password_image_rel_height, password_image_img)
         self.components["password_image_box"] = password_image_box
 
-        #user signs ins
-        sign_in_button_rel_x = 0.62
-        sign_in_button_rel_y = 0.7
-        sign_in_button_rel_width = 1 / 8
-        sign_in_button_rel_height = 1 / 9
-        sign_in_button_img = pygame.image.load('assets/Buttons/btn_signin.png')
-        sign_in_button = ImageButton("sign_in_button", screen, sign_in_button_rel_x, sign_in_button_rel_y,
-                                   sign_in_button_rel_width,
-                                   sign_in_button_rel_height, sign_in_button_img)
-        self.components["sign_in_button"] = sign_in_button
-
         # username text input box
         username_input_rel_x = 1 / 2
-        username_input_rel_y = 1 / 2
+        username_input_rel_y = 0.5
         username_input_rel_width = 1 / 4
         username_input_rel_height = 1 / 14
         username_input_box = TextInput("username_input_box", screen, username_input_rel_x, username_input_rel_y,
@@ -64,12 +54,45 @@ class LoginPage(Page):
 
         # password text input box
         password_input_rel_x = 1 / 2
-        password_input_rel_y = 3 / 5
+        password_input_rel_y = 0.6
         password_input_rel_width = 1 / 4
         password_input_rel_height = 1 / 14
         password_input_box = TextInput("password_input_box", screen, password_input_rel_x, password_input_rel_y,
                                      password_input_rel_width, password_input_rel_height)
         self.components["password_input_box"] = password_input_box
+
+        if self.output_data["error_check"] == True:
+            error_display_rel_x = 0.4
+            error_display_rel_y = 0.39
+            error_display_rel_width = 1 / 4
+            error_display_rel_height = 1 / 14
+            error_display_text = "Invalid input!"
+            error_display_box = TextDisplay("error_display_box", screen, error_display_rel_x, error_display_rel_y,
+                                            error_display_rel_width, error_display_rel_height, error_display_text)
+            self.components["error_display_box"] = error_display_box
+
+
+
+        exit_button_rel_x = 0.5
+        exit_button_rel_y = 0.7
+        exit_button_rel_width = 0.1
+        exit_button_rel_height = 0.11
+        exit_button_img = pygame.image.load('assets/Buttons/btn_back.png')
+        exit_button = ImageButton("exit_button", screen, exit_button_rel_x, exit_button_rel_y,
+                                  exit_button_rel_width,
+                                  exit_button_rel_height, exit_button_img)
+        self.components["exit_button"] = exit_button
+
+        # user signs ins
+        sign_in_button_rel_x = 0.62
+        sign_in_button_rel_y = 0.7
+        sign_in_button_rel_width = 1 / 8
+        sign_in_button_rel_height = 0.1111
+        sign_in_button_img = pygame.image.load('assets/Buttons/btn_signin.png')
+        sign_in_button = ImageButton("sign_in_button", screen, sign_in_button_rel_x, sign_in_button_rel_y,
+                                     sign_in_button_rel_width,
+                                     sign_in_button_rel_height, sign_in_button_img)
+        self.components["sign_in_button"] = sign_in_button
 
     # how do the page react to events?
     def page_function(self, triggered_component_list):
@@ -82,4 +105,7 @@ class LoginPage(Page):
                 if login_check != None:
                     self.name = "main_menu"
                 else:
+                    self.output_data["error_check"] = True
                     print("User not found")
+            if triggered_component in [self.components["exit_button"]]:
+                self.name="welcome_screen"

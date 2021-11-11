@@ -36,7 +36,7 @@ class MainMenuPage(Page):
 
         # Single Player button
         single_player_button_x = 1 / 20
-        single_player_button_y = 1 / 2
+        single_player_button_y = 0.4
         single_player_button_width = 1 / 4
         single_player_button_height = 1 / 5
         single_player_button_img = pygame.image.load('assets/Buttons/btn_singleplayer.png')
@@ -46,7 +46,7 @@ class MainMenuPage(Page):
 
         # Room button
         room_button_x = 15 / 40
-        room_button_y = 1 / 2
+        room_button_y = 0.4
         room_button_width = 1 / 4
         room_button_height = 1 / 5
         room_button__img = pygame.image.load('assets/Buttons/btn_rooms.png')
@@ -57,7 +57,7 @@ class MainMenuPage(Page):
 
         # Leaderboard button
         leaderboard_button_x = 7 / 10
-        leaderboard_button_y = 1 / 2
+        leaderboard_button_y = 0.4
         leaderboard_button_width = 1 / 4
         leaderboard_button_height = 1 / 5
         leaderboard_button__img = pygame.image.load('assets/Buttons/btn_leaderboards.png')
@@ -66,12 +66,24 @@ class MainMenuPage(Page):
                              leaderboard_button_height, leaderboard_button__img)
         self.components["leaderboard_button"] = leaderboard_button
 
+        exit_button_rel_x = 1 / 15
+        exit_button_rel_y = 4 / 5
+        exit_button_rel_width = 1 / 7
+        exit_button_rel_height = 1 / 7
+        exit_button_img = pygame.image.load('assets/Buttons/btn_back.png')
+        exit_button = ImageButton("exit_button", screen, exit_button_rel_x, exit_button_rel_y,
+                                  exit_button_rel_width,
+                                  exit_button_rel_height, exit_button_img)
+        self.components["exit_button"] = exit_button
+
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["username"] = self.input_data["username"]
             # print(self.input_data["username"])
+            if triggered_component in [self.components["exit_button"]]:
+                self.name = "login"
             if triggered_component in [self.components["single_player_button"]]:
                 self.name = "singleplayer"
             elif triggered_component in [self.components["room_button"]]:
