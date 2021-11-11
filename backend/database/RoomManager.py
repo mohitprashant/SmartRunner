@@ -88,10 +88,10 @@ def get_room_by_id(room_id):
 
 
 def join_room(room_id, room_password, username):
-    if type(room_id) is not str or type(room_password) is not str:
+    if type(room_id) is not str or type(room_password) is not str or type(username) is not str:
         raise Exception("Given arguments are not of type str")
 
-    if room_id == "" or room_password == "":
+    if room_id == "" or room_password == "" or username == "":
         raise Exception("Given arguments cannot be empty")
 
     room = get_room_by_id(room_id)
@@ -265,3 +265,43 @@ def get_room_member_statuses(room_id):
         members[member.id] = temp_status["status"]
 
     return members
+
+
+def is_user_in_room(username, room_id):
+    """
+    :param username: Username/email of the user
+    :param room_id: Room id of the room to look for
+    :return: True if user is in room, else False
+    """
+    if room_id_exists(room_id) is False:
+        return False
+
+    query = db.collection("rooms").document(room_id).collection("members").get()
+    for user in query:
+        if user.id == username:
+            return True
+    return False
+
+
+def remove_user_from_room(current_username, removed_username, room_id):
+    """
+    :param current_username: Username of current user
+    :param removed_username: username of user to be removed
+    :param room_id: ID of the room that removed_username is supposed to be removed from
+    :return: True if user is removed or user is not in room or room does not exist. False if current_username is not removed_username, or is not host
+    """
+    if not room_id_exists(room_id):
+        return True
+
+    if current_username != removed_username and not is_room_host(current_username, room_id):
+        return False
+
+    if not is_user_in_room(removed_username, room_id):
+        return False
+
+    query = db.collection("rooms").document(room_id).collection("members").get()
+    for user in query:
+        if user.id == removed_username:
+            db.collection("rooms").document(room_id).collection("members").document(user.id).delete()
+
+    return True
