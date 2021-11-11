@@ -46,7 +46,7 @@ def create_account(email, password):
         add_to_user_collection(username)
         return username
     except:
-        print('Email already exists.')
+        print('Failed to create account.')
         return None
 
 
