@@ -756,36 +756,48 @@ class SelectableTextList(MouseScrollableSurface):
                  font_color=pygame.Color("black"), active_color="dodgerblue", passive_color="white", border_width=0):
         self.text_list = text_list
         self.list_size = len(text_list)
-        # height of scroll surface is sum of text height
-        relative_height = text_relative_height * self.list_size
+        if len(text_list) == 0:
+            relative_height = text_relative_height
+        else:
+            # height of scroll surface is sum of text height
+            relative_height = text_relative_height * self.list_size
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height,
                          relative_shown_width, relative_shown_height, display_screen, on_display)
         self.navigation_surface = False
         self.single_select = single_select
         self.text_relative_x = 0
         self.text_relative_y = 0
-        self.text_relative_height = 1 / self.list_size
-        self.text_relative_width = 1
-        # for each text, add a selectable text into scrollable
-        for text in text_list:
-            if self.single_select:
-                selectable_text = SingleSelectableTextButton(text, self.surface, self.text_relative_x,
-                                                             self.text_relative_y, self.text_relative_width,
-                                                             self.text_relative_height, text, font_file, font_color,
-                                                             active_color, passive_color, border_width)
-            else:
-                selectable_text = SelectableTextButton(text, self.surface, self.text_relative_x, self.text_relative_y,
-                                                       self.text_relative_width, self.text_relative_height, text,
-                                                       font_file, font_color, active_color, passive_color, border_width)
-            # add y into scrollable
+        if self.list_size==0:
+            self.text_relative_height = 1
+            self.text_relative_width = 1
+            selectable_text = SingleSelectableTextButton("Nobody's here!", self.surface, self.text_relative_x,
+                                                         self.text_relative_y, self.text_relative_width,
+                                                         self.text_relative_height, "Nobody's here!", font_file, font_color,
+                                                         active_color, passive_color, border_width)
             self.add_component(selectable_text)
-            # update y of next text
-            self.text_relative_y = self.text_relative_y + self.text_relative_height
-
-        if self.single_select:
-            self.selected_text = ""
         else:
-            self.selected_text = []
+            self.text_relative_height = 1 / self.list_size
+            self.text_relative_width = 1
+            # for each text, add a selectable text into scrollable
+            for text in text_list:
+                if self.single_select:
+                    selectable_text = SingleSelectableTextButton(text, self.surface, self.text_relative_x,
+                                                                 self.text_relative_y, self.text_relative_width,
+                                                                 self.text_relative_height, text, font_file, font_color,
+                                                                 active_color, passive_color, border_width)
+                else:
+                    selectable_text = SelectableTextButton(text, self.surface, self.text_relative_x, self.text_relative_y,
+                                                           self.text_relative_width, self.text_relative_height, text,
+                                                           font_file, font_color, active_color, passive_color, border_width)
+                # add y into scrollable
+                self.add_component(selectable_text)
+                # update y of next text
+                self.text_relative_y = self.text_relative_y + self.text_relative_height
+
+            if self.single_select:
+                self.selected_text = ""
+            else:
+                self.selected_text = []
 
     def trigger(self, event):
         super().trigger(event)
@@ -809,23 +821,36 @@ class TextboxButtonList(MouseScrollableSurface):
                  border_width=0):
         self.text_list = text_list
         self.list_size = len(text_list)
+        if len(text_list) ==0:
+            relative_height = text_relative_height
+        else:
         # height of scroll surface is sum of text height
-        relative_height = text_relative_height * self.list_size
+            relative_height = text_relative_height * self.list_size
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height,
                          relative_shown_width, relative_shown_height, display_screen, on_display)
         self.text_relative_x = 0
         self.text_relative_y = 0
-        self.text_relative_height = 1 / self.list_size
-        self.text_relative_width = 1
-        # for each text, add a selectable text into scrollable
-        for text in text_list:
-            textbox_button = TextboxButton(text, self.surface, self.text_relative_x, self.text_relative_y,
-                                           self.text_relative_width, self.text_relative_height, text, font_file,
+        if self.list_size == 0:
+
+            self.text_relative_height = 1
+            self.text_relative_width = 1
+            textbox_button = TextboxButton("Empty!", self.surface, self.text_relative_x, self.text_relative_y,
+                                           self.text_relative_width, self.text_relative_height, "Empty!", font_file,
                                            font_color, back_color, border_width)
-            # add y into scrollable
             self.add_component(textbox_button)
-            # update y of next text
-            self.text_relative_y = self.text_relative_y + self.text_relative_height
+
+        else:
+            self.text_relative_height = 1 / self.list_size
+            self.text_relative_width = 1
+            # for each text, add a selectable text into scrollable
+            for text in text_list:
+                textbox_button = TextboxButton(text, self.surface, self.text_relative_x, self.text_relative_y,
+                                               self.text_relative_width, self.text_relative_height, text, font_file,
+                                               font_color, back_color, border_width)
+                # add y into scrollable
+                self.add_component(textbox_button)
+                # update y of next text
+                self.text_relative_y = self.text_relative_y + self.text_relative_height
 
 
 class ExpandButton(ComponentSurface):

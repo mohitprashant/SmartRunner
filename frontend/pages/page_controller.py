@@ -30,6 +30,7 @@ sys.path.insert(1, '../../backend/database')
 import RoomManager
 import QuestionManager
 
+
 '''
 main controller of the system
 int screen_width starting width of screen
@@ -318,7 +319,7 @@ class PageController:
                 page_data = self.room_creation.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "join_room":
                 input_data = {
-                    "username": username,
+                    "username": page_data[0]["username"],
                     "prev_page": page_data[0]["prev_page"]
                     # "roomID": roomID,
                     # "room_password": room_password
@@ -363,8 +364,14 @@ class PageController:
                     pass
                 elif page_data[0]["prev_page"] == "playerroom":
                     page_data[0]["roomID"] = page_data[1]["roomID"]
+                player_status_dict = RoomManager.get_room_member_statuses(page_data[0]["roomID"])
+                print("backend:", player_status_dict)
+                player_status = list(player_status_dict.items())
+                print("dict items:", player_status)
+                player_status_list = [ "%s %s" % x for x in player_status]
                 input_data = {
-                    "player_status": player_status,
+                    "player_status": player_status_list,
+                    "username": page_data[0]["username"],
                     "roomID": page_data[0]["roomID"],
                     "prev_page": page_data[0]["prev_page"]
 

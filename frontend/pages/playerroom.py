@@ -1,6 +1,8 @@
 from assets.components import *
 from page import *
-
+import sys
+sys.path.insert(1, '../../backend/database')
+import RoomManager
 
 class PlayerRoomPage(Page):
     def __init__(self, screen):
@@ -8,12 +10,14 @@ class PlayerRoomPage(Page):
         self.name = "playerroom"
         self.input_data = {
             "player_status": [],
+            "username":"",
             "roomID": ""
         }
         self.output_data = {
             "current_page": self.name,
             "prev_page": "",
             "roomID": "",
+            "username":"",
             "ready_status": False,
             "exit": False
         }
@@ -118,10 +122,20 @@ class PlayerRoomPage(Page):
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
+            self.output_data["username"] = self.input_data["username"]
+            print("username:", self.output_data["username"])
+            self.output_data["roomID"] = self.input_data["roomID"]
+            print("roomID:", self.output_data["roomID"])
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "join_room"
             if triggered_component in [self.components["start_button"]]:
-                self.output_data["ready_status"] = True
-                print("Player ready")
+                if self.output_data["ready_status"]:
+                    self.output_data["ready_status"] = False
+                    RoomManager.set_member_status(self.output_data["roomID"],self.output_data["username"],0)
+                    print("Player ready")
+                else:
+                    self.output_data["ready_status"] = True
+                    RoomManager.set_member_status(self.output_data["roomID"],self.output_data["username"],1)
+
             if triggered_component in [self.components["roomID_button"]]:
                 self.name = "share"
