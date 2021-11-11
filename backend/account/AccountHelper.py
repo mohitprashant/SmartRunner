@@ -3,7 +3,7 @@ from backend.database import FirebaseManager
 db = FirebaseManager.get_firestore()
 
 
-def add_to_user_collection(username, avatar):
+def add_to_user_collection(username):
     """
     Returns a user dictionary object if given username exists
     """
@@ -12,7 +12,6 @@ def add_to_user_collection(username, avatar):
 
     user = {
         'username': username,
-        'avatar': avatar,
     }
 
     try:
