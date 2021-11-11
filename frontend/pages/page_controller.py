@@ -23,7 +23,9 @@ from add_question import *
 from welcome_screen import *
 import sys
 sys.path.insert(1, '../../backend/database')
-from FirebaseManager import *
+import FirebaseManager
+db = FirebaseManager.get_firestore()
+
 '''
 main controller of the system
 int screen_width starting width of screen
@@ -31,9 +33,9 @@ int screen_height starting height of screen
 '''
 #placeholder data to pull data from database
 leadselect = ["Leaderboard 1", "Leaderboard 2", "Leaderboard 3", "Leaderboard 4", "Leaderboard 5", "Leaderboard 6", "Leaderboard 7", "Leaderboard 8"]
-roomlist = ["Room 1", "Room 2", "Room 3", "Room 4", "Room 5", "Room 6", "Room 7", "Room 8"]
+roomlist = ["576463", "Room 2", "Room 3", "Room 4", "Room 5", "Room 6", "Room 7", "Room 8"]
 player_status = ["Player 1               Active", "Player 2               Active", "Player 3               Active", "Player 4               Active", "Player 5               Active", "Player 6               Active", "Player 7               Active", "Player 8               Active"]
-analyticslist = ["Analytics 1", "Analytics 2", "Analytics 3", "Analytics 4", "Analytics 5", "Analytics 6", "Analytics 7", "Analytics 8"]
+# analyticslist = ["Analytics 1", "Analytics 2", "Analytics 3", "Analytics 4", "Analytics 5", "Analytics 6", "Analytics 7", "Analytics 8"]
 analyticsdata = ["Mean= 23", "Median = 20", "Mode = 19", "Highest = 40", "Lowest = 12", "Standard Deviation = 3"]
 username = ["User1", "User2", "User3", "User 4"]
 password = ["hello", "pen", "bottle", "candle"]
@@ -88,10 +90,8 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-            "username": username,
-            "prev_page": ""
         }
-        page_data = self.main_menu.start(self.screen, input_data)
+        page_data = self.welcome_screen.start(self.screen, input_data)
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print("current page", page_data[0]["current_page"])
@@ -363,17 +363,41 @@ class PageController:
             elif page_data[0]["current_page"] == "analyticsselect":
                 if page_data[0]["prev_page"] == "analyticslist":
                     page_data[0]["roomID"] = page_data[1]["roomID"]
+                quizzes_col = db.collection(u'rooms').document(page_data[0]["roomID"]).collection('quizzes').stream()
+                print("quizzes_col:", quizzes_col)
+                analyticslist = []
+                for quiz in quizzes_col:
+                    analyticslist.append(quiz.id)
+                    print("quiz id:", quiz.id)
+
                 input_data = {
                     "analyticslist": analyticslist,
                     "roomID": page_data[0]["roomID"],
                     "prev_page": page_data[0]["prev_page"]
                 }
+                print("analytics list:", analyticslist)
                 page_data = self.analyticsselect.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "uniqueanalytics":
+                quiz_info = db.collection(u'rooms').document(page_data[0]["roomID"]).collection('quizzes').document(page_data[0]["analyticsID"]).get().to_dict()
+                players_results_col = db.collection(u'rooms').document(page_data[0]["roomID"]).collection('quizzes').document(page_data[0]["analyticsID"]).collection('player results').stream()
+                questions_results_col = db.collection(u'rooms').document(page_data[0]["roomID"]).collection('quizzes').document(page_data[0]["analyticsID"]).collection('question results').stream()
+
+                players_results = []
+                questions_results = []
+
+                for player_result in players_results_col:
+                    players_results.append(player_result.to_dict())
+
+                for question_result in questions_results_col:
+                    questions_results.append(question_result.to_dict())
+
+                analyticsdata = [quiz_info, players_results, questions_results]
                 input_data = {
                     "analytics": analyticsdata,
-                    "roomID": page_data[1]["roomID"],
+                    "roomID": page_data[0]["roomID"],
+                    "analyticsID": page_data[0]["analyticsID"],
                     "prev_page": page_data[0]["prev_page"]
+
                 }
                 page_data = self.uniqueanalytics.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "welcome_screen":

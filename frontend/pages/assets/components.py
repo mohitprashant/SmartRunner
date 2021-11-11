@@ -675,6 +675,55 @@ class SelectableTextButton(TextboxButton):
         self.display_width = int(self.screen_width * self.relative_display_width)
         self.display_rect = pygame.Rect(self.display_x, self.display_y, self.display_width, self.display_height)
 
+class SelectableTextButtonD(TextboxButton):
+    def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height, text,
+                active=False, active_color = "dodgerblue", passive_color = "white", active_font_color = "white", passive_font_color = "black",
+                relative_border_width=0, font_file=None):
+        if active:
+            font_color = active_font_color
+            back_color = active_color
+        else:
+            font_color = passive_font_color
+            back_color = passive_color
+        super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, text, font_file, font_color, back_color, relative_border_width)
+        self.relative_border_width = relative_border_width
+        self.active_color = active_color
+        self.passive_color = passive_color
+        self.active_font_color = active_font_color
+        self.passive_font_color = passive_font_color
+        self.back_color = back_color
+        self.font_color = font_color
+        self.active = active
+        self.display_rect = pygame.Rect(self.x, self.y, self.display_width, self.height)
+        self.fill_rect = pygame.Surface((self.display_width,self.height))
+        self.fill_rect.fill(back_color)
+
+    def trigger(self, event):
+        # get mouse position
+        pos = pygame.mouse.get_pos()
+        # when mouse hovers over TextInput and click, TextInput is activated
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                if "analytics_by_" in self.name:
+                    if not self.display_rect.collidepoint(pos): # inactive
+                        self.active = False
+                        self.font_color = self.passive_font_color
+                        self.text_surface = self.text_font.render(self.text, True, self.font_color)
+                        self.back_color = self.passive_color
+                    else: # active
+                        self.active = True
+                        self.font_color = self.active_font_color
+                        self.text_surface = self.text_font.render(self.text, True, self.font_color)
+                        self.back_color = self.active_color
+                        print("\n=>",self.name,self.active)
+                        return True
+        return False
+
+    def resize(self, new_screen):
+        super().resize(new_screen)
+        self.display_width = int(self.screen_width * self.relative_display_width)
+        self.display_rect = pygame.Rect(self.display_x, self.display_y, self.display_width, self.display_height)
+
 
 class SingleSelectableTextButton(SelectableTextButton):
     def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height,
