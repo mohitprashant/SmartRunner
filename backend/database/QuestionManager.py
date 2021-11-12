@@ -88,6 +88,11 @@ def get_questions(subject, topic, room_id="", quiz_name="", randomise=False):
 
 
 def get_custom_questions(room_id, quiz_name):
+    """
+    :param room_id: 6 digit ID of room
+    :param quiz_name: Quiz name of quiz to retrieve questions from
+    :return:
+    """
     if type(room_id) is not str or type(quiz_name) is not str:
         raise Exception("Given arguments are not of type str")
 
