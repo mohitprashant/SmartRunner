@@ -3,7 +3,7 @@ from backend.database import FirebaseManager
 db = FirebaseManager.get_firestore()
 
 
-def add_to_user_collection(username):
+def add_to_user_collection(username, user_token):
     """
     Returns a user dictionary object if given username exists
     """
@@ -12,6 +12,7 @@ def add_to_user_collection(username):
 
     user = {
         'username': username,
+        'user_token': user_token
     }
 
     try:
@@ -50,7 +51,7 @@ def set_avatar(username, avatar):
     if not user_exists(username):
         return False
 
-    existing_user = db.collection("users").where("username", "==", username).get()[0]
+    existing_user = get_user_collection_record(username)
     db.collection("users").document(existing_user.id).update({"avatar": avatar})
     return True
 
@@ -69,7 +70,12 @@ def get_avatar(username):
     if not user_exists(username):
         return None
 
-    avatar = db.collection("users").where("username", "==", username).get()[0].to_dict()["avatar"]
+    user = get_user_collection_record(username).to_dict()
+    if "avatar" in user:
+        avatar = user["avatar"]
+    else:
+        avatar = None
+
     return avatar
 
 
@@ -92,3 +98,27 @@ def user_exists(username):
         return True
     else:
         raise Exception("Duplicate user entries in database. Please remove the duplicate entry")
+
+
+def get_user_collection_record(username):
+    return db.collection("users").where("username", "==", username).get()[0]
+
+
+def delete_user_collection_record(username):
+    if not user_exists(username):
+        return False
+
+    user = get_user_collection_record(username)
+    db.collection("users").document(user.id).delete()
+    return True
+
+
+def get_user_token(username):
+    if not user_exists(username):
+        return None
+
+    user = get_user_collection_record(username).to_dict()
+    if "user_token" not in user:
+        return None
+
+    return user["user_token"]
