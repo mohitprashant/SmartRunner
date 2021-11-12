@@ -273,3 +273,15 @@ class UniqueAnalyticsPage(Page):
                     print("export csv")
                 if triggered_component in [self.components["exit_button"]]:
                     self.name = "analyticsselect"
+            if triggered_component in [self.components["export_button"]]:
+                print("exporting csv...")
+                # self.name = "uniqueanalytics"
+                with open(self.input_data["analytics"][0]['quiz_name'] + '_Analytics.csv', 'w') as f:
+                    f.write("Name,Score,Accuracy (%),Competion Time (s)\n")
+                    i = 0
+                    for player in self.players[1:]:
+                        f.write("%s,%s,%s,%s\n" % (
+                        player, self.plot_data['score']['x_data'][i], self.plot_data['accuracy']['x_data'][i],
+                        self.plot_data['completion_time']['x_data'][i]))
+                        i = i + 1
+
