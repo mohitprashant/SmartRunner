@@ -21,6 +21,7 @@ from create_account import *
 from question_select import *
 from add_question import *
 from welcome_screen import *
+from game_play import *
 import sys
 # sys.path.insert(1, '../../backend/account')
 # import AccountManager
@@ -86,7 +87,8 @@ class PageController:
         self.create_account = CreateAccountPage(self.screen)
         self.question_select = QuestionSelectPage(self.screen)
         self.add_question = AddQuestionPage(self.screen)
-        self.welcome_screen =WelcomeScreenPage(self.screen)
+        self.welcome_screen = WelcomeScreenPage(self.screen)
+        self.game_play = Game(self.screen)
 
 
 
@@ -96,7 +98,6 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-
         }
         page_data = self.welcome_screen.start(self.screen, input_data)
         while self.run:
@@ -112,11 +113,11 @@ class PageController:
                 if page_data[0]["back_navigation"] != "main_menu":
                     input_data = {
                         "back_navigation": "",
-                        "subjectlist": subjectlist,
-                        "topiclist": topiclist,
-                        "difficultylist": difficultylist,
+                        "subjectlist": QuestionManager.get_subjects(),
+                        "topiclist": QuestionManager.get_topics(),
+                        "difficultylist": ["Select Difficulty"],
                         "subject_topic_list": ["Select Topic"],
-                        "subjectselection": "English",
+                        "subjectselection": "Mathematics",
                         "prev_page": page_data[0]["prev_page"]
                     }
                 elif page_data[0]["prev_page"] == "singleplayer":
@@ -441,6 +442,13 @@ class PageController:
                 input_data = {
                 }
                 page_data = self.welcome_screen.start(self.screen, input_data)
+            elif page_data[0]["current_page"] == "game_play":
+                input_data = {
+                    "username": "",
+                    "questions": page_data[0]["questions"],
+                    "answers": page_data[0]["answers"]
+                }
+                page_data = self.game_play.start(self.screen, input_data)
 
 
             pygame.display.update()

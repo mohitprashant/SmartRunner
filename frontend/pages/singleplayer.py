@@ -112,7 +112,10 @@ class SinglePlayerPage(Page):
         for triggered_component in triggered_component_list:
             if triggered_component in [self.components["start_button"]]:
                 self.output_data["prev_page"] = self.output_data["current_page"]
-                print("start game session")
+                #integrate w backend later
+                self.output_data["questions"] = ["who am i", "where am i"]
+                self.output_data["answers"] = [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]
+                self.name = "game_play"
 
             if triggered_component in [self.components["exit_button"]]:
                 self.output_data["prev_page"] = self.output_data["current_page"]
