@@ -1,6 +1,14 @@
 import pygame
+import sys
+import pathlib
+
+sys.path.insert(0, '../../backend/database')
+sys.path.insert(1, '../../frontend/pages')
+
 from assets.components import *
 from page import *
+
+curr_dir = str(pathlib.Path(__file__).parent.resolve()) + '/'
 
 
 class SharePage(Page):
@@ -31,7 +39,7 @@ class SharePage(Page):
             self.output_data["back_navigation"] = self.input_data["prev_page"]
 
         # background
-        bg_img = pygame.image.load('assets/Backgrounds/sharebg.jpg')
+        bg_img = pygame.image.load(curr_dir + 'assets/Backgrounds/sharebg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -86,7 +94,7 @@ class SharePage(Page):
         twitter_button_y = 0.4
         twitter_button_width = 1 / 4
         twitter_button_height = 0.30
-        twitter_button_img = pygame.image.load('assets/Buttons/btn_twitter.png')
+        twitter_button_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_twitter.png')
         twitter_button = ImageButton("twitter_button", screen, twitter_button_x, twitter_button_y,
                                          twitter_button_width,
                                          twitter_button_height, twitter_button_img)
@@ -120,7 +128,7 @@ class SharePage(Page):
         facebook_button_y = 0.4
         facebook_button_width = 1 / 4
         facebook_button_height = 0.3
-        facebook_button_img = pygame.image.load('assets/Buttons/btn_fb.png')
+        facebook_button_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_fb.png')
         facebook_button = ImageButton("facebook_button", screen, facebook_button_x, facebook_button_y,
                                       facebook_button_width,
                                       facebook_button_height, facebook_button_img)
@@ -131,7 +139,7 @@ class SharePage(Page):
         return_button_y = 17 / 20
         return_button_width = 1 / 10
         return_button_height = 1 / 10
-        return_button__img = pygame.image.load('assets/Buttons/btn_back.png')
+        return_button__img = pygame.image.load(curr_dir + 'assets/Buttons/btn_back.png')
         return_button = ImageButton("return_button", screen, return_button_x, return_button_y,
                                     return_button_width,
                                     return_button_height, return_button__img)
