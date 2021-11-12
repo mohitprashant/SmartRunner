@@ -223,18 +223,9 @@ class Game(Page):
             self.lastavatarupdate = time.time()
             
             
+            
     def questionupdate(self, screen, correct):
-        if(self.questionstate >= len(self.questions)):
-            relative_x = 7/20
-            relative_y = 2/15
-            relative_width = 1/5
-            relative_height = 1/15
-            question_text = TextDisplay("question_text", screen, relative_x, relative_y, relative_width, relative_height, 'No more questions')
-            self.components["question_text"] = question_text
-            return
-        
-        
-         #question display
+        #question display
         if(correct):
             relative_x = 15/20
             relative_y = 1/15
@@ -252,7 +243,16 @@ class Game(Page):
         
         
         
-         #question display
+        if(self.questionstate >= len(self.questions)):
+            relative_x = 7/20
+            relative_y = 2/15
+            relative_width = 1/5
+            relative_height = 1/15
+            question_text = TextDisplay("question_text", screen, relative_x, relative_y, relative_width, relative_height, 'No more questions')
+            self.components["question_text"] = question_text
+            return
+        
+        #question display
         relative_x = 7/20
         relative_y = 2/15
         relative_width = 1/5
@@ -290,7 +290,40 @@ class Game(Page):
         answer_text4 = TextDisplay("answer_text4", screen, relative_x, relative_y, relative_width, relative_height, self.answers[self.questionstate][3])
         self.components["answer_text4"] = answer_text4
                 
+    
+    def display_score(self, screen):
+        relative_x = 10/20
+        relative_y = 5/17
+        relative_width = 1/5
+        relative_height = 1/15
+        score_display = TextDisplay("score_display", screen, relative_x, relative_y, relative_width, relative_height, 'Score : '+str(self.game_stats['score']))
+        self.components["score_display"] = score_display
         
+        relative_x = 10/20
+        relative_y = 6/17
+        relative_width = 1/5
+        relative_height = 1/15
+        time_display = TextDisplay("time_display", screen, relative_x, relative_y, relative_width, relative_height, 'Time taken : '+str(self.game_stats['time']))
+        self.components["time_display"] = time_display
+        
+        relative_x = 10/20
+        relative_y = 7/17
+        relative_width = 1/5
+        relative_height = 1/15
+        correct_display = TextDisplay("correct_display", screen, relative_x, relative_y, relative_width, relative_height, 'Correct : '+str(self.game_stats['correct'])+'/'+str(len(self.questions)))
+        self.components["correct_display"] = correct_display
+        
+        
+        game_image_rel_x = 9 / 10
+        game_image_rel_y = 1 / 10
+        game_image_rel_width = 1 / 10
+        game_image_rel_height = 1 / 10
+        exit_btn = pygame.image.load('assets/img/exit_btn.png')
+        exit_btn = ImageDisplay("exit_btn", screen, game_image_rel_x, game_image_rel_y,
+                                        game_image_rel_width, game_image_rel_height,exit_btn)
+        self.components["exit_btn"] = exit_btn
+    
+    
         
     def get_gamedata(self):
         data = {}
@@ -304,7 +337,8 @@ class Game(Page):
 
     def page_function(self, triggered_component_list):
         for x in triggered_component_list:
-            pass
+            if(x == 'exit_btn'):
+                pygame.quit()
 
 
     # start running the page
@@ -317,7 +351,7 @@ class Game(Page):
         self.game_stats = {}
         self.game_stats['id'] = 0
         self.game_stats['correct'] = 0
-        self.game_stats['time'] = 0.0
+        self.game_stats['time'] = 0
         self.game_stats['score'] = 0
         
         if('avatar' in input_data.keys()):
@@ -325,7 +359,7 @@ class Game(Page):
         else:
             self.avatar = 'guy'
             
-        self.speed = 1.5
+        self.speed = 15
         self.score = 0
         self.distance = 100.0
         self.lastavatarupdate = time.time()
@@ -373,7 +407,7 @@ class Game(Page):
                     # get a list of all sprites that are under the mouse cursor
                     for s in self.components.keys():
                         if(self.components[s].rect.collidepoint(pos)):
-                            triggered_component_list.append(self.components[s])
+                            triggered_component_list.append(s)
                         
                             if(s == 'answer1' and self.questionstate<len(self.questions)):
                                 if(self.correct[self.questionstate] == self.answers[self.questionstate][0]):
@@ -433,9 +467,14 @@ class Game(Page):
             
             if(time.time() - self.lastupdate > 0.1):
                 if(self.distance <= 0):
-                    self.game_stats['time'] = time.time() - self.starttime
-                    self.game_stats['score'] = self.speed * self.correct * 1/(self.game_stats['time'])
+                    if(self.game_stats['time'] == 0):
+                        self.game_stats['time'] = (time.time() - self.starttime)//1
+                    self.game_stats['score'] = self.speed * self.game_stats['correct'] - (self.game_stats['time'])
                     self.speed = 0.000000000001
+                    
+                    self.display_score(screen)
+                    
+                    
                     
                     
                 updatecheck = True
@@ -477,8 +516,8 @@ class Game(Page):
 
 p = Game(pygame.display.set_mode((400, 400), pygame.RESIZABLE))
 input_data = {}
-input_data['questions'] = ['who am I?', 'what is my name?']*20
-input_data['answers'] = [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]*20
+input_data['questions'] = ['who am I?', 'what is my name?']*2
+input_data['answers'] = [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]*2
 
 p.start(p.screen, input_data)
 
