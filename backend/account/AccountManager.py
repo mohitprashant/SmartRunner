@@ -43,7 +43,8 @@ def create_account(email, password):
         user = auth.create_user_with_email_and_password(email, password)
         print('Successfully created account.')
         username = user['email']
-        add_to_user_collection(username)
+        user_token = user['idToken']
+        add_to_user_collection(username, user_token)
         return username
     except:
         print('Failed to create account.')
