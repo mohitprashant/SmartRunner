@@ -311,3 +311,20 @@ def remove_user_from_room(current_username, removed_username, room_id):
             db.collection("rooms").document(room_id).collection("members").document(user.id).delete()
 
     return True
+
+
+def delete_custom_quiz(room_id, quiz_name):
+    """
+    :param room_id: 6 digit room ID
+    :param quiz_name: Name of quiz to be deleted
+    :return: True if room is deleted. False if room does not exist, or quiz does not exist
+    """
+    if not room_id_exists(room_id):
+        return False
+
+    current_quizzes = get_room_quizzes_list(room_id)
+    if quiz_name not in current_quizzes:
+        return False
+
+    db.collection("rooms").document(room_id).collection("quizzes").document(quiz_name).delete()
+    return True
