@@ -68,13 +68,12 @@ class CustomSelectPage(Page):
                                            list_image_rel_height, list_img)
         self.components["analyticslist_image"] = analyticslist_image
 
-        # leaderboard list
-        relative_x = 0.22
-        relative_y = 0.2
+        relative_x = 0.2
+        relative_y = 0.25
         relative_width = 0.55
         text_relative_height = 0.1
         shown_relative_width = 0.55
-        shown_relative_height = 0.5
+        shown_relative_height = 0.45
         text_list = self.input_data["custom_quizzes"]
         textbox_button_list = TextboxButtonList("textbox_button_list", screen, relative_x,
                                                 relative_y, relative_width,
@@ -104,7 +103,7 @@ class CustomSelectPage(Page):
         # self.layers.append(custom_questions)
 
         custom_quiz_display_x = 6 / 20
-        custom_quiz_display_y = 2 / 40
+        custom_quiz_display_y = 0.1
         custom_quiz_display_width = 1 / 3
         custom_quiz_display_height = 0.15
         custom_quiz_text = pygame.image.load('assets/Backgrounds/customquizzes.png')

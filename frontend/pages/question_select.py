@@ -43,7 +43,7 @@ class QuestionSelectPage(Page):
         self.components["background"] = background
 
 
-        quiz_name_image_rel_x = 0.18
+        quiz_name_image_rel_x = 0.095
         quiz_name_image_rel_y = 0.05
         quiz_name_image_rel_width = 0.2
         quiz_name_image_rel_height = 1 / 9
@@ -52,7 +52,7 @@ class QuestionSelectPage(Page):
                                           quiz_name_image_rel_width, quiz_name_image_rel_height, quiz_name_image_img)
         self.components["quiz_name_image_box"] = quiz_name_image_box
 
-        quiz_name_input_rel_x = 0.4
+        quiz_name_input_rel_x = 0.3
         quiz_name_input_rel_y = 0.05
         quiz_name_input_rel_width = 0.5
         quiz_name_input_rel_height = 1 / 12
@@ -76,7 +76,7 @@ class QuestionSelectPage(Page):
         relative_width = 0.55
         text_relative_height = 0.1
         shown_relative_width = 0.55
-        shown_relative_height = 0.7
+        shown_relative_height = 0.45
         custom_questions_list = self.input_data["custom_question_selection"]
         # print(self.input_data.keys())
         # print(custom_questions_list)
@@ -91,7 +91,7 @@ class QuestionSelectPage(Page):
         self.layers.append(custom_questions)
 
         custom_quiz_display_x = 6 / 20
-        custom_quiz_display_y =0.15
+        custom_quiz_display_y =0.1
         custom_quiz_display_width = 1 / 3
         custom_quiz_display_height = 0.15
         custom_quiz_text = pygame.image.load('assets/Backgrounds/questions.png')
