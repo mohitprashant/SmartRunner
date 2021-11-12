@@ -469,7 +469,7 @@ class Game(Page):
                 if(self.distance <= 0):
                     if(self.game_stats['time'] == 0):
                         self.game_stats['time'] = (time.time() - self.starttime)//1
-                    self.game_stats['score'] = self.speed * self.game_stats['correct'] - (self.game_stats['time'])
+                        self.game_stats['score'] = self.speed * self.game_stats['correct'] - (self.game_stats['time'])
                     self.speed = 0.000000000001
                     
                     self.display_score(screen)
