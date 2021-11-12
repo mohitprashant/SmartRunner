@@ -30,7 +30,6 @@ class TestLoginTopicLeaderboard(unittest.TestCase):
         subject = "test_subject"
         topic = "test_topic"
         topic_leaderboard = ["test"]
-        username = "integrationUser1@mail.com"
 
         topic_leaderboard_page = TopicLeaderboardPage(screen)
 
