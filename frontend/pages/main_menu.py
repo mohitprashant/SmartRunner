@@ -1,6 +1,14 @@
 import pygame
+import sys
+import pathlib
+
+sys.path.insert(0, '../../backend/database')
+sys.path.insert(1, '../../frontend/pages')
+
 from assets.components import *
 from page import *
+
+curr_dir = str(pathlib.Path(__file__).parent.resolve()) + '/'
 
 
 class MainMenuPage(Page):
@@ -30,7 +38,7 @@ class MainMenuPage(Page):
             print("main change")
 
         # background
-        bg_img = pygame.image.load('assets/Backgrounds/loginbg.jpg')
+        bg_img = pygame.image.load(curr_dir + 'assets/Backgrounds/loginbg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -39,7 +47,7 @@ class MainMenuPage(Page):
         single_player_button_y = 0.4
         single_player_button_width = 1 / 4
         single_player_button_height = 1 / 5
-        single_player_button_img = pygame.image.load('assets/Buttons/btn_singleplayer.png')
+        single_player_button_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_singleplayer.png')
         single_player_button = ImageButton("single_player_button", screen, single_player_button_x, single_player_button_y, single_player_button_width,
                               single_player_button_height, single_player_button_img)
         self.components["single_player_button"] = single_player_button
@@ -49,7 +57,7 @@ class MainMenuPage(Page):
         room_button_y = 0.4
         room_button_width = 1 / 4
         room_button_height = 1 / 5
-        room_button__img = pygame.image.load('assets/Buttons/btn_rooms.png')
+        room_button__img = pygame.image.load(curr_dir + 'assets/Buttons/btn_rooms.png')
         room_button = ImageButton("room_button",screen, room_button_x, room_button_y,
                                       room_button_width,
                                       room_button_height, room_button__img)
@@ -60,7 +68,7 @@ class MainMenuPage(Page):
         leaderboard_button_y = 0.4
         leaderboard_button_width = 1 / 4
         leaderboard_button_height = 1 / 5
-        leaderboard_button__img = pygame.image.load('assets/Buttons/btn_leaderboards.png')
+        leaderboard_button__img = pygame.image.load(curr_dir + 'assets/Buttons/btn_leaderboards.png')
         leaderboard_button = ImageButton("leaderboard_button", screen, leaderboard_button_x, leaderboard_button_y,
                              leaderboard_button_width,
                              leaderboard_button_height, leaderboard_button__img)
@@ -70,7 +78,7 @@ class MainMenuPage(Page):
         exit_button_rel_y = 4 / 5
         exit_button_rel_width = 1 / 7
         exit_button_rel_height = 1 / 7
-        exit_button_img = pygame.image.load('assets/Buttons/btn_back.png')
+        exit_button_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_back.png')
         exit_button = ImageButton("exit_button", screen, exit_button_rel_x, exit_button_rel_y,
                                   exit_button_rel_width,
                                   exit_button_rel_height, exit_button_img)
@@ -92,4 +100,3 @@ class MainMenuPage(Page):
                 self.name = "leadselect"
             else:
                 print("entry failed")
-
