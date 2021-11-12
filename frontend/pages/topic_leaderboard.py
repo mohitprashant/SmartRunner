@@ -1,6 +1,14 @@
 import pygame
+import sys
+import pathlib
+
+sys.path.insert(0, '../../backend/database')
+sys.path.insert(1, '../../frontend/pages')
+
 from assets.components import *
 from page import *
+
+curr_dir = str(pathlib.Path(__file__).parent.resolve()) + '/'
 
 
 class TopicLeaderboardPage(Page):
@@ -32,7 +40,7 @@ class TopicLeaderboardPage(Page):
             self.output_data["back_navigation"] = self.input_data["prev_page"]
 
         # background
-        bg_img = pygame.image.load('assets/Backgrounds/leaderboardbg.jpg')
+        bg_img = pygame.image.load(curr_dir + 'assets/Backgrounds/leaderboardbg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -65,7 +73,7 @@ class TopicLeaderboardPage(Page):
         list_image_rel_y = 0.1
         list_image_rel_width = 0.8
         list_image_rel_height = 0.7
-        list_img = pygame.image.load('assets/Backgrounds/scrollable.png')
+        list_img = pygame.image.load(curr_dir + 'assets/Backgrounds/scrollable.png')
         scroll_image = ImageDisplay("scroll_image", screen, list_image_rel_x, list_image_rel_y,
                                            list_image_rel_width,
                                            list_image_rel_height, list_img)
@@ -97,7 +105,7 @@ class TopicLeaderboardPage(Page):
         share_button_y = 8 / 10
         share_button_width = 1 / 7
         share_button_height = 1 / 7
-        share_button__img = pygame.image.load('assets/Buttons/btn_share.png')
+        share_button__img = pygame.image.load(curr_dir + 'assets/Buttons/btn_share.png')
         share_button = ImageButton("share_button", screen, share_button_x, share_button_y,
                              share_button_width,
                              share_button_height, share_button__img)
@@ -108,7 +116,7 @@ class TopicLeaderboardPage(Page):
         return_button_y = 8 / 10
         return_button_width = 1 / 7
         return_button_height = 1 / 7
-        return_button__img = pygame.image.load('assets/Buttons/btn_back.png')
+        return_button__img = pygame.image.load(curr_dir + 'assets/Buttons/btn_back.png')
         return_button = ImageButton("return_button", screen, return_button_x, return_button_y,
                                    return_button_width,
                                    return_button_height, return_button__img)
@@ -118,7 +126,7 @@ class TopicLeaderboardPage(Page):
         topic_leaderboard_image_rel_y = 1/40
         topic_leaderboard_image_rel_width = 1/2
         topic_leaderboard_image_rel_height = 1/8
-        btn_img = pygame.image.load('assets/Buttons/btn_plain.png')
+        btn_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_plain.png')
         topic_leaderboard_image = ImageDisplay("topic_leaderboard_image", screen, topic_leaderboard_image_rel_x, topic_leaderboard_image_rel_y,
                                     topic_leaderboard_image_rel_width,
                                     topic_leaderboard_image_rel_height, btn_img)
