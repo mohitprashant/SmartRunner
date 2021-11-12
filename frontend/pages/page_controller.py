@@ -110,37 +110,28 @@ class PageController:
                 break
             elif page_data[0]["current_page"] == "singleplayer":
                 # add from hostroom/playerroom
-                if page_data[0]["back_navigation"] != "main_menu":
-                    input_data = {
-                        "back_navigation": "",
-                        "subjectlist": QuestionManager.get_subjects(),
-                        "topiclist": QuestionManager.get_topics(),
-                        "difficultylist": ["Select Difficulty"],
-                        "subject_topic_list": ["Select Topic"],
-                        "subjectselection": "Mathematics",
-                        "prev_page": page_data[0]["prev_page"]
-                    }
-                elif page_data[0]["prev_page"] == "singleplayer":
-                    # page_data[0]["subjectselection"]= page_data[1]["subjectselection"]
-                    input_data = {
-                        "back_navigation": "",
-                        "subjectlist": subjectlist,
-                        "topiclist": topiclist,
-                        "difficultylist": difficultylist,
-                        "subject_topic_list": ["Select Topic"],
-                        "subjectselection": page_data[1]["subjectselection"],
-                        "prev_page": page_data[0]["prev_page"]
-                    }
-                else:
-                    input_data = {
-                        "back_navigation": "",
-                        "subjectlist": subjectlist,
-                        "topiclist": topiclist,
-                        "difficultylist": difficultylist,
-                        "subject_topic_list": ["Select Topic"],
-                        "subjectselection": "English",
-                        "prev_page": page_data[0]["prev_page"]
-                    }
+                subjectlist = QuestionManager.get_subjects()
+                print("confusion", page_data[0]["subject_topic_list"])
+                input_data = {
+                    "back_navigation": "",
+                    "subjectlist": subjectlist,
+                    "difficultylist": page_data[0]["difficultylist"],
+                    "subject_topic_list": page_data[0]["subject_topic_list"],
+                    "subjectselection": page_data[0]["subjectselection"],
+                    "topicselection": page_data[0]["topicselection"],
+                    "difficultyselection": page_data[0]["difficultyselection"],
+                    # put player once multiplayer is up
+                    "playerlist": [],
+                    "prev_page": page_data[0]["prev_page"]
+                }
+                if page_data[0]["back_navigation"] != ("main_menu" or "hostroom"):
+                    pass
+                elif page_data[0]["prev_page"] == "main_menu":
+                    #input_data["playerlist"] = currentplayer
+                    pass
+                elif page_data[0]["prev_page"] == "hostroom":
+                    #input_data["playerlist"] = currentplayer
+                    pass
                 page_data = self.singleplayer.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "host_settings":
                 input_data = {
@@ -314,8 +305,8 @@ class PageController:
                 print("leadlist", leadlist)
                 lead_subjectlist = []
                 for subject in leadlist:
-                    topiclist = LeaderboardManager.get_leaderboard_topics(subject)
-                    for topic in topiclist:
+                    topic_list = LeaderboardManager.get_leaderboard_topics(subject)
+                    for topic in topic_list:
                         subjecttopic = subject + ": " + topic
                         lead_subjectlist.append(subjecttopic)
                 input_data = {

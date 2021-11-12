@@ -984,10 +984,10 @@ class DropdownTextSelect(ExpandButton):
 
     def trigger(self, event):
         action = False
-
         # get mouse position
         pos = pygame.mouse.get_pos()
         if self.expanded:
+            self.navigation_surface = True
             self.triggered_component_list.clear()
             # get mouse position
 

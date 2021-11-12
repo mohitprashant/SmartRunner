@@ -22,7 +22,7 @@ BLACK=(0,0,0)
 
 class Game(Page):
     
-    def __init__(self, screen, avatar = 'guy', multiplayer = False):
+    def __init__(self, screen, avatar = "guy", multiplayer = False):
         super().__init__(screen)
         self.name = "game_play"
         self.input_data = {
@@ -43,7 +43,7 @@ class Game(Page):
         self.answers = self.input_data["answers"]
         self.correct = []
         
-        for x in answers:
+        for x in self.answers:
             self.correct.append(x[0])
             
         for i in range(len(self.answers)):
@@ -61,7 +61,7 @@ class Game(Page):
         
         
         self.avatar = avatar
-        self.speed = 1.5
+        self.speed = 15
         self.score = 0
         self.distance = 100.0
         self.lastavatarupdate = time.time()
@@ -451,7 +451,7 @@ class Game(Page):
             if(time.time() - self.lastupdate > 0.1):
                 if(self.distance <= 0):
                     self.game_stats['time'] = time.time() - self.starttime
-                    self.game_stats['score'] = self.speed * self.correct * 1/(self.game_stats['time'])
+                    self.game_stats['score'] = self.speed * self.game_stats["correct"] * 1/self.game_stats['time']
                     self.speed = 0.000000000001
                     
                     
@@ -492,12 +492,12 @@ class Game(Page):
 
 
 
-p = Game(pygame.display.set_mode((400, 400), pygame.RESIZABLE))
-input_data = {}
-input_data['questions'] = ['who am I?', 'what is my name?']*20
-input_data['answers'] = [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]*20
-
-p.start(p.screen, input_data)
+# p = Game(pygame.display.set_mode((400, 400), pygame.RESIZABLE))
+# input_data = {}
+# input_data['questions'] = ['who am I?', 'what is my name?']*20
+# input_data['answers'] = [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]*20
+#
+# p.start(p.screen, input_data)
 
 
 
