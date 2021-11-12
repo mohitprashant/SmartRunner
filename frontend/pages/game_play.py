@@ -23,7 +23,7 @@ BLACK=(0,0,0)
 
 class Game(Page):
     
-    def __init__(self, screen, questions, answers, avatar = 'guy'):
+    def __init__(self, screen, questions, answers, avatar = 'guy', multiplayer = False):
         super().__init__(screen)
         pygame.init()
         self.questions = questions
@@ -40,6 +40,9 @@ class Game(Page):
         self.starttime = time.time()
         self.lastupdate = time.time()
         self.game_stats = {}
+        self.game_stats['correct'] = 0
+        self.game_stats['time'] = 0.0
+        self.game_stats['score'] = 0
         
         
         self.avatar = avatar
@@ -93,6 +96,7 @@ class Game(Page):
                                        game_image_rel_width, game_image_rel_height,question)
         
         self.components["question"] = question
+        
         
         
         # ground
@@ -149,6 +153,9 @@ class Game(Page):
         relative_height = 1/15
         question_text = TextDisplay("question_text", screen, relative_x, relative_y, relative_width, relative_height, self.questions[0])
         self.components["question_text"] = question_text
+        
+        correction = TextDisplay("correction", screen, relative_x, relative_y, relative_width, relative_height, '')
+        self.components["correction"] = correction
         
         
         #answer display
@@ -236,7 +243,35 @@ class Game(Page):
             self.lastavatarupdate = time.time()
             
             
-    def questionupdate(self, screen):
+    def questionupdate(self, screen, correct):
+        if(self.questionstate >= len(self.questions)):
+            relative_x = 7/20
+            relative_y = 2/15
+            relative_width = 1/5
+            relative_height = 1/15
+            question_text = TextDisplay("question_text", screen, relative_x, relative_y, relative_width, relative_height, 'No more questions')
+            self.components["question_text"] = question_text
+            return
+        
+        
+         #question display
+        if(correct):
+            relative_x = 15/20
+            relative_y = 1/15
+            relative_width = 1/5
+            relative_height = 1/15
+            correction = TextDisplay("correction", screen, relative_x, relative_y, relative_width, relative_height, 'Correct Answer')
+            self.components["correction"] = correction
+        else:
+            relative_x = 10/20
+            relative_y = 1/15
+            relative_width = 2/5 
+            relative_height = 1/15
+            correction = TextDisplay("correction", screen, relative_x, relative_y, relative_width, relative_height, 'The correct answer was : '+str(self.correct[self.questionstate-1]))
+            self.components["correction"] = correction
+        
+        
+        
          #question display
         relative_x = 7/20
         relative_y = 2/15
@@ -323,47 +358,51 @@ class Game(Page):
                         if(self.components[s].rect.collidepoint(pos)):
                             triggered_component_list.append(self.components[s])
                         
-                            if(s == 'answer1'):
+                            if(s == 'answer1' and self.questionstate<len(self.questions)):
                                 if(self.correct[self.questionstate] == self.answers[self.questionstate][0]):
                                     self.questionstate += 1
                                     self.speed += 1.0
+                                    self.game_stats['correct'] += 1
+                                    self.questionupdate(screen, True)
                                 else:
                                     self.questionstate += 1
                                     self.speed = max(1.0, self.speed - 1.0)
-                                    
-                                self.questionupdate(screen)
+                                    self.questionupdate(screen, False)
                             
-                            elif(s == 'answer2'):
+                            elif(s == 'answer2' and self.questionstate<len(self.questions)):
                                 if(self.correct[self.questionstate] == self.answers[self.questionstate][1]):
                                     self.questionstate += 1
                                     self.speed += 1.0
+                                    self.game_stats['correct'] += 1
+                                    self.questionupdate(screen, True)
                                 else:
                                     self.questionstate += 1
                                     self.speed = max(1.0, self.speed - 1.0)
-                                    
-                                self.questionupdate(screen)
+                                    self.questionupdate(screen, False)
                             
-                            elif(s == 'answer3'):
+                            elif(s == 'answer3' and self.questionstate<len(self.questions)):
                                 if(self.correct[self.questionstate] == self.answers[self.questionstate][2]):
                                     self.questionstate += 1
                                     self.speed += 1.0
+                                    self.game_stats['correct'] += 1
+                                    self.questionupdate(screen, True)
                                 else:
                                     self.questionstate += 1
                                     self.speed = max(1.0, self.speed - 1.0)
-                                    
-                                self.questionupdate(screen)
+                                    self.questionupdate(screen, False)
                             
-                            elif(s == 'answer4'):
+                            elif(s == 'answer4' and self.questionstate<len(self.questions)):
                                 if(self.correct[self.questionstate] == self.answers[self.questionstate][3]):
                                     self.questionstate += 1
                                     self.speed += 1.0
+                                    self.game_stats['correct'] += 1
+                                    self.questionupdate(screen, True)
                                 else:
                                     self.questionstate += 1
                                     self.speed = max(1.0, self.speed - 1.0)
+                                    self.questionupdate(screen, False)
                                     
-                                self.questionupdate(screen)
-                        
-                
+                                
                 self.page_function(triggered_component_list)
                 
                 
@@ -377,8 +416,10 @@ class Game(Page):
             
             if(time.time() - self.lastupdate > 0.1):
                 if(self.distance <= 0):
+                    self.game_stats['time'] = time.time() - self.starttime
+                    self.game_stats['score'] = self.speed * self.correct * 1/(self.game_stats['time'])
                     self.speed = 0.000000000001
-                    pass
+                    
                     
                 updatecheck = True
                 if(self.speed > 1.0):
