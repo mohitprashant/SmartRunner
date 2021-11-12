@@ -2,3 +2,4 @@ serviceAccountKey.json
 **/.ipynb_checkpoints/
 **/.DS_Store
 *.pyc
+ __pycache__/
