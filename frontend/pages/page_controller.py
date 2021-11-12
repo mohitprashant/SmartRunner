@@ -174,12 +174,18 @@ class PageController:
                 }
                 page_data = self.custom_select.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "question_select":
+                if page_data[0]["custom_quiz_selection"] !="":
+                    custom_quiz_selection = page_data[0]["custom_quiz_selection"]
+                    custom_quiz = QuestionManager.get_custom_questions(page_data[0]["roomID"],page_data[0]["custom_quiz_selection"])
+                else:
+                    custom_quiz_selection = ""
+                    custom_quiz = ""
                 input_data = {
                     "roomID": page_data[0]["roomID"],
                     "username": page_data[0]["roomID"],
                     "toggled": page_data[0]["toggled"],
-                    "custom_quiz_selection": page_data[0]["custom_quiz_selection"],
-                    "custom_question_selection": QuestionManager.get_custom_questions(page_data[0]["roomID"],page_data[0]["custom_quiz_selection"]),
+                    "custom_quiz_selection": custom_quiz_selection,
+                    "custom_question_selection": custom_quiz,
                     "prev_page": page_data[0]["prev_page"]
 
                 }
