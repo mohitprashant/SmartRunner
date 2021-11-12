@@ -25,7 +25,22 @@ class Game(Page):
     
     def __init__(self, screen, multiplayer = False):
         super().__init__(screen)
-        pygame.init()
+        # pygame.init()
+        self.name = "game_play"
+        self.input_data = {
+            "username": "",
+            "questions": [],
+            "answers": []
+        }
+        self.output_data = {
+            "current_page": self.name,
+            "prev_page": "",
+            "username": "",
+            "game_stats" : {},
+            "back_navigation": "",
+            "exit": False
+        }
+        self.gamerun = True
         
         
         
@@ -338,7 +353,14 @@ class Game(Page):
     def page_function(self, triggered_component_list):
         for x in triggered_component_list:
             if(x == 'exit_btn'):
-                pygame.quit()
+                self.gamerun = False
+                self.output_data["prev_page"] = self.output_data["current_page"]
+                self.output_data["username"] = self.input_data["username"]
+                self.output_data["correct"] = self.game_stats["correct"]
+                self.output_data["time"] = self.game_stats["time"]
+                self.output_data["score"] = self.game_stats["score"]
+                print("ok this one to check")
+                self.name = "end_screen"
 
 
     # start running the page
@@ -393,7 +415,6 @@ class Game(Page):
                     self.output_data["exit"] = True
                     pygame.quit()
                     return self.output_data, self.input_data
-                
                 if event.type == pygame.VIDEORESIZE:
                     self.resize_components()
                     
@@ -454,6 +475,10 @@ class Game(Page):
                                     
                                 
                 self.page_function(triggered_component_list)
+                # if "exit_btn" in triggered_component_list:
+                #     print("???????")
+                #     break
+
                 
                 
                 
@@ -472,7 +497,7 @@ class Game(Page):
                     self.speed = 0.000000000001
                     
                     self.display_score(screen)
-                    
+
                     
                     
                     
@@ -513,12 +538,12 @@ class Game(Page):
 
 
 
-p = Game(pygame.display.set_mode((400, 400), pygame.RESIZABLE))
-input_data = {}
-input_data['questions'] = ['who am I?', 'what is my name?']*2
-input_data['answers'] = [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]*2
-
-p.start(p.screen, input_data)
+# p = Game(pygame.display.set_mode((400, 400), pygame.RESIZABLE))
+# input_data = {}
+# input_data['questions'] = ['who am I?', 'what is my name?']*2
+# input_data['answers'] = [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]*2
+#
+# p.start(p.screen, input_data)
 
 
 
