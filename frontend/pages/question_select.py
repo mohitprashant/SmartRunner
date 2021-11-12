@@ -42,41 +42,69 @@ class QuestionSelectPage(Page):
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
+        if self.input_data["custom_quiz_selection"]!="New Quiz":
+            quiz_name_img_rel_x = 0.2
+            quiz_name_img_rel_y = 0.05
+            quiz_name_img_rel_width = 0.53
+            quiz_name_img_rel_height = 0.15
+            quiz_name_back_img = pygame.image.load('assets/Backgrounds/topicleaderboard.png')
+            quiz_name_img = ImageDisplay("quiz_name_img", screen, quiz_name_img_rel_x, quiz_name_img_rel_y,
+                                         quiz_name_img_rel_width,
+                                         quiz_name_img_rel_height, quiz_name_back_img)
+            self.components["quiz_name_img"] = quiz_name_img
 
-        quiz_name_image_rel_x = 0.095
-        quiz_name_image_rel_y = 0.05
-        quiz_name_image_rel_width = 0.2
-        quiz_name_image_rel_height = 1 / 9
-        quiz_name_image_img = "Quiz Name"
-        quiz_name_image_box = TextDisplay("quiz_name_image_box", screen, quiz_name_image_rel_x, quiz_name_image_rel_y,
-                                          quiz_name_image_rel_width, quiz_name_image_rel_height, quiz_name_image_img)
-        self.components["quiz_name_image_box"] = quiz_name_image_box
+            quiz_name_image_rel_x = 0.3
+            quiz_name_image_rel_y = 0.07
+            quiz_name_image_rel_width = 0.3
+            quiz_name_image_rel_height = 0.1
+            quiz_name_image_img = self.input_data["custom_quiz_selection"]
+            quiz_name_image_box = TextDisplay("quiz_name_image_box", screen, quiz_name_image_rel_x,
+                                              quiz_name_image_rel_y,
+                                              quiz_name_image_rel_width, quiz_name_image_rel_height,
+                                              quiz_name_image_img)
+            self.components["quiz_name_image_box"] = quiz_name_image_box
 
-        quiz_name_input_rel_x = 0.3
-        quiz_name_input_rel_y = 0.05
-        quiz_name_input_rel_width = 0.5
-        quiz_name_input_rel_height = 1 / 12
-        quiz_name_input_box = TextInput("quiz_name_input_box", screen, quiz_name_input_rel_x, quiz_name_input_rel_y,
-                                        quiz_name_input_rel_width, quiz_name_input_rel_height)
-        self.components["quiz_name_input_box"] = quiz_name_input_box
+
+            self.components.pop("new_quiz_name_image_box", None)
+            self.components.pop("quiz_name_input_box", None)
+        elif self.input_data["custom_quiz_selection"]=="New Quiz":
+            new_quiz_name_image_rel_x = 0.05
+            new_quiz_name_image_rel_y = 0.07
+            new_quiz_name_image_rel_width = 0.3
+            new_quiz_name_image_rel_height = 0.05
+            new_quiz_name_image_img = "Enter Quiz Name:"
+            new_quiz_name_image_box = TextDisplay("new_quiz_name_image_box", screen, new_quiz_name_image_rel_x, new_quiz_name_image_rel_y,
+                                              new_quiz_name_image_rel_width, new_quiz_name_image_rel_height, new_quiz_name_image_img)
+            self.components["new_quiz_name_image_box"] = new_quiz_name_image_box
+
+            quiz_name_input_rel_x = 0.37
+            quiz_name_input_rel_y = 0.05
+            quiz_name_input_rel_width = 0.5
+            quiz_name_input_rel_height = 1 / 12
+            quiz_name_input_box = TextInput("quiz_name_input_box", screen, quiz_name_input_rel_x, quiz_name_input_rel_y,
+                                            quiz_name_input_rel_width, quiz_name_input_rel_height)
+            self.components["quiz_name_input_box"] = quiz_name_input_box
+            self.components.pop("quiz_name_image_box", None)
+            self.components.pop("quiz_name_img", None)
+
 
         list_image_rel_x = 0.095
-        list_image_rel_y = 0.15
+        list_image_rel_y = 0.25
         list_image_rel_width = 0.8
-        list_image_rel_height = 0.7
+        list_image_rel_height = 0.6
         list_img = pygame.image.load('assets/Backgrounds/scrollable.png')
-        analyticslist_image = ImageDisplay("analyticslist_image", screen, list_image_rel_x, list_image_rel_y,
+        questionselect_image = ImageDisplay("questionselect_image", screen, list_image_rel_x, list_image_rel_y,
                                            list_image_rel_width,
                                            list_image_rel_height, list_img)
-        self.components["analyticslist_image"] = analyticslist_image
+        self.components["questionselect_image"] = questionselect_image
 
         # SelectableTextList
         relative_x = 0.2
-        relative_y = 0.15
+        relative_y = 0.35
         relative_width = 0.55
         text_relative_height = 0.1
         shown_relative_width = 0.55
-        shown_relative_height = 0.45
+        shown_relative_height = 0.4
         custom_questions_list = self.input_data["custom_question_selection"]
         # print(self.input_data.keys())
         # print(custom_questions_list)
@@ -91,7 +119,7 @@ class QuestionSelectPage(Page):
         self.layers.append(custom_questions)
 
         custom_quiz_display_x = 6 / 20
-        custom_quiz_display_y =0.1
+        custom_quiz_display_y = 0.17
         custom_quiz_display_width = 1 / 3
         custom_quiz_display_height = 0.15
         custom_quiz_text = pygame.image.load('assets/Backgrounds/questions.png')
@@ -139,18 +167,25 @@ class QuestionSelectPage(Page):
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["username"] = self.input_data["username"]
             self.output_data["prev_page"] = self.output_data["current_page"]
-            # self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
+            self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
             self.output_data["custom_question_selection"] = self.input_data["custom_question_selection"]
             self.output_data["toggled"] = self.input_data["toggled"]
 
             if triggered_component in [self.components["return_button2"]]:
                 self.name = "custom_select"
             if triggered_component in [self.components["add_question_button2"]]:
-                if self.input_data["custom_quiz_selection"]!="":
+                if self.input_data["custom_quiz_selection"] == "":
+                    self.name = "question_select"
+                elif self.input_data["custom_quiz_selection"] == "New Quiz":
+                    self.input_data["custom_quiz_selection"] = self.components["quiz_name_input_box"].input
                     self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
+                    self.name = "add_question"
                 else:
-                    self.output_data["custom_quiz_selection"] = self.components["quiz_name_input_box"].input
-                self.name = "add_question"
+                    self.name = "add_question"
+
+
+
+
             if triggered_component in [self.components["delete_question_button2"]]:
                 QuestionManager.delete_custom_question(self.output_data["username"], self.output_data["roomID"],self.output_data["custom_quiz_selection"],self.output_data["custom_question_selection"])
                 print("delete question", self.output_data["custom_question_selection"], "from database")
