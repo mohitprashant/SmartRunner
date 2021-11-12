@@ -167,7 +167,7 @@ class PageController:
                     "roomID": page_data[0]["roomID"],
                     "username": page_data[0]["username"],
                     "custom_quiz_selection": page_data[0]["custom_quiz_selection"],
-                    "custom_quizzes": RoomManager.get_room_quizzes(page_data[0]["roomID"]),
+                    "custom_quizzes": RoomManager.get_room_quizzes_list(page_data[0]["roomID"]),
                     "toggled": page_data[0]["toggled"],
                     "prev_page": page_data[0]["prev_page"]
 
