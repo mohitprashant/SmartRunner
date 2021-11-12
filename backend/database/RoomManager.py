@@ -309,3 +309,16 @@ def remove_user_from_room(current_username, removed_username, room_id):
             db.collection("rooms").document(room_id).collection("members").document(user.id).delete()
 
     return True
+
+
+def get_room_quiz_name_list(room_id):
+    """
+    :param room_id: 6 digit ID of room
+    :return: List of quiz names inside this room
+    """
+    query = db.collection("rooms").document(room_id).collection("quizzes").get()
+    quizzes = []
+    for quiz in query:
+        quizzes.append(quiz.id)
+
+    return quizzes
