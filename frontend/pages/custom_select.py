@@ -10,15 +10,16 @@ class CustomSelectPage(Page):
         self.input_data = {
             "roomID": "",
             "username": "",
-            # "room_password": "",
-            "custom_quiz": [],
+            "toggled": "",
+            "custom_quiz_selection": "",
+            "custom_quizzes": ""
         }
         self.output_data = {
             "current_page": self.name,
             "prev_page": "",
             "room_ID": "",
             "username": "",
-            # "room_password": "",
+            "toggled": "",
             "custom_quiz_selection":"",
             "exit": False
         }
@@ -72,7 +73,7 @@ class CustomSelectPage(Page):
         text_relative_height = 0.1
         shown_relative_width = 0.55
         shown_relative_height = 0.5
-        custom_questions_list = self.input_data["custom_quiz"]
+        custom_questions_list = self.input_data["custom_quizzes"]
         # print(self.input_data.keys())
         # print(custom_questions_list)
 
@@ -125,6 +126,9 @@ class CustomSelectPage(Page):
             self.output_data["username"] = self.input_data["username"]
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["toggled"] = self.input_data["toggled"]
+            self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
+            self.output_data["mode_toggle"] = True
+
 
             # self.output_data["custom_questions"] = self.input_data["custom_questions"]
             #self.output_data["room_password"] = self.input_data["room_password"]

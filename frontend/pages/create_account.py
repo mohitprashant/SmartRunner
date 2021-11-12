@@ -20,6 +20,7 @@ class CreateAccountPage(Page):
             "username": "",
             "password": "",
             "password1":"",
+            "error_check":False,
             "exit": False
         }
 
@@ -72,21 +73,53 @@ class CreateAccountPage(Page):
 
         # password text input box
         password_input_rel_x = 1 / 2
-        password_input_rel_y = 1 / 2
+        password_input_rel_y = 0.5
         password_input_rel_width = 1 / 4
         password_input_rel_height = 1 / 14
         password_input_box = TextInput("password_input_box", screen, password_input_rel_x, password_input_rel_y,
                                      password_input_rel_width, password_input_rel_height)
         self.components["password_input_box"] = password_input_box
 
+
         # password text input box
         password1_input_rel_x = 1 / 2
-        password1_input_rel_y = 3 / 5
+        password1_input_rel_y = 0.6
         password1_input_rel_width = 1 / 4
         password1_input_rel_height = 1 / 14
         password1_input_box = TextInput("password1_input_box", screen, password1_input_rel_x, password1_input_rel_y,
                                        password1_input_rel_width, password1_input_rel_height)
         self.components["password1_input_box"] = password1_input_box
+
+        if self.output_data["error_check"] == True:
+            error_display_rel_x = 0.4
+            error_display_rel_y = 0.3
+            error_display_rel_width = 1 / 4
+            error_display_rel_height = 1 / 14
+            error_display_text = "Invalid input!"
+            error_display_box = TextDisplay("error_display_box", screen, error_display_rel_x, error_display_rel_y,
+                                            error_display_rel_width, error_display_rel_height, error_display_text)
+            self.components["error_display_box"] = error_display_box
+
+        exit_button_rel_x = 0.5
+        exit_button_rel_y = 0.7
+        exit_button_rel_width = 0.1
+        exit_button_rel_height = 1 / 8
+        exit_button_img = pygame.image.load('assets/Buttons/btn_back.png')
+        exit_button = ImageButton("exit_button", screen, exit_button_rel_x, exit_button_rel_y,
+                                  exit_button_rel_width,
+                                  exit_button_rel_height, exit_button_img)
+        self.components["exit_button"] = exit_button
+
+        # new acc creation
+        create_acc_button_rel_x = 0.62
+        create_acc_button_rel_y = 0.7
+        create_acc_button_rel_width = 0.12
+        create_acc_button_rel_height = 0.129
+        create_acc_button_img = pygame.image.load('assets/Buttons/btn_createacct.png')
+        create_acc_button = ImageButton("create_acc_button", screen, create_acc_button_rel_x, create_acc_button_rel_y,
+                                        create_acc_button_rel_width,
+                                        create_acc_button_rel_height, create_acc_button_img)
+        self.components["create_acc_button"] = create_acc_button
 
     # how do the page react to events?
     def page_function(self, triggered_component_list):
@@ -103,4 +136,9 @@ class CreateAccountPage(Page):
                 if create_acc_check != None:
                     self.name = "login"
                 else:
+                    self.output_data["error_check"] = True
                     print("Error")
+            if triggered_component in [self.components["exit_button"]]:
+                self.name="welcome_screen"
+
+

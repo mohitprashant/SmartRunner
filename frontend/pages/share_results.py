@@ -10,17 +10,17 @@ class ShareResultsPage(Page):
         self.input_data = {
             "roomID": "RoomID",                     #for end screen
             "username": "username",
-            "topic_leaderboard_ID":"",              #for topic leaderboard
-            "score_board": [],                      #for end screen
-            "back_navigation": ""
+            "topic": "",  # for topic leaderboard
+            "subject":"",              #for topic leaderboard
+            "back_navigation": "",
+            "prev_page": ""
         }
         self.output_data = {
             "roomID": "",
             "prev_page": "",
-            "score_board": [],
             "username": "",
             "topic_leaderboard_ID": "",
-            # "back_navigation":"",
+            "back_navigation": "",
             "exit": False
         }
 
@@ -102,22 +102,37 @@ class ShareResultsPage(Page):
             #test
             # print("test", self.output_data["back_navigation"])
             self.output_data["prev_page"] = self.output_data["current_page"]
-            # self.output_data["roomID"] = self.input_data["roomID"]
-            # self.output_data["score_board"] = self.input_data["score_board"]
+            # self.output_data["subject"] = self.input_data["subject"]
+            # self.output_data["topic"] = self.input_data["topic"]
             self.output_data["username"] = self.input_data["username"]
             if triggered_component in [self.components["twitter_button"]]:
                 print("open twitter")
+                if self.output_data["back_navigation"] == "topic_leaderboard":
+                    self.output_data["subject"] = self.input_data["subject"]
+                    self.output_data["topic"] = self.input_data["topic"]
+                    share_string = self.output_data["subject"] + ": " + self.output_data["topic"]
+                    print("share", share_string)
+                elif self.output_data["back_navigation"] == "end_screen":
+                    self.output_data["roomID"] = self.input_data["roomID"]
             if triggered_component in [self.components["facebook_button"]]:
                 print("open facebook")
+                if self.output_data["back_navigation"] == "topic_leaderboard":
+                    self.output_data["subject"] = self.input_data["subject"]
+                    self.output_data["topic"] = self.input_data["topic"]
+                    share_string = self.output_data["subject"] + ": " + self.output_data["topic"]
+                    print("share", share_string)
+                elif self.output_data["back_navigation"] == "end_screen":
+                    self.output_data["roomID"] = self.input_data["roomID"]
             if triggered_component in [self.components["return_button"]]:
                 print("topic", self.output_data["back_navigation"])
                 if self.output_data["back_navigation"] == "topic_leaderboard":
-                    self.output_data["topic_leaderboard_ID"] = self.input_data["topic_leaderboard_ID"]
-                    print("topic", self.output_data["topic_leaderboard_ID"])
+                    self.output_data["subject"] = self.input_data["subject"]
+                    self.output_data["topic"] = self.input_data["topic"]
+                    share_string = self.output_data["subject"] + ": " + self.output_data["topic"]
+                    print("share", share_string)
                     self.name = "topic_leaderboard"
                 elif self.output_data["back_navigation"] == "end_screen":
-                    self.output_data["score_board"] = self.input_data["score_board"]
-                    self.output_data["roomID"]=self.input_data["roomID"]
+                    self.output_data["roomID"] = self.input_data["roomID"]
                     self.name = "end_screen"
 
 
