@@ -1,5 +1,8 @@
 from assets.components import *
 from page import *
+import sys
+sys.path.insert(1, '../../backend/database')
+import RoomManager
 
 class ManageRoomsPage(Page):
     def __init__(self, screen):
@@ -112,13 +115,13 @@ class ManageRoomsPage(Page):
                 self.name = "room_tab"
             if triggered_component in [self.components["selectable_text_list"]]:
                 room_name= triggered_component.selected_text
-                # self.output_data["roomID"]=self.input_data["roomid_dict"][room_name]
-                self.output_data["roomID"]= "576463"
+                self.output_data["roomID"]=self.input_data["roomid_dict"][room_name]
                 print(self.output_data["roomID"])
             if triggered_component in [self.components["join_button"]]:
                 self.name = "hostroom"
                 print("join")
-                #use self.output_data["roomID"] to determine which room
             if triggered_component in [self.components["delete_button"]]:
+                RoomManager.delete_room(self.output_data["username"],self.output_data["roomID"])
                 print("delete room", self.output_data["roomID"], "from database")
+
 

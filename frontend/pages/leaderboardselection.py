@@ -7,14 +7,16 @@ class LeadSelectPage(Page):
         super().__init__(screen)
         self.name = "leadselect"
         self.input_data = {
-            "leaderboardlist": []
+            "username": "",
+            "leaderboardlist": [],
+            "prev_page": ""
         }
         self.output_data = {
             "current_page": self.name,
             "prev_page": "",
             "username": "",
-            "password": "",
-            "topic_leaderboard_ID": "",
+            "subject": "",
+            "topic": "",
             "back_navigation": "",
             "exit": False
         }
@@ -90,5 +92,10 @@ class LeadSelectPage(Page):
                 self.name = "main_menu"
             if triggered_component in [self.components["textbox_button_list"]]:
                 for tc in triggered_component.triggered_component_list:
-                    self.output_data["topic_leaderboard_ID"] = tc.text
+                    subject_topic_text = tc.text
+                    subject_topic = subject_topic_text.split(": ", 1)
+                    print("subject topic", subject_topic)
+                    self.output_data["subject"] = subject_topic[0]
+                    self.output_data["topic"] = subject_topic[1]
+
                 self.name = "topic_leaderboard"

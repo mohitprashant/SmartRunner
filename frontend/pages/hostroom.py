@@ -143,7 +143,9 @@ class HostRoomPage(Page):
             self.output_data["username"] = self.input_data["username"]
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["player_status"] = self.input_data["player_status"]
-
+            self.output_data["mode_toggle"] = self.input_data["mode_toggle"],
+            self.output_data["toggled"]= self.input_data["toggled"],
+            self.output_data["custom_quiz_selection"]= self.input_data["custom_quiz_selection"]
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "managerooms"
             if triggered_component in [self.components["start_button"]]:
@@ -151,12 +153,9 @@ class HostRoomPage(Page):
                 #placeholder, stay on page
                 self.name = "hostroom"
             if triggered_component in [self.components["analytics_button"]]:
-                self.output_data["roomID"] = self.input_data["roomID"]
                 self.name = "analyticsselect"
             if triggered_component in [self.components["settings_button"]]:
-                self.output_data["roomID"] = self.input_data["roomID"]
                 self.name = "host_settings"
             if triggered_component in [self.components["roomID_button"]]:
-                self.output_data["roomID"] = self.input_data["roomID"]
                 self.name = "share"
 
