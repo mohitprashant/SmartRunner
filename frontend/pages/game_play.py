@@ -30,7 +30,8 @@ class Game(Page):
         self.input_data = {
             "username": "",
             "questions": [],
-            "answers": []
+            "answers": [],
+            "playerlist": []
         }
         self.output_data = {
             "current_page": self.name,
@@ -38,7 +39,8 @@ class Game(Page):
             "username": "",
             "game_stats" : {},
             "back_navigation": "",
-            "exit": False
+            "exit": False,
+            "playerlist": []
         }
         self.gamerun = True
         
@@ -353,14 +355,23 @@ class Game(Page):
     def page_function(self, triggered_component_list):
         for x in triggered_component_list:
             if(x == 'exit_btn'):
-                self.gamerun = False
+                player_results = {
+                    "no_of_questions_attempted": str(len(self.questions)),
+                    "no_of_questions_correct": str(self.game_stats["correct"]),
+                    #impt - how to retrieve
+                    "player_end_time": str(self.game_stats["time"]),
+                    "player_name": self.input_data["username"].split("@",1)[0]
+                }
+                print("u1", self.input_data["username"])
+                print("u2", self.input_data["username"].split("@",1)[0])
+                #one more for quiz fields?
                 self.output_data["prev_page"] = self.output_data["current_page"]
                 self.output_data["username"] = self.input_data["username"]
-                self.output_data["correct"] = self.game_stats["correct"]
-                self.output_data["time"] = self.game_stats["time"]
-                self.output_data["score"] = self.game_stats["score"]
-                print("ok this one to check")
-                self.name = "end_screen"
+                self.output_data["player_results"] = player_results
+                self.output_data["roomID"] = self.input_data["roomID"]
+                self.output_data["score"] = str(int(self.game_stats['score']))
+                self.output_data["current_page"] = "end_screen"
+
 
 
     # start running the page
@@ -475,8 +486,9 @@ class Game(Page):
                                     
                                 
                 self.page_function(triggered_component_list)
-                # if "exit_btn" in triggered_component_list:
-                #     print("???????")
+                if "exit_btn" in triggered_component_list:
+                    print("???????")
+                    return self.output_data, self.input_data
                 #     break
 
                 

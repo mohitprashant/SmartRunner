@@ -123,6 +123,10 @@ class ShareResultsPage(Page):
                     print("share", share_string)
                 elif self.output_data["back_navigation"] == "end_screen":
                     self.output_data["roomID"] = self.input_data["roomID"]
+                    self.output_data["player_results"] = self.input_data["player_results"]
+                    self.output_data["score"] = self.input_data["score"]
+
+
             if triggered_component in [self.components["return_button"]]:
                 print("topic", self.output_data["back_navigation"])
                 if self.output_data["back_navigation"] == "topic_leaderboard":
@@ -133,6 +137,8 @@ class ShareResultsPage(Page):
                     self.name = "topic_leaderboard"
                 elif self.output_data["back_navigation"] == "end_screen":
                     self.output_data["roomID"] = self.input_data["roomID"]
+                    self.output_data["player_results"] = self.input_data["player_results"]
+                    self.output_data["score"] = self.input_data["score"]
                     self.name = "end_screen"
 
 

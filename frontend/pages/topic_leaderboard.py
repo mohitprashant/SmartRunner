@@ -105,10 +105,10 @@ class TopicLeaderboardPage(Page):
         share_button_y = 8 / 10
         share_button_width = 1 / 7
         share_button_height = 1 / 7
-        share_button__img = pygame.image.load(curr_dir + 'assets/Buttons/btn_share.png')
+        share_button_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_share.png')
         share_button = ImageButton("share_button", screen, share_button_x, share_button_y,
                              share_button_width,
-                             share_button_height, share_button__img)
+                             share_button_height, share_button_img)
         self.components["share_button"] = share_button
 
         #return button

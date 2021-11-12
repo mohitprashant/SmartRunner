@@ -164,6 +164,7 @@ class CustomSelectPage(Page):
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["toggled"] = self.input_data["toggled"]
             self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
+            self.output_data["selected_question"] = ""
             self.output_data["mode_toggle"] = True
             if triggered_component in [self.components["custom_quizzes"]]:
                 self.input_data["custom_quiz_selection"] = triggered_component.selected_text
