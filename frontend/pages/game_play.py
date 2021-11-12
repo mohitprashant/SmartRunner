@@ -15,6 +15,7 @@ import random
 
 
 
+
 DECEL = 0.1
 MINSPEED = 1.0
 BLACK=(0,0,0)
@@ -22,7 +23,7 @@ BLACK=(0,0,0)
 
 class Game(Page):
     
-    def __init__(self, screen, avatar = "guy", multiplayer = False):
+    def __init__(self, screen, multiplayer = False):
         super().__init__(screen)
         self.name = "game_play"
         self.input_data = {
@@ -42,14 +43,14 @@ class Game(Page):
         self.questions = self.input_data["questions"]
         self.answers = self.input_data["answers"]
         self.correct = []
-        
+
         for x in self.answers:
             self.correct.append(x[0])
-            
+
         for i in range(len(self.answers)):
             random.shuffle(self.answers[i])
-            
-            
+
+
         self.starttime = time.time()
         self.lastupdate = time.time()
         #output
@@ -357,19 +358,20 @@ class Game(Page):
         self.questions = input_data['questions']
         self.correct = []
         self.answers = input_data['answers']
-
+        
         for x in self.answers:
             self.correct.append(x[0])
-
+            
         for i in range(len(self.answers)):
             random.shuffle(self.answers[i])
-
+        
+        ##################################
 
         self.output_data["current_page"] = self.name
         self.set_components(screen)
         
         
-
+        
         while self.run:
             self.draw_components()
             for event in pygame.event.get():
@@ -450,11 +452,16 @@ class Game(Page):
             
             if(time.time() - self.lastupdate > 0.1):
                 if(self.distance <= 0):
-                    self.game_stats['time'] = time.time() - self.starttime
-                    self.game_stats['score'] = self.speed * self.game_stats["correct"] * 1/self.game_stats['time']
+                    if(self.game_stats['time'] == 0):
+                        self.game_stats['time'] = (time.time() - self.starttime)//1
+                        self.game_stats['score'] = self.speed * self.game_stats['correct'] - (self.game_stats['time'])
                     self.speed = 0.000000000001
                     
-                    
+                    self.display_score(screen)
+
+
+
+
                 updatecheck = True
                 if(self.speed > 1.0):
                     self.speed -= DECEL*0.1
@@ -498,6 +505,12 @@ class Game(Page):
 # input_data['answers'] = [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]*20
 #
 # p.start(p.screen, input_data)
+p = Game(pygame.display.set_mode((400, 400), pygame.RESIZABLE))
+input_data = {}
+input_data['questions'] = ['who am I?', 'what is my name?']*2
+input_data['answers'] = [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]*2
+
+p.start(p.screen, input_data)
 
 
 
