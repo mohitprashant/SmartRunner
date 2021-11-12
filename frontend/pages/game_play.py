@@ -25,53 +25,8 @@ class Game(Page):
     
     def __init__(self, screen, multiplayer = False):
         super().__init__(screen)
-        self.name = "game_play"
-        self.input_data = {
-            "username": "",
-            "questions": [],
-            "answers": []
-        }
-        self.output_data = {
-            "current_page": self.name,
-            "prev_page": "",
-            "username": "",
-            "roomID": "",
-            "exit": False,
-            "game_stats": {}
-        }
         pygame.init()
-        self.questions = self.input_data["questions"]
-        self.answers = self.input_data["answers"]
-        self.correct = []
-
-        for x in self.answers:
-            self.correct.append(x[0])
-
-        for i in range(len(self.answers)):
-            random.shuffle(self.answers[i])
-
-
-        self.starttime = time.time()
-        self.lastupdate = time.time()
-        #output
-        self.game_stats = {}
-        self.game_stats['id'] = 0
-        self.game_stats['correct'] = 0
-        self.game_stats['time'] = 0.0
-        self.game_stats['score'] = 0
         
-        
-        self.avatar = "guy"
-        self.speed = 1.5
-        self.score = 0
-        self.distance = 100.0
-        self.lastavatarupdate = time.time()
-        self.avatarstate = 2
-        self.questionstate = 0
-        
-        self.font_obj=pygame.font.Font("C:\Windows\Fonts\Arial.ttf",25) 
-        
-        self.players = {}
         
         
         
@@ -177,29 +132,29 @@ class Game(Page):
         
         
         #answer display
-        relative_x = 10 / 40
-        relative_y = 7 / 10
+        relative_x = 9 / 40
+        relative_y = 29.5 / 40
         relative_width = 1/5
         relative_height = 1/15
         answer_text1 = TextDisplay("answer_text1", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][0])
         self.components["answer_text1"] = answer_text1
         
         relative_x = 30 / 40
-        relative_y = 7 / 10
+        relative_y = 29.5 / 40
         relative_width = 1/5
         relative_height = 1/15
         answer_text2 = TextDisplay("answer_text2", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][1])
         self.components["answer_text2"] = answer_text2
         
-        relative_x = 10 / 40
-        relative_y = 9 / 10
+        relative_x = 9 / 40
+        relative_y = 35.5 / 40
         relative_width = 1/5
         relative_height = 1/15
         answer_text3 = TextDisplay("answer_text3", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][2])
         self.components["answer_text3"] = answer_text3
         
         relative_x = 30 / 40
-        relative_y = 9 / 10
+        relative_y = 35.5 / 40
         relative_width = 1/5
         relative_height = 1/15
         answer_text4 = TextDisplay("answer_text4", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][3])
@@ -268,7 +223,7 @@ class Game(Page):
             self.lastavatarupdate = time.time()
             
             
-
+            
     def questionupdate(self, screen, correct):
         #question display
         if(correct):
@@ -296,7 +251,7 @@ class Game(Page):
             question_text = TextDisplay("question_text", screen, relative_x, relative_y, relative_width, relative_height, 'No more questions')
             self.components["question_text"] = question_text
             return
-
+        
         #question display
         relative_x = 7/20
         relative_y = 2/15
@@ -307,58 +262,58 @@ class Game(Page):
         
         
         #answer display
-        relative_x = 10 / 40
-        relative_y = 7 / 10
+        relative_x = 9 / 40
+        relative_y = 29.5 / 40
         relative_width = 1/5
         relative_height = 1/15
         answer_text1 = TextDisplay("answer_text1", screen, relative_x, relative_y, relative_width, relative_height, self.answers[self.questionstate][0])
         self.components["answer_text1"] = answer_text1
         
         relative_x = 30 / 40
-        relative_y = 7 / 10
+        relative_y = 29.5 / 40
         relative_width = 1/5
         relative_height = 1/15
         answer_text2 = TextDisplay("answer_text2", screen, relative_x, relative_y, relative_width, relative_height, self.answers[self.questionstate][1])
         self.components["answer_text2"] = answer_text2
         
-        relative_x = 10 / 40
-        relative_y = 9 / 10
+        relative_x = 9 / 40
+        relative_y = 35.5 / 40
         relative_width = 1/5
         relative_height = 1/15
         answer_text3 = TextDisplay("answer_text3", screen, relative_x, relative_y, relative_width, relative_height, self.answers[self.questionstate][2])
         self.components["answer_text3"] = answer_text3
         
         relative_x = 30 / 40
-        relative_y = 9 / 10
+        relative_y = 35.5 / 40
         relative_width = 1/5
         relative_height = 1/15
         answer_text4 = TextDisplay("answer_text4", screen, relative_x, relative_y, relative_width, relative_height, self.answers[self.questionstate][3])
         self.components["answer_text4"] = answer_text4
                 
-
+    
     def display_score(self, screen):
         relative_x = 10/20
         relative_y = 5/17
         relative_width = 1/5
         relative_height = 1/15
-        score_display = TextDisplay("score_display", screen, relative_x, relative_y, relative_width, relative_height, 'Score : '+str(self.game_stats['score']))
+        score_display = TextDisplay("score_display", screen, relative_x, relative_y, relative_width, relative_height, 'Score : '+str(self.game_stats['score']//1))
         self.components["score_display"] = score_display
-
+        
         relative_x = 10/20
         relative_y = 6/17
         relative_width = 1/5
         relative_height = 1/15
         time_display = TextDisplay("time_display", screen, relative_x, relative_y, relative_width, relative_height, 'Time taken : '+str(self.game_stats['time']))
         self.components["time_display"] = time_display
-
+        
         relative_x = 10/20
         relative_y = 7/17
         relative_width = 1/5
         relative_height = 1/15
         correct_display = TextDisplay("correct_display", screen, relative_x, relative_y, relative_width, relative_height, 'Correct : '+str(self.game_stats['correct'])+'/'+str(len(self.questions)))
         self.components["correct_display"] = correct_display
-
-
+        
+        
         game_image_rel_x = 9 / 10
         game_image_rel_y = 1 / 10
         game_image_rel_width = 1 / 10
@@ -367,9 +322,9 @@ class Game(Page):
         exit_btn = ImageDisplay("exit_btn", screen, game_image_rel_x, game_image_rel_y,
                                         game_image_rel_width, game_image_rel_height,exit_btn)
         self.components["exit_btn"] = exit_btn
-
-
-
+    
+    
+        
     def get_gamedata(self):
         data = {}
         
@@ -389,8 +344,7 @@ class Game(Page):
     # start running the page
     def start(self, screen, input_data):
         self.input_data = input_data
-
-
+        
         self.starttime = time.time()
         self.lastupdate = time.time()
         self.game_stats = {}
@@ -398,23 +352,23 @@ class Game(Page):
         self.game_stats['correct'] = 0
         self.game_stats['time'] = 0
         self.game_stats['score'] = 0
-
+        
         if('avatar' in input_data.keys()):
             self.avatar = input_data['avatar']
         else:
             self.avatar = 'guy'
-
-        self.speed = 1.5
+            
+        self.speed = 15
         self.score = 0
         self.distance = 100.0
         self.lastavatarupdate = time.time()
         self.avatarstate = 2
         self.questionstate = 0
-
-        # self.font_obj=pygame.font.Font("C:\Windows\Fonts\Arial.ttf",25)
-
-        self.players = {}
-
+        
+        # self.font_obj=pygame.font.Font("C:\Windows\Fonts\Arial.ttf",25) 
+        
+        self.players = {}     
+        
         self.questions = input_data['questions']
         self.correct = []
         self.answers = input_data['answers']
@@ -426,7 +380,7 @@ class Game(Page):
             random.shuffle(self.answers[i])
         
         ##################################
-
+        
         self.output_data["current_page"] = self.name
         self.set_components(screen)
         
@@ -514,14 +468,14 @@ class Game(Page):
                 if(self.distance <= 0):
                     if(self.game_stats['time'] == 0):
                         self.game_stats['time'] = (time.time() - self.starttime)//1
-                    self.game_stats['score'] = self.speed * self.game_stats['correct'] - (self.game_stats['time'])
+                        self.game_stats['score'] = self.speed * self.game_stats['correct'] - (self.game_stats['time'])
                     self.speed = 0.000000000001
                     
                     self.display_score(screen)
-
-
-
-
+                    
+                    
+                    
+                    
                 updatecheck = True
                 if(self.speed > 1.0):
                     self.speed -= DECEL*0.1
@@ -559,13 +513,12 @@ class Game(Page):
 
 
 
+p = Game(pygame.display.set_mode((400, 400), pygame.RESIZABLE))
+input_data = {}
+input_data['questions'] = ['who am I?', 'what is my name?']*2
+input_data['answers'] = [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]*2
 
-# p = Game(pygame.display.set_mode((400, 400), pygame.RESIZABLE))
-# input_data = {}
-# input_data['questions'] = ['who am I?', 'what is my name?']*2
-# input_data['answers'] = [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]*2
-#
-# p.start(p.screen, input_data)
+p.start(p.screen, input_data)
 
 
 
