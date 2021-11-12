@@ -126,6 +126,7 @@ class SinglePlayerPage(Page):
             if triggered_component in [self.components["start_button"]]:
                 #integrate w backend later
                 questiondb = QuestionManager.get_questions_by_difficulty(self.output_data["subjectselection"],self.output_data["topicselection"],int(self.output_data["difficultyselection"]))
+                print(questiondb)
                 questionlist = []
                 answerlist = []
                 for question in questiondb:
