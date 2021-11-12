@@ -143,7 +143,6 @@ class SharePage(Page):
         # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
-
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["roomID"] = self.input_data["roomID"]
             message = "Join the SmartRun quiz now @\nRoom ID: " + self.output_data["roomID"]
@@ -155,7 +154,7 @@ class SharePage(Page):
                 webbrowser.open(url)
                 print("posted...")
             if triggered_component in [self.components["facebook_button"]]:
-                fb_access_token = 'EAAZAZBaaDDFy8BAPHyRUdTkAq80fcGwjj873sRhFJ2gZCt5kUKTds3gxbNzXLz2YbaIGW11Ui6kTd9NtI8NBP30m8tZAOMK72iY9UVlH3jTVHbpLlRevKNZBQ8DyIYOzpaCCDDdKk1ZCYAAYWwZCq5aHEDTeecVoQ0CDcj1l2iZCVow091fEG0pvn37h1YBbqB9AbBT8jFkqvBxVOl7A1oNo'
+                fb_access_token = 'EAAZAZBaaDDFy8BAF5z4aE5CSpObkXcZBppVfZBknWNfAdxe1evTfZA0gM0dBFHEzcIQKxqYdKOXab06ZAosuCzhSP49tkZAMmB4TDstS8lXoqIPN1bBzXK2KmGUsjhBKJpCIAlprZBoq5sVgfTChW3laanfxSq5ZCyntOCjbW46cymK8agiFvvmNbeeZCu7n6gLGqTBrS6zoPIiLZAD5ugECL6n'
                 fb_api = fb.GraphAPI(fb_access_token)
                 fb_api.put_object('me', 'feed', message=message)
                 url = 'https://www.facebook.com/SmartRun-Leaderboard-104831658686019/'

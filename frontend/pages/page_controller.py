@@ -113,11 +113,11 @@ class PageController:
                 if page_data[0]["back_navigation"] != "main_menu":
                     input_data = {
                         "back_navigation": "",
-                        "subjectlist": QuestionManager.get_subjects(),
-                        "topiclist": QuestionManager.get_topics(),
+                        "subjectlist": subjectlist,
+                        "topiclist": topiclist,
                         "difficultylist": ["Select Difficulty"],
                         "subject_topic_list": ["Select Topic"],
-                        "subjectselection": "Mathematics",
+                        "subjectselection": "English",
                         "prev_page": page_data[0]["prev_page"]
                     }
                 elif page_data[0]["prev_page"] == "singleplayer":
@@ -314,8 +314,8 @@ class PageController:
                 print("leadlist", leadlist)
                 lead_subjectlist = []
                 for subject in leadlist:
-                    topiclist = LeaderboardManager.get_leaderboard_topics(subject)
-                    for topic in topiclist:
+                    topic_list = LeaderboardManager.get_leaderboard_topics(subject)
+                    for topic in topic_list:
                         subjecttopic = subject + ": " + topic
                         lead_subjectlist.append(subjecttopic)
                 input_data = {
