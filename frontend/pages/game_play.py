@@ -40,6 +40,7 @@ class Game(Page):
         self.starttime = time.time()
         self.lastupdate = time.time()
         self.game_stats = {}
+        self.game_stats['id'] = 0
         self.game_stats['correct'] = 0
         self.game_stats['time'] = 0.0
         self.game_stats['score'] = 0
@@ -54,6 +55,8 @@ class Game(Page):
         self.questionstate = 0
         
         self.font_obj=pygame.font.Font("C:\Windows\Fonts\Arial.ttf",25) 
+        
+        self.players = {}
         
         
         
@@ -226,7 +229,14 @@ class Game(Page):
         self.components["player"] = player
         
         
-        
+    def host_multiplayer(self):
+        pass
+    
+    
+    def join_multiplayer(self, code):
+        pass
+    
+    
  
     def playerupdate(self, screen):
         if(time.time() - self.lastavatarupdate > 1/self.speed):
