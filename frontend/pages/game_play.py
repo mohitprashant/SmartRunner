@@ -23,18 +23,9 @@ BLACK=(0,0,0)
 
 class Game(Page):
     
-    def __init__(self, screen, questions, answers, avatar = 'guy', multiplayer = False):
+    def __init__(self, screen, avatar = 'guy', multiplayer = False):
         super().__init__(screen)
         pygame.init()
-        self.questions = questions
-        self.correct = []
-        self.answers = answers
-        
-        for x in answers:
-            self.correct.append(x[0])
-            
-        for i in range(len(self.answers)):
-            random.shuffle(self.answers[i])
             
             
         self.starttime = time.time()
@@ -339,11 +330,21 @@ class Game(Page):
 
     # start running the page
     def start(self, screen, input_data):
-        
-        
         self.input_data = input_data
+        self.questions = input_data['questions']
+        self.correct = []
+        self.answers = input_data['answers']
+        
+        for x in self.answers:
+            self.correct.append(x[0])
+            
+        for i in range(len(self.answers)):
+            random.shuffle(self.answers[i])
+        
+        
         self.output_data["current_page"] = self.name
         self.set_components(screen)
+        
         
         
         while self.run:
@@ -468,8 +469,12 @@ class Game(Page):
 
 
 
-p = Game(pygame.display.set_mode((400, 400), pygame.RESIZABLE), ['who am I?', 'what is my name?']*20, [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]*20)
-p.start(p.screen, [])
+p = Game(pygame.display.set_mode((400, 400), pygame.RESIZABLE))
+input_data = {}
+input_data['questions'] = ['who am I?', 'what is my name?']*20
+input_data['answers'] = [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]*20
+
+p.start(p.screen, input_data)
 
 
 
