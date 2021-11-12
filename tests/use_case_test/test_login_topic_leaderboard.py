@@ -9,7 +9,7 @@ from frontend.pages.login import LoginPage
 
 
 class TestLoginTopicLeaderboard(unittest.TestCase):
-    def test_login_create_room(self):
+    def test_login_topic_leaderboard(self):
         pygame.init()
         screen = pygame.display.set_mode((720, 480), pygame.RESIZABLE)
 
