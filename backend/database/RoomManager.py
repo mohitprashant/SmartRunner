@@ -139,8 +139,10 @@ def room_id_exists(room_id):
         return False
 
 
-def get_room_quizzes(room_id):
+def get_room_quizzes_list(room_id):
     """
+    :param room_id: 6 digit ID of room
+    :return: List of quiz names inside this room
     Returns a list of quizzes in this room_id.
     Returns an empty list if the room does not have any custom quizzes or if the room does not exist.
     """
@@ -309,16 +311,3 @@ def remove_user_from_room(current_username, removed_username, room_id):
             db.collection("rooms").document(room_id).collection("members").document(user.id).delete()
 
     return True
-
-
-def get_room_quiz_name_list(room_id):
-    """
-    :param room_id: 6 digit ID of room
-    :return: List of quiz names inside this room
-    """
-    query = db.collection("rooms").document(room_id).collection("quizzes").get()
-    quizzes = []
-    for quiz in query:
-        quizzes.append(quiz.id)
-
-    return quizzes
