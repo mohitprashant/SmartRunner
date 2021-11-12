@@ -120,9 +120,9 @@ class Game(Page):
         
         
         #question display
-        relative_x = 7/20
+        relative_x = 3/20
         relative_y = 2/15
-        relative_width = 1/5
+        relative_width = 4/5
         relative_height = 1/15
         question_text = TextDisplay("question_text", screen, relative_x, relative_y, relative_width, relative_height, self.questions[0])
         self.components["question_text"] = question_text
@@ -244,18 +244,18 @@ class Game(Page):
         
         
         if(self.questionstate >= len(self.questions)):
-            relative_x = 7/20
+            relative_x = 3/20
             relative_y = 2/15
-            relative_width = 1/5
+            relative_width = 4/5
             relative_height = 1/15
             question_text = TextDisplay("question_text", screen, relative_x, relative_y, relative_width, relative_height, 'No more questions')
             self.components["question_text"] = question_text
             return
         
         #question display
-        relative_x = 7/20
+        relative_x = 3/20
         relative_y = 2/15
-        relative_width = 1/5
+        relative_width = 4/5
         relative_height = 1/15
         question_text = TextDisplay("question_text", screen, relative_x, relative_y, relative_width, relative_height, self.questions[self.questionstate])
         self.components["question_text"] = question_text
