@@ -1,7 +1,8 @@
 import pygame
 from assets.components import *
 from page import *
-
+import webbrowser
+import facebook as fb
 
 class SharePage(Page):
     def __init__(self, screen):
@@ -142,27 +143,27 @@ class SharePage(Page):
         # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["roomID"] = self.input_data["roomID"]
+            message = "Join the SmartRun quiz now @\nRoom ID: " + self.output_data["roomID"]
+            print('redirecting...')
             print(self.output_data["room_ID"])
-            # self.output_data["room_password"] = self.input_data["room_password"]
             self.output_data["username"] = self.input_data["username"]
             if triggered_component in [self.components["twitter_button"]]:
-                print("open twitter")
+                url = "https://twitter.com/intent/tweet?text=" + message
+                webbrowser.open(url)
+                print("posted...")
             if triggered_component in [self.components["facebook_button"]]:
-                print("open facebook")
+                fb_access_token = 'EAAZAZBaaDDFy8BAPHyRUdTkAq80fcGwjj873sRhFJ2gZCt5kUKTds3gxbNzXLz2YbaIGW11Ui6kTd9NtI8NBP30m8tZAOMK72iY9UVlH3jTVHbpLlRevKNZBQ8DyIYOzpaCCDDdKk1ZCYAAYWwZCq5aHEDTeecVoQ0CDcj1l2iZCVow091fEG0pvn37h1YBbqB9AbBT8jFkqvBxVOl7A1oNo'
+                fb_api = fb.GraphAPI(fb_access_token)
+                fb_api.put_object('me', 'feed', message=message)
+                url = 'https://www.facebook.com/SmartRun-Leaderboard-104831658686019/'
+                webbrowser.open(url)
+                print("posted...")
             if triggered_component in [self.components["return_button"]]:
                 self.output_data["roomID"] = self.input_data["roomID"]
                 self.name = self.output_data["back_navigation"]
-                #if statement if returned data is very different (refer to share_results)
-            # if triggered_component in [self.components["toggle_pw"]]:
-            #     print("hello")
-            #     if triggered_component.toggled:
-            #         # self.output_data["toggle_password"] = True
-            #         self.input_data["toggled"] = True
-            #         print("Include room password")
-            #     else:
-            #         self.input_data["toggled"] = False
-            #         print("False")
+
 
 
