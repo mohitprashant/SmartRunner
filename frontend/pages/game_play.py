@@ -366,7 +366,7 @@ class Game(Page):
         self.avatarstate = 2
         self.questionstate = 0
         
-        self.font_obj=pygame.font.Font("C:\Windows\Fonts\Arial.ttf",25) 
+        # self.font_obj=pygame.font.Font("C:\Windows\Fonts\Arial.ttf",25) 
         
         self.players = {}     
         
