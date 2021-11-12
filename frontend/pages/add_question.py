@@ -222,9 +222,9 @@ class AddQuestionPage(Page):
                     self.output_data["correct_option"] = self.components["option4_input_box"].input
                     self.output_data["wrong1"], self.output_data["wrong2"],self.output_data["wrong3"] = self.components["option1_input_box"].input,self.components["option2_input_box"].input,self.components["option3_input_box"].input
                 question = [self.output_data["description"], self.output_data["difficulty_level"], self.output_data["correct_option"],self.output_data["wrong1"],self.output_data["wrong2"],self.output_data["wrong3"]]
+                print("quiz name:", self.output_data["custom_quiz_selection"])
                 QuestionManager.add_custom_questions(self.output_data["roomID"], self.output_data["custom_quiz_selection"], question)
                 self.name = "question_select"
-
             if triggered_component in [self.components["return_button2"]]:
                 print("go back to question select")
                 self.name = "question_select"

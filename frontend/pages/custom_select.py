@@ -56,35 +56,52 @@ class CustomSelectPage(Page):
         # self.layers.append(custom_questions_whole)
         # analytics list image
 
+
+
         list_image_rel_x = 0.095
-        list_image_rel_y = 0.1
+        list_image_rel_y = 0.2
         list_image_rel_width = 0.8
-        list_image_rel_height = 0.7
+        list_image_rel_height = 0.6
         list_img = pygame.image.load('assets/Backgrounds/scrollable.png')
         analyticslist_image = ImageDisplay("analyticslist_image", screen, list_image_rel_x, list_image_rel_y,
                                            list_image_rel_width,
                                            list_image_rel_height, list_img)
         self.components["analyticslist_image"] = analyticslist_image
 
-        # SelectableTextList
-        relative_x = 0.2
+        # leaderboard list
+        relative_x = 0.22
         relative_y = 0.2
         relative_width = 0.55
         text_relative_height = 0.1
         shown_relative_width = 0.55
         shown_relative_height = 0.5
-        custom_questions_list = self.input_data["custom_quizzes"]
-        # print(self.input_data.keys())
-        # print(custom_questions_list)
+        text_list = self.input_data["custom_quizzes"]
+        textbox_button_list = TextboxButtonList("textbox_button_list", screen, relative_x,
+                                                relative_y, relative_width,
+                                                text_relative_height, shown_relative_width, shown_relative_height,
+                                                text_list, screen)
+        self.components["textbox_button_list"] = textbox_button_list
+        self.layers.append(textbox_button_list)
 
-        custom_questions = SelectableTextList("custom_questions", screen, relative_x,
-                                                   relative_y, relative_width,
-                                                   text_relative_height, shown_relative_width, shown_relative_height,
-                                                   custom_questions_list, screen, single_select=True, active_color="blue")
-
-        self.components["custom_questions"] = custom_questions
-        #custom_questions_whole.add_component(custom_questions)
-        self.layers.append(custom_questions)
+        # # SelectableTextList
+        # relative_x = 0.2
+        # relative_y = 0.2
+        # relative_width = 0.55
+        # text_relative_height = 0.1
+        # shown_relative_width = 0.55
+        # shown_relative_height = 0.5
+        # custom_questions_list = self.input_data["custom_quizzes"]
+        # # print(self.input_data.keys())
+        # # print(custom_questions_list)
+        #
+        # custom_questions = SelectableTextList("custom_questions", screen, relative_x,
+        #                                            relative_y, relative_width,
+        #                                            text_relative_height, shown_relative_width, shown_relative_height,
+        #                                            custom_questions_list, screen, single_select=True, active_color="blue")
+        #
+        # self.components["custom_questions"] = custom_questions
+        # #custom_questions_whole.add_component(custom_questions)
+        # self.layers.append(custom_questions)
 
         custom_quiz_display_x = 6 / 20
         custom_quiz_display_y = 2 / 40
@@ -126,20 +143,22 @@ class CustomSelectPage(Page):
             self.output_data["username"] = self.input_data["username"]
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["toggled"] = self.input_data["toggled"]
-            self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
+            # self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
             self.output_data["mode_toggle"] = True
-
-
-            # self.output_data["custom_questions"] = self.input_data["custom_questions"]
-            #self.output_data["room_password"] = self.input_data["room_password"]
-
-            if triggered_component in[self.components["custom_questions"]]:
-                self.output_data["custom_quiz_selection"]= triggered_component.selected_text
-                print(self.output_data["custom_quiz_selection"])
+            if triggered_component in [self.components["textbox_button_list"]]:
+                for tc in triggered_component.triggered_component_list:
+                    subject_topic_text = tc.text
+                    if subject_topic_text != "Empty!":
+                        print(subject_topic_text)
+                        self.output_data["custom_quiz_selection"] = subject_topic_text
+                        # self.output_data["custom_quiz_selection"] = self.components["quiz_name_input_box"].input
+                        self.name = "question_select"
+                    else:
+                        self.output_data["custom_quiz_selection"] = ""
+                        # self.output_data["custom_quiz_selection"] = self.components["quiz_name_input_box"].input
+                        self.name ="custom_select"
             if triggered_component in [self.components["return_button2"]]:
                 self.name = "host_settings"
             if triggered_component in [self.components["add_question_button2"]]:
                 print("go question select")
                 self.name = "question_select"
-            # if triggered_component in [self.components["confirm_button2"]]:
-            #    self.name = "hostroom"
