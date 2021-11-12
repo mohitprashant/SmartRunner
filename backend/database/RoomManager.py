@@ -5,33 +5,33 @@ from backend.util.util import hash_string_sha256
 db = FirebaseManager.get_firestore()
 
 
-def get_hosted_rooms_list(user_id):
+def get_hosted_rooms_list(username):
     """
-    Returns a list of room ids that are hosted by the given user_id
+    Returns a list of room ids that are hosted by the given username
     """
-    if type(user_id) is not str:
+    if type(username) is not str:
         raise Exception("Given arguments is not of type str")
 
-    if user_id == "":
+    if username == "":
         raise Exception("Given argument cannot be empty")
 
     rooms = []
-    query = db.collection("rooms").where("host_id", "==", user_id).get()
+    query = db.collection("rooms").where("host_username", "==", username).get()
     for room in query:
         rooms.append(room.id)
 
     return rooms
 
 
-def create_room(host_id, room_name, room_password):
+def create_room(host_username, room_name, room_password):
     """
-    Creates a custom game room given host_id, room_name, room_password
+    Creates a custom game room given host_username, room_name, room_password
     Returns the random 6 digit room_id as a string if successfully created, or an empty string if the room already exists
     """
-    if type(host_id) is not str or type(room_name) is not str or type(room_password) is not str:
+    if type(host_username) is not str or type(room_name) is not str or type(room_password) is not str:
         raise Exception("Given arguments are not of type str")
 
-    if host_id == "" or room_name == "" or room_password == "":
+    if host_username == "" or room_name == "" or room_password == "":
         raise Exception("Given arguments cannot be empty")
 
     if room_name_exists(room_name) is True:
@@ -40,7 +40,7 @@ def create_room(host_id, room_name, room_password):
     # add password restriction checks here if required
 
     set_data = {
-        "host_id": host_id,
+        "host_username": host_username,
         "room_name": room_name,
         "room_password_hash": hash_string_sha256(room_password)
     }
@@ -55,17 +55,19 @@ def create_room(host_id, room_name, room_password):
     return room_id
 
 
-def delete_room(user_id, room_id):
+def delete_room(curr_username, room_id):
     """
-    Deletes a room entry. Returns True if successfully deleted, else False
+    :param curr_username: Username of current user
+    :param room_id: Room id of room to be deleted
+    :return: True if successfully deleted, else False
     """
-    if type(user_id) is not str or type(room_id) is not str:
+    if type(curr_username) is not str or type(room_id) is not str:
         raise Exception("Given arguments are not of type str")
 
-    if user_id == "" or room_id == "":
+    if curr_username == "" or room_id == "":
         raise Exception("Given arguments cannot be empty")
 
-    if room_id_exists(room_id) is False or is_room_host(user_id, room_id) is False:
+    if room_id_exists(room_id) is False or is_room_host(curr_username, room_id) is False:
         return False
 
     result = db.collection("rooms").document(room_id).delete()
@@ -157,20 +159,22 @@ def get_room_quizzes(room_id):
     return quizzes
 
 
-def is_room_host(user_id, room_id):
+def is_room_host(username, room_id):
     """
-    Checks if a given user id is the room's host. Returns True if yes, else False
+    :param username: Username of current user
+    :param room_id: Room ID of room to be deleted
+    :return:  Returns True if yes, else False
     """
-    if type(user_id) is not str or type(room_id) is not str:
+    if type(username) is not str or type(room_id) is not str:
         raise Exception("Given arguments are not of type str")
 
-    if user_id == "" or room_id == "":
+    if username == "" or room_id == "":
         raise Exception("Given arguments cannot be empty")
 
     if room_id_exists(room_id) is False:
         return False
 
-    rooms = db.collection("rooms").where("host_id", "==", user_id).get()
+    rooms = db.collection("rooms").where("host_username", "==", username).get()
     if len(rooms) == 0:
         return False
 
@@ -202,14 +206,14 @@ def get_room_name_from_id(room_id):
     return room_name
 
 
-def get_list_of_rooms_by_host(host_id):
+def get_list_of_rooms_by_host(host_username):
     """
     Returns room_name of a room if it exists. Returns an empty string if it does not.
     """
-    if type(host_id) is not str:
+    if type(host_username) is not str:
         raise Exception("Given argument is not of type str")
 
-    query = db.collection("rooms").where("host_id", "==", host_id).get()
+    query = db.collection("rooms").where("host_username", "==", host_username).get()
 
     rooms = []
     for room in query:
@@ -218,11 +222,11 @@ def get_list_of_rooms_by_host(host_id):
     return rooms
 
 
-def set_member_status(room_id, user_id, status=0):
+def set_member_status(room_id, username, status=0):
     """
     Saves the scores that a user has attained for a game in the room.
     :param room_id: Room that this quiz is for.
-    :param user_id: Member whose ready status is to be updated.
+    :param username: Member whose ready status is to be updated.
     :param status: Status to be updated. Has to be 0 (unready) or 1 (ready).
     :return: true if status was saved.
     """
@@ -230,7 +234,7 @@ def set_member_status(room_id, user_id, status=0):
     if type(room_id) is not str:
         raise Exception("Given arguments is not of type str")
 
-    if type(user_id) is not str:
+    if type(username) is not str:
         raise Exception("Given arguments is not of type str")
 
     if type(status) is not int:
@@ -242,7 +246,7 @@ def set_member_status(room_id, user_id, status=0):
     status_dict = {"status":status}
 
     try:
-        db.collection("rooms").document(room_id).collection("members").document(user_id).set(status_dict)
+        db.collection("rooms").document(room_id).collection("members").document(username).set(status_dict)
         return True
     except:
         raise Exception("Status could not be saved")
@@ -252,7 +256,7 @@ def get_room_member_statuses(room_id):
     """
     Returns dictionary of members in a room and their corresponding ready statuses.
     :param room_id: Room whose status to retrieve.
-    :return: Returns a dictionary of user_id's and the corresponding ready statuses.
+    :return: Returns a dictionary of usernames and the corresponding ready statuses.
     """
 
     if type(room_id) is not str:
