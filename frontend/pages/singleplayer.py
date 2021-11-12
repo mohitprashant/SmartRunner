@@ -2,6 +2,9 @@ import pygame.cursors
 
 from assets.components import *
 from page import *
+import sys
+sys.path.insert(1, '../../backend/database')
+import QuestionManager
 
 
 class SinglePlayerPage(Page):
@@ -14,6 +17,8 @@ class SinglePlayerPage(Page):
             "topiclist": [],
             "difficultylist": [],
             "subjectselection": "",
+            "topicselection": "",
+            "difficultyselection": "",
             "prev_page": ""
 
         }
@@ -70,7 +75,7 @@ class SinglePlayerPage(Page):
         difficultylist_rel_width = 5 / 7
         difficultylist_rel_height = 1 / 10
         difficultylist_text_list = self.input_data["difficultylist"]
-        prompt = "Select Difficulty"
+        prompt = self.input_data["difficultyselection"]
         num_expand_text = 3
         difficultylist = DropdownTextSelect("difficultylist", screen, difficultylist_rel_x, difficultylist_rel_y,
                                             difficultylist_rel_width,
@@ -84,8 +89,8 @@ class SinglePlayerPage(Page):
         topiclist_rel_y = 3 / 10
         topiclist_rel_width = 5 / 7
         topiclist_rel_height = 1 / 10
-        topiclist_text_list = self.input_data["topiclist"][self.input_data["subjectselection"]]
-        prompt = "Select Topic"
+        topiclist_text_list = self.input_data["subject_topic_list"]
+        prompt = self.input_data["topicselection"]
         num_expand_text = 3
         topiclist = DropdownTextSelect("topiclist", screen, topiclist_rel_x, topiclist_rel_y,
                                        topiclist_rel_width,
@@ -99,7 +104,7 @@ class SinglePlayerPage(Page):
         subjectlist_rel_width = 5 / 7
         subjectlist_rel_height = 1 / 10
         subjectlist_text_list = self.input_data["subjectlist"]
-        prompt = "Select Subject"
+        prompt = self.input_data["subjectselection"]
         num_expand_text = 3
         subjectlist = DropdownTextSelect("subjectlist", screen, subjectlist_rel_x, subjectlist_rel_y,
                                          subjectlist_rel_width,
@@ -110,20 +115,54 @@ class SinglePlayerPage(Page):
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
+            self.output_data["prev_page"] = self.output_data["current_page"]
+            self.output_data["subject_topic_list"] = self.input_data["subject_topic_list"]
+            self.output_data["difficultylist"] = self.input_data["difficultylist"]
+            self.output_data["subjectselection"] = self.input_data["subjectselection"]
+            self.output_data["topicselection"] = self.input_data["topicselection"]
+            self.output_data["difficultyselection"] = self.input_data["difficultyselection"]
+            # put player once multiplayer is up
+            self.output_data["playerlist"] = self.input_data["playerlist"]
             if triggered_component in [self.components["start_button"]]:
-                self.output_data["prev_page"] = self.output_data["current_page"]
                 #integrate w backend later
-                self.output_data["questions"] = ["who am i", "where am i"]
-                self.output_data["answers"] = [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]
+                questiondb = QuestionManager.get_questions_by_difficulty(self.output_data["subjectselection"],self.output_data["topicselection"],int(self.output_data["difficultyselection"]))
+                questionlist = []
+                answerlist = []
+                for question in questiondb:
+                    answers = []
+                    questionlist.append(question["Description"])
+                    answers.append(str(question["Correct"]))
+                    answers.append(str(question["Wrong_1"]))
+                    answers.append(str(question["Wrong_2"]))
+                    answers.append(str(question["Wrong_3"]))
+                    answerlist.append(answers)
+                print(questionlist)
+                print(answerlist)
+                self.output_data["questions"] = questionlist
+                self.output_data["answers"] = answerlist
                 self.name = "game_play"
 
             if triggered_component in [self.components["exit_button"]]:
-                self.output_data["prev_page"] = self.output_data["current_page"]
                 self.name = "main_menu"
             if triggered_component in [self.components["subjectlist"]]:
-                if self.components["subjectlist"].button.text!= "Select Subject":
-                    self.input_data["subjectselection"] = self.components["subjectlist"].button.text
-                    print(self.components["subjectlist"].button.text)
+                self.input_data["subjectselection"] = self.components["subjectlist"].button.text
+                self.output_data["subjectselection"] = self.input_data["subjectselection"]
+                self.output_data["subject_topic_list"] = QuestionManager.get_topics(self.output_data["subjectselection"])
+
+                self.name = "singleplayer"
+            if triggered_component in [self.components["topiclist"]]:
+                self.input_data["topicselection"] = self.components["topiclist"].button.text
+                self.output_data["topicselection"] = self.input_data["topicselection"]
+                difficultylist = QuestionManager.get_question_difficulty_list(self.output_data["subjectselection"], self.output_data["topicselection"])
+                self.output_data["difficultylist"] = list(map(str, difficultylist))
+                print(self.components["topiclist"].button.text)
+                self.name = "singleplayer"
+            if triggered_component in [self.components["difficultylist"]]:
+                self.input_data["difficultyselection"] = self.components["difficultylist"].button.text
+                print(self.components["difficultylist"].button.text)
+                self.output_data["difficultyselection"] = self.input_data["difficultyselection"]
+                self.name = "singleplayer"
+
 
 
 
