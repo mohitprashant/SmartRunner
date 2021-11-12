@@ -23,31 +23,10 @@ BLACK=(0,0,0)
 
 class Game(Page):
     
-    def __init__(self, screen, avatar = 'guy', multiplayer = False):
+    def __init__(self, screen, multiplayer = False):
         super().__init__(screen)
         pygame.init()
-            
-            
-        self.starttime = time.time()
-        self.lastupdate = time.time()
-        self.game_stats = {}
-        self.game_stats['id'] = 0
-        self.game_stats['correct'] = 0
-        self.game_stats['time'] = 0.0
-        self.game_stats['score'] = 0
         
-        
-        self.avatar = avatar
-        self.speed = 1.5
-        self.score = 0
-        self.distance = 100.0
-        self.lastavatarupdate = time.time()
-        self.avatarstate = 2
-        self.questionstate = 0
-        
-        self.font_obj=pygame.font.Font("C:\Windows\Fonts\Arial.ttf",25) 
-        
-        self.players = {}
         
         
         
@@ -331,6 +310,32 @@ class Game(Page):
     # start running the page
     def start(self, screen, input_data):
         self.input_data = input_data
+        
+        
+        self.starttime = time.time()
+        self.lastupdate = time.time()
+        self.game_stats = {}
+        self.game_stats['id'] = 0
+        self.game_stats['correct'] = 0
+        self.game_stats['time'] = 0.0
+        self.game_stats['score'] = 0
+        
+        if('avatar' in input_data.keys()):
+            self.avatar = input_data['avatar']
+        else:
+            self.avatar = 'guy'
+            
+        self.speed = 1.5
+        self.score = 0
+        self.distance = 100.0
+        self.lastavatarupdate = time.time()
+        self.avatarstate = 2
+        self.questionstate = 0
+        
+        self.font_obj=pygame.font.Font("C:\Windows\Fonts\Arial.ttf",25) 
+        
+        self.players = {}     
+        
         self.questions = input_data['questions']
         self.correct = []
         self.answers = input_data['answers']
@@ -341,6 +346,7 @@ class Game(Page):
         for i in range(len(self.answers)):
             random.shuffle(self.answers[i])
         
+        ##################################
         
         self.output_data["current_page"] = self.name
         self.set_components(screen)
