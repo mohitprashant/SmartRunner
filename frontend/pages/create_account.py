@@ -104,7 +104,7 @@ class CreateAccountPage(Page):
         exit_button_rel_y = 0.7
         exit_button_rel_width = 0.1
         exit_button_rel_height = 1 / 8
-        exit_button_img = pygame.image.load('assets/Buttons/btn_back.png')
+        exit_button_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_back.png')
         exit_button = ImageButton("exit_button", screen, exit_button_rel_x, exit_button_rel_y,
                                   exit_button_rel_width,
                                   exit_button_rel_height, exit_button_img)
@@ -115,7 +115,7 @@ class CreateAccountPage(Page):
         create_acc_button_rel_y = 0.7
         create_acc_button_rel_width = 0.12
         create_acc_button_rel_height = 0.129
-        create_acc_button_img = pygame.image.load('assets/Buttons/btn_createacct.png')
+        create_acc_button_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_createacct.png')
         create_acc_button = ImageButton("create_acc_button", screen, create_acc_button_rel_x, create_acc_button_rel_y,
                                         create_acc_button_rel_width,
                                         create_acc_button_rel_height, create_acc_button_img)
