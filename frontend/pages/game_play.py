@@ -15,7 +15,6 @@ import random
 
 
 
-
 DECEL = 0.1
 MINSPEED = 1.0
 BLACK=(0,0,0)
@@ -25,10 +24,24 @@ class Game(Page):
     
     def __init__(self, screen, questions, answers, avatar = 'guy', multiplayer = False):
         super().__init__(screen)
+        self.name = "game_play"
+        self.input_data = {
+            "username": "",
+            "questions": [],
+            "answers": []
+        }
+        self.output_data = {
+            "current_page": self.name,
+            "prev_page": "",
+            "username": "",
+            "roomID": "",
+            "exit": False,
+            "game_stats": {}
+        }
         pygame.init()
-        self.questions = questions
+        self.questions = self.input_data["questions"]
+        self.answers = self.input_data["answers"]
         self.correct = []
-        self.answers = answers
         
         for x in answers:
             self.correct.append(x[0])
@@ -39,6 +52,7 @@ class Game(Page):
             
         self.starttime = time.time()
         self.lastupdate = time.time()
+        #output
         self.game_stats = {}
         self.game_stats['id'] = 0
         self.game_stats['correct'] = 0
