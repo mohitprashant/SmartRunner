@@ -84,7 +84,7 @@ class Game(Page):
             game_image_rel_y = 0.1 / 10
             game_image_rel_width = 7 / 10
             game_image_rel_height = (1 / 7) + 0.09
-            question = pygame.image.load('assets/Backgrounds/questiondescription.png')
+            question = pygame.image.load('assets/Backgrounds/paper.png')
             question = ImageDisplay("question", screen, game_image_rel_x, game_image_rel_y,
                                     game_image_rel_width, game_image_rel_height,question)
 
@@ -194,7 +194,7 @@ class Game(Page):
         game_image_rel_y = 1 / 100
         game_image_rel_width = 1 / 2
         game_image_rel_height = 1 / 15
-        progress = pygame.image.load('assets/img/progressbar.png')
+        progress = pygame.image.load('assets/Backgrounds/outerloadingbar.png')
         progress = ImageDisplay("progress", screen, game_image_rel_x, game_image_rel_y,
                                         game_image_rel_width, game_image_rel_height,progress)
         
@@ -202,11 +202,11 @@ class Game(Page):
         
         
         # coverage -> max width at 38
-        game_image_rel_x = 7 / 100
-        game_image_rel_y = 4 / 100
+        game_image_rel_x = 8 / 100
+        game_image_rel_y = 3.5 / 100
         game_image_rel_width = 0 / 100
         game_image_rel_height = 1 / 50
-        cover = pygame.image.load('assets/img/cover.png')
+        cover = pygame.image.load('assets/Backgrounds/innerloadingbar.png')
         cover = ImageDisplay("cover", screen, game_image_rel_x, game_image_rel_y,
                                         game_image_rel_width, game_image_rel_height,cover)
         
@@ -590,11 +590,11 @@ class Game(Page):
                     self.speed -= DECEL*0.1
                 self.distance -= self.speed*0.1
                     
-                game_image_rel_x = 7 / 100
-                game_image_rel_y = 3 / 100
+                game_image_rel_x = 8 / 100
+                game_image_rel_y = 3.5 / 100
                 game_image_rel_width = 38*((100-self.distance)/100) / 100 #max at 38
                 game_image_rel_height = 1 / 50
-                cover = pygame.image.load('assets/img/cover.png')
+                cover = pygame.image.load('assets/Backgrounds/innerloadingbar.png')
                 cover = ImageDisplay("cover", screen, game_image_rel_x, game_image_rel_y,
                                                 game_image_rel_width, game_image_rel_height,cover)
                 
