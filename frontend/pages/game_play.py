@@ -367,13 +367,13 @@ class Game(Page):
         # relative_height = 1/15
         # correct_display = TextDisplay("correct_display", screen, relative_x, relative_y, relative_width, relative_height, 'Correct : '+str(self.game_stats['correct'])+'/'+str(len(self.questions)))
         # self.components["correct_display"] = correct_display
-        
-        relative_x = 10/20
-        relative_y = 7/17
-        relative_width = 1/5
-        relative_height = 1/15
-        correct_display = TextDisplay("correct_display", screen, relative_x, relative_y, relative_width, relative_height, 'Correct : '+str(self.game_stats['correct'])+'/'+str(len(self.questions)))
-        self.components["correct_display"] = correct_display
+        #
+        # relative_x = 10/20
+        # relative_y = 7/17
+        # relative_width = 1/5
+        # relative_height = 1/15
+        # correct_display = TextDisplay("correct_display", screen, relative_x, relative_y, relative_width, relative_height, 'Correct : '+str(self.game_stats['correct'])+'/'+str(len(self.questions)))
+        # self.components["correct_display"] = correct_display
         
         game_image_rel_x = 0.87
         game_image_rel_y = 0.02
