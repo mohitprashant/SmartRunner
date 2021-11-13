@@ -30,6 +30,4 @@ class TestShare(unittest.TestCase):
         share_page.page_function(triggered_component_list)
 
         self.assertTrue(share_page.output_data["prev_page"], prev_page)
-        self.assertTrue(share_page.output_data["room_ID"], roomID)
-        self.assertTrue(share_page.output_data["room_password"], room_password)
         self.assertTrue(share_page.output_data["username"], username)
