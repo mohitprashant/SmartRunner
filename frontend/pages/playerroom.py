@@ -1,6 +1,7 @@
 from assets.components import *
 from page import *
 import sys
+import game_play
 sys.path.insert(1, '../../backend/database')
 import RoomManager
 
@@ -18,7 +19,7 @@ class PlayerRoomPage(Page):
             "prev_page": "",
             "roomID": "",
             "username":"",
-            "ready_status": False,
+            "readystatus": False,
             "exit": False
         }
 
@@ -127,19 +128,26 @@ class PlayerRoomPage(Page):
         self.output_data["mode_toggle"] = "None"
         self.output_data["toggled"] = "None"
         self.output_data["custom_quiz_selection"] = "None"
+        self.output_data["playertype"] = "client"
+        self.output_data["join_host"] = ""
+        self.output_data["questions"] = []
+        self.output_data["answers"] = []
+
+
+
         for triggered_component in triggered_component_list:
             print("username:", self.output_data["username"])
             print("roomID:", self.output_data["roomID"])
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "join_room"
             if triggered_component in [self.components["start_button"]]:
-                if self.output_data["ready_status"]:
-                    self.output_data["ready_status"] = False
+                if self.output_data["readystatus"]:
+                    self.output_data["readystatus"] = False
                     RoomManager.set_member_status(self.output_data["roomID"],self.output_data["username"],0)
                     print("Player ready")
                 else:
-                    self.output_data["ready_status"] = True
+                    self.output_data["readystatus"] = True
                     RoomManager.set_member_status(self.output_data["roomID"],self.output_data["username"],1)
-
+                    # game_play.join_multiplayer(self.output_data["roomID"])
             if triggered_component in [self.components["roomID_button"]]:
                 self.name = "share"

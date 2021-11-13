@@ -115,6 +115,7 @@ class ManageRoomsPage(Page):
             self.output_data["toggled"] = False
             self.output_data["custom_quiz_selection"] = "Select Custom Quiz"
             self.output_data["player_status"] = []
+
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "room_tab"
             if triggered_component in [self.components["selectable_text_list"]]:
@@ -123,7 +124,7 @@ class ManageRoomsPage(Page):
                 print(self.output_data["roomID"])
             if triggered_component in [self.components["join_button"]]:
                 self.name = "hostroom"
-                print("join")
+
             if triggered_component in [self.components["delete_button"]]:
                 RoomManager.delete_room(self.output_data["username"],self.output_data["roomID"])
                 print("delete room", self.output_data["roomID"], "from database")

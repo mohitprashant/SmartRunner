@@ -122,12 +122,16 @@ class SinglePlayerPage(Page):
             self.output_data["subjectselection"] = self.input_data["subjectselection"]
             self.output_data["topicselection"] = self.input_data["topicselection"]
             self.output_data["difficultyselection"] = self.input_data["difficultyselection"]
-            self.output_data["roomID"] = "singleplayer"
+            self.output_data["roomID"] = self.input_data["roomID"]
+            self.output_data["join_host"] = self.input_data["join_host"]
+            self.output_data["playertype"] = self.input_data["playertype"]
+            self.output_data["readystatus"] = ""
+
+
+
 
             # put player once multiplayer is up
-            self.output_data["playerlist"] = self.input_data["playerlist"]
             if triggered_component in [self.components["start_button"]]:
-                #integrate w backend later
                 questiondb = QuestionManager.get_questions_by_difficulty(self.output_data["subjectselection"],self.output_data["topicselection"],int(self.output_data["difficultyselection"]))
                 print(questiondb)
                 questionlist = []
@@ -144,10 +148,13 @@ class SinglePlayerPage(Page):
                 print(answerlist)
                 self.output_data["questions"] = questionlist
                 self.output_data["answers"] = answerlist
+                if self.output_data["roomID"] != "singleplayer":
+                    RoomManager.set_room_activity_status(self.output_data["roomID"], True)
                 self.name = "game_play"
 
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "main_menu"
+
             if triggered_component in [self.components["subjectlist"]]:
                 self.input_data["subjectselection"] = self.components["subjectlist"].button.text
                 self.output_data["subjectselection"] = self.input_data["subjectselection"]

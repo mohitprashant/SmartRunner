@@ -34,7 +34,10 @@ class Game(Page):
             "username": "",
             "questions": [],
             "answers": [],
-            "playerlist": []
+            "roomID": "",
+            "playertype": "",
+            "readystatus": "",
+            "join_host": ""
         }
         self.output_data = {
             "current_page": self.name,
@@ -43,15 +46,26 @@ class Game(Page):
             "game_stats": {},
             "back_navigation": "",
             "exit": False,
-            "playerlist": []
+            "playertype": ""
         }
         self.is_server = False
         self.is_client = False
         self.multiplayer = multiplayer
 
+
+
+
     def set_components(self, screen):
         # background
-        bg_img = pygame.image.load('assets/Backgrounds/bg2.jpeg')
+        print("playertype", self.input_data["playertype"])
+        if self.input_data["roomID"] != "singleplayer":
+            if self.input_data["playertype"] == "client" and self.input_data["readystatus"]:
+                self.join_multiplayer(self.input_data["roomID"])
+                print("client!")
+            elif self.input_data["playertype"] == "host":
+                self.host_multiplayer()
+
+        bg_img = pygame.image.load('assets/img/sky.png')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -104,34 +118,34 @@ class Game(Page):
         #
         
         # answer boxes - invisible to begin with
-        if(self.multiplayer==False or self.is_client):
+        if(self.multiplayer==False or (self.is_client and self.input_data["ready_status"]) or (self.isclient==False and self.input_data["join_host"])):
             game_image_rel_x = 0.15
             game_image_rel_y = 0.25
             game_image_rel_width = 0.3
             game_image_rel_height = 0.1
-            answer1 = pygame.image.load('assets/Buttons/btn_plain.png')
+            answer1 = pygame.image.load('assets/img/answer.png')
             answer1 = ImageDisplay("answer1", screen, game_image_rel_x, game_image_rel_y,
                                             game_image_rel_width, game_image_rel_height,answer1)
-            
-            self.components["answer1"] = answer1    
-            
-            
+
+            self.components["answer1"] = answer1
+
+
             game_image_rel_x = 0.47
             game_image_rel_y = 0.25
             answer2 = pygame.image.load('assets/Buttons/btn_plain.png')
             answer2 = ImageDisplay("answer2", screen, game_image_rel_x, game_image_rel_y,
                                             game_image_rel_width, game_image_rel_height,answer2)
-            self.components["answer2"] = answer2 
-            
-            
+            self.components["answer2"] = answer2
+
+
             game_image_rel_x = 0.15
             game_image_rel_y = 0.35
             answer3 = pygame.image.load('assets/Buttons/btn_plain.png')
             answer3 = ImageDisplay("answer3", screen, game_image_rel_x, game_image_rel_y,
                                            game_image_rel_width, game_image_rel_height,answer3)
-            self.components["answer3"] = answer3 
-            
-            
+            self.components["answer3"] = answer3
+
+
             game_image_rel_x = 0.47
             game_image_rel_y = 0.35
             answer4 = pygame.image.load('assets/Buttons/btn_plain.png')
@@ -146,21 +160,21 @@ class Game(Page):
             relative_height = 1/15
             answer_text1 = TextDisplay("answer_text1", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][0])
             self.components["answer_text1"] = answer_text1
-            
+
             relative_x = 0.5
             relative_y = 0.28
             relative_width = 1/5
             relative_height = 1/15
             answer_text2 = TextDisplay("answer_text2", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][1])
             self.components["answer_text2"] = answer_text2
-            
+
             relative_x = 0.18
             relative_y = 0.37
             relative_width = 1/5
             relative_height = 1/15
             answer_text3 = TextDisplay("answer_text3", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][2])
             self.components["answer_text3"] = answer_text3
-            
+
             relative_x = 0.5
             relative_y = 0.37
             relative_width = 1/5
@@ -180,13 +194,22 @@ class Game(Page):
             correction = TextDisplay("correction", screen, relative_x, relative_y, relative_width, relative_height, '')
             self.components["correction"] = correction
         
-        else:
+        elif (self.isclient==False and self.input_data["join_host"]==False):
             relative_x = 3/20
             relative_y = 2/15
             relative_width = 4/5
             relative_height = 1/15
             host = TextDisplay("host", screen, relative_x, relative_y, relative_width, relative_height, 'Thank you for hosting')
             self.components["host"] = host
+        elif (self.isclient and self.input_data["ready_status"]==False):
+            relative_x = 3/20
+            relative_y = 2/15
+            relative_width = 4/5
+            relative_height = 1/15
+            client = TextDisplay("client", screen, relative_x, relative_y, relative_width, relative_height, 'Please wait for the game to end')
+            self.components["client"] = client
+
+        
         
 
         # progress bar
@@ -254,6 +277,13 @@ class Game(Page):
         self.client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.client.bind(('localhost', CPORT))
         self.server = (code, SPORT)
+
+
+    def disconnect_multiplayer(self, code):
+        self.multiplayer = False
+        self.is_cient = False
+        self.server = None
+        self.client = None
 
     
  
@@ -407,7 +437,10 @@ class Game(Page):
                 self.output_data["player_results"] = player_results
                 self.output_data["roomID"] = self.input_data["roomID"]
                 self.output_data["score"] = str(int(self.game_stats['score']))
+                self.output_data["playertype"] = self.input_data["roomID"]
                 self.output_data["current_page"] = "end_screen"
+                if self.is_client == False:
+                    RoomManager.set_room_activity_status(self.input_data["roomID"], False)
 
 
 
@@ -497,7 +530,6 @@ class Game(Page):
                     self.output_data["exit"] = True
                     pygame.quit()
                     return self.output_data, self.input_data
-
                 if event.type == pygame.VIDEORESIZE:
                     self.resize_components()
                     
@@ -620,14 +652,16 @@ class Game(Page):
             pygame.display.update()
 
 
-#
-#
-# p = Game(pygame.display.set_mode((400, 400), pygame.RESIZABLE), multiplayer = False)
+
+
+# p = Game(pygame.display.set_mode((400, 400), pygame.RESIZABLE))
 # input_data = {}
 # input_data['questions'] = ['who am I?', 'what is my name?']*2
 # input_data['answers'] = [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]*2
 #
-#
-#
+# p.start(p.screen, input_data)
+
+
+
 
 
