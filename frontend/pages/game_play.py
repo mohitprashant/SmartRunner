@@ -245,6 +245,13 @@ class Game(Page):
         self.client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.client.bind(('localhost', CPORT))
         self.server = (code, SPORT)
+        
+        
+    def disconnect_multiplayer(self, code):
+        self.multiplayer = False
+        self.is_cient = False
+        self.server = None
+        self.client = None
             
     
  
