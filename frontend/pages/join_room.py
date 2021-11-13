@@ -104,6 +104,8 @@ class JoinRoomPage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["username"] = self.input_data["username"]
+            self.output_data["player_status"] = []
+
             if triggered_component in [self.components["room_confirm_button"]]:
                 self.output_data["roomID"] = self.components["roomID_input_box"].input
                 user_room_password = self.components["password_input_box"].input

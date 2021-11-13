@@ -152,6 +152,8 @@ class SharePage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["roomID"] = self.input_data["roomID"]
+            self.output_data["player_status"] = []
+
             print(self.output_data["room_ID"])
             # self.output_data["room_password"] = self.input_data["room_password"]
             self.output_data["username"] = self.input_data["username"]
