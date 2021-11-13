@@ -81,12 +81,12 @@ class Game(Page):
         # question box - invisible to begin with
         if(self.multiplayer==False or self.is_client):
             game_image_rel_x = 1 / 10
-            game_image_rel_y = 1 / 10
+            game_image_rel_y = 0.1 / 10
             game_image_rel_width = 7 / 10
-            game_image_rel_height = 1 / 7
-            question = pygame.image.load('assets/img/questionbox.png')
+            game_image_rel_height = (1 / 7) + 0.09
+            question = pygame.image.load('assets/Backgrounds/questiondescription.png')
             question = ImageDisplay("question", screen, game_image_rel_x, game_image_rel_y,
-                                           game_image_rel_width, game_image_rel_height,question)
+                                    game_image_rel_width, game_image_rel_height,question)
 
             self.components["question"] = question
         
@@ -109,7 +109,7 @@ class Game(Page):
             game_image_rel_y = 0.25
             game_image_rel_width = 0.3
             game_image_rel_height = 0.1
-            answer1 = pygame.image.load('assets/img/answer.png')
+            answer1 = pygame.image.load('assets/Buttons/btn_plain.png')
             answer1 = ImageDisplay("answer1", screen, game_image_rel_x, game_image_rel_y,
                                             game_image_rel_width, game_image_rel_height,answer1)
             
@@ -118,7 +118,7 @@ class Game(Page):
             
             game_image_rel_x = 0.47
             game_image_rel_y = 0.25
-            answer2 = pygame.image.load('assets/img/answer.png')
+            answer2 = pygame.image.load('assets/Buttons/btn_plain.png')
             answer2 = ImageDisplay("answer2", screen, game_image_rel_x, game_image_rel_y,
                                             game_image_rel_width, game_image_rel_height,answer2)
             self.components["answer2"] = answer2 
@@ -126,7 +126,7 @@ class Game(Page):
             
             game_image_rel_x = 0.15
             game_image_rel_y = 0.35
-            answer3 = pygame.image.load('assets/img/answer.png')
+            answer3 = pygame.image.load('assets/Buttons/btn_plain.png')
             answer3 = ImageDisplay("answer3", screen, game_image_rel_x, game_image_rel_y,
                                            game_image_rel_width, game_image_rel_height,answer3)
             self.components["answer3"] = answer3 
@@ -134,37 +134,34 @@ class Game(Page):
             
             game_image_rel_x = 0.47
             game_image_rel_y = 0.35
-            answer4 = pygame.image.load('assets/img/answer.png')
+            answer4 = pygame.image.load('assets/Buttons/btn_plain.png')
             answer4 = ImageDisplay("answer4", screen, game_image_rel_x, game_image_rel_y,
                                            game_image_rel_width, game_image_rel_height,answer4)
-            self.components["answer4"] = answer4 
-            
-            
-            
+            self.components["answer4"] = answer4
 
             #answer display
-            relative_x = 5/20
+            relative_x = 0.18
             relative_y = 0.28
             relative_width = 1/5
             relative_height = 1/15
             answer_text1 = TextDisplay("answer_text1", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][0])
             self.components["answer_text1"] = answer_text1
             
-            relative_x = 0.55
+            relative_x = 0.5
             relative_y = 0.28
             relative_width = 1/5
             relative_height = 1/15
             answer_text2 = TextDisplay("answer_text2", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][1])
             self.components["answer_text2"] = answer_text2
             
-            relative_x = 5/20
+            relative_x = 0.18
             relative_y = 0.37
             relative_width = 1/5
             relative_height = 1/15
             answer_text3 = TextDisplay("answer_text3", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][2])
             self.components["answer_text3"] = answer_text3
             
-            relative_x = 0.55
+            relative_x = 0.5
             relative_y = 0.37
             relative_width = 1/5
             relative_height = 1/15
@@ -173,7 +170,7 @@ class Game(Page):
 
 
             #question display
-            relative_x = 7/20
+            relative_x = 2.5/20
             relative_y = 2/15
             relative_width = 4/5
             relative_height = 1/15
@@ -299,7 +296,7 @@ class Game(Page):
         
         
         if(self.questionstate >= len(self.questions)):
-            relative_x = 6 / 20
+            relative_x = 2.5 / 20
             relative_y = 2 / 15
             relative_width = 4 / 5
             relative_height = 1 / 15
@@ -308,7 +305,7 @@ class Game(Page):
             return
         
         #question display
-        relative_x = 7 / 20
+        relative_x = 2.5 / 20
         relative_y = 2 / 15
         relative_width = 4 / 5
         relative_height = 1 / 15
@@ -317,28 +314,28 @@ class Game(Page):
         
         
         #answer display
-        relative_x = 5 / 20
+        relative_x = 0.18
         relative_y = 0.28
         relative_width = 1 / 5
         relative_height = 1 / 15
         answer_text1 = TextDisplay("answer_text1", screen, relative_x, relative_y, relative_width, relative_height, self.answers[self.questionstate][0])
         self.components["answer_text1"] = answer_text1
 
-        relative_x = 0.55
+        relative_x = 0.5
         relative_y = 0.28
         relative_width = 1 / 5
         relative_height = 1 / 15
         answer_text2 = TextDisplay("answer_text2", screen, relative_x, relative_y, relative_width, relative_height, self.answers[self.questionstate][1])
         self.components["answer_text2"] = answer_text2
 
-        relative_x = 5 / 20
+        relative_x = 0.18
         relative_y = 0.37
         relative_width = 1 / 5
         relative_height = 1 / 15
         answer_text3 = TextDisplay("answer_text3", screen, relative_x, relative_y, relative_width, relative_height, self.answers[self.questionstate][2])
         self.components["answer_text3"] = answer_text3
 
-        relative_x = 0.55
+        relative_x = 0.5
         relative_y = 0.37
         relative_width = 1 / 5
         relative_height = 1 / 15
