@@ -12,6 +12,7 @@ import pygame
 import sys
 import time
 import random
+import socket
 
 
 
@@ -19,6 +20,8 @@ import random
 DECEL = 0.1
 MINSPEED = 1.0
 BLACK=(0,0,0)
+SPORT = 4000
+CPORT = 4100
 
 
 class Game(Page):
@@ -26,8 +29,8 @@ class Game(Page):
     def __init__(self, screen, multiplayer = False):
         super().__init__(screen)
         pygame.init()
-        
-        
+        self.is_server = False
+        self.is_client = False
         
         
     def set_components(self, screen):
@@ -199,13 +202,35 @@ class Game(Page):
         self.components["player"] = player
         
         
+        for x in self.players:
+            multiplayer = pygame.image.load('assets/img/'+x.avatar+'2.png')
+            multiplayer = ImageDisplay("player", screen, game_image_rel_x, game_image_rel_y,
+                              game_image_rel_width, game_image_rel_height,multiplayer)
+        
+        
     def host_multiplayer(self):
-        pass
-    
+        if(multiplayer == False):
+            print('Multiplayer not enabled')
+            return
+        
+        self.is_server = True
+        self.is_client = False
+        self.server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.server.bind(('localhost', SPORT))
+        
+            
     
     def join_multiplayer(self, code):
-        pass
-    
+        if(multiplayer == False):
+            print('Multiplayer not enabled')
+            return
+        
+        self.is_server = False
+        self.is_client = True
+        self.client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.client.bind(('localhost', CPORT))
+        self.server = (code, SPORT)
+            
     
  
     def playerupdate(self, screen):
@@ -221,6 +246,9 @@ class Game(Page):
                                   game_image_rel_width, game_image_rel_height,player)
             self.components['player'] = player
             self.lastavatarupdate = time.time()
+            
+        for x in self.players:
+            pass
             
             
             
@@ -326,12 +354,7 @@ class Game(Page):
     
         
     def get_gamedata(self):
-        data = {}
-        
-        
-        
-    def add_player(self, playerName):
-        self.multiplayer += 1
+        return self.game_stats
 
 
 
@@ -352,6 +375,7 @@ class Game(Page):
         self.game_stats['correct'] = 0
         self.game_stats['time'] = 0
         self.game_stats['score'] = 0
+        self.game_stats['attempted'] = 0
         
         if('avatar' in input_data.keys()):
             self.avatar = input_data['avatar']
@@ -387,6 +411,39 @@ class Game(Page):
         
         
         while self.run:
+            #Execute data transfer
+            if(self.multiplayer == True):
+                if(self.is_client):
+                    message = self.avatar + str(self.avatarstate) + ' ' + str(self.distance)
+                    self.client.sendto(message, self.server)
+                    
+                    data, addr = s.recvfrom(1024)
+                    data = data.decode('utf-8')
+                    data = data.split()
+                    for i in range(len(data)):
+                        if(i%2 != 0):
+                            continue
+                        self.players[i] = (data[i], int(data[i+1]))
+                    
+                    
+                elif(self.is_server):
+                    data, addr = s.recvfrom(1024)
+                    data = data.decode('utf-8')
+                    data = data.split()
+                    self.players[addr] = (data[0], int(data[1]))
+                    
+                    message = ''
+                    for x in self.players.keys():
+                        if(x == addr):
+                            continue
+                        message += self.players[x][0] + ' ' + str(self.players[x][1]) + ' '
+                        
+                    message += self.avatar + str(self.avatarstate) + ' ' + str(self.distance)
+                        
+                    s.sendto(message.encode('utf-8'), addr)
+                    
+                    
+            
             self.draw_components()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -429,6 +486,7 @@ class Game(Page):
                                     self.questionstate += 1
                                     self.speed = max(1.0, self.speed - 1.0)
                                     self.questionupdate(screen, False)
+                                    
                             
                             elif(s == 'answer3' and self.questionstate<len(self.questions)):
                                 if(self.correct[self.questionstate] == self.answers[self.questionstate][2]):
@@ -469,11 +527,10 @@ class Game(Page):
                     if(self.game_stats['time'] == 0):
                         self.game_stats['time'] = (time.time() - self.starttime)//1
                         self.game_stats['score'] = self.speed * self.game_stats['correct'] - (self.game_stats['time'])
+                        self.game_stats['attempted'] = self.questionstate
                     self.speed = 0.000000000001
                     
                     self.display_score(screen)
-                    
-                    
                     
                     
                 updatecheck = True
