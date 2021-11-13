@@ -8,7 +8,7 @@ from frontend.pages.leaderboardselection import LeadSelectPage
 
 
 class TestTopicLeaderboard(unittest.TestCase):
-    def test_room_creation(self):
+    def test_leaderboard_selection(self):
         pygame.init()
         screen = pygame.display.set_mode((720, 480), pygame.RESIZABLE)
 
