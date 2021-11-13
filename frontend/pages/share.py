@@ -22,6 +22,7 @@ class SharePage(Page):
             "back_navigation":"",
         }
         self.output_data = {
+            "current_page": self.name,
             "room_ID": "",
             "room_password": "",
             "username":"",
