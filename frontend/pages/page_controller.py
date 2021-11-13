@@ -253,6 +253,7 @@ class PageController:
                         "subject": page_data[0]["subject"],
                         "topic": page_data[0]["topic"],
                         "prev_page": page_data[0]["prev_page"]
+
                     }
                 elif page_data[0]["back_navigation"] == "end_screen" or page_data[0]["prev_page"] == "end_screen":
                     input_data = {
@@ -261,7 +262,11 @@ class PageController:
                         "roomID": page_data[0]["roomID"],
                         "username": page_data[0]["username"],
                         "back_navigation": page_data[0]["prev_page"],
-                        "prev_page": page_data[0]["prev_page"]
+                        "prev_page": page_data[0]["prev_page"],
+                        "playertype": page_data[0]["playertype"],
+                        "subject": page_data[0]["subject"],
+                        "topic": page_data[0]["topic"],
+                        "join_host": page_data[0]["join_host"]
 
                     }
                 page_data = self.share_results.start(self.screen, input_data)

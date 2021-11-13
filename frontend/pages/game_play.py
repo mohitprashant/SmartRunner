@@ -478,7 +478,7 @@ class Game(Page):
         self.game_stats['attempted'] = 0
 
         self.avatar = AccountHelper.get_avatar(input_data['username'])
-            
+        print("atlalmao", self.avatar)
         self.speed = 15
         self.score = 0
         self.distance = 100.0
