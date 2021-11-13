@@ -106,6 +106,10 @@ class RoomCreationPage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["username"] = self.input_data["username"]
+            self.output_data["mode_toggle"] = False
+            self.output_data["toggled"] = False
+            self.output_data["custom_quiz_selection"] = "Select Custom Quiz"
+            self.output_data["player_status"] = []
             if triggered_component in [self.components["room_confirm_button"]]:
                 user_room_name = self.components["roomID_input_box"].input
                 self.output_data["room_password"] = self.components["password_input_box"].input
