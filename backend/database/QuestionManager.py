@@ -152,9 +152,9 @@ def add_global_questions(subject, topic, questions):
         check_fields(question, Enums.question_fields)
 
     for question in questions:
-        db.collection("subjects").document(subject).collection(topic).document().set(questions)
+        db.collection("subjects").document(subject).collection(topic).document().set(question)
 
-    return question
+    return questions
 
 
 def delete_custom_question(user_id, room_id, quiz_name, question_id):
