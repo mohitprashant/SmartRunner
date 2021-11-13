@@ -125,6 +125,13 @@ class EndScreenPage(Page):
             self.output_data["username"] = self.input_data["username"]
             self.output_data["prev_page"] = self.name
             self.output_data["score"] = self.input_data["score"]
+            self.output_data["player_status"] = []
+            self.output_data["mode_toggle"] = False
+            self.output_data["toggled"] = False
+            self.output_data["custom_quiz_selection"] = ""
+
+
+
             if triggered_component in [self.components["share_button"]]:
                 self.name = "share_results"
             if triggered_component in [self.components["back_button"]]:

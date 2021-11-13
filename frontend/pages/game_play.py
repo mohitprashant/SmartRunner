@@ -436,7 +436,7 @@ class Game(Page):
                 self.output_data["player_results"] = player_results
                 self.output_data["roomID"] = self.input_data["roomID"]
                 self.output_data["score"] = str(int(self.game_stats['score']))
-                self.output_data["playertype"] = self.input_data["roomID"]
+                self.output_data["playertype"] = self.input_data["playertype"]
                 self.output_data["current_page"] = "end_screen"
                 if self.is_client == False:
                     RoomManager.set_room_activity_status(self.input_data["roomID"], False)
