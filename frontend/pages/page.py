@@ -112,6 +112,11 @@ class Page:
                             self.output_data["current_page"] = self.name
                             return self.output_data, self.input_data
                     else:
+                        activity_status = RoomManager.get_room_activity_status(self.input_data["roomID"])
+                        if activity_status:
+                            self.name = "game_play"
+                            self.output_data["current_page"] = self.name
+                            return self.output_data, self.input_data
                         print("is it empty", self.input_data["roomID"])
                         player_status_dict = RoomManager.get_room_member_statuses(self.input_data["roomID"])
                         print("heloooooo")

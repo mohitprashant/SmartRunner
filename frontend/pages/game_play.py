@@ -34,7 +34,10 @@ class Game(Page):
             "username": "",
             "questions": [],
             "answers": [],
-            "playerlist": []
+            "roomID": "",
+            "playertype": "",
+            "readystatus": "",
+            "join_host": ""
         }
         self.output_data = {
             "current_page": self.name,
@@ -43,11 +46,18 @@ class Game(Page):
             "game_stats": {},
             "back_navigation": "",
             "exit": False,
-            "playerlist": []
+            "playertype": ""
         }
         self.is_server = False
         self.is_client = False
         self.multiplayer = multiplayer
+        if self.input_data["roomID"] != "singleplayer":
+            if self.input_data["playertype"] == "client" and self.input_data["ready_status"]:
+                self.join_multiplayer(self.input_data["roomID"])
+            elif self.input_data["playertype"] == "host":
+                self.host_multiplayer()
+
+
 
     def set_components(self, screen):
         # background
@@ -104,7 +114,7 @@ class Game(Page):
         
         
         # answer boxes - invisible to begin with
-        if(self.multiplayer==False or self.is_client):
+        if(self.multiplayer==False or (self.is_client and self.input_data["ready_status"]) or (self.isclient==False and self.input_data["join_host"])):
             game_image_rel_x = 1 / 40
             game_image_rel_y = 7 / 10
             game_image_rel_width = 4 / 9
@@ -184,13 +194,20 @@ class Game(Page):
             correction = TextDisplay("correction", screen, relative_x, relative_y, relative_width, relative_height, '')
             self.components["correction"] = correction
         
-        else:
+        elif (self.isclient==False and self.input_data["join_host"]==False):
             relative_x = 3/20
             relative_y = 2/15
             relative_width = 4/5
             relative_height = 1/15
             host = TextDisplay("host", screen, relative_x, relative_y, relative_width, relative_height, 'Thank you for hosting')
             self.components["host"] = host
+        elif (self.isclient and self.input_data["ready_status"]==False):
+            relative_x = 3/20
+            relative_y = 2/15
+            relative_width = 4/5
+            relative_height = 1/15
+            client = TextDisplay("client", screen, relative_x, relative_y, relative_width, relative_height, 'Please wait for the game to end')
+            self.components["client"] = client
 
         
         
@@ -236,6 +253,7 @@ class Game(Page):
             multiplayer = ImageDisplay("player", screen, game_image_rel_x, game_image_rel_y,
                               game_image_rel_width, game_image_rel_height,multiplayer)
             self.components[x] = multiplayer
+
 
         
     def host_multiplayer(self):
@@ -415,6 +433,8 @@ class Game(Page):
                 self.output_data["roomID"] = self.input_data["roomID"]
                 self.output_data["score"] = str(int(self.game_stats['score']))
                 self.output_data["current_page"] = "end_screen"
+                if self.is_client == False:
+                    RoomManager.set_room_activity_status(self.input_data["roomID"], False)
 
 
 

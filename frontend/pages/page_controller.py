@@ -122,8 +122,11 @@ class PageController:
                     "topicselection": page_data[0]["topicselection"],
                     "difficultyselection": page_data[0]["difficultyselection"],
                     # put player once multiplayer is up
-                    "playerlist": [],
-                    "prev_page": page_data[0]["prev_page"]
+                    "join_host": page_data[0]["join_host"],
+                    "prev_page": page_data[0]["prev_page"],
+                    "roomID": page_data[0]["roomID"],
+                    "playertype": page_data[0]["playertype"]
+
                 }
                 if page_data[0]["back_navigation"] != ("main_menu" or "hostroom"):
                     pass
