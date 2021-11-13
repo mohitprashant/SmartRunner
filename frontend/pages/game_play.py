@@ -82,7 +82,7 @@ class Game(Page):
         if(self.multiplayer==False or self.is_client):
             game_image_rel_x = 1 / 10
             game_image_rel_y = 1 / 10
-            game_image_rel_width = 8 / 10
+            game_image_rel_width = 7 / 10
             game_image_rel_height = 1 / 7
             question = pygame.image.load('assets/img/questionbox.png')
             question = ImageDisplay("question", screen, game_image_rel_x, game_image_rel_y,
