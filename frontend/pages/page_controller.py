@@ -105,6 +105,7 @@ class PageController:
             print("current page", page_data[0]["current_page"])
             # print("prev page", page_data[0]["prev_page"])
             # print("back", page_data[0]["back_navigation"])
+            print("pls merge")
 
             if page_data[0]["exit"]:
                 break
