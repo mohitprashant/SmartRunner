@@ -257,6 +257,10 @@ class UniqueAnalyticsPage(Page):
             self.output_data["username"] = self.input_data["username"]
             self.output_data["analyticsID"] = self.input_data["analyticsID"]
             self.output_data["roomID"] = self.input_data["roomID"]
+            self.output_data["player_status"] = []
+            self.output_data["mode_toggle"] = self.input_data["mode_toggle"]
+            self.output_data["toggled"] = self.input_data["toggled"]
+            self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
             if triggered_component in [self.components["analytics_by_score_button"],
                                        self.components["analytics_by_accuracy_button"],
                                        self.components["analytics_by_speed_button"]]:

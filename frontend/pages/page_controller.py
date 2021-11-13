@@ -210,27 +210,30 @@ class PageController:
                 page_data = self.add_question.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "share":
 
-                if page_data[0]["back_navigation"] == "share" and page_data[0]["prev_page"] == "share":
-                    input_data = {
+                # if page_data[0]["back_navigation"] == "share" and page_data[0]["prev_page"] == "share":
+                input_data = {
                         "roomID": page_data[0]["roomID"],
                         "username": page_data[0]["username"],
                         "back_navigation": page_data[0]["prev_page"],
-                        "prev_page": page_data[0]["prev_page"]
-                    }
-                elif page_data[0]["prev_page"] == "share":
-                    input_data = {
-                        "roomID": page_data[0]["roomID"],
-                        "username": page_data[0]["username"],
-                        "back_navigation": page_data[0]["prev_page"],
-                        "prev_page": page_data[0]["prev_page"]
-                    }
-                else:
-                    input_data = {
-                    "roomID": page_data[0]["roomID"],
-                    "username": page_data[0]["username"],
-                    "back_navigation": page_data[0]["prev_page"],
-                    "prev_page": page_data[0]["prev_page"]
-                }
+                        "prev_page": page_data[0]["prev_page"],
+                        "mode_toggle": page_data[0]["mode_toggle"],
+                        "toggled": page_data[0]["toggled"],
+                        "custom_quiz_selection": page_data[0]["custom_quiz_selection"]
+                 }
+                # elif page_data[0]["prev_page"] == "share":
+                #     input_data = {
+                #         "roomID": page_data[0]["roomID"],
+                #         "username": page_data[0]["username"],
+                #         "back_navigation": page_data[0]["prev_page"],
+                #         "prev_page": page_data[0]["prev_page"]
+                #     }
+                # else:
+                #     input_data = {
+                #     "roomID": page_data[0]["roomID"],
+                #     "username": page_data[0]["username"],
+                #     "back_navigation": page_data[0]["prev_page"],
+                #     "prev_page": page_data[0]["prev_page"]
+                # }
                 page_data = self.share.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "share_results":
                 if page_data[0]["back_navigation"] == "topic_leaderboard" or page_data[0]["prev_page"] == "topic_leaderboard":
@@ -416,7 +419,11 @@ class PageController:
                     "analyticslist": analyticslist,
                     "roomID": page_data[0]["roomID"],
                     "username": page_data[0]["username"],
-                    "prev_page": page_data[0]["prev_page"]
+                    "prev_page": page_data[0]["prev_page"],
+                    "mode_toggle": page_data[0]["mode_toggle"],
+                    "toggled": page_data[0]["toggled"],
+                    "custom_quiz_selection": page_data[0]["custom_quiz_selection"]
+
                 }
                 print("analytics list:", analyticslist)
                 page_data = self.analyticsselect.start(self.screen, input_data)
@@ -440,7 +447,10 @@ class PageController:
                     "username": page_data[0]["username"],
                     "roomID": page_data[0]["roomID"],
                     "analyticsID": page_data[0]["analyticsID"],
-                    "prev_page": page_data[0]["prev_page"]
+                    "prev_page": page_data[0]["prev_page"],
+                    "mode_toggle": page_data[0]["mode_toggle"],
+                    "toggled": page_data[0]["toggled"],
+                    "custom_quiz_selection": page_data[0]["custom_quiz_selection"]
 
                 }
                 page_data = self.uniqueanalytics.start(self.screen, input_data)

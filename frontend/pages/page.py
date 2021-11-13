@@ -103,9 +103,8 @@ class Page:
                                     triggered_component_list.append(component)
                 self.page_function(triggered_component_list)
 
-                if self.output_data["current_page"] == ("playerroom" or "hostroom") and self.name == ("playerroom" or "hostroom"):
-                    if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and len(
-                            triggered_component_list) == 1:
+                if (self.name == "playerroom") or (self.name == "hostroom"):
+                    if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and len(triggered_component_list) == 1:
                         if top_layer_triggered and triggered_component_list[0].navigation_surface:
                             self.output_data["current_page"] = self.name
                             return self.output_data, self.input_data
@@ -119,6 +118,7 @@ class Page:
                         player_status = list(player_status_dict.items())
                         player_status_list = ["%s %s" % x for x in player_status]
                         self.output_data["player_status"] = player_status_list
+                        self.output_data["current_page"] = self.name
                         print("player_Ststus", self.output_data["player_status"])
 
                         return self.output_data, self.input_data

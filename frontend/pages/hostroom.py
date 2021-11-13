@@ -138,19 +138,31 @@ class HostRoomPage(Page):
 
     # how do the page react to events?
     def page_function(self, triggered_component_list):
+        self.output_data["prev_page"] = self.output_data["current_page"]
+        self.output_data["username"] = self.input_data["username"]
+        self.output_data["roomID"] = self.input_data["roomID"]
+        self.output_data["player_status"] = self.input_data["player_status"]
+        self.output_data["mode_toggle"] = self.input_data["mode_toggle"]
+        self.output_data["toggled"] = self.input_data["toggled"]
+        self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
+        self.output_data["subject_topic_list"] = ["Select Topic"]
+        self.output_data["subjectselection"] = "Select Subject"
+        self.output_data["topicselection"] = "Select Topic"
+        self.output_data["difficultylist"] = ["Select Difficulty"]
+        self.output_data["difficultyselection"] = "Select Difficulty"
         for triggered_component in triggered_component_list:
-            self.output_data["prev_page"] = self.output_data["current_page"]
-            self.output_data["username"] = self.input_data["username"]
-            self.output_data["roomID"] = self.input_data["roomID"]
-            self.output_data["player_status"] = self.input_data["player_status"]
-            self.output_data["mode_toggle"] = self.input_data["mode_toggle"]
-            self.output_data["toggled"]= self.input_data["toggled"]
-            self.output_data["custom_quiz_selection"]= self.input_data["custom_quiz_selection"]
-            self.output_data["subject_topic_list"] = ["Select Topic"]
-            self.output_data["subjectselection"] = "Select Subject"
-            self.output_data["topicselection"] = "Select Topic"
-            self.output_data["difficultylist"] = ["Select Difficulty"]
-            self.output_data["difficultyselection"] = "Select Difficulty"
+            # self.output_data["prev_page"] = self.output_data["current_page"]
+            # self.output_data["username"] = self.input_data["username"]
+            # self.output_data["roomID"] = self.input_data["roomID"]
+            # self.output_data["player_status"] = self.input_data["player_status"]
+            # self.output_data["mode_toggle"] = self.input_data["mode_toggle"]
+            # self.output_data["toggled"]= self.input_data["toggled"]
+            # self.output_data["custom_quiz_selection"]= self.input_data["custom_quiz_selection"]
+            # self.output_data["subject_topic_list"] = ["Select Topic"]
+            # self.output_data["subjectselection"] = "Select Subject"
+            # self.output_data["topicselection"] = "Select Topic"
+            # self.output_data["difficultylist"] = ["Select Difficulty"]
+            # self.output_data["difficultyselection"] = "Select Difficulty"
             #get list of players
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "managerooms"
