@@ -21,6 +21,7 @@ from create_account import *
 from question_select import *
 from add_question import *
 from welcome_screen import *
+from game_play import *
 import sys
 # sys.path.insert(1, '../../backend/account')
 # import AccountManager
@@ -86,7 +87,8 @@ class PageController:
         self.create_account = CreateAccountPage(self.screen)
         self.question_select = QuestionSelectPage(self.screen)
         self.add_question = AddQuestionPage(self.screen)
-        self.welcome_screen =WelcomeScreenPage(self.screen)
+        self.welcome_screen = WelcomeScreenPage(self.screen)
+        self.game_play = Game(self.screen)
 
 
 
@@ -96,7 +98,6 @@ class PageController:
         # holding key delay and repeat rate
         pygame.key.set_repeat(500, 30)
         input_data = {
-
         }
         page_data = self.welcome_screen.start(self.screen, input_data)
         while self.run:
@@ -109,37 +110,28 @@ class PageController:
                 break
             elif page_data[0]["current_page"] == "singleplayer":
                 # add from hostroom/playerroom
-                if page_data[0]["back_navigation"] != "main_menu":
-                    input_data = {
-                        "back_navigation": "",
-                        "subjectlist": subjectlist,
-                        "topiclist": topiclist,
-                        "difficultylist": difficultylist,
-                        "subject_topic_list": ["Select Topic"],
-                        "subjectselection": "English",
-                        "prev_page": page_data[0]["prev_page"]
-                    }
-                elif page_data[0]["prev_page"] == "singleplayer":
-                    # page_data[0]["subjectselection"]= page_data[1]["subjectselection"]
-                    input_data = {
-                        "back_navigation": "",
-                        "subjectlist": subjectlist,
-                        "topiclist": topiclist,
-                        "difficultylist": difficultylist,
-                        "subject_topic_list": ["Select Topic"],
-                        "subjectselection": page_data[1]["subjectselection"],
-                        "prev_page": page_data[0]["prev_page"]
-                    }
-                else:
-                    input_data = {
-                        "back_navigation": "",
-                        "subjectlist": subjectlist,
-                        "topiclist": topiclist,
-                        "difficultylist": difficultylist,
-                        "subject_topic_list": ["Select Topic"],
-                        "subjectselection": "English",
-                        "prev_page": page_data[0]["prev_page"]
-                    }
+                subjectlist = QuestionManager.get_subjects()
+                print("confusion", page_data[0]["subject_topic_list"])
+                input_data = {
+                    "back_navigation": "",
+                    "subjectlist": subjectlist,
+                    "difficultylist": page_data[0]["difficultylist"],
+                    "subject_topic_list": page_data[0]["subject_topic_list"],
+                    "subjectselection": page_data[0]["subjectselection"],
+                    "topicselection": page_data[0]["topicselection"],
+                    "difficultyselection": page_data[0]["difficultyselection"],
+                    # put player once multiplayer is up
+                    "playerlist": [],
+                    "prev_page": page_data[0]["prev_page"]
+                }
+                if page_data[0]["back_navigation"] != ("main_menu" or "hostroom"):
+                    pass
+                elif page_data[0]["prev_page"] == "main_menu":
+                    #input_data["playerlist"] = currentplayer
+                    pass
+                elif page_data[0]["prev_page"] == "hostroom":
+                    #input_data["playerlist"] = currentplayer
+                    pass
                 page_data = self.singleplayer.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "host_settings":
                 input_data = {
@@ -174,12 +166,18 @@ class PageController:
                 }
                 page_data = self.custom_select.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "question_select":
+                if page_data[0]["custom_quiz_selection"] !="":
+                    custom_quiz_selection = page_data[0]["custom_quiz_selection"]
+                    custom_quiz = QuestionManager.get_custom_questions(page_data[0]["roomID"],page_data[0]["custom_quiz_selection"])
+                else:
+                    custom_quiz_selection = ""
+                    custom_quiz = ""
                 input_data = {
                     "roomID": page_data[0]["roomID"],
                     "username": page_data[0]["roomID"],
                     "toggled": page_data[0]["toggled"],
-                    "custom_quiz_selection": page_data[0]["custom_quiz_selection"],
-                    "custom_question_selection": QuestionManager.get_custom_questions(page_data[0]["roomID"],page_data[0]["custom_quiz_selection"]),
+                    "custom_quiz_selection": custom_quiz_selection,
+                    "custom_question_selection": custom_quiz,
                     "prev_page": page_data[0]["prev_page"]
 
                 }
@@ -307,8 +305,8 @@ class PageController:
                 print("leadlist", leadlist)
                 lead_subjectlist = []
                 for subject in leadlist:
-                    topiclist = LeaderboardManager.get_leaderboard_topics(subject)
-                    for topic in topiclist:
+                    topic_list = LeaderboardManager.get_leaderboard_topics(subject)
+                    for topic in topic_list:
                         subjecttopic = subject + ": " + topic
                         lead_subjectlist.append(subjecttopic)
                 input_data = {
@@ -435,6 +433,13 @@ class PageController:
                 input_data = {
                 }
                 page_data = self.welcome_screen.start(self.screen, input_data)
+            elif page_data[0]["current_page"] == "game_play":
+                input_data = {
+                    "username": "",
+                    "questions": page_data[0]["questions"],
+                    "answers": page_data[0]["answers"]
+                }
+                page_data = self.game_play.start(self.screen, input_data)
 
 
             pygame.display.update()

@@ -89,6 +89,12 @@ class MainMenuPage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["username"] = self.input_data["username"]
+            self.output_data["subject_topic_list"] = ["Select Topic"]
+            self.output_data["subjectselection"] = "Select Subject"
+            self.output_data["topicselection"] = "Select Topic"
+            self.output_data["difficultylist"] = ["Select Difficulty"]
+            self.output_data["difficultyselection"] = "Select Difficulty"
+
             # print(self.input_data["username"])
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "login"

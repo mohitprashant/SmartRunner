@@ -77,15 +77,15 @@ class AnalyticsSelectPage(Page):
 
 
 
-        # all-time analytics button
-        alltime_button_rel_x = 11 / 15
-        alltime_button_rel_y = 4 / 5
-        alltime_button_rel_width = 0.2
-        alltime_button_rel_height = 1 / 7
-        alltime_button_img = pygame.image.load('assets/Buttons/btn_alltime.png')
-        alltime_button = ImageButton("alltime_button", screen, alltime_button_rel_x, alltime_button_rel_y, alltime_button_rel_width,
-                              alltime_button_rel_height, alltime_button_img)
-        self.components["alltime_button"] = alltime_button
+        # # all-time analytics button
+        # alltime_button_rel_x = 11 / 15
+        # alltime_button_rel_y = 4 / 5
+        # alltime_button_rel_width = 0.2
+        # alltime_button_rel_height = 1 / 7
+        # alltime_button_img = pygame.image.load('assets/Buttons/btn_alltime.png')
+        # alltime_button = ImageButton("alltime_button", screen, alltime_button_rel_x, alltime_button_rel_y, alltime_button_rel_width,
+        #                       alltime_button_rel_height, alltime_button_img)
+        # self.components["alltime_button"] = alltime_button
 
         # back button
         exit_button_rel_x = 1 / 15
@@ -107,10 +107,6 @@ class AnalyticsSelectPage(Page):
             if triggered_component in [self.components["textbox_button_list"]]:
                 for tc in triggered_component.triggered_component_list:
                     self.output_data["analyticsID"] = tc.text
-                self.name = "uniqueanalytics"
-            if triggered_component in [self.components["alltime_button"]]:
-                print("navigate to alltime analytics")
-                self.output_data["all_time"] = True
                 self.name = "uniqueanalytics"
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "hostroom"
