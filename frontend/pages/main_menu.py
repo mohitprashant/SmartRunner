@@ -104,6 +104,13 @@ class MainMenuPage(Page):
             self.output_data["topicselection"] = "Select Topic"
             self.output_data["difficultylist"] = ["Select Difficulty"]
             self.output_data["difficultyselection"] = "Select Difficulty"
+            self.output_data["join_host"] = False
+            self.output_data["roomID"] = "singleplayer"
+            self.output_data["playertype"] = "singleplayer"
+
+
+
+            # print(self.input_data["username"])
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "login"
             if triggered_component in [self.components["single_player_button"]]:

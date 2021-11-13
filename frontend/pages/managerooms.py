@@ -115,6 +115,8 @@ class ManageRoomsPage(Page):
             self.output_data["toggled"] = False
             self.output_data["custom_quiz_selection"] = "Select Custom Quiz"
             self.output_data["player_status"] = []
+            self.output_data["join_host"] = ""
+
 
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "room_tab"
@@ -123,6 +125,7 @@ class ManageRoomsPage(Page):
                 self.output_data["roomID"]=self.input_data["roomid_dict"][room_name]
                 print(self.output_data["roomID"])
             if triggered_component in [self.components["join_button"]]:
+                # RoomManager.set_room_activity_status("300236", False)
                 self.name = "hostroom"
 
             if triggered_component in [self.components["delete_button"]]:

@@ -40,7 +40,7 @@ class CustomizePage(Page):
             print("main change")
 
         # background
-        bg_img = pygame.image.load(curr_dir + 'assets/Backgrounds/bg2.jpeg')
+        bg_img = pygame.image.load(curr_dir + 'assets/Backgrounds/gamebg.jpeg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -113,15 +113,16 @@ class CustomizePage(Page):
             # if triggered_component in [self.components["exit_button"]]:
             #     self.name = "main_menu"
             if triggered_component in [self.components["sprite1_button_img"]]:
-                self.output_data["avatar"] = "1"
+                self.output_data["avatar"] = "Pink_Monster"
                 avatar = AccountHelper.set_avatar(self.output_data["username"],self.output_data["avatar"])
                 self.name= "main_menu"
             elif triggered_component in [self.components["sprite2_button_img"]]:
-                self.output_data["avatar"] = "2"
+                self.output_data["avatar"] = "Owlet_Monster"
+                print(type(self.output_data["username"]),type(self.output_data["avatar"]))
                 avatar = AccountHelper.set_avatar(self.output_data["username"],self.output_data["avatar"])
                 self.name= "main_menu"
             elif triggered_component in [self.components["sprite3_button_img"]]:
-                self.output_data["avatar"] = "3"
+                self.output_data["avatar"] = "Dude_Monster"
                 avatar = AccountHelper.set_avatar(self.output_data["username"],self.output_data["avatar"])
                 self.name= "main_menu"
             # elif triggered_component in [self.components["sprite4_button_img"]]:

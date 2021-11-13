@@ -1,6 +1,11 @@
 import pygame
 from assets.components import *
 from page import *
+sys.path.insert(1, '../../backend/database')
+
+import LeaderboardManager
+import ResultManager
+
 
 
 class EndScreenPage(Page):
@@ -13,7 +18,9 @@ class EndScreenPage(Page):
             "username":"",
             "prev_page":"",
             "score":"",
-            "playertype": ""
+            "playertype": "",
+            "subject": "",
+            "topic": ""
         }
         self.output_data = {
             "current_page": self.name,
@@ -70,7 +77,7 @@ class EndScreenPage(Page):
         text_relative_height = 0.1
         shown_relative_width = 0.55
         shown_relative_height = 0.5
-        score_text_list = ["Player: " + self.input_data["player_results"]["player_name"], "Total Questions: "+ self.input_data["player_results"]["no_of_questions_attempted"], "Total Correct: " + self.input_data["player_results"]["no_of_questions_correct"], "Time Taken: " + self.input_data["player_results"]["player_end_time"], "Score: " + self.input_data["score"]]
+        score_text_list = ["Player: " + self.input_data["player_results"]["player_name"], "Total Questions: "+ str(self.input_data["player_results"]["attempted"]), "Total Correct: " + str(self.input_data["player_results"]["correct"]), "Time Taken: " + str(self.input_data["player_results"]["time"])+ "s", "Score: " + str(self.input_data["score"])]
         # print(self.input_data.keys())
         # print(score_text_list)
 
@@ -125,18 +132,43 @@ class EndScreenPage(Page):
             self.output_data["username"] = self.input_data["username"]
             self.output_data["prev_page"] = self.name
             self.output_data["score"] = self.input_data["score"]
+            self.output_data["player_status"] = []
+            self.output_data["mode_toggle"] = False
+            self.output_data["toggled"] = False
+            self.output_data["custom_quiz_selection"] = ""
+            self.output_data["playertype"] = self.input_data["playertype"]
+            self.output_data["subject"] = self.input_data["subject"]
+            self.output_data["topic"] = self.input_data["topic"]
+            self.output_data["join_host"] = self.input_data["join_host"]
+
+
+
+
+
+
             if triggered_component in [self.components["share_button"]]:
                 rect = pygame.Rect(0, 0, self.screen_width, (self.screen_height * 0.8))
                 sub = self.screen.subsurface(rect)
                 pygame.image.save(sub, "Leaderboard.jpg")
                 print('\nsaved leaderboard.jpg\n')
                 self.name = "share_results"
+
             if triggered_component in [self.components["back_button"]]:
                 if self.input_data["roomID"] == "singleplayer":
+                    print("Username: ", self.input_data["username"])
+                    print("Subject: ", self.input_data["subject"])
+                    print("Topic: ", self.input_data["topic"])
+
+                    LeaderboardManager.update_leaderboard(self.input_data["username"], self.input_data["subject"], self.input_data["topic"])
                     self.name = "main_menu"
+
                 elif self.input_data["playertype"] == "host":
+                    if self.input_data["player_results"]["quiz_name"]!="" and self.input_data["join_host"]:
+                        ResultManager.save_game_results(self.input_data["player_results"]["roomID"], self.input_data["player_results"]["quiz_name"], self.input_data["player_results"]["player_name"], self.input_data["player_results"]["attempted"], self.input_data["player_results"]["correct"])
                     self.name = "hostroom"
                 elif self.input_data["playertype"] == "client":
+                    if self.input_data["player_results"]["quiz_name"]!="" and self.input_data["readystatus"]:
+                        ResultManager.save_game_results(self.input_data["player_results"]["roomID"], self.input_data["player_results"]["quiz_name"], self.input_data["player_results"]["player_name"], self.input_data["player_results"]["attempted"], self.input_data["player_results"]["correct"])
                     self.name = "playerroom"
                 #add another one for multiplayer (how to account for host?)
             # if triggered_component in [self.components["player_results"]]:

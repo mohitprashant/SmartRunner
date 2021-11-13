@@ -14,6 +14,9 @@ import time
 import random
 import socket
 
+sys.path.insert(0, '../../backend/account')
+sys.path.insert(1, '../../frontend/pages')
+import AccountHelper
 
 
 
@@ -37,7 +40,8 @@ class Game(Page):
             "roomID": "",
             "playertype": "",
             "readystatus": "",
-            "join_host": ""
+            "join_host": "",
+            "custom_quiz_selection": ""
         }
         self.output_data = {
             "current_page": self.name,
@@ -58,14 +62,22 @@ class Game(Page):
     def set_components(self, screen):
         # background
         print("playertype", self.input_data["playertype"])
+
         if self.input_data["roomID"] != "singleplayer":
+            self.multiplayer = True
+            self.output_data["subject"] = self.input_data["questions"].pop(0)
+            self.output_data["topic"] = self.input_data["questions"].pop(0)
             if self.input_data["playertype"] == "client" and self.input_data["readystatus"]:
-                self.join_multiplayer(self.input_data["roomID"])
+                # self.join_multiplayer(self.input_data["roomID"])
                 print("client!")
             elif self.input_data["playertype"] == "host":
-                self.host_multiplayer()
+                # self.host_multiplayer()
+                print("host!")
+        else:
+            self.output_data["subject"] = self.input_data["subjectselection"]
+            self.output_data["topic"] = self.input_data["topicselection"]
 
-        bg_img = pygame.image.load('assets/img/sky.png')
+        bg_img = pygame.image.load('assets/Backgrounds/gamebg.jpeg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -93,7 +105,7 @@ class Game(Page):
         
         
         # question box - invisible to begin with
-        if(self.multiplayer==False or self.is_client):
+        if(self.multiplayer==False or ((self.is_client and self.input_data["ready_status"]) or (self.is_client==False and self.input_data["join_host"]))):
             game_image_rel_x = 1 / 10
             game_image_rel_y = 0.1 / 10
             game_image_rel_width = 7 / 10
@@ -118,12 +130,12 @@ class Game(Page):
         #
         
         # answer boxes - invisible to begin with
-        if(self.multiplayer==False or (self.is_client and self.input_data["ready_status"]) or (self.isclient==False and self.input_data["join_host"])):
+        if(self.multiplayer==False or ((self.is_client and self.input_data["ready_status"]) or (self.is_client==False and self.input_data["join_host"]))):
             game_image_rel_x = 0.15
             game_image_rel_y = 0.25
             game_image_rel_width = 0.3
             game_image_rel_height = 0.1
-            answer1 = pygame.image.load('assets/img/answer.png')
+            answer1 = pygame.image.load('assets/Buttons/btn_plain.png')
             answer1 = ImageDisplay("answer1", screen, game_image_rel_x, game_image_rel_y,
                                             game_image_rel_width, game_image_rel_height,answer1)
 
@@ -194,20 +206,21 @@ class Game(Page):
             correction = TextDisplay("correction", screen, relative_x, relative_y, relative_width, relative_height, '')
             self.components["correction"] = correction
         
-        elif (self.isclient==False and self.input_data["join_host"]==False):
+        elif (self.is_client==False and self.input_data["join_host"]==False):
             relative_x = 3/20
             relative_y = 2/15
             relative_width = 4/5
             relative_height = 1/15
             host = TextDisplay("host", screen, relative_x, relative_y, relative_width, relative_height, 'Thank you for hosting')
             self.components["host"] = host
-        elif (self.isclient and self.input_data["ready_status"]==False):
+        elif (self.is_client and (self.input_data["ready_status"]==False or self.input_data["ready_status"]=="")):
             relative_x = 3/20
             relative_y = 2/15
             relative_width = 4/5
             relative_height = 1/15
             client = TextDisplay("client", screen, relative_x, relative_y, relative_width, relative_height, 'Please wait for the game to end')
             self.components["client"] = client
+
 
         
         
@@ -238,10 +251,10 @@ class Game(Page):
         
         # player sprite
         game_image_rel_x = 4 / 10
-        game_image_rel_y = 0.67
-        game_image_rel_width = 1 / 6
-        game_image_rel_height = 1 / 6
-        player = pygame.image.load('assets/img/'+self.avatar+'2.png')
+        game_image_rel_y = 0.47
+        game_image_rel_width = 1 / 7
+        game_image_rel_height = 0.3
+        player = pygame.image.load('assets/Sprites/'+self.avatar+'2.png')
         player = ImageDisplay("player", screen, game_image_rel_x, game_image_rel_y,
                               game_image_rel_width, game_image_rel_height,player)
         
@@ -249,7 +262,7 @@ class Game(Page):
         
         
         for x in self.players.keys():
-            multiplayer = pygame.image.load('assets/img/'+self.players[x].avatar+'2.png')
+            multiplayer = pygame.image.load('assets/Sprites/'+self.players[x].avatar+'2.png')
             multiplayer = ImageDisplay("player", screen, game_image_rel_x, game_image_rel_y,
                               game_image_rel_width, game_image_rel_height,multiplayer)
             self.components[x] = multiplayer
@@ -289,13 +302,13 @@ class Game(Page):
  
     def playerupdate(self, screen):
         if(time.time() - self.lastavatarupdate > 1/self.speed):
-            self.avatarstate = (self.avatarstate + 1) %4
+            self.avatarstate = (self.avatarstate + 1) %6
             
             game_image_rel_x = 4 / 10
-            game_image_rel_y = 7 / 10
-            game_image_rel_width = 1 / 6
-            game_image_rel_height = 1 / 6
-            player = pygame.image.load('assets/img/'+self.avatar+str(self.avatarstate)+'.png')
+            game_image_rel_y = 0.5
+            game_image_rel_width = 1 / 7
+            game_image_rel_height = 0.3
+            player = pygame.image.load('assets/Sprites/'+self.avatar+str(self.avatarstate)+'.png')
             player = ImageDisplay("player", screen, game_image_rel_x, game_image_rel_y,
                                   game_image_rel_width, game_image_rel_height,player)
             self.components['player'] = player
@@ -422,13 +435,18 @@ class Game(Page):
     def page_function(self, triggered_component_list):
         for x in triggered_component_list:
             if(x == 'exit_btn'):
-                player_results = {
-                    "no_of_questions_attempted": str(len(self.questions)),
-                    "no_of_questions_correct": str(self.game_stats["correct"]),
-                    #impt - how to retrieve
-                    "player_end_time": str(self.game_stats["time"]),
-                    "player_name": self.input_data["username"].split("@",1)[0]
-                }
+                if self.multiplayer!=False:
+                    player_results = {
+                        "attempted": len(self.questions),
+                        "correct": self.game_stats["correct"],
+                        "player_name": self.input_data["username"].split("@", 1)[0],
+                        "quiz_name": self.input_data["custom_quiz_selection"],
+                        "roomID": self.input_data["roomID"],
+                        "time": self.game_stats["time"],
+                        "score": self.game_stats["score"]
+                    }
+                else:
+                    player_results = {}
                 print("u1", self.input_data["username"])
                 print("u2", self.input_data["username"].split("@",1)[0])
                 #one more for quiz fields?
@@ -437,7 +455,10 @@ class Game(Page):
                 self.output_data["player_results"] = player_results
                 self.output_data["roomID"] = self.input_data["roomID"]
                 self.output_data["score"] = str(int(self.game_stats['score']))
-                self.output_data["playertype"] = self.input_data["roomID"]
+                self.output_data["playertype"] = self.input_data["playertype"]
+                self.output_data["join_host"] = self.input_data["join_host"]
+                print("what iS IT", self.output_data["join_host"] )
+                self.output_data["readystatus"] = self.input_data["readystatus"]
                 self.output_data["current_page"] = "end_screen"
                 if self.is_client == False:
                     RoomManager.set_room_activity_status(self.input_data["roomID"], False)
@@ -457,10 +478,7 @@ class Game(Page):
         self.game_stats['score'] = 0
         self.game_stats['attempted'] = 0
 
-        if('avatar' in input_data.keys()):
-            self.avatar = input_data['avatar']
-        else:
-            self.avatar = 'guy'
+        self.avatar = AccountHelper.get_avatar(input_data['username'])
             
         self.speed = 15
         self.score = 0

@@ -5,6 +5,7 @@ from page import *
 import sys
 sys.path.insert(1, '../../backend/database')
 import QuestionManager
+import RoomManager
 
 
 class SinglePlayerPage(Page):
@@ -126,6 +127,9 @@ class SinglePlayerPage(Page):
             self.output_data["join_host"] = self.input_data["join_host"]
             self.output_data["playertype"] = self.input_data["playertype"]
             self.output_data["readystatus"] = ""
+            self.output_data["custom_quiz_selection"] = ""
+
+
 
 
 
@@ -149,6 +153,13 @@ class SinglePlayerPage(Page):
                 self.output_data["questions"] = questionlist
                 self.output_data["answers"] = answerlist
                 if self.output_data["roomID"] != "singleplayer":
+                    self.output_data["questions"].insert(0,self.input_data["topicselection"])
+                    self.output_data["questions"].insert(0,self.input_data["subjectselection"])
+                    print("roomID: ", self.output_data["roomID"])
+                    print("questions: ", self.output_data["questions"])
+                    print("answers: ", self.output_data["answers"])
+                    QuestionManager.set_questions_by_host(self.output_data["roomID"], self.output_data["questions"])
+                    QuestionManager.set_answers_by_host(self.output_data["roomID"], self.output_data["answers"])
                     RoomManager.set_room_activity_status(self.output_data["roomID"], True)
                 self.name = "game_play"
 

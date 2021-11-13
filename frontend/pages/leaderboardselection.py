@@ -1,5 +1,13 @@
+import sys
+import pathlib
+
+sys.path.insert(0, '../../backend/database')
+sys.path.insert(1, '../../frontend/pages')
+
 from assets.components import *
 from page import *
+
+curr_dir = str(pathlib.Path(__file__).parent.resolve()) + '/'
 
 
 class LeadSelectPage(Page):
@@ -31,7 +39,7 @@ class LeadSelectPage(Page):
             self.output_data["back_navigation"] = self.input_data["prev_page"]
 
         # background
-        bg_img = pygame.image.load('assets/Backgrounds/leaderboardbg.jpg')
+        bg_img = pygame.image.load(curr_dir + 'assets/Backgrounds/leaderboardbg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
@@ -40,7 +48,7 @@ class LeadSelectPage(Page):
         list_image_rel_y = 0.1
         list_image_rel_width = 0.8
         list_image_rel_height = 0.7
-        list_img = pygame.image.load('assets/Backgrounds/scrollable.png')
+        list_img = pygame.image.load(curr_dir + 'assets/Backgrounds/scrollable.png')
         leaderboardlist_image = ImageDisplay("leaderboardlist_image", screen, list_image_rel_x, list_image_rel_y,
                                        list_image_rel_width,
                                        list_image_rel_height, list_img)
@@ -67,7 +75,7 @@ class LeadSelectPage(Page):
         header_image_rel_y = 0.02
         header_image_rel_width = 0.25
         header_image_rel_height = 0.15
-        header_img = pygame.image.load('assets/Backgrounds/leaderboards.png')
+        header_img = pygame.image.load(curr_dir + 'assets/Backgrounds/leaderboards.png')
         leaderboardheader_image = ImageDisplay("leaderboardheader_image", screen, header_image_rel_x, header_image_rel_y,
                                         header_image_rel_width,
                                         header_image_rel_height, header_img)
@@ -78,7 +86,7 @@ class LeadSelectPage(Page):
         exit_button_rel_y = 4 / 5
         exit_button_rel_width = 1 / 7
         exit_button_rel_height = 1 / 7
-        exit_button_img = pygame.image.load('assets/Buttons/btn_back.png')
+        exit_button_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_back.png')
         exit_button = ImageButton("exit_button", screen, exit_button_rel_x, exit_button_rel_y,
                                    exit_button_rel_width,
                                    exit_button_rel_height, exit_button_img)
@@ -88,6 +96,8 @@ class LeadSelectPage(Page):
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
+            self.output_data["username"] = self.input_data["username"]
+
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "main_menu"
             if triggered_component in [self.components["textbox_button_list"]]:
