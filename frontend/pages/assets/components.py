@@ -753,7 +753,8 @@ class SelectableTextList(MouseScrollableSurface):
     def __init__(self, name, screen, relative_x, relative_y, relative_width, text_relative_height,
                  relative_shown_width, relative_shown_height, text_list, display_screen, on_display=True,
                  single_select=True, font_file=None,
-                 font_color=pygame.Color("black"), active_color="dodgerblue", passive_color="white", border_width=0):
+                 active_color="bisque2",
+                 passive_color="bisque1", font_color="#4e2724", border_width=0):
         self.text_list = text_list
         self.list_size = len(text_list)
         if len(text_list) == 0:
@@ -817,7 +818,7 @@ class SelectableTextList(MouseScrollableSurface):
 class TextboxButtonList(MouseScrollableSurface):
     def __init__(self, name, screen, relative_x, relative_y, relative_width, text_relative_height,
                  relative_shown_width, relative_shown_height, text_list, display_screen, on_display=True,
-                 font_file=None,font_color=pygame.Color("black"), back_color="white",
+                 font_file=None,font_color=pygame.Color("#4e2724"), back_color="bisque1",
                  border_width=0):
         self.text_list = text_list
         self.list_size = len(text_list)
