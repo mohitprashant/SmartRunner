@@ -213,13 +213,14 @@ class Game(Page):
             relative_height = 1/15
             host = TextDisplay("host", screen, relative_x, relative_y, relative_width, relative_height, 'Thank you for hosting')
             self.components["host"] = host
-        elif (self.is_client and self.input_data["ready_status"]==False):
+        elif (self.is_client and (self.input_data["ready_status"]==False or self.input_data["ready_status"]=="")):
             relative_x = 3/20
             relative_y = 2/15
             relative_width = 4/5
             relative_height = 1/15
             client = TextDisplay("client", screen, relative_x, relative_y, relative_width, relative_height, 'Please wait for the game to end')
             self.components["client"] = client
+
 
         
         
