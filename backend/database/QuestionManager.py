@@ -293,7 +293,8 @@ def get_answers_by_host(room_id):
 
     for q in query:
         dict = q.to_dict()
-        answers = dict['answers']
+        ls = dict['answers']
+        answers.append(ls)
 
     return answers
 
@@ -313,9 +314,11 @@ def set_answers_by_host(room_id, answers):
     if type(answers) is not list:
         raise Exception("Given arguments are not of type list")
 
-    dict = {'answers': answers}
-
     try:
-        db.collection("rooms").document(room_id).collection("host_answers").document("answers").set(dict)
+        i = 0
+        for a_list in answers:
+            dict = {'answers': a_list}
+            db.collection("rooms").document(room_id).collection("host_answers").document(str(i)).set(dict)
+            i += 1
     except:
         raise Exception("Error setting data.")
