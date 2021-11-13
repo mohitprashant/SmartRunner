@@ -1,7 +1,5 @@
 from assets.components import *
 from page import *
-import game_play
-import game_play
 sys.path.insert(1, '../../backend/database')
 import RoomManager
 import QuestionManager

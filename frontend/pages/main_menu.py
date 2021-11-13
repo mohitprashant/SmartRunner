@@ -84,6 +84,16 @@ class MainMenuPage(Page):
                                   exit_button_rel_height, exit_button_img)
         self.components["exit_button"] = exit_button
 
+        avatar_button_rel_x = 12 / 15
+        avatar_button_rel_y = 0.1
+        avatar_button_rel_width = 1 / 7
+        avatar_button_rel_height = 1 / 7
+        avatar_button_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_togglenotpressed.png')
+        avatar_button = ImageButton("exit_button", screen, avatar_button_rel_x, avatar_button_rel_y,
+                                  avatar_button_rel_width,
+                                  avatar_button_rel_height, avatar_button_img)
+        self.components["avatar_button"] = avatar_button
+
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
@@ -109,5 +119,7 @@ class MainMenuPage(Page):
                 self.name = "room_tab"
             elif triggered_component in [self.components["leaderboard_button"]]:
                 self.name = "leadselect"
+            elif triggered_component in [self.components["avatar_button"]]:
+                self.name = "customize"
             else:
                 print("entry failed")

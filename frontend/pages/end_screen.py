@@ -133,6 +133,10 @@ class EndScreenPage(Page):
 
 
             if triggered_component in [self.components["share_button"]]:
+                rect = pygame.Rect(0, 0, self.screen_width, (self.screen_height * 0.8))
+                sub = self.screen.subsurface(rect)
+                pygame.image.save(sub, "Leaderboard.jpg")
+                print('\nsaved leaderboard.jpg\n')
                 self.name = "share_results"
             if triggered_component in [self.components["back_button"]]:
                 if self.input_data["roomID"] == "singleplayer":
