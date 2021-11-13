@@ -4,6 +4,7 @@ from page import *
 import sys
 sys.path.insert(1, '../../backend/database')
 import QuestionManager
+import uuid
 
 class AddQuestionPage(Page):
     def __init__(self, screen):
@@ -205,6 +206,7 @@ class AddQuestionPage(Page):
             self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
             self.output_data["custom_question_selection"] = self.input_data["custom_question_selection"]
             self.output_data["toggled"] = self.input_data["toggled"]
+            self.output_data["selected_question"] = self.input_data["selected_question"]
             if triggered_component in [self.components["confirm_button2"]]:
                 # self.output_data["question_id"] = self.components["question_id_input_box"].input
                 self.output_data["description"] = self.components["question_input_box"].input
@@ -221,9 +223,25 @@ class AddQuestionPage(Page):
                 elif self.components["correct_option"].button.text == "D":
                     self.output_data["correct_option"] = self.components["option4_input_box"].input
                     self.output_data["wrong1"], self.output_data["wrong2"],self.output_data["wrong3"] = self.components["option1_input_box"].input,self.components["option2_input_box"].input,self.components["option3_input_box"].input
-                question = {"Description":self.output_data["description"],"Difficulty_level": self.output_data["difficulty_level"], "Correct":self.output_data["correct_option"],"Wrong_1": self.output_data["wrong1"],"Wrong_2":self.output_data["wrong2"],"Wrong_3": self.output_data["wrong3"]}
+
+                question = {
+                    "Description": self.output_data["description"],
+                    "Difficulty_level": int(self.output_data["difficulty_level"]),
+                    "Correct":self.output_data["correct_option"],
+                    "Wrong_1":self.output_data["wrong1"],
+                    "Wrong_2":self.output_data["wrong2"],
+                    "Wrong_3":self.output_data["wrong3"],
+                    "question_id": str(uuid.uuid4())
+                }
+                print("Description: ", self.output_data["description"],
+                "Difficulty_level: ", int(self.output_data["difficulty_level"]),
+                "Correct: ", self.output_data["correct_option"],
+                "Wrong_1: ", self.output_data["wrong1"],
+                "Wrong_2: ", self.output_data["wrong2"],
+                "Wrong_3: ", self.output_data["wrong3"],
+                "question: ", str(uuid.uuid4()))
                 print("quiz name:", self.output_data["custom_quiz_selection"])
-                QuestionManager.add_custom_questions(self.output_data["roomID"], self.output_data["custom_quiz_selection"], list(question))
+                QuestionManager.add_custom_questions(self.output_data["roomID"], self.output_data["custom_quiz_selection"], [question])
                 self.name = "question_select"
             if triggered_component in [self.components["return_button2"]]:
                 print("go back to question select")

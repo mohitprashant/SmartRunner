@@ -5,6 +5,7 @@ from page import *
 import sys
 sys.path.insert(1, '../../backend/database')
 import QuestionManager
+import RoomManager
 
 
 class SinglePlayerPage(Page):
@@ -77,7 +78,7 @@ class SinglePlayerPage(Page):
         difficultylist_text_list = self.input_data["difficultylist"]
         prompt = self.input_data["difficultyselection"]
         num_expand_text = 3
-        difficultylist = DropdownTextSelect("difficultylist", screen, difficultylist_rel_x, difficultylist_rel_y,
+        difficultylist = DynamicDropdownTextSelect("difficultylist", screen, difficultylist_rel_x, difficultylist_rel_y,
                                             difficultylist_rel_width,
                                             difficultylist_rel_height, difficultylist_text_list, prompt,
                                             num_expand_text, screen)
@@ -92,7 +93,7 @@ class SinglePlayerPage(Page):
         topiclist_text_list = self.input_data["subject_topic_list"]
         prompt = self.input_data["topicselection"]
         num_expand_text = 3
-        topiclist = DropdownTextSelect("topiclist", screen, topiclist_rel_x, topiclist_rel_y,
+        topiclist = DynamicDropdownTextSelect("topiclist", screen, topiclist_rel_x, topiclist_rel_y,
                                        topiclist_rel_width,
                                        topiclist_rel_height, topiclist_text_list, prompt, num_expand_text, screen)
         self.components["topiclist"] = topiclist
@@ -106,7 +107,7 @@ class SinglePlayerPage(Page):
         subjectlist_text_list = self.input_data["subjectlist"]
         prompt = self.input_data["subjectselection"]
         num_expand_text = 3
-        subjectlist = DropdownTextSelect("subjectlist", screen, subjectlist_rel_x, subjectlist_rel_y,
+        subjectlist = DynamicDropdownTextSelect("subjectlist", screen, subjectlist_rel_x, subjectlist_rel_y,
                                          subjectlist_rel_width,
                                          subjectlist_rel_height, subjectlist_text_list, prompt, num_expand_text, screen)
         self.components["subjectlist"] = subjectlist
@@ -116,15 +117,22 @@ class SinglePlayerPage(Page):
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
+            self.output_data["username"] = self.input_data["username"]
             self.output_data["subject_topic_list"] = self.input_data["subject_topic_list"]
             self.output_data["difficultylist"] = self.input_data["difficultylist"]
             self.output_data["subjectselection"] = self.input_data["subjectselection"]
             self.output_data["topicselection"] = self.input_data["topicselection"]
             self.output_data["difficultyselection"] = self.input_data["difficultyselection"]
+            self.output_data["roomID"] = self.input_data["roomID"]
+            self.output_data["join_host"] = self.input_data["join_host"]
+            self.output_data["playertype"] = self.input_data["playertype"]
+            self.output_data["readystatus"] = ""
+
+
+
+
             # put player once multiplayer is up
-            self.output_data["playerlist"] = self.input_data["playerlist"]
             if triggered_component in [self.components["start_button"]]:
-                #integrate w backend later
                 questiondb = QuestionManager.get_questions_by_difficulty(self.output_data["subjectselection"],self.output_data["topicselection"],int(self.output_data["difficultyselection"]))
                 print(questiondb)
                 questionlist = []
@@ -141,10 +149,20 @@ class SinglePlayerPage(Page):
                 print(answerlist)
                 self.output_data["questions"] = questionlist
                 self.output_data["answers"] = answerlist
+                if self.output_data["roomID"] != "singleplayer":
+                    self.output_data["questions"].insert(0,self.input_data["topicselection"])
+                    self.output_data["questions"].insert(0,self.input_data["subjectselection"])
+                    print("roomID: ", self.output_data["roomID"])
+                    print("questions: ", self.output_data["questions"])
+                    print("answers: ", self.output_data["answers"])
+                    QuestionManager.set_questions_by_host(self.output_data["roomID"], self.output_data["questions"])
+                    QuestionManager.set_answers_by_host(self.output_data["roomID"], self.output_data["answers"])
+                    RoomManager.set_room_activity_status(self.output_data["roomID"], True)
                 self.name = "game_play"
 
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "main_menu"
+
             if triggered_component in [self.components["subjectlist"]]:
                 self.input_data["subjectselection"] = self.components["subjectlist"].button.text
                 self.output_data["subjectselection"] = self.input_data["subjectselection"]

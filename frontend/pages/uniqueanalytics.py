@@ -257,6 +257,10 @@ class UniqueAnalyticsPage(Page):
             self.output_data["username"] = self.input_data["username"]
             self.output_data["analyticsID"] = self.input_data["analyticsID"]
             self.output_data["roomID"] = self.input_data["roomID"]
+            self.output_data["player_status"] = []
+            self.output_data["mode_toggle"] = self.input_data["mode_toggle"]
+            self.output_data["toggled"] = self.input_data["toggled"]
+            self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
             if triggered_component in [self.components["analytics_by_score_button"],
                                        self.components["analytics_by_accuracy_button"],
                                        self.components["analytics_by_speed_button"]]:
@@ -273,3 +277,15 @@ class UniqueAnalyticsPage(Page):
                     print("export csv")
                 if triggered_component in [self.components["exit_button"]]:
                     self.name = "analyticsselect"
+            if triggered_component in [self.components["export_button"]]:
+                print("exporting csv...")
+                # self.name = "uniqueanalytics"
+                with open(self.input_data["analytics"][0]['quiz_name'] + '_Analytics.csv', 'w') as f:
+                    f.write("Name,Score,Accuracy (%),Competion Time (s)\n")
+                    i = 0
+                    for player in self.players[1:]:
+                        f.write("%s,%s,%s,%s\n" % (
+                        player, self.plot_data['score']['x_data'][i], self.plot_data['accuracy']['x_data'][i],
+                        self.plot_data['completion_time']['x_data'][i]))
+                        i = i + 1
+

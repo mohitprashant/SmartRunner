@@ -22,6 +22,7 @@ from question_select import *
 from add_question import *
 from welcome_screen import *
 from game_play import *
+from customize import *
 import sys
 # sys.path.insert(1, '../../backend/account')
 # import AccountManager
@@ -89,6 +90,7 @@ class PageController:
         self.add_question = AddQuestionPage(self.screen)
         self.welcome_screen = WelcomeScreenPage(self.screen)
         self.game_play = Game(self.screen)
+        self.customize = CustomizePage(self.screen)
 
 
 
@@ -103,8 +105,9 @@ class PageController:
         while self.run:
             self.current_page = page_data[0]["current_page"]
             print("current page", page_data[0]["current_page"])
-            print("prev page", page_data[0]["prev_page"])
+            # print("prev page", page_data[0]["prev_page"])
             # print("back", page_data[0]["back_navigation"])
+            print("pls merge")
 
             if page_data[0]["exit"]:
                 break
@@ -114,6 +117,7 @@ class PageController:
                 print("confusion", page_data[0]["subject_topic_list"])
                 input_data = {
                     "back_navigation": "",
+                    "username": page_data[0]["username"],
                     "subjectlist": subjectlist,
                     "difficultylist": page_data[0]["difficultylist"],
                     "subject_topic_list": page_data[0]["subject_topic_list"],
@@ -121,8 +125,11 @@ class PageController:
                     "topicselection": page_data[0]["topicselection"],
                     "difficultyselection": page_data[0]["difficultyselection"],
                     # put player once multiplayer is up
-                    "playerlist": [],
-                    "prev_page": page_data[0]["prev_page"]
+                    "join_host": page_data[0]["join_host"],
+                    "prev_page": page_data[0]["prev_page"],
+                    "roomID": page_data[0]["roomID"],
+                    "playertype": page_data[0]["playertype"]
+
                 }
                 if page_data[0]["back_navigation"] != ("main_menu" or "hostroom"):
                     pass
@@ -137,7 +144,7 @@ class PageController:
                 input_data = {
                     "roomID": page_data[0]["roomID"],
                     "username": page_data[0]["username"],
-                    "custom_quiz_selection": customchoice,
+                    "custom_quiz_selection": page_data[0]["custom_quiz_selection"],
                     "toggled": page_data[0]["toggled"],
                     "mode_toggle": page_data[0]["mode_toggle"],
                     "prev_page": page_data[0]["prev_page"]
@@ -148,10 +155,9 @@ class PageController:
                     input_data["custom_quiz_selection"] = page_data[0]["custom_quiz_selection"]
                 elif page_data[0]["prev_page"] == "hostroom":
                     pass
-                    # input_data["toggled"] = page_data[0]["toggled"]
-                    # input_data["mode_toggle"] = page_data[0]["mode_toggle"]
+
                 elif page_data[0]["prev_page"] == "custom_select":
-                    customchoice = page_data[0]["custom_quiz_selection"]
+                    pass
 
                 page_data = self.host_settings.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "custom_select":
@@ -167,17 +173,31 @@ class PageController:
                 page_data = self.custom_select.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "question_select":
                 if page_data[0]["custom_quiz_selection"] !="":
+                    # page_data[0]["custom_quiz_selection"] = "Custom Quiz 1"
                     custom_quiz_selection = page_data[0]["custom_quiz_selection"]
                     custom_quiz = QuestionManager.get_custom_questions(page_data[0]["roomID"],page_data[0]["custom_quiz_selection"])
+                    description = []
+                    id = []
+                    for question in custom_quiz:
+                        description.append(question["Description"])
+                        id.append(question["question_id"])
+                    desc_id = dict(zip(description, id))
                 else:
                     custom_quiz_selection = ""
-                    custom_quiz = ""
+                    custom_quiz = []
+                    description = []
+                    page_data[0]["selected_question"] = ""
+                    desc_id = {}
+
                 input_data = {
                     "roomID": page_data[0]["roomID"],
-                    "username": page_data[0]["roomID"],
+                    "username": page_data[0]["username"],
                     "toggled": page_data[0]["toggled"],
                     "custom_quiz_selection": custom_quiz_selection,
                     "custom_question_selection": custom_quiz,
+                    "question_list": description,
+                    "retrieve_id": desc_id,
+                    "selected_question": page_data[0]["selected_question"],
                     "prev_page": page_data[0]["prev_page"]
 
                 }
@@ -185,36 +205,41 @@ class PageController:
             elif page_data[0]["current_page"] == "add_question":
                 input_data = {
                     "roomID": page_data[0]["roomID"],
-                    "username": page_data[0]["roomID"],
+                    "username": page_data[0]["username"],
                     "toggled": page_data[0]["toggled"],
+                    "correct_option": page_data[0]["correct_option"],
                     "custom_quiz_selection": page_data[0]["custom_quiz_selection"],
                     "custom_question_selection": page_data[0]["custom_question_selection"],
+                    "selected_question": page_data[0]["selected_question"],
                     "prev_page": page_data[0]["prev_page"]
                 }
                 page_data = self.add_question.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "share":
 
-                if page_data[0]["back_navigation"] == "share" and page_data[0]["prev_page"] == "share":
-                    input_data = {
+                # if page_data[0]["back_navigation"] == "share" and page_data[0]["prev_page"] == "share":
+                input_data = {
                         "roomID": page_data[0]["roomID"],
                         "username": page_data[0]["username"],
                         "back_navigation": page_data[0]["prev_page"],
-                        "prev_page": page_data[0]["prev_page"]
-                    }
-                elif page_data[0]["prev_page"] == "share":
-                    input_data = {
-                        "roomID": page_data[0]["roomID"],
-                        "username": page_data[0]["username"],
-                        "back_navigation": page_data[0]["prev_page"],
-                        "prev_page": page_data[0]["prev_page"]
-                    }
-                else:
-                    input_data = {
-                    "roomID": page_data[0]["roomID"],
-                    "username": page_data[0]["username"],
-                    "back_navigation": page_data[0]["prev_page"],
-                    "prev_page": page_data[0]["prev_page"]
-                }
+                        "prev_page": page_data[0]["prev_page"],
+                        "mode_toggle": page_data[0]["mode_toggle"],
+                        "toggled": page_data[0]["toggled"],
+                        "custom_quiz_selection": page_data[0]["custom_quiz_selection"]
+                 }
+                # elif page_data[0]["prev_page"] == "share":
+                #     input_data = {
+                #         "roomID": page_data[0]["roomID"],
+                #         "username": page_data[0]["username"],
+                #         "back_navigation": page_data[0]["prev_page"],
+                #         "prev_page": page_data[0]["prev_page"]
+                #     }
+                # else:
+                #     input_data = {
+                #     "roomID": page_data[0]["roomID"],
+                #     "username": page_data[0]["username"],
+                #     "back_navigation": page_data[0]["prev_page"],
+                #     "prev_page": page_data[0]["prev_page"]
+                # }
                 page_data = self.share.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "share_results":
                 if page_data[0]["back_navigation"] == "topic_leaderboard" or page_data[0]["prev_page"] == "topic_leaderboard":
@@ -227,10 +252,11 @@ class PageController:
                     }
                 elif page_data[0]["back_navigation"] == "end_screen" or page_data[0]["prev_page"] == "end_screen":
                     input_data = {
-                        "roomID": roomID,
-                        "username": username,
+                        "player_results": page_data[0]["player_results"],
+                        "score": page_data[0]["score"],
+                        "roomID": page_data[0]["roomID"],
+                        "username": page_data[0]["username"],
                         "back_navigation": page_data[0]["prev_page"],
-                        "score_board": page_data[0]["score_board"],
                         "prev_page": page_data[0]["prev_page"]
 
                     }
@@ -264,9 +290,15 @@ class PageController:
                 page_data = self.topic_leaderboard.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "end_screen":
                 input_data = {
-                    "score_board": score_board,
-                    "roomID": page_data[1]["roomID"],
-                    "username": username
+                        "player_results": page_data[0]["player_results"],
+                        "username": page_data[0]["username"],
+                        "roomID": page_data[0]["roomID"],
+                        "prev_page": page_data[0]["prev_page"],
+                        "score": page_data[0]["score"],
+                        "playertype": page_data[0]["playertype"],
+                        "subject": page_data[0]["subject"],
+                        "topic": page_data[0]["topic"],
+
                 }
                 page_data = self.end_screen.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "login":
@@ -331,22 +363,15 @@ class PageController:
                 print("username:", page_data[0]["username"])
                 page_data = self.managerooms.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "hostroom":
-                player_status_dict = RoomManager.get_room_member_statuses(page_data[0]["roomID"])
-                player_status = list(player_status_dict.items())
-                player_status_list = ["%s %s" % x for x in player_status]
-                mode_toggle = False
-                toggled = False
-                customchoice = "Select Custom Quiz"
-
 
                 input_data = {
-                    "player_status": player_status_list,
+                    "player_status": page_data[0]["player_status"],
                     "username": page_data[0]["username"],
                     "roomID": page_data[0]["roomID"],
                     "prev_page": page_data[0]["prev_page"],
-                    "mode_toggle": mode_toggle,
-                    "toggled": toggled,
-                    "custom_quiz_selection": customchoice
+                    "mode_toggle": page_data[0]["mode_toggle"],
+                    "toggled": page_data[0]["toggled"],
+                    "custom_quiz_selection": page_data[0]["custom_quiz_selection"]
                 }
                 if page_data[0]["back_navigation"]!=("managerooms" or "host_settings" or "share"):
                     pass
@@ -354,15 +379,16 @@ class PageController:
                     # mode_toggle = page_data[0]["mode_toggle"]
                     # toggled = page_data[0]["toggled"]
                     # customchoice = page_data[0]["custom_quiz_selection"]
-
-                    input_data["mode_toggle"] = page_data[0]["mode_toggle"]
-                    input_data["toggled"] = page_data[0]["toggled"]
-                    input_data["custom_quiz_selection"] = page_data[0]["custom_quiz_selection"]
+                    pass
+                    # input_data["mode_toggle"] = page_data[0]["mode_toggle"]
+                    # input_data["toggled"] = page_data[0]["toggled"]
+                    # input_data["custom_quiz_selection"] = page_data[0]["custom_quiz_selection"]
 
                 elif page_data[0]["prev_page"] == "share":
                     pass
                 elif page_data[0]["prev_page"] == "hostroom":
-                    page_data[0]["roomID"] = page_data[1]["roomID"]
+                    pass
+                    # page_data[0]["roomID"] = page_data[1]["roomID"]
                 print("mode_toggle", input_data["mode_toggle"])
                 print("toggled", input_data["toggled"])
                 print("custom_quiz_selection", input_data["custom_quiz_selection"])
@@ -372,18 +398,19 @@ class PageController:
                 if page_data[0]["back_navigation"]!="join_room":
                     pass
                 elif page_data[0]["prev_page"] == "playerroom":
-                    page_data[0]["roomID"] = page_data[1]["roomID"]
-                player_status_dict = RoomManager.get_room_member_statuses(page_data[0]["roomID"])
-                print("backend:", player_status_dict)
-                player_status = list(player_status_dict.items())
-                print("dict items:", player_status)
-                player_status_list = [ "%s %s" % x for x in player_status]
+                    pass
+                    # page_data[0]["roomID"] = page_data[1]["roomID"]
+                # player_status_dict = RoomManager.get_room_member_statuses(page_data[0]["roomID"])
+                # print("backend:", player_status_dict)
+                # player_status = list(player_status_dict.items())
+                # print("dict items:", player_status)
+                # player_status_list = [ "%s %s" % x for x in player_status]
+                print("roomID", page_data[0]["roomID"])
                 input_data = {
-                    "player_status": player_status_list,
+                    "player_status": page_data[0]["player_status"],
                     "username": page_data[0]["username"],
                     "roomID": page_data[0]["roomID"],
                     "prev_page": page_data[0]["prev_page"]
-
                 }
                 page_data = self.playerroom.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "analyticsselect":
@@ -401,7 +428,11 @@ class PageController:
                     "analyticslist": analyticslist,
                     "roomID": page_data[0]["roomID"],
                     "username": page_data[0]["username"],
-                    "prev_page": page_data[0]["prev_page"]
+                    "prev_page": page_data[0]["prev_page"],
+                    "mode_toggle": page_data[0]["mode_toggle"],
+                    "toggled": page_data[0]["toggled"],
+                    "custom_quiz_selection": page_data[0]["custom_quiz_selection"]
+
                 }
                 print("analytics list:", analyticslist)
                 page_data = self.analyticsselect.start(self.screen, input_data)
@@ -425,7 +456,10 @@ class PageController:
                     "username": page_data[0]["username"],
                     "roomID": page_data[0]["roomID"],
                     "analyticsID": page_data[0]["analyticsID"],
-                    "prev_page": page_data[0]["prev_page"]
+                    "prev_page": page_data[0]["prev_page"],
+                    "mode_toggle": page_data[0]["mode_toggle"],
+                    "toggled": page_data[0]["toggled"],
+                    "custom_quiz_selection": page_data[0]["custom_quiz_selection"]
 
                 }
                 page_data = self.uniqueanalytics.start(self.screen, input_data)
@@ -435,12 +469,24 @@ class PageController:
                 page_data = self.welcome_screen.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "game_play":
                 input_data = {
-                    "username": "",
+                    "username": page_data[0]["username"],
                     "questions": page_data[0]["questions"],
-                    "answers": page_data[0]["answers"]
+                    "answers": page_data[0]["answers"],
+                    "roomID": page_data[0]["roomID"],
+                    "playertype": page_data[0]["playertype"],
+                    "readystatus": page_data[0]["readystatus"],
+                    "join_host": page_data[0]["join_host"],
+                    "subjectselection": page_data[0]["subjectselection"],
+                    "topicselection": page_data[0]["topicselection"],
+
                 }
                 page_data = self.game_play.start(self.screen, input_data)
-
+            elif page_data[0]["current_page"] == "customize":
+                input_data = {
+                    "username": page_data[0]["username"],
+                    "prev_page": page_data[0]["prev_page"],
+                }
+                page_data = self.customize.start(self.screen, input_data)
 
             pygame.display.update()
 

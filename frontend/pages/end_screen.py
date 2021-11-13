@@ -1,6 +1,11 @@
 import pygame
 from assets.components import *
 from page import *
+sys.path.insert(1, '../../backend/database')
+
+import LeaderboardManager
+import ResultManager
+
 
 
 class EndScreenPage(Page):
@@ -8,9 +13,14 @@ class EndScreenPage(Page):
         super().__init__(screen)
         self.name = "end_screen"
         self.input_data = {
-            "score_board": [],
-            "roomID": "Room ID",
+            "player_results": {},
+            "roomID": "",
             "username":"",
+            "prev_page":"",
+            "score":"",
+            "playertype": "",
+            "subject": "",
+            "topic": ""
         }
         self.output_data = {
             "current_page": self.name,
@@ -23,6 +33,12 @@ class EndScreenPage(Page):
 
     # set all component variables on input screen
     def set_components(self, screen):
+        self.name = "end_screen"
+
+        # change back navigation every time page type changes
+        if self.input_data["prev_page"] != self.name:
+            self.output_data["back_navigation"] = self.input_data["prev_page"]
+
         # background
         bg_img = pygame.image.load('assets/Backgrounds/endgamebg.jpg')
         background = Background("background", screen, bg_img)
@@ -61,7 +77,7 @@ class EndScreenPage(Page):
         text_relative_height = 0.1
         shown_relative_width = 0.55
         shown_relative_height = 0.5
-        score_text_list = self.input_data["score_board"]
+        score_text_list = ["Player: " + self.input_data["player_results"]["player_name"], "Total Questions: "+ self.input_data["player_results"]["no_of_questions_attempted"], "Total Correct: " + self.input_data["player_results"]["no_of_questions_correct"], "Time Taken: " + self.input_data["player_results"]["player_end_time"], "Score: " + self.input_data["score"]]
         # print(self.input_data.keys())
         # print(score_text_list)
 
@@ -87,25 +103,63 @@ class EndScreenPage(Page):
 
 
         # Share button
-        share_button_x = 4 / 10
-        share_button_y = 4 / 5
-        share_button_width = 1 / 5
+        share_button_x = 8 / 10
+        share_button_y = 8 / 10
+        share_button_width = 1 / 7
         share_button_height = 1 / 7
-        share_button__img = pygame.image.load('assets/Buttons/btn_share.png')
+        share_button_img = pygame.image.load('assets/Buttons/btn_share.png')
         share_button = ImageButton("share_button", screen, share_button_x, share_button_y,
                              share_button_width,
-                             share_button_height, share_button__img)
+                             share_button_height, share_button_img)
         self.components["share_button"] = share_button
+
+        # Back button
+        back_button_x = 4 / 10
+        back_button_y = 4 / 5
+        back_button_width = 1 / 5
+        back_button_height = 1 / 7
+        back_button_img = pygame.image.load('assets/Buttons/btn_confirm.png')
+        back_button = ImageButton("back_button", screen, back_button_x, back_button_y,
+                                   back_button_width,
+                                   back_button_height, back_button_img)
+        self.components["back_button"] = back_button
 
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             self.output_data["roomID"] = self.input_data["roomID"]
-            self.output_data["score_board"] = self.input_data["score_board"]
+            self.output_data["player_results"] = self.input_data["player_results"]
             self.output_data["username"] = self.input_data["username"]
             self.output_data["prev_page"] = self.name
+            self.output_data["score"] = self.input_data["score"]
+            self.output_data["player_status"] = []
+            self.output_data["mode_toggle"] = False
+            self.output_data["toggled"] = False
+            self.output_data["custom_quiz_selection"] = ""
+
+
+
             if triggered_component in [self.components["share_button"]]:
+                rect = pygame.Rect(0, 0, self.screen_width, (self.screen_height * 0.8))
+                sub = self.screen.subsurface(rect)
+                pygame.image.save(sub, "Leaderboard.jpg")
+                print('\nsaved leaderboard.jpg\n')
                 self.name = "share_results"
+            if triggered_component in [self.components["back_button"]]:
+                if self.input_data["roomID"] == "singleplayer":
+                    print("Username: ", self.input_data["username"])
+                    print("Subject: ", self.input_data["subject"])
+                    print("Topic: ", self.input_data["topic"])
+
+                    LeaderboardManager.update_leaderboard(self.input_data["username"], self.input_data["subject"], self.input_data["topic"])
+                    self.name = "main_menu"
+                elif self.input_data["playertype"] == "host" and self.input_data["join_host"]:
+                    # ResultsManager.save_game_results(result, room_id_quiz_id)
+                    self.name = "hostroom"
+                elif self.input_data["playertype"] == "client" and self.input_data["readystatus"]:
+                    # ResultsManager.save_game_results(result, room_id_quiz_id)
+                    self.name = "playerroom"
+                #add another one for multiplayer (how to account for host?)
             # if triggered_component in [self.components["player_results"]]:
             #     print("store  in self.output_data[roomID] for sharing")
             else:
