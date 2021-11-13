@@ -954,7 +954,8 @@ class ExpandButton(ComponentSurface):
 class DropdownTextSelect(ExpandButton):
     def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height,
                  text_list, prompt, num_expand_text, display_screen, single_select=True, on_display=True, font_file=None,
-                 font_color="black", active_color="dodgerblue", passive_color="white", border_width=0):
+                 font_color="black", active_color="dodgerblue", passive_color="white", selected_color="gray80",
+                 border_width=0):
         relative_expand_height = (num_expand_text+1) * relative_height
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, relative_x,
                          relative_y, relative_width, relative_expand_height, display_screen, on_display)
@@ -966,7 +967,7 @@ class DropdownTextSelect(ExpandButton):
         self.prompt = prompt
         self.selected_text = prompt
         self.button = TextboxButton(name + "_button", self.surface, 0, 0,
-                                    1, 1, self.selected_text, font_file, font_color)
+                                    1, 1, self.selected_text, font_file, font_color, passive_color)
         self.remove_component(self.button.name)
         self.add_component(self.button)
 
@@ -979,7 +980,7 @@ class DropdownTextSelect(ExpandButton):
                                                        selectable_text_list_relative_height, text_list, display_screen,
                                                        False,single_select=single_select, font_file=font_file,
                                                        font_color=font_color,
-                                                       active_color=active_color, passive_color=passive_color,
+                                                       active_color=active_color, passive_color=selected_color,
                                                        border_width=border_width)
         self.expandable_surface.add_component(self.selectable_text_list)
 
@@ -1041,7 +1042,8 @@ class DropdownTextSelect(ExpandButton):
 class DynamicDropdownTextSelect(ExpandButton):
     def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height,
                  text_list, prompt, num_expand_text, display_screen, single_select=True, on_display=True, font_file=None,
-                 font_color="black", active_color="dodgerblue", passive_color="white", border_width=0):
+                 font_color="black", active_color="dodgerblue", passive_color="white", selected_color="gray80",
+                 border_width=0):
         relative_expand_height = (num_expand_text+1) * relative_height
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, relative_x,
                          relative_y, relative_width, relative_expand_height, display_screen, on_display)
@@ -1058,7 +1060,8 @@ class DynamicDropdownTextSelect(ExpandButton):
         self.add_component(self.button)
 
         self.selected_textbox = TextboxButton(name+"_selected_text_display", self.expandable_surface.surface, 0, 0,
-                                                 1, relative_text_height, self.selected_text, font_file, font_color)
+                                                 1, relative_text_height, self.selected_text, font_file, font_color,
+                                              passive_color)
         self.expandable_surface.add_component(self.selected_textbox)
 
         self.selectable_text_list = SelectableTextList(name+"_selectable_text_list", self.expandable_surface.surface, 0,
@@ -1066,7 +1069,7 @@ class DynamicDropdownTextSelect(ExpandButton):
                                                        selectable_text_list_relative_height, text_list, display_screen,
                                                        False,single_select=single_select, font_file=font_file,
                                                        font_color=font_color,
-                                                       active_color=active_color, passive_color=passive_color,
+                                                       active_color=active_color, passive_color=selected_color,
                                                        border_width=border_width)
         self.expandable_surface.add_component(self.selectable_text_list)
 
