@@ -1,7 +1,9 @@
 import pygame
 from assets.components import *
 from page import *
-
+import webbrowser
+import os
+import facebook as fb
 
 class ShareResultsPage(Page):
     def __init__(self, screen):
@@ -37,17 +39,6 @@ class ShareResultsPage(Page):
         bg_img = pygame.image.load('assets/Backgrounds/sharebg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
-
-        # # toggle test
-        # toggle_rel_x = 9 / 20
-        # toggle_rel_y = 1 / 20
-        # toggle_rel_width = 1 / 10
-        # toggle_rel_height = 1 / 10
-        # toggle_image = pygame.image.load('assets/img/save_btn.png')
-        # toggle_image2 = pygame.image.load('assets/img/load_btn.png')
-        # toggle_password = ToggleButton("toggle", screen, toggle_rel_x, toggle_rel_y, toggle_rel_width, toggle_rel_height,
-        #                       toggle_image, toggle_image2)
-        # self.components["toggle"] = toggle_password
 
         share_results_display_x = 6 / 20
         share_results_display_y = 3 / 40
@@ -97,32 +88,69 @@ class ShareResultsPage(Page):
 
         # how do the page react to events?
     def page_function(self, triggered_component_list):
+        title = "leaderboard_web.html"
+        f = open(title, 'w')
+        html_template = """
+                <!DOCTYPE html>
+                <html>
+                <head>
+                <title>SmartRun Leaderboard</title>
+                </head>
+                <body>
+                <style>
+                img {
+                width: 100%;
+                }
+                </style>
+                <h1>SmartRun</h1>
+                <img src="Leaderboard.jpg" alt="share on facebook" style="width:900px;height:600px;">
+                </body>
+                </html>
+
+                """
+        f.write(html_template)
+        f.close()
+        filename = 'file:///' + os.getcwd() + '/' + title
+
         for triggered_component in triggered_component_list:
-            # self.output_data["back_navigation"]=self.output_data["prev_page"]
-            #test
-            # print("test", self.output_data["back_navigation"])
             self.output_data["prev_page"] = self.output_data["current_page"]
-            # self.output_data["subject"] = self.input_data["subject"]
-            # self.output_data["topic"] = self.input_data["topic"]
             self.output_data["username"] = self.input_data["username"]
+            #
+            fb_access_token = 'EAAZAZBaaDDFy8BADgZCGUohEpCJKPRwsGL568bUQdxhbtzu7Stlk0bBG0AQ2v9dZCelbAXDKen9WLfAv1XZAWbBnZChmZBBvGPsILM8B2b1hIyQinImwsKYBKyM8Py0lbMQnS0nZAwGpHsWllRfQ3QGZBliMx50Dg6vDFtaheC9GM6U1N04JFDhZBhFfBzYZAxXrptssZCdZA6wGKN1BKkYucuegz'
+            fb_api = fb.GraphAPI(fb_access_token)
+            fb_api.put_photo(open("Leaderboard.jpg", "rb"), message="Check out our monthly leaderboard here!")
+
             if triggered_component in [self.components["twitter_button"]]:
-                print("open twitter")
-                if self.output_data["back_navigation"] == "topic_leaderboard":
-                    self.output_data["subject"] = self.input_data["subject"]
-                    self.output_data["topic"] = self.input_data["topic"]
-                    share_string = self.output_data["subject"] + ": " + self.output_data["topic"]
-                    print("share", share_string)
-                elif self.output_data["back_navigation"] == "end_screen":
-                    self.output_data["roomID"] = self.input_data["roomID"]
+                    print('redirecting to twitter...')
+                    webbrowser.open("https://twitter.com/intent/tweet?text=Check%20out%20the%20SmartRun%20monthly%20leaderboard%20here:%20https://www.facebook.com/SmartRun-Leaderboard-104831658686019/")
+                    print('posted on twitter')
+                    if self.output_data["back_navigation"] == "topic_leaderboard":
+                        self.output_data["subject"] = self.input_data["subject"]
+                        self.output_data["topic"] = self.input_data["topic"]
+                        share_string = self.output_data["subject"] + ": " + self.output_data["topic"]
+                        print("share", share_string)
+                        self.name = "topic_leaderboard"
+                    elif self.output_data["back_navigation"] == "end_screen":
+                        self.output_data["roomID"] = self.input_data["roomID"]
+                        self.output_data["player_results"] = self.input_data["player_results"]
+                        self.output_data["score"] = self.input_data["score"]
+                        self.name = "end_screen"
             if triggered_component in [self.components["facebook_button"]]:
-                print("open facebook")
+                print('redirecting to facebook...')
+                webbrowser.open("https://www.facebook.com/sharer/sharer.php?u=https://www.facebook.com/SmartRun-Leaderboard-104831658686019/")
+                print("posted on facebook...")
                 if self.output_data["back_navigation"] == "topic_leaderboard":
                     self.output_data["subject"] = self.input_data["subject"]
                     self.output_data["topic"] = self.input_data["topic"]
                     share_string = self.output_data["subject"] + ": " + self.output_data["topic"]
                     print("share", share_string)
+                    self.name = "topic_leaderboard"
                 elif self.output_data["back_navigation"] == "end_screen":
                     self.output_data["roomID"] = self.input_data["roomID"]
+                    self.output_data["player_results"] = self.input_data["player_results"]
+                    self.output_data["score"] = self.input_data["score"]
+                    self.name = "end_screen"
+
             if triggered_component in [self.components["return_button"]]:
                 print("topic", self.output_data["back_navigation"])
                 if self.output_data["back_navigation"] == "topic_leaderboard":
@@ -133,6 +161,8 @@ class ShareResultsPage(Page):
                     self.name = "topic_leaderboard"
                 elif self.output_data["back_navigation"] == "end_screen":
                     self.output_data["roomID"] = self.input_data["roomID"]
+                    self.output_data["player_results"] = self.input_data["player_results"]
+                    self.output_data["score"] = self.input_data["score"]
                     self.name = "end_screen"
 
 

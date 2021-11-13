@@ -105,10 +105,10 @@ class TopicLeaderboardPage(Page):
         share_button_y = 8 / 10
         share_button_width = 1 / 7
         share_button_height = 1 / 7
-        share_button__img = pygame.image.load(curr_dir + 'assets/Buttons/btn_share.png')
+        share_button_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_share.png')
         share_button = ImageButton("share_button", screen, share_button_x, share_button_y,
                              share_button_width,
-                             share_button_height, share_button__img)
+                             share_button_height, share_button_img)
         self.components["share_button"] = share_button
 
         #return button
@@ -153,8 +153,11 @@ class TopicLeaderboardPage(Page):
             self.output_data["topic_leaderboard"] = self.input_data["topic_leaderboard"]
             self.output_data["username"] = self.input_data["username"]
             if triggered_component in [self.components["share_button"]]:
+                rect = pygame.Rect(0, 0, self.screen_width, (self.screen_height * 0.8))
+                sub = self.screen.subsurface(rect)
+                pygame.image.save(sub, "Leaderboard.jpg")
+                print('\nsaved leaderboard.jpg\n')
                 self.name = "share_results"
             if triggered_component in [self.components["return_button"]]:
                 self.name = "leadselect"
-            # if triggered_component in ["player_score_display", "share_button", "return_button"]:
-            #     return self.data
+
