@@ -147,7 +147,9 @@ class PageController:
                     "custom_quiz_selection": page_data[0]["custom_quiz_selection"],
                     "toggled": page_data[0]["toggled"],
                     "mode_toggle": page_data[0]["mode_toggle"],
-                    "prev_page": page_data[0]["prev_page"]
+                    "prev_page": page_data[0]["prev_page"],
+                    "join_host": page_data[0]["join_host"]
+
                 }
                 if page_data[0]["back_navigation"] != ("hostroom" or "custom_select"):
                     pass
@@ -224,8 +226,10 @@ class PageController:
                         "prev_page": page_data[0]["prev_page"],
                         "mode_toggle": page_data[0]["mode_toggle"],
                         "toggled": page_data[0]["toggled"],
-                        "custom_quiz_selection": page_data[0]["custom_quiz_selection"]
-                 }
+                        "custom_quiz_selection": page_data[0]["custom_quiz_selection"],
+                        "join_host": page_data[0]["join_host"]
+
+                }
                 # elif page_data[0]["prev_page"] == "share":
                 #     input_data = {
                 #         "roomID": page_data[0]["roomID"],
@@ -298,6 +302,7 @@ class PageController:
                         "playertype": page_data[0]["playertype"],
                         "subject": page_data[0]["subject"],
                         "topic": page_data[0]["topic"],
+                        "join_host": page_data[0]["join_host"]
 
                 }
                 page_data = self.end_screen.start(self.screen, input_data)
@@ -371,6 +376,7 @@ class PageController:
                     "prev_page": page_data[0]["prev_page"],
                     "mode_toggle": page_data[0]["mode_toggle"],
                     "toggled": page_data[0]["toggled"],
+                    "join_host": page_data[0]["join_host"],
                     "custom_quiz_selection": page_data[0]["custom_quiz_selection"]
                 }
                 if page_data[0]["back_navigation"]!=("managerooms" or "host_settings" or "share"):
@@ -431,7 +437,8 @@ class PageController:
                     "prev_page": page_data[0]["prev_page"],
                     "mode_toggle": page_data[0]["mode_toggle"],
                     "toggled": page_data[0]["toggled"],
-                    "custom_quiz_selection": page_data[0]["custom_quiz_selection"]
+                    "custom_quiz_selection": page_data[0]["custom_quiz_selection"],
+                    "join_host": page_data[0]["join_host"]
 
                 }
                 print("analytics list:", analyticslist)
@@ -459,7 +466,8 @@ class PageController:
                     "prev_page": page_data[0]["prev_page"],
                     "mode_toggle": page_data[0]["mode_toggle"],
                     "toggled": page_data[0]["toggled"],
-                    "custom_quiz_selection": page_data[0]["custom_quiz_selection"]
+                    "custom_quiz_selection": page_data[0]["custom_quiz_selection"],
+                    "join_host": page_data[0]["join_host"]
 
                 }
                 page_data = self.uniqueanalytics.start(self.screen, input_data)
@@ -478,6 +486,7 @@ class PageController:
                     "join_host": page_data[0]["join_host"],
                     "subjectselection": page_data[0]["subjectselection"],
                     "topicselection": page_data[0]["topicselection"],
+                    "custom_quiz_selection": page_data[0]["custom_quiz_selection"]
 
                 }
                 page_data = self.game_play.start(self.screen, input_data)

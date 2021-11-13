@@ -127,6 +127,9 @@ class SinglePlayerPage(Page):
             self.output_data["join_host"] = self.input_data["join_host"]
             self.output_data["playertype"] = self.input_data["playertype"]
             self.output_data["readystatus"] = ""
+            self.output_data["custom_quiz_selection"] = ""
+
+
 
 
 

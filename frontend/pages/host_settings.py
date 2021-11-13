@@ -135,6 +135,8 @@ class HostSettingsPage(Page):
             self.output_data["mode_toggle"] = self.input_data["mode_toggle"]
             self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
             self.output_data["player_status"] = []
+            self.output_data["join_host"] = self.input_data["join_host"]
+
 
             if self.input_data["mode_toggle"] == True:
                 if triggered_component in [self.components["custom_quiz_button"]]:

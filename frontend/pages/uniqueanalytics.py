@@ -261,6 +261,8 @@ class UniqueAnalyticsPage(Page):
             self.output_data["mode_toggle"] = self.input_data["mode_toggle"]
             self.output_data["toggled"] = self.input_data["toggled"]
             self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
+            self.output_data["join_host"] = self.input_data["join_host"]
+
             if triggered_component in [self.components["analytics_by_score_button"],
                                        self.components["analytics_by_accuracy_button"],
                                        self.components["analytics_by_speed_button"]]:

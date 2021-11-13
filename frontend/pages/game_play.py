@@ -40,7 +40,8 @@ class Game(Page):
             "roomID": "",
             "playertype": "",
             "readystatus": "",
-            "join_host": ""
+            "join_host": "",
+            "custom_quiz_selection": ""
         }
         self.output_data = {
             "current_page": self.name,
@@ -63,14 +64,14 @@ class Game(Page):
         print("playertype", self.input_data["playertype"])
 
         if self.input_data["roomID"] != "singleplayer":
-            self.output_data["subject"] = self.input_data["questions"][0]
-            self.output_data["topic"] = self.input_data["questions"][1]
-            self.input_data["questions"] = self.input_data["questions"][2:]
+            self.multiplayer = True
+            self.output_data["subject"] = self.input_data["questions"].pop(0)
+            self.output_data["topic"] = self.input_data["questions"].pop(0)
             if self.input_data["playertype"] == "client" and self.input_data["readystatus"]:
-                self.join_multiplayer(self.input_data["roomID"])
+                # self.join_multiplayer(self.input_data["roomID"])
                 print("client!")
             elif self.input_data["playertype"] == "host":
-                self.host_multiplayer()
+                # self.host_multiplayer()
                 print("host!")
         else:
             self.output_data["subject"] = self.input_data["subjectselection"]
@@ -104,7 +105,7 @@ class Game(Page):
         
         
         # question box - invisible to begin with
-        if(self.multiplayer==False or self.is_client):
+        if(self.multiplayer==False or ((self.is_client and self.input_data["ready_status"]) or (self.is_client==False and self.input_data["join_host"]))):
             game_image_rel_x = 1 / 10
             game_image_rel_y = 0.1 / 10
             game_image_rel_width = 7 / 10
@@ -129,7 +130,7 @@ class Game(Page):
         #
         
         # answer boxes - invisible to begin with
-        if(self.multiplayer==False or (self.is_client and self.input_data["ready_status"]) or (self.isclient==False and self.input_data["join_host"])):
+        if(self.multiplayer==False or ((self.is_client and self.input_data["ready_status"]) or (self.is_client==False and self.input_data["join_host"]))):
             game_image_rel_x = 0.15
             game_image_rel_y = 0.25
             game_image_rel_width = 0.3
@@ -205,14 +206,14 @@ class Game(Page):
             correction = TextDisplay("correction", screen, relative_x, relative_y, relative_width, relative_height, '')
             self.components["correction"] = correction
         
-        elif (self.isclient==False and self.input_data["join_host"]==False):
+        elif (self.is_client==False and self.input_data["join_host"]==False):
             relative_x = 3/20
             relative_y = 2/15
             relative_width = 4/5
             relative_height = 1/15
             host = TextDisplay("host", screen, relative_x, relative_y, relative_width, relative_height, 'Thank you for hosting')
             self.components["host"] = host
-        elif (self.isclient and self.input_data["ready_status"]==False):
+        elif (self.is_client and self.input_data["ready_status"]==False):
             relative_x = 3/20
             relative_y = 2/15
             relative_width = 4/5
@@ -433,13 +434,18 @@ class Game(Page):
     def page_function(self, triggered_component_list):
         for x in triggered_component_list:
             if(x == 'exit_btn'):
-                player_results = {
-                    "no_of_questions_attempted": str(len(self.questions)),
-                    "no_of_questions_correct": str(self.game_stats["correct"]),
-                    #impt - how to retrieve
-                    "player_end_time": str(self.game_stats["time"]),
-                    "player_name": self.input_data["username"].split("@",1)[0]
-                }
+                if self.multiplayer!=False:
+                    player_results = {
+                        "attempted": len(self.questions),
+                        "correct": self.game_stats["correct"],
+                        "player_name": self.input_data["username"].split("@", 1)[0],
+                        "quiz_name": self.input_data["custom_quiz_selection"],
+                        "roomID": self.input_data["roomID"],
+                        "time": self.game_stats["time"],
+                        "score": self.game_stats["score"]
+                    }
+                else:
+                    player_results = {}
                 print("u1", self.input_data["username"])
                 print("u2", self.input_data["username"].split("@",1)[0])
                 #one more for quiz fields?
@@ -450,6 +456,7 @@ class Game(Page):
                 self.output_data["score"] = str(int(self.game_stats['score']))
                 self.output_data["playertype"] = self.input_data["playertype"]
                 self.output_data["join_host"] = self.input_data["join_host"]
+                print("what iS IT", self.output_data["join_host"] )
                 self.output_data["readystatus"] = self.input_data["readystatus"]
                 self.output_data["current_page"] = "end_screen"
                 if self.is_client == False:
