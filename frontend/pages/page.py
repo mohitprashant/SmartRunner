@@ -1,4 +1,9 @@
 import pygame
+import sys
+
+sys.path.insert(1, '../../backend/database')
+
+import RoomManager
 
 # parent class for pages
 # python.Surface screen - screen the page is to be displayed
@@ -97,7 +102,27 @@ class Page:
                                     print(component.name)
                                     triggered_component_list.append(component)
                 self.page_function(triggered_component_list)
-                #for navigation
+
+                if (self.name == "playerroom") or (self.name == "hostroom"):
+                    if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and len(triggered_component_list) == 1:
+                        if top_layer_triggered and triggered_component_list[0].navigation_surface:
+                            self.output_data["current_page"] = self.name
+                            return self.output_data, self.input_data
+                        elif top_layer_triggered == False:
+                            self.output_data["current_page"] = self.name
+                            return self.output_data, self.input_data
+                    else:
+                        print("is it empty", self.input_data["roomID"])
+                        player_status_dict = RoomManager.get_room_member_statuses(self.input_data["roomID"])
+                        print("heloooooo")
+                        player_status = list(player_status_dict.items())
+                        player_status_list = ["%s %s" % x for x in player_status]
+                        self.output_data["player_status"] = player_status_list
+                        self.output_data["current_page"] = self.name
+                        print("player_Ststus", self.output_data["player_status"])
+
+                        return self.output_data, self.input_data
+                # for navigation
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and len(triggered_component_list)==1:
                     if top_layer_triggered and triggered_component_list[0].navigation_surface:
                         self.output_data["current_page"] = self.name
@@ -105,7 +130,6 @@ class Page:
                     elif top_layer_triggered==False:
                         self.output_data["current_page"] = self.name
                         return self.output_data, self.input_data
-
 
 
             pygame.display.update()
