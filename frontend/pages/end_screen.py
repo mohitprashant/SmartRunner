@@ -12,7 +12,8 @@ class EndScreenPage(Page):
             "roomID": "",
             "username":"",
             "prev_page":"",
-            "score":""
+            "score":"",
+            "playertype": ""
         }
         self.output_data = {
             "current_page": self.name,
@@ -129,6 +130,10 @@ class EndScreenPage(Page):
             if triggered_component in [self.components["back_button"]]:
                 if self.input_data["roomID"] == "singleplayer":
                     self.name = "main_menu"
+                elif self.input_data["playertype"] == "host":
+                    self.name = "hostroom"
+                elif self.input_data["playertype"] == "client":
+                    self.name = "playerroom"
                 #add another one for multiplayer (how to account for host?)
             # if triggered_component in [self.components["player_results"]]:
             #     print("store  in self.output_data[roomID] for sharing")

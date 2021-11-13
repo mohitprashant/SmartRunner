@@ -170,7 +170,7 @@ class PageController:
                 page_data = self.custom_select.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "question_select":
                 if page_data[0]["custom_quiz_selection"] !="":
-                    page_data[0]["custom_quiz_selection"] = "Custom Quiz 1"
+                    # page_data[0]["custom_quiz_selection"] = "Custom Quiz 1"
                     custom_quiz_selection = page_data[0]["custom_quiz_selection"]
                     custom_quiz = QuestionManager.get_custom_questions(page_data[0]["roomID"],page_data[0]["custom_quiz_selection"])
                     description = []
@@ -291,7 +291,8 @@ class PageController:
                         "username": page_data[0]["player_results"],
                         "roomID": page_data[0]["roomID"],
                         "prev_page": page_data[0]["prev_page"],
-                        "score": page_data[0]["score"]
+                        "score": page_data[0]["score"],
+                        "playertype": page_data[0]["playertype"]
 
                 }
                 page_data = self.end_screen.start(self.screen, input_data)
@@ -466,7 +467,10 @@ class PageController:
                     "username": page_data[0]["username"],
                     "questions": page_data[0]["questions"],
                     "answers": page_data[0]["answers"],
-                    "roomID": page_data[0]["roomID"]
+                    "roomID": page_data[0]["roomID"],
+                    "playertype": page_data[0]["playertype"],
+                    "readystatus": page_data[0]["readystatus"]
+
                 }
                 page_data = self.game_play.start(self.screen, input_data)
 

@@ -125,7 +125,7 @@ class SinglePlayerPage(Page):
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["join_host"] = self.input_data["join_host"]
             self.output_data["playertype"] = self.input_data["playertype"]
-            self.output_data["ready_status"] = ""
+            self.output_data["readystatus"] = ""
 
 
 

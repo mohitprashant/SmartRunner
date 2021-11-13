@@ -1,6 +1,10 @@
 from assets.components import *
 from page import *
 import game_play
+import game_play
+sys.path.insert(1, '../../backend/database')
+import RoomManager
+import QuestionManager
 
 class HostRoomPage(Page):
     def __init__(self, screen):
@@ -152,16 +156,36 @@ class HostRoomPage(Page):
         self.output_data["difficultyselection"] = "Select Difficulty"
         self.output_data["join_host"] = False
         self.output_data["playertype"] = "host"
+        self.output_data["readystatus"] = ""
+
+
         for triggered_component in triggered_component_list:
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "managerooms"
             if triggered_component in [self.components["start_button"]]:
                 if self.output_data["mode_toggle"] == False:
                     if self.output_data["toggled"]:
-                        self.output_data["host_join"] == True
+                        self.output_data["join_host"] == True
                     print("does it enter")
                     self.name="singleplayer"
                 else:
+                    if self.output_data["toggled"]:
+                        self.output_data["join_host"] == True
+                    questiondb = QuestionManager.get_custom_questions(self.output_data["roomID"], self.output_data["custom_quiz_selection"])
+                    questionlist = []
+                    answerlist = []
+                    for question in questiondb:
+                        answers = []
+                        questionlist.append(question["Description"])
+                        answers.append(str(question["Correct"]))
+                        answers.append(str(question["Wrong_1"]))
+                        answers.append(str(question["Wrong_2"]))
+                        answers.append(str(question["Wrong_3"]))
+                        answerlist.append(answers)
+                    print(questionlist)
+                    print(answerlist)
+                    self.output_data["questions"] = questionlist
+                    self.output_data["answers"] = answerlist
                     RoomManager.set_room_activity_status(self.output_data["roomID"], True)
                     self.name = "game_play"
             if triggered_component in [self.components["analytics_button"]]:

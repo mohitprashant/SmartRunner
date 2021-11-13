@@ -51,16 +51,19 @@ class Game(Page):
         self.is_server = False
         self.is_client = False
         self.multiplayer = multiplayer
-        if self.input_data["roomID"] != "singleplayer":
-            if self.input_data["playertype"] == "client" and self.input_data["ready_status"]:
-                self.join_multiplayer(self.input_data["roomID"])
-            elif self.input_data["playertype"] == "host":
-                self.host_multiplayer()
+
 
 
 
     def set_components(self, screen):
         # background
+        print("playertype", self.input_data["playertype"])
+        if self.input_data["roomID"] != "singleplayer":
+            if self.input_data["playertype"] == "client" and self.input_data["readystatus"]:
+                self.join_multiplayer(self.input_data["roomID"])
+                print("client!")
+            elif self.input_data["playertype"] == "host":
+                self.host_multiplayer()
         bg_img = pygame.image.load('assets/img/sky.png')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
@@ -432,6 +435,7 @@ class Game(Page):
                 self.output_data["player_results"] = player_results
                 self.output_data["roomID"] = self.input_data["roomID"]
                 self.output_data["score"] = str(int(self.game_stats['score']))
+                self.output_data["playertype"] = self.input_data["roomID"]
                 self.output_data["current_page"] = "end_screen"
                 if self.is_client == False:
                     RoomManager.set_room_activity_status(self.input_data["roomID"], False)
