@@ -2,21 +2,34 @@ import unittest
 import sys
 import pygame
 
-sys.path.insert(1, '../../')
+sys.path.insert(0, '../../')
 
 from frontend.pages.topic_leaderboard import TopicLeaderboardPage
+from frontend.pages.login import LoginPage
 
 
-class TestTopicLeaderboard(unittest.TestCase):
-    def test_topic_leaderboard(self):
+class TestLoginTopicLeaderboard(unittest.TestCase):
+    def test_login_topic_leaderboard(self):
         pygame.init()
         screen = pygame.display.set_mode((720, 480), pygame.RESIZABLE)
+
+        username = "example@mail.com"
+        password = "123456"
+
+        login_page = LoginPage(screen)
+        login_page.set_components(screen)
+        login_page.components["username_input_box"].input = username
+        login_page.components["password_input_box"].input = password
+
+        triggered_component_list = [login_page.components["sign_in_button"]]
+        login_page.page_function(triggered_component_list)
+
+        self.assertEqual("main_menu", login_page.name)
 
         prev_page = "main_menu"
         subject = "test_subject"
         topic = "test_topic"
         topic_leaderboard = ["test"]
-        username = "integrationUser1@mail.com"
 
         topic_leaderboard_page = TopicLeaderboardPage(screen)
 

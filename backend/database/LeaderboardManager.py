@@ -41,7 +41,7 @@ def update_leaderboard(user, subject, topic):
     else:
         # Remove lowest and insert next highest
         lowestCollection = db.collection("leaderboard").document(subject).collection(topic)\
-                    .where("uid", "==", currentLeaderboard[0]['uid'])\
+                    .where("username", "==", currentLeaderboard[0]['username'])\
                     .where("score", "==", currentLeaderboard[0]['score'])\
                     .where("epochTimeAdded", "==", currentLeaderboard[0]['epochTimeAdded'])\
                     .get()

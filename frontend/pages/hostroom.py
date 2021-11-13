@@ -143,15 +143,24 @@ class HostRoomPage(Page):
             self.output_data["username"] = self.input_data["username"]
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["player_status"] = self.input_data["player_status"]
-            self.output_data["mode_toggle"] = self.input_data["mode_toggle"],
-            self.output_data["toggled"]= self.input_data["toggled"],
+            self.output_data["mode_toggle"] = self.input_data["mode_toggle"]
+            self.output_data["toggled"]= self.input_data["toggled"]
             self.output_data["custom_quiz_selection"]= self.input_data["custom_quiz_selection"]
+            self.output_data["subject_topic_list"] = ["Select Topic"]
+            self.output_data["subjectselection"] = "Select Subject"
+            self.output_data["topicselection"] = "Select Topic"
+            self.output_data["difficultylist"] = ["Select Difficulty"]
+            self.output_data["difficultyselection"] = "Select Difficulty"
+            #get list of players
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "managerooms"
             if triggered_component in [self.components["start_button"]]:
-                print("navigate to game session")
+                if self.output_data["mode_toggle"] == False:
+                    #send list of players
+                    self.name="singleplayer"
+                else:
                 #placeholder, stay on page
-                self.name = "hostroom"
+                    self.name = "hostroom"
             if triggered_component in [self.components["analytics_button"]]:
                 self.name = "analyticsselect"
             if triggered_component in [self.components["settings_button"]]:
