@@ -188,7 +188,7 @@ def is_room_host(username, room_id):
 
 
 def generate_room_id():
-    return str(random.randint(0, 999999)).rjust(6, '0')
+    return str(random.randint(100000, 999999)).rjust(6, '0')
 
 
 def get_room_name_from_id(room_id):
