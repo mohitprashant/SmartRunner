@@ -496,7 +496,7 @@ class Game(Page):
                         if(self.components[s].rect.collidepoint(pos)):
                             triggered_component_list.append(s)
                         
-                            if(s == 'answer1' and self.questionstate<len(self.questions) and self.distance <= 0):
+                            if(s == 'answer1' and self.questionstate<len(self.questions) and self.distance > 0):
                                 if(self.correct[self.questionstate] == self.answers[self.questionstate][0]):
                                     self.questionstate += 1
                                     self.speed += 1.0
@@ -507,7 +507,7 @@ class Game(Page):
                                     self.speed = max(1.0, self.speed - 1.0)
                                     self.questionupdate(screen, False)
                             
-                            elif(s == 'answer2' and self.questionstate<len(self.questions) and self.distance <= 0):
+                            elif(s == 'answer2' and self.questionstate<len(self.questions) and self.distance > 0):
                                 if(self.correct[self.questionstate] == self.answers[self.questionstate][1]):
                                     self.questionstate += 1
                                     self.speed += 1.0
@@ -519,7 +519,7 @@ class Game(Page):
                                     self.questionupdate(screen, False)
 
 
-                            elif(s == 'answer3' and self.questionstate<len(self.questions) and self.distance <= 0):
+                            elif(s == 'answer3' and self.questionstate<len(self.questions) and self.distance > 0):
                                 if(self.correct[self.questionstate] == self.answers[self.questionstate][2]):
                                     self.questionstate += 1
                                     self.speed += 1.0
@@ -530,7 +530,7 @@ class Game(Page):
                                     self.speed = max(1.0, self.speed - 1.0)
                                     self.questionupdate(screen, False)
                             
-                            elif(s == 'answer4' and self.questionstate<len(self.questions) and self.distance <= 0):
+                            elif(s == 'answer4' and self.questionstate<len(self.questions) and self.distance > 0):
                                 if(self.correct[self.questionstate] == self.answers[self.questionstate][3]):
                                     self.questionstate += 1
                                     self.speed += 1.0
