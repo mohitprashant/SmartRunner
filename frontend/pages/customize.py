@@ -59,7 +59,7 @@ class CustomizePage(Page):
         sprite1_button_rel_y = 0.45
         sprite1_button_rel_width = 1 / 7
         sprite1_button_rel_height = 0.3
-        sprite1_button_img = pygame.image.load(curr_dir + 'assets/Sprites/Pink_monster.png')
+        sprite1_button_img = pygame.image.load(curr_dir + 'assets/Sprites/Pink_Monster.png')
         sprite1_button_img = ImageButton("sprite1_button_img", screen, sprite1_button_rel_x, sprite1_button_rel_y,
                                   sprite1_button_rel_width,
                                   sprite1_button_rel_height, sprite1_button_img)
@@ -69,7 +69,7 @@ class CustomizePage(Page):
         sprite2_button_rel_y = 0.45
         sprite2_button_rel_width = 1 / 7
         sprite2_button_rel_height = 0.3
-        sprite2_button_img = pygame.image.load(curr_dir + 'assets/Sprites/Owlet_monster.png')
+        sprite2_button_img = pygame.image.load(curr_dir + 'assets/Sprites/Owlet_Monster.png')
         sprite2_button_img = ImageButton("sprite2_button_img", screen, sprite2_button_rel_x, sprite2_button_rel_y,
                                          sprite2_button_rel_width,
                                          sprite2_button_rel_height, sprite2_button_img)
@@ -79,7 +79,7 @@ class CustomizePage(Page):
         sprite3_button_rel_y = 0.45
         sprite3_button_rel_width = 1 / 7
         sprite3_button_rel_height = 0.3
-        sprite3_button_img = pygame.image.load(curr_dir + 'assets/Sprites/Dude_monster.png')
+        sprite3_button_img = pygame.image.load(curr_dir + 'assets/Sprites/Dude_Monster.png')
         sprite3_button_img = ImageButton("sprite3_button_img", screen, sprite3_button_rel_x, sprite3_button_rel_y,
                                          sprite3_button_rel_width,
                                          sprite3_button_rel_height, sprite3_button_img)

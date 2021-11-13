@@ -115,10 +115,11 @@ class ShareResultsPage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["username"] = self.input_data["username"]
+
             #
-            fb_access_token = 'EAAZAZBaaDDFy8BADgZCGUohEpCJKPRwsGL568bUQdxhbtzu7Stlk0bBG0AQ2v9dZCelbAXDKen9WLfAv1XZAWbBnZChmZBBvGPsILM8B2b1hIyQinImwsKYBKyM8Py0lbMQnS0nZAwGpHsWllRfQ3QGZBliMx50Dg6vDFtaheC9GM6U1N04JFDhZBhFfBzYZAxXrptssZCdZA6wGKN1BKkYucuegz'
-            fb_api = fb.GraphAPI(fb_access_token)
-            fb_api.put_photo(open("Leaderboard.jpg", "rb"), message="Check out our monthly leaderboard here!")
+            # fb_access_token = 'EAAZAZBaaDDFy8BADgZCGUohEpCJKPRwsGL568bUQdxhbtzu7Stlk0bBG0AQ2v9dZCelbAXDKen9WLfAv1XZAWbBnZChmZBBvGPsILM8B2b1hIyQinImwsKYBKyM8Py0lbMQnS0nZAwGpHsWllRfQ3QGZBliMx50Dg6vDFtaheC9GM6U1N04JFDhZBhFfBzYZAxXrptssZCdZA6wGKN1BKkYucuegz'
+            # fb_api = fb.GraphAPI(fb_access_token)
+            # fb_api.put_photo(open("Leaderboard.jpg", "rb"), message="Check out our monthly leaderboard here!")
 
             if triggered_component in [self.components["twitter_button"]]:
                     print('redirecting to twitter...')
@@ -134,6 +135,11 @@ class ShareResultsPage(Page):
                         self.output_data["roomID"] = self.input_data["roomID"]
                         self.output_data["player_results"] = self.input_data["player_results"]
                         self.output_data["score"] = self.input_data["score"]
+                        self.output_data["playertype"] = self.input_data["playertype"]
+                        self.output_data["subject"] = self.input_data["subject"]
+                        self.output_data["topic"] = self.input_data["topic"]
+                        self.output_data["join_host"] = self.input_data["join_host"]
+
                         self.name = "end_screen"
             if triggered_component in [self.components["facebook_button"]]:
                 print('redirecting to facebook...')
@@ -149,6 +155,11 @@ class ShareResultsPage(Page):
                     self.output_data["roomID"] = self.input_data["roomID"]
                     self.output_data["player_results"] = self.input_data["player_results"]
                     self.output_data["score"] = self.input_data["score"]
+                    self.output_data["playertype"] = self.input_data["playertype"]
+                    self.output_data["subject"] = self.input_data["subject"]
+                    self.output_data["topic"] = self.input_data["topic"]
+                    self.output_data["join_host"] = self.input_data["join_host"]
+
                     self.name = "end_screen"
 
             if triggered_component in [self.components["return_button"]]:
@@ -163,6 +174,11 @@ class ShareResultsPage(Page):
                     self.output_data["roomID"] = self.input_data["roomID"]
                     self.output_data["player_results"] = self.input_data["player_results"]
                     self.output_data["score"] = self.input_data["score"]
+                    self.output_data["playertype"] = self.input_data["playertype"]
+                    self.output_data["subject"] = self.input_data["subject"]
+                    self.output_data["topic"] = self.input_data["topic"]
+                    self.output_data["join_host"] = self.input_data["join_host"]
+
                     self.name = "end_screen"
 
 
