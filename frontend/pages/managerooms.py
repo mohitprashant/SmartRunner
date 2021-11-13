@@ -124,7 +124,6 @@ class ManageRoomsPage(Page):
                 print(self.output_data["roomID"])
             if triggered_component in [self.components["join_button"]]:
                 self.name = "hostroom"
-                RoomManager.set_room_activity_status(self.output_data["roomID"], False)
 
             if triggered_component in [self.components["delete_button"]]:
                 RoomManager.delete_room(self.output_data["username"],self.output_data["roomID"])

@@ -64,6 +64,7 @@ class Game(Page):
                 print("client!")
             elif self.input_data["playertype"] == "host":
                 self.host_multiplayer()
+
         bg_img = pygame.image.load('assets/img/sky.png')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
@@ -117,7 +118,7 @@ class Game(Page):
         
         
         # answer boxes - invisible to begin with
-        if(self.multiplayer==False or (self.is_client and self.input_data["ready_status"]) or (self.isclient==False and self.input_data["join_host"])):
+        if(self.multiplayer==False or (self.is_client and self.input_data["ready_status"]) or (self.is_client==False and self.input_data["join_host"])):
             game_image_rel_x = 1 / 40
             game_image_rel_y = 7 / 10
             game_image_rel_width = 4 / 9
