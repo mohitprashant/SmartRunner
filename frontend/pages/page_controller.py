@@ -22,6 +22,7 @@ from question_select import *
 from add_question import *
 from welcome_screen import *
 from game_play import *
+from customize import *
 import sys
 # sys.path.insert(1, '../../backend/account')
 # import AccountManager
@@ -89,6 +90,7 @@ class PageController:
         self.add_question = AddQuestionPage(self.screen)
         self.welcome_screen = WelcomeScreenPage(self.screen)
         self.game_play = Game(self.screen)
+        self.customize = CustomizePage(self.screen)
 
 
 
@@ -123,11 +125,8 @@ class PageController:
                     "topicselection": page_data[0]["topicselection"],
                     "difficultyselection": page_data[0]["difficultyselection"],
                     # put player once multiplayer is up
-                    "join_host": page_data[0]["join_host"],
-                    "prev_page": page_data[0]["prev_page"],
-                    "roomID": page_data[0]["roomID"],
-                    "playertype": page_data[0]["playertype"]
-
+                    "playerlist": [],
+                    "prev_page": page_data[0]["prev_page"]
                 }
                 if page_data[0]["back_navigation"] != ("main_menu" or "hostroom"):
                     pass
@@ -474,7 +473,12 @@ class PageController:
 
                 }
                 page_data = self.game_play.start(self.screen, input_data)
-
+            elif page_data[0]["current_page"] == "customize":
+                input_data = {
+                    "username": page_data[0]["username"],
+                    "prev_page": page_data[0]["prev_page"]
+                }
+                page_data = self.customize.start(self.screen, input_data)
 
             pygame.display.update()
 

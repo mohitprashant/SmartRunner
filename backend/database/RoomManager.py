@@ -51,7 +51,6 @@ def create_room(host_username, room_name, room_password):
         room_id = generate_room_id()
 
     db.collection("rooms").document(room_id).set(set_data)
-    set_room_activity_status(room_id, False)
 
     return room_id
 
@@ -189,7 +188,7 @@ def is_room_host(username, room_id):
 
 
 def generate_room_id():
-    return str(random.randint(100000, 999999)).rjust(6, '0')
+    return str(random.randint(0, 999999)).rjust(6, '0')
 
 
 def get_room_name_from_id(room_id):
@@ -246,7 +245,7 @@ def set_member_status(room_id, username, status=0):
     if status != 1 & status != 0:
         raise Exception("Given status is not 0 or 1")
 
-    status_dict = {"status": status}
+    status_dict = {"status":status}
 
     try:
         db.collection("rooms").document(room_id).collection("members").document(username).set(status_dict)
@@ -329,46 +328,3 @@ def delete_custom_quiz(room_id, quiz_name):
 
     db.collection("rooms").document(room_id).collection("quizzes").document(quiz_name).delete()
     return True
-
-
-def get_room_activity_status(room_id):
-    """
-        Returns boolean of activity status in a room.
-        :param room_id: Room whose activity status to retrieve.
-        :return: Returns a boolean.
-        """
-
-    if type(room_id) is not str:
-        raise Exception("Given arguments is not of type str")
-
-    status = False
-
-    query = db.collection("rooms").document(room_id).collection("activity").document("status").get()
-    fields = query.to_dict()
-
-    try:
-        status = fields["activity"]
-    except:
-        raise Exception("Room was never initialised with activity status.")
-
-    return status
-
-
-def set_room_activity_status(room_id, is_active):
-    """
-        Returns boolean of activity status in a room.
-        :param room_id: Room whose activity status to set.
-        :param is_active: Boolean to set for room activity status.
-        :return: Returns a boolean.
-    """
-
-    if type(room_id) is not str:
-        raise Exception("Given arguments is not of type str")
-
-    if type(is_active) is not bool:
-        raise Exception("Given arguments is not of type bool")
-
-    try:
-        db.collection("rooms").document(room_id).collection("activity").document("status").set({"activity": is_active})
-    except:
-        raise Exception("Database connection error.")
