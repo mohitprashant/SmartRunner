@@ -25,7 +25,7 @@ class TestLeaderboard(unittest.TestCase):
         leaderboard = LeaderboardManager.get_leaderboard(subject, topic)
         currLowest = leaderboard[0]
 
-        otherUser = {"score": currLowest["score"] - 1, "uid": str(uuid.uuid4()),
+        otherUser = {"score": currLowest["score"] - 1, "username": str(uuid.uuid4()),
                      "epochTimeAdded": currLowest["epochTimeAdded"]}
         LeaderboardManager.update_leaderboard(otherUser, subject, topic)
         updatedLeaderboard = LeaderboardManager.get_leaderboard(subject, topic)
@@ -39,7 +39,7 @@ class TestLeaderboard(unittest.TestCase):
         leaderboard = LeaderboardManager.get_leaderboard(subject, topic)
         currLowest = leaderboard[0]
 
-        otherUser = {"score": currLowest["score"], "uid": str(uuid.uuid4()), "epochTimeAdded": time.time()}
+        otherUser = {"score": currLowest["score"], "username": str(uuid.uuid4()), "epochTimeAdded": time.time()}
         LeaderboardManager.update_leaderboard(otherUser, subject, topic)
         updatedLeaderboard = LeaderboardManager.get_leaderboard(subject, topic)
         self.assertEqual(currLowest, updatedLeaderboard[0])
@@ -52,7 +52,7 @@ class TestLeaderboard(unittest.TestCase):
         leaderboard = LeaderboardManager.get_leaderboard(subject, topic)
         currLowest = leaderboard[0]
 
-        otherUser = {"score": currLowest["score"] + 1, "uid": str(uuid.uuid4()),
+        otherUser = {"score": currLowest["score"] + 1, "username": str(uuid.uuid4()),
                      "epochTimeAdded": currLowest["epochTimeAdded"]}
         LeaderboardManager.update_leaderboard(otherUser, subject, topic)
         updatedLeaderboard = LeaderboardManager.get_leaderboard(subject, topic)
