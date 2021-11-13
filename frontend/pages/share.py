@@ -153,7 +153,9 @@ class SharePage(Page):
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["roomID"] = self.input_data["roomID"]
             self.output_data["player_status"] = []
-
+            self.output_data["mode_toggle"] = self.input_data["mode_toggle"]
+            self.output_data["toggled"] = self.input_data["toggled"]
+            self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
             print(self.output_data["room_ID"])
             # self.output_data["room_password"] = self.input_data["room_password"]
             self.output_data["username"] = self.input_data["username"]
