@@ -435,18 +435,17 @@ class Game(Page):
     def page_function(self, triggered_component_list):
         for x in triggered_component_list:
             if(x == 'exit_btn'):
-                if self.multiplayer!=False:
-                    player_results = {
-                        "attempted": len(self.questions),
+
+                player_results = {
+                        "attempted": self.game_stats["attempted"],
                         "correct": self.game_stats["correct"],
                         "player_name": self.input_data["username"].split("@", 1)[0],
                         "quiz_name": self.input_data["custom_quiz_selection"],
                         "roomID": self.input_data["roomID"],
                         "time": self.game_stats["time"],
                         "score": self.game_stats["score"]
-                    }
-                else:
-                    player_results = {}
+                }
+
                 print("u1", self.input_data["username"])
                 print("u2", self.input_data["username"].split("@",1)[0])
                 #one more for quiz fields?
