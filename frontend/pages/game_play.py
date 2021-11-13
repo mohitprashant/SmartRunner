@@ -261,6 +261,13 @@ class Game(Page):
         self.client.bind(('localhost', CPORT))
         self.server = (code, SPORT)
 
+
+    def disconnect_multiplayer(self, code):
+        self.multiplayer = False
+        self.is_cient = False
+        self.server = None
+        self.client = None
+
     
  
     def playerupdate(self, screen):
