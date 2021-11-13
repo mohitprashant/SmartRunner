@@ -1,7 +1,7 @@
 # Leaderboards
 leaderboardSize = 30
 leaderboard_user_fields = {
-    "uid": {
+    "username": {
         "Type": str
     },
     "score": {
