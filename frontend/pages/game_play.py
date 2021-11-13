@@ -36,38 +36,38 @@ class Game(Page):
         
     def set_components(self, screen):
         # background
-        bg_img = pygame.image.load('assets/img/sky.png')
+        bg_img = pygame.image.load('assets/Backgrounds/bg2.jpeg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
-        # picture display - sun to be replaced with a game image
-        game_image_rel_x = 5 / 10
-        game_image_rel_y = 2 / 10
-        game_image_rel_width = 1 / 5
-        game_image_rel_height = 1 / 5
-        game_image_img = pygame.image.load('assets/img/sun.png')
-        game_image_box = ImageDisplay("sun", screen, game_image_rel_x, game_image_rel_y,
-                                       game_image_rel_width, game_image_rel_height,game_image_img)
-        self.components["sun"] = game_image_box
+        # # picture display - sun to be replaced with a game image
+        # game_image_rel_x = 5 / 10
+        # game_image_rel_y = 2 / 10
+        # game_image_rel_width = 1 / 5
+        # game_image_rel_height = 1 / 5
+        # game_image_img = pygame.image.load('assets/img/sun.png')
+        # game_image_box = ImageDisplay("sun", screen, game_image_rel_x, game_image_rel_y,
+        #                                game_image_rel_width, game_image_rel_height,game_image_img)
+        # self.components["sun"] = game_image_box
         
         
-        # floor
-        game_image_rel_x = 0 / 10
-        game_image_rel_y = 6 / 10
-        game_image_rel_width = 1
-        game_image_rel_height = 1 / 5
-        floor = pygame.image.load('assets/img/grass.png')
-        floor = ImageDisplay("floor", screen, game_image_rel_x, game_image_rel_y,
-                                       game_image_rel_width, game_image_rel_height,floor)
-        
-        self.components["floor"] = floor
+        # # floor
+        # game_image_rel_x = 0 / 10
+        # game_image_rel_y = 6 / 10
+        # game_image_rel_width = 1
+        # game_image_rel_height = 1 / 5
+        # floor = pygame.image.load('assets/img/grass.png')
+        # floor = ImageDisplay("floor", screen, game_image_rel_x, game_image_rel_y,
+        #                                game_image_rel_width, game_image_rel_height,floor)
+        #
+        # self.components["floor"] = floor
         
         
         # question box - invisible to begin with
         if(self.multiplayer==False or self.is_client):
             game_image_rel_x = 1 / 10
             game_image_rel_y = 1 / 10
-            game_image_rel_width = 8 / 10
+            game_image_rel_width = 7 / 10
             game_image_rel_height = 1 / 7
             question = pygame.image.load('assets/img/questionbox.png')
             question = ImageDisplay("question", screen, game_image_rel_x, game_image_rel_y,
@@ -76,24 +76,24 @@ class Game(Page):
             self.components["question"] = question
         
         
-        
-        # ground
-        game_image_rel_x = 0 / 10
-        game_image_rel_y = 8 / 10
-        game_image_rel_width = 1
-        game_image_rel_height = 1 / 5
-        dirt = pygame.image.load('assets/img/dirt.png')
-        dirt = ImageDisplay("dirt", screen, game_image_rel_x, game_image_rel_y,
-                                       game_image_rel_width, game_image_rel_height,dirt)
-        self.components["dirt"] = dirt
-        
+        #
+        # # ground
+        # game_image_rel_x = 0 / 10
+        # game_image_rel_y = 8 / 10
+        # game_image_rel_width = 1
+        # game_image_rel_height = 1 / 5
+        # dirt = pygame.image.load('assets/img/dirt.png')
+        # dirt = ImageDisplay("dirt", screen, game_image_rel_x, game_image_rel_y,
+        #                                game_image_rel_width, game_image_rel_height,dirt)
+        # self.components["dirt"] = dirt
+        #
         
         # answer boxes - invisible to begin with
         if(self.multiplayer==False or self.is_client):
-            game_image_rel_x = 1 / 40
-            game_image_rel_y = 7 / 10
-            game_image_rel_width = 4 / 9
-            game_image_rel_height = 2 / 16
+            game_image_rel_x = 0.15
+            game_image_rel_y = 0.25
+            game_image_rel_width = 0.3
+            game_image_rel_height = 0.1
             answer1 = pygame.image.load('assets/img/answer.png')
             answer1 = ImageDisplay("answer1", screen, game_image_rel_x, game_image_rel_y,
                                             game_image_rel_width, game_image_rel_height,answer1)
@@ -101,24 +101,24 @@ class Game(Page):
             self.components["answer1"] = answer1    
             
             
-            game_image_rel_x = 21 / 40
-            game_image_rel_y = 7 / 10
+            game_image_rel_x = 0.47
+            game_image_rel_y = 0.25
             answer2 = pygame.image.load('assets/img/answer.png')
             answer2 = ImageDisplay("answer2", screen, game_image_rel_x, game_image_rel_y,
                                             game_image_rel_width, game_image_rel_height,answer2)
             self.components["answer2"] = answer2 
             
             
-            game_image_rel_x = 1 / 40
-            game_image_rel_y = 8.5 / 10
+            game_image_rel_x = 0.15
+            game_image_rel_y = 0.35
             answer3 = pygame.image.load('assets/img/answer.png')
             answer3 = ImageDisplay("answer3", screen, game_image_rel_x, game_image_rel_y,
                                            game_image_rel_width, game_image_rel_height,answer3)
             self.components["answer3"] = answer3 
             
             
-            game_image_rel_x = 21 / 40
-            game_image_rel_y = 8.5 / 10
+            game_image_rel_x = 0.47
+            game_image_rel_y = 0.35
             answer4 = pygame.image.load('assets/img/answer.png')
             answer4 = ImageDisplay("answer4", screen, game_image_rel_x, game_image_rel_y,
                                            game_image_rel_width, game_image_rel_height,answer4)
@@ -126,32 +126,31 @@ class Game(Page):
             
             
             
-            
-            
+
             #answer display
-            relative_x = 9 / 40
-            relative_y = 29.5 / 40
+            relative_x = 5/20
+            relative_y = 0.28
             relative_width = 1/5
             relative_height = 1/15
             answer_text1 = TextDisplay("answer_text1", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][0])
             self.components["answer_text1"] = answer_text1
             
-            relative_x = 30 / 40
-            relative_y = 29.5 / 40
+            relative_x = 0.55
+            relative_y = 0.28
             relative_width = 1/5
             relative_height = 1/15
             answer_text2 = TextDisplay("answer_text2", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][1])
             self.components["answer_text2"] = answer_text2
             
-            relative_x = 9 / 40
-            relative_y = 35.5 / 40
+            relative_x = 5/20
+            relative_y = 0.37
             relative_width = 1/5
             relative_height = 1/15
             answer_text3 = TextDisplay("answer_text3", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][2])
             self.components["answer_text3"] = answer_text3
             
-            relative_x = 30 / 40
-            relative_y = 35.5 / 40
+            relative_x = 0.55
+            relative_y = 0.37
             relative_width = 1/5
             relative_height = 1/15
             answer_text4 = TextDisplay("answer_text4", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][3])
@@ -159,7 +158,7 @@ class Game(Page):
             
             
             #question display
-            relative_x = 3/20
+            relative_x = 7/20
             relative_y = 2/15
             relative_width = 4/5
             relative_height = 1/15
@@ -177,14 +176,12 @@ class Game(Page):
             host = TextDisplay("host", screen, relative_x, relative_y, relative_width, relative_height, 'Thank you for hosting')
             self.components["host"] = host
         
-        
-        
-        
+
         # progress bar
         game_image_rel_x = 1 / 100
         game_image_rel_y = 1 / 100
         game_image_rel_width = 1 / 2
-        game_image_rel_height = 1 / 20
+        game_image_rel_height = 1 / 15
         progress = pygame.image.load('assets/img/progressbar.png')
         progress = ImageDisplay("progress", screen, game_image_rel_x, game_image_rel_y,
                                         game_image_rel_width, game_image_rel_height,progress)
@@ -194,7 +191,7 @@ class Game(Page):
         
         # coverage -> max width at 38
         game_image_rel_x = 7 / 100
-        game_image_rel_y = 3 / 100
+        game_image_rel_y = 4 / 100
         game_image_rel_width = 0 / 100
         game_image_rel_height = 1 / 50
         cover = pygame.image.load('assets/img/cover.png')
@@ -206,7 +203,7 @@ class Game(Page):
         
         # player sprite
         game_image_rel_x = 4 / 10
-        game_image_rel_y = 4.5 / 10
+        game_image_rel_y = 0.67
         game_image_rel_width = 1 / 6
         game_image_rel_height = 1 / 6
         player = pygame.image.load('assets/img/'+self.avatar+'2.png')
@@ -253,7 +250,7 @@ class Game(Page):
             self.avatarstate = (self.avatarstate + 1) %4
             
             game_image_rel_x = 4 / 10
-            game_image_rel_y = 4.5 / 10
+            game_image_rel_y = 7 / 10
             game_image_rel_width = 1 / 6
             game_image_rel_height = 1 / 6
             player = pygame.image.load('assets/img/'+self.avatar+str(self.avatarstate)+'.png')
@@ -270,15 +267,15 @@ class Game(Page):
     def questionupdate(self, screen, correct):
         #question display
         if(correct):
-            relative_x = 15/20
-            relative_y = 1/15
+            relative_x = 7/20
+            relative_y = 0.47
             relative_width = 1/5
             relative_height = 1/15
             correction = TextDisplay("correction", screen, relative_x, relative_y, relative_width, relative_height, 'Correct Answer')
             self.components["correction"] = correction
         else:
-            relative_x = 10/20
-            relative_y = 1/15
+            relative_x = 5/20
+            relative_y = 0.47
             relative_width = 2/5 
             relative_height = 1/15
             correction = TextDisplay("correction", screen, relative_x, relative_y, relative_width, relative_height, 'The correct answer was : '+str(self.correct[self.questionstate-1]))
@@ -287,81 +284,81 @@ class Game(Page):
         
         
         if(self.questionstate >= len(self.questions)):
-            relative_x = 3/20
-            relative_y = 2/15
-            relative_width = 4/5
-            relative_height = 1/15
+            relative_x = 6 / 20
+            relative_y = 2 / 15
+            relative_width = 4 / 5
+            relative_height = 1 / 15
             question_text = TextDisplay("question_text", screen, relative_x, relative_y, relative_width, relative_height, 'No more questions')
             self.components["question_text"] = question_text
             return
         
         #question display
-        relative_x = 3/20
-        relative_y = 2/15
-        relative_width = 4/5
-        relative_height = 1/15
+        relative_x = 7 / 20
+        relative_y = 2 / 15
+        relative_width = 4 / 5
+        relative_height = 1 / 15
         question_text = TextDisplay("question_text", screen, relative_x, relative_y, relative_width, relative_height, self.questions[self.questionstate])
         self.components["question_text"] = question_text
         
         
         #answer display
-        relative_x = 9 / 40
-        relative_y = 29.5 / 40
-        relative_width = 1/5
-        relative_height = 1/15
+        relative_x = 5 / 20
+        relative_y = 0.28
+        relative_width = 1 / 5
+        relative_height = 1 / 15
         answer_text1 = TextDisplay("answer_text1", screen, relative_x, relative_y, relative_width, relative_height, self.answers[self.questionstate][0])
         self.components["answer_text1"] = answer_text1
-        
-        relative_x = 30 / 40
-        relative_y = 29.5 / 40
-        relative_width = 1/5
-        relative_height = 1/15
+
+        relative_x = 0.55
+        relative_y = 0.28
+        relative_width = 1 / 5
+        relative_height = 1 / 15
         answer_text2 = TextDisplay("answer_text2", screen, relative_x, relative_y, relative_width, relative_height, self.answers[self.questionstate][1])
         self.components["answer_text2"] = answer_text2
-        
-        relative_x = 9 / 40
-        relative_y = 35.5 / 40
-        relative_width = 1/5
-        relative_height = 1/15
+
+        relative_x = 5 / 20
+        relative_y = 0.37
+        relative_width = 1 / 5
+        relative_height = 1 / 15
         answer_text3 = TextDisplay("answer_text3", screen, relative_x, relative_y, relative_width, relative_height, self.answers[self.questionstate][2])
         self.components["answer_text3"] = answer_text3
-        
-        relative_x = 30 / 40
-        relative_y = 35.5 / 40
-        relative_width = 1/5
-        relative_height = 1/15
+
+        relative_x = 0.55
+        relative_y = 0.37
+        relative_width = 1 / 5
+        relative_height = 1 / 15
         answer_text4 = TextDisplay("answer_text4", screen, relative_x, relative_y, relative_width, relative_height, self.answers[self.questionstate][3])
         self.components["answer_text4"] = answer_text4
                 
     
     def display_score(self, screen):
-        relative_x = 10/20
-        relative_y = 5/17
-        relative_width = 1/5
-        relative_height = 1/15
-        score_display = TextDisplay("score_display", screen, relative_x, relative_y, relative_width, relative_height, 'Score : '+str(self.game_stats['score']//1))
-        self.components["score_display"] = score_display
+        # relative_x = 10/20
+        # relative_y = 5/17
+        # relative_width = 1/5
+        # relative_height = 1/15
+        # score_display = TextDisplay("score_display", screen, relative_x, relative_y, relative_width, relative_height, 'Score : '+str(self.game_stats['score']//1))
+        # self.components["score_display"] = score_display
+        #
+        # relative_x = 10/20
+        # relative_y = 6/17
+        # relative_width = 1/5
+        # relative_height = 1/15
+        # time_display = TextDisplay("time_display", screen, relative_x, relative_y, relative_width, relative_height, 'Time taken : '+str(self.game_stats['time']))
+        # self.components["time_display"] = time_display
+        #
+        # relative_x = 10/20
+        # relative_y = 7/17
+        # relative_width = 1/5
+        # relative_height = 1/15
+        # correct_display = TextDisplay("correct_display", screen, relative_x, relative_y, relative_width, relative_height, 'Correct : '+str(self.game_stats['correct'])+'/'+str(len(self.questions)))
+        # self.components["correct_display"] = correct_display
         
-        relative_x = 10/20
-        relative_y = 6/17
-        relative_width = 1/5
-        relative_height = 1/15
-        time_display = TextDisplay("time_display", screen, relative_x, relative_y, relative_width, relative_height, 'Time taken : '+str(self.game_stats['time']))
-        self.components["time_display"] = time_display
         
-        relative_x = 10/20
-        relative_y = 7/17
-        relative_width = 1/5
-        relative_height = 1/15
-        correct_display = TextDisplay("correct_display", screen, relative_x, relative_y, relative_width, relative_height, 'Correct : '+str(self.game_stats['correct'])+'/'+str(len(self.questions)))
-        self.components["correct_display"] = correct_display
-        
-        
-        game_image_rel_x = 9 / 10
-        game_image_rel_y = 1 / 10
+        game_image_rel_x = 0.87
+        game_image_rel_y = 0.02
         game_image_rel_width = 1 / 10
         game_image_rel_height = 1 / 10
-        exit_btn = pygame.image.load('assets/img/exit_btn.png')
+        exit_btn = pygame.image.load('assets/Buttons/btn_back.png')
         exit_btn = ImageDisplay("exit_btn", screen, game_image_rel_x, game_image_rel_y,
                                         game_image_rel_width, game_image_rel_height,exit_btn)
         self.components["exit_btn"] = exit_btn
@@ -567,7 +564,7 @@ class Game(Page):
                 
                 if(self.distance < 20):
                     game_image_rel_x = (9 - (4*(-self.distance))) / 10
-                    game_image_rel_y = 4.5 / 10
+                    game_image_rel_y = 7 / 10
                     game_image_rel_width = 1 / 6
                     game_image_rel_height = 1 / 6
                     end = pygame.image.load('assets/img/exit.png')
@@ -584,7 +581,7 @@ class Game(Page):
             pygame.display.update()
 
 
-
+#
 #
 # p = Game(pygame.display.set_mode((400, 400), pygame.RESIZABLE), multiplayer = False)
 # input_data = {}
