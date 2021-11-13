@@ -28,6 +28,7 @@ class Game(Page):
     
     def __init__(self, screen, multiplayer = False):
         super().__init__(screen)
+        pygame.init()
         self.name = "game_play"
         self.input_data = {
             "username": "",
