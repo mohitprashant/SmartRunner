@@ -168,8 +168,7 @@ class CustomSelectPage(Page):
             self.output_data["mode_toggle"] = True
             if triggered_component in [self.components["custom_quizzes"]]:
                 self.input_data["custom_quiz_selection"] = triggered_component.selected_text
-                # if self.input_data["retrieve_id"][triggered_component.selected_text[0]]!= "Nobody's here!":
-                if self.input_data["custom_quiz_selection"] != "Nobody's here!":
+                if self.input_data["custom_quiz_selection"] != "Empty!":
                     self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
                     self.name = "question_select"
                 else:

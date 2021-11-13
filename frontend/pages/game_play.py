@@ -123,7 +123,7 @@ class Game(Page):
             game_image_rel_y = 0.25
             game_image_rel_width = 0.3
             game_image_rel_height = 0.1
-            answer1 = pygame.image.load('assets/img/answer.png')
+            answer1 = pygame.image.load('assets/Buttons/btn_plain.png')
             answer1 = ImageDisplay("answer1", screen, game_image_rel_x, game_image_rel_y,
                                             game_image_rel_width, game_image_rel_height,answer1)
 
