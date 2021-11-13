@@ -22,6 +22,7 @@ from question_select import *
 from add_question import *
 from welcome_screen import *
 from game_play import *
+from customize import *
 import sys
 # sys.path.insert(1, '../../backend/account')
 # import AccountManager
@@ -89,6 +90,7 @@ class PageController:
         self.add_question = AddQuestionPage(self.screen)
         self.welcome_screen = WelcomeScreenPage(self.screen)
         self.game_play = Game(self.screen)
+        self.customize = CustomizePage(self.screen)
 
 
 
@@ -167,7 +169,7 @@ class PageController:
                 page_data = self.custom_select.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "question_select":
                 if page_data[0]["custom_quiz_selection"] !="":
-                    page_data[0]["custom_quiz_selection"] = "Custom Quiz 1"
+                    # page_data[0]["custom_quiz_selection"] = "Custom Quiz 1"
                     custom_quiz_selection = page_data[0]["custom_quiz_selection"]
                     custom_quiz = QuestionManager.get_custom_questions(page_data[0]["roomID"],page_data[0]["custom_quiz_selection"])
                     description = []
@@ -458,7 +460,12 @@ class PageController:
                     "roomID": page_data[0]["roomID"]
                 }
                 page_data = self.game_play.start(self.screen, input_data)
-
+            elif page_data[0]["current_page"] == "customize":
+                input_data = {
+                    "username": page_data[0]["username"],
+                    "prev_page": page_data[0]["prev_page"]
+                }
+                page_data = self.customize.start(self.screen, input_data)
 
             pygame.display.update()
 

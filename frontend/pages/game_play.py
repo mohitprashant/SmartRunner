@@ -585,15 +585,15 @@ class Game(Page):
 
 
 
-
-p = Game(pygame.display.set_mode((400, 400), pygame.RESIZABLE), multiplayer = False)
-input_data = {}
-input_data['questions'] = ['who am I?', 'what is my name?']*2
-input_data['answers'] = [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]*2
-
-
-
-p.start(p.screen, input_data)
+#
+# p = Game(pygame.display.set_mode((400, 400), pygame.RESIZABLE), multiplayer = False)
+# input_data = {}
+# input_data['questions'] = ['who am I?', 'what is my name?']*2
+# input_data['answers'] = [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]*2
+#
+#
+#
+# p.start(p.screen, input_data)
 
 
 
