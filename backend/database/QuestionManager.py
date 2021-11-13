@@ -160,7 +160,7 @@ def add_global_questions(subject, topic, questions):
     for question in questions:
         db.collection("subjects").document(subject).collection(topic).document().set(question)
 
-    return question
+    return questions
 
 
 def delete_custom_question(user_id, room_id, quiz_name, question_id):
@@ -221,3 +221,101 @@ def get_question_difficulty_list(subject, topic):
 
     difficulties.sort()
     return difficulties
+
+
+def get_questions_by_host(room_id):
+    """
+    :param room_id: room to get host's questions from.
+    :return: List of questions (dictionary).
+    """
+
+    if type(room_id) is not str:
+        raise Exception("Given arguments are not of type str")
+
+    if room_id == "":
+        raise Exception("Given arguments cannot be empty")
+
+    try:
+        query = db.collection("rooms").document(room_id).collection("host_questions").get()
+    except:
+        raise Exception("Error retrieving data.")
+
+    questions = []
+
+    for q in query:
+        dict = q.to_dict()
+        questions = dict['questions']
+
+    return questions
+
+
+def set_questions_by_host(room_id, questions):
+    """
+    :param room_id: room to get host's questions from.
+    :param questions: host's questions to set.
+    """
+
+    if type(room_id) is not str:
+        raise Exception("Given arguments are not of type str")
+
+    if room_id == "":
+        raise Exception("Given arguments cannot be empty")
+
+    if type(questions) is not list:
+        raise Exception("Given arguments are not of type list")
+
+    dict = {'questions': questions}
+
+    try:
+        db.collection("rooms").document(room_id).collection("host_questions").document("questions").set(dict)
+    except:
+        raise Exception("Error setting data.")
+
+
+def get_answers_by_host(room_id):
+    """
+    :param room_id: room to get host's questions from.
+    :return: List of answers (dictionary).
+    """
+
+    if type(room_id) is not str:
+        raise Exception("Given arguments are not of type str")
+
+    if room_id == "":
+        raise Exception("Given arguments cannot be empty")
+
+    try:
+        query = db.collection("rooms").document(room_id).collection("host_answers").get()
+    except:
+        raise Exception("Error retrieving data.")
+
+    answers = []
+
+    for q in query:
+        dict = q.to_dict()
+        answers = dict['answers']
+
+    return answers
+
+
+def set_answers_by_host(room_id, answers):
+    """
+    :param room_id: room to get host's questions from.
+    :param answers: host's questions to set.
+    """
+
+    if type(room_id) is not str:
+        raise Exception("Given arguments are not of type str")
+
+    if room_id == "":
+        raise Exception("Given arguments cannot be empty")
+
+    if type(answers) is not list:
+        raise Exception("Given arguments are not of type list")
+
+    dict = {'answers': answers}
+
+    try:
+        db.collection("rooms").document(room_id).collection("host_answers").document("answers").set(dict)
+    except:
+        raise Exception("Error setting data.")
