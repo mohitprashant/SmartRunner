@@ -111,6 +111,9 @@ class ManageRoomsPage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["username"] = self.input_data["username"]
+            self.output_data["mode_toggle"] = False
+            self.output_data["toggled"] = False
+            self.output_data["custom_quiz_selection"] = "Select Custom Quiz"
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "room_tab"
             if triggered_component in [self.components["selectable_text_list"]]:

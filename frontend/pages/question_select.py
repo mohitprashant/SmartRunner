@@ -15,7 +15,7 @@ class QuestionSelectPage(Page):
             "username": "",
             "toggled":"",
             "custom_quiz_selection": "",
-            "custom_question_selection": [],
+            "custom_question_selection": []
         }
         self.output_data = {
             "current_page": self.name,
@@ -24,7 +24,7 @@ class QuestionSelectPage(Page):
             "username": "",
             "toggled":"",
             "custom_quiz_selection":"",
-            "custom_question_selection": "",
+            "custom_question_selection": [],
             "exit": False
         }
 
@@ -105,7 +105,7 @@ class QuestionSelectPage(Page):
         text_relative_height = 0.1
         shown_relative_width = 0.55
         shown_relative_height = 0.4
-        custom_questions_list = self.input_data["custom_question_selection"]
+        custom_questions_list = self.input_data["question_list"]
         # print(self.input_data.keys())
         # print(custom_questions_list)
 
@@ -170,6 +170,8 @@ class QuestionSelectPage(Page):
             self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
             self.output_data["custom_question_selection"] = self.input_data["custom_question_selection"]
             self.output_data["toggled"] = self.input_data["toggled"]
+            self.output_data["correct_option"] = "Correct Option"
+            self.output_data["selected_question"] = self.input_data["selected_question"]
 
             if triggered_component in [self.components["return_button2"]]:
                 self.name = "custom_select"
@@ -183,9 +185,11 @@ class QuestionSelectPage(Page):
                 else:
                     self.name = "add_question"
 
-
-
-
+            if triggered_component in [self.components["custom_questions"]]:
+                self.input_data["selected_question"] = self.input_data["retrieve_id"][triggered_component.selected_text[0]]
+                self.output_data["selected_question"] = self.input_data["selected_question"]
+                self.name = "question_select"
             if triggered_component in [self.components["delete_question_button2"]]:
-                QuestionManager.delete_custom_question(self.output_data["username"], self.output_data["roomID"],self.output_data["custom_quiz_selection"],self.output_data["custom_question_selection"])
-                print("delete question", self.output_data["custom_question_selection"], "from database")
+                print(self.output_data["username"], self.output_data["roomID"],self.output_data["custom_quiz_selection"], self.output_data["selected_question"])
+                QuestionManager.delete_custom_question(self.output_data["username"], self.output_data["roomID"],self.output_data["custom_quiz_selection"], self.output_data["selected_question"])
+                print("delete question", self.output_data["selected_question"], "from database")

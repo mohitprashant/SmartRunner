@@ -50,6 +50,7 @@ class Page:
         self.input_data = input_data
         self.output_data["current_page"] = self.name
         self.set_components(screen)
+
         while self.run:
             self.draw_components()
             for event in pygame.event.get():
@@ -104,6 +105,7 @@ class Page:
                     elif top_layer_triggered==False:
                         self.output_data["current_page"] = self.name
                         return self.output_data, self.input_data
+
 
 
             pygame.display.update()
