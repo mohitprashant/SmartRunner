@@ -1,6 +1,11 @@
 import pygame
 from assets.components import *
 from page import *
+sys.path.insert(1, '../../backend/database')
+
+import LeaderboardManager
+import ResultManager
+
 
 
 class EndScreenPage(Page):
@@ -13,7 +18,9 @@ class EndScreenPage(Page):
             "username":"",
             "prev_page":"",
             "score":"",
-            "playertype": ""
+            "playertype": "",
+            "subject": "",
+            "topic": ""
         }
         self.output_data = {
             "current_page": self.name,
@@ -140,10 +147,13 @@ class EndScreenPage(Page):
                 self.name = "share_results"
             if triggered_component in [self.components["back_button"]]:
                 if self.input_data["roomID"] == "singleplayer":
+                    LeaderboardManager.update_leaderboard(self.input_data["username"], self.input_data["subject"], self.input_data["topic"])
                     self.name = "main_menu"
-                elif self.input_data["playertype"] == "host":
+                elif self.input_data["playertype"] == "host" and self.input_data["join_host"]:
+                    # ResultsManager.save_game_results(result, room_id_quiz_id)
                     self.name = "hostroom"
-                elif self.input_data["playertype"] == "client":
+                elif self.input_data["playertype"] == "client" and self.input_data["readystatus"]:
+                    # ResultsManager.save_game_results(result, room_id_quiz_id)
                     self.name = "playerroom"
                 #add another one for multiplayer (how to account for host?)
             # if triggered_component in [self.components["player_results"]]:

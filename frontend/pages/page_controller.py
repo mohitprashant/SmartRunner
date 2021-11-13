@@ -291,11 +291,13 @@ class PageController:
             elif page_data[0]["current_page"] == "end_screen":
                 input_data = {
                         "player_results": page_data[0]["player_results"],
-                        "username": page_data[0]["player_results"],
+                        "username": page_data[0]["username"],
                         "roomID": page_data[0]["roomID"],
                         "prev_page": page_data[0]["prev_page"],
                         "score": page_data[0]["score"],
-                        "playertype": page_data[0]["playertype"]
+                        "playertype": page_data[0]["playertype"],
+                        "subject": page_data[0]["subject"],
+                        "topic": page_data[0]["topic"],
 
                 }
                 page_data = self.end_screen.start(self.screen, input_data)
@@ -472,14 +474,15 @@ class PageController:
                     "answers": page_data[0]["answers"],
                     "roomID": page_data[0]["roomID"],
                     "playertype": page_data[0]["playertype"],
-                    "readystatus": page_data[0]["readystatus"]
+                    "readystatus": page_data[0]["readystatus"],
+                    "join_host": page_data[0]["join_host"]
 
                 }
                 page_data = self.game_play.start(self.screen, input_data)
             elif page_data[0]["current_page"] == "customize":
                 input_data = {
                     "username": page_data[0]["username"],
-                    "prev_page": page_data[0]["prev_page"]
+                    "prev_page": page_data[0]["prev_page"],
                 }
                 page_data = self.customize.start(self.screen, input_data)
 
