@@ -147,6 +147,10 @@ class EndScreenPage(Page):
                 self.name = "share_results"
             if triggered_component in [self.components["back_button"]]:
                 if self.input_data["roomID"] == "singleplayer":
+                    print("Username: ", self.input_data["username"])
+                    print("Subject: ", self.input_data["subject"])
+                    print("Topic: ", self.input_data["topic"])
+
                     LeaderboardManager.update_leaderboard(self.input_data["username"], self.input_data["subject"], self.input_data["topic"])
                     self.name = "main_menu"
                 elif self.input_data["playertype"] == "host" and self.input_data["join_host"]:

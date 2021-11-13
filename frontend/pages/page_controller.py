@@ -475,7 +475,9 @@ class PageController:
                     "roomID": page_data[0]["roomID"],
                     "playertype": page_data[0]["playertype"],
                     "readystatus": page_data[0]["readystatus"],
-                    "join_host": page_data[0]["join_host"]
+                    "join_host": page_data[0]["join_host"],
+                    "subjectselection": page_data[0]["subjectselection"],
+                    "topicselection": page_data[0]["topicselection"],
 
                 }
                 page_data = self.game_play.start(self.screen, input_data)

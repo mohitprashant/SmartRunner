@@ -61,8 +61,7 @@ class Game(Page):
     def set_components(self, screen):
         # background
         print("playertype", self.input_data["playertype"])
-        self.output_data["subject"] = ""
-        self.output_data["topic"] = ""
+
         if self.input_data["roomID"] != "singleplayer":
             self.output_data["subject"] = self.input_data["questions"][0]
             self.output_data["topic"] = self.input_data["questions"][1]
@@ -73,6 +72,9 @@ class Game(Page):
             elif self.input_data["playertype"] == "host":
                 self.host_multiplayer()
                 print("host!")
+        else:
+            self.output_data["subject"] = self.input_data["subjectselection"]
+            self.output_data["topic"] = self.input_data["topicselection"]
 
         bg_img = pygame.image.load('assets/Backgrounds/gamebg.jpeg')
         background = Background("background", screen, bg_img)
