@@ -115,10 +115,10 @@ class ShareResultsPage(Page):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["username"] = self.input_data["username"]
-
-            fb_access_token = 'EAAZAZBaaDDFy8BAF5z4aE5CSpObkXcZBppVfZBknWNfAdxe1evTfZA0gM0dBFHEzcIQKxqYdKOXab06ZAosuCzhSP49tkZAMmB4TDstS8lXoqIPN1bBzXK2KmGUsjhBKJpCIAlprZBoq5sVgfTChW3laanfxSq5ZCyntOCjbW46cymK8agiFvvmNbeeZCu7n6gLGqTBrS6zoPIiLZAD5ugECL6n'
-            fb_api = fb.GraphAPI(fb_access_token)
-            fb_api.put_photo(open("Leaderboard.jpg", "rb"), message="Check out our monthly leaderboard here!")
+            #
+            # fb_access_token = 'EAAZAZBaaDDFy8BAF5z4aE5CSpObkXcZBppVfZBknWNfAdxe1evTfZA0gM0dBFHEzcIQKxqYdKOXab06ZAosuCzhSP49tkZAMmB4TDstS8lXoqIPN1bBzXK2KmGUsjhBKJpCIAlprZBoq5sVgfTChW3laanfxSq5ZCyntOCjbW46cymK8agiFvvmNbeeZCu7n6gLGqTBrS6zoPIiLZAD5ugECL6n'
+            # fb_api = fb.GraphAPI(fb_access_token)
+            # fb_api.put_photo(open("Leaderboard.jpg", "rb"), message="Check out our monthly leaderboard here!")
 
             if triggered_component in [self.components["twitter_button"]]:
                     print('redirecting to twitter...')
@@ -129,8 +129,12 @@ class ShareResultsPage(Page):
                         self.output_data["topic"] = self.input_data["topic"]
                         share_string = self.output_data["subject"] + ": " + self.output_data["topic"]
                         print("share", share_string)
+                        self.name = "topic_leaderboard"
                     elif self.output_data["back_navigation"] == "end_screen":
                         self.output_data["roomID"] = self.input_data["roomID"]
+                        self.output_data["player_results"] = self.input_data["player_results"]
+                        self.output_data["score"] = self.input_data["score"]
+                        self.name = "end_screen"
             if triggered_component in [self.components["facebook_button"]]:
                 print('redirecting to facebook...')
                 webbrowser.open("https://www.facebook.com/sharer/sharer.php?u=https://www.facebook.com/SmartRun-Leaderboard-104831658686019/")
@@ -140,11 +144,12 @@ class ShareResultsPage(Page):
                     self.output_data["topic"] = self.input_data["topic"]
                     share_string = self.output_data["subject"] + ": " + self.output_data["topic"]
                     print("share", share_string)
+                    self.name = "topic_leaderboard"
                 elif self.output_data["back_navigation"] == "end_screen":
                     self.output_data["roomID"] = self.input_data["roomID"]
                     self.output_data["player_results"] = self.input_data["player_results"]
                     self.output_data["score"] = self.input_data["score"]
-
+                    self.name = "end_screen"
 
             if triggered_component in [self.components["return_button"]]:
                 print("topic", self.output_data["back_navigation"])
