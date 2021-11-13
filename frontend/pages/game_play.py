@@ -12,6 +12,7 @@ import pygame
 import sys
 import time
 import random
+import socket
 
 
 
@@ -19,32 +20,18 @@ import random
 DECEL = 0.1
 MINSPEED = 1.0
 BLACK=(0,0,0)
+SPORT = 4000
+CPORT = 4100
 
 
 class Game(Page):
     
     def __init__(self, screen, multiplayer = False):
         super().__init__(screen)
-        # pygame.init()
-        self.name = "game_play"
-        self.input_data = {
-            "username": "",
-            "questions": [],
-            "answers": [],
-            "playerlist": []
-        }
-        self.output_data = {
-            "current_page": self.name,
-            "prev_page": "",
-            "username": "",
-            "game_stats" : {},
-            "back_navigation": "",
-            "exit": False,
-            "playerlist": []
-        }
-        self.gamerun = True
-        
-        
+        pygame.init()
+        self.is_server = False
+        self.is_client = False
+        self.multiplayer =  multiplayer
         
         
     def set_components(self, screen):
@@ -77,15 +64,16 @@ class Game(Page):
         
         
         # question box - invisible to begin with
-        game_image_rel_x = 1 / 10
-        game_image_rel_y = 1 / 10
-        game_image_rel_width = 8 / 10
-        game_image_rel_height = 1 / 7
-        question = pygame.image.load('assets/img/questionbox.png')
-        question = ImageDisplay("question", screen, game_image_rel_x, game_image_rel_y,
-                                       game_image_rel_width, game_image_rel_height,question)
-        
-        self.components["question"] = question
+        if(self.multiplayer==False or self.is_client):
+            game_image_rel_x = 1 / 10
+            game_image_rel_y = 1 / 10
+            game_image_rel_width = 8 / 10
+            game_image_rel_height = 1 / 7
+            question = pygame.image.load('assets/img/questionbox.png')
+            question = ImageDisplay("question", screen, game_image_rel_x, game_image_rel_y,
+                                           game_image_rel_width, game_image_rel_height,question)
+            
+            self.components["question"] = question
         
         
         
@@ -101,81 +89,93 @@ class Game(Page):
         
         
         # answer boxes - invisible to begin with
-        game_image_rel_x = 1 / 40
-        game_image_rel_y = 7 / 10
-        game_image_rel_width = 4 / 9
-        game_image_rel_height = 2 / 16
-        answer1 = pygame.image.load('assets/img/answer.png')
-        answer1 = ImageDisplay("answer1", screen, game_image_rel_x, game_image_rel_y,
-                                        game_image_rel_width, game_image_rel_height,answer1)
+        if(self.multiplayer==False or self.is_client):
+            game_image_rel_x = 1 / 40
+            game_image_rel_y = 7 / 10
+            game_image_rel_width = 4 / 9
+            game_image_rel_height = 2 / 16
+            answer1 = pygame.image.load('assets/img/answer.png')
+            answer1 = ImageDisplay("answer1", screen, game_image_rel_x, game_image_rel_y,
+                                            game_image_rel_width, game_image_rel_height,answer1)
+            
+            self.components["answer1"] = answer1    
+            
+            
+            game_image_rel_x = 21 / 40
+            game_image_rel_y = 7 / 10
+            answer2 = pygame.image.load('assets/img/answer.png')
+            answer2 = ImageDisplay("answer2", screen, game_image_rel_x, game_image_rel_y,
+                                            game_image_rel_width, game_image_rel_height,answer2)
+            self.components["answer2"] = answer2 
+            
+            
+            game_image_rel_x = 1 / 40
+            game_image_rel_y = 8.5 / 10
+            answer3 = pygame.image.load('assets/img/answer.png')
+            answer3 = ImageDisplay("answer3", screen, game_image_rel_x, game_image_rel_y,
+                                           game_image_rel_width, game_image_rel_height,answer3)
+            self.components["answer3"] = answer3 
+            
+            
+            game_image_rel_x = 21 / 40
+            game_image_rel_y = 8.5 / 10
+            answer4 = pygame.image.load('assets/img/answer.png')
+            answer4 = ImageDisplay("answer4", screen, game_image_rel_x, game_image_rel_y,
+                                           game_image_rel_width, game_image_rel_height,answer4)
+            self.components["answer4"] = answer4 
+            
+            
+            
+            
+            
+            #answer display
+            relative_x = 9 / 40
+            relative_y = 29.5 / 40
+            relative_width = 1/5
+            relative_height = 1/15
+            answer_text1 = TextDisplay("answer_text1", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][0])
+            self.components["answer_text1"] = answer_text1
+            
+            relative_x = 30 / 40
+            relative_y = 29.5 / 40
+            relative_width = 1/5
+            relative_height = 1/15
+            answer_text2 = TextDisplay("answer_text2", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][1])
+            self.components["answer_text2"] = answer_text2
+            
+            relative_x = 9 / 40
+            relative_y = 35.5 / 40
+            relative_width = 1/5
+            relative_height = 1/15
+            answer_text3 = TextDisplay("answer_text3", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][2])
+            self.components["answer_text3"] = answer_text3
+            
+            relative_x = 30 / 40
+            relative_y = 35.5 / 40
+            relative_width = 1/5
+            relative_height = 1/15
+            answer_text4 = TextDisplay("answer_text4", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][3])
+            self.components["answer_text4"] = answer_text4
+            
+            
+            #question display
+            relative_x = 3/20
+            relative_y = 2/15
+            relative_width = 4/5
+            relative_height = 1/15
+            question_text = TextDisplay("question_text", screen, relative_x, relative_y, relative_width, relative_height, self.questions[0])
+            self.components["question_text"] = question_text
+            
+            correction = TextDisplay("correction", screen, relative_x, relative_y, relative_width, relative_height, '')
+            self.components["correction"] = correction
         
-        self.components["answer1"] = answer1    
-        
-        
-        game_image_rel_x = 21 / 40
-        game_image_rel_y = 7 / 10
-        answer2 = pygame.image.load('assets/img/answer.png')
-        answer2 = ImageDisplay("answer2", screen, game_image_rel_x, game_image_rel_y,
-                                        game_image_rel_width, game_image_rel_height,answer2)
-        self.components["answer2"] = answer2 
-        
-        
-        game_image_rel_x = 1 / 40
-        game_image_rel_y = 8.5 / 10
-        answer3 = pygame.image.load('assets/img/answer.png')
-        answer3 = ImageDisplay("answer3", screen, game_image_rel_x, game_image_rel_y,
-                                       game_image_rel_width, game_image_rel_height,answer3)
-        self.components["answer3"] = answer3 
-        
-        
-        game_image_rel_x = 21 / 40
-        game_image_rel_y = 8.5 / 10
-        answer4 = pygame.image.load('assets/img/answer.png')
-        answer4 = ImageDisplay("answer4", screen, game_image_rel_x, game_image_rel_y,
-                                       game_image_rel_width, game_image_rel_height,answer4)
-        self.components["answer4"] = answer4 
-        
-        
-        #question display
-        relative_x = 3/20
-        relative_y = 2/15
-        relative_width = 4/5
-        relative_height = 1/15
-        question_text = TextDisplay("question_text", screen, relative_x, relative_y, relative_width, relative_height, self.questions[0])
-        self.components["question_text"] = question_text
-        
-        correction = TextDisplay("correction", screen, relative_x, relative_y, relative_width, relative_height, '')
-        self.components["correction"] = correction
-        
-        
-        #answer display
-        relative_x = 9 / 40
-        relative_y = 29.5 / 40
-        relative_width = 1/5
-        relative_height = 1/15
-        answer_text1 = TextDisplay("answer_text1", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][0])
-        self.components["answer_text1"] = answer_text1
-        
-        relative_x = 30 / 40
-        relative_y = 29.5 / 40
-        relative_width = 1/5
-        relative_height = 1/15
-        answer_text2 = TextDisplay("answer_text2", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][1])
-        self.components["answer_text2"] = answer_text2
-        
-        relative_x = 9 / 40
-        relative_y = 35.5 / 40
-        relative_width = 1/5
-        relative_height = 1/15
-        answer_text3 = TextDisplay("answer_text3", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][2])
-        self.components["answer_text3"] = answer_text3
-        
-        relative_x = 30 / 40
-        relative_y = 35.5 / 40
-        relative_width = 1/5
-        relative_height = 1/15
-        answer_text4 = TextDisplay("answer_text4", screen, relative_x, relative_y, relative_width, relative_height, self.answers[0][3])
-        self.components["answer_text4"] = answer_text4
+        else:
+            relative_x = 3/20
+            relative_y = 2/15
+            relative_width = 4/5
+            relative_height = 1/15
+            host = TextDisplay("host", screen, relative_x, relative_y, relative_width, relative_height, 'Thank you for hosting')
+            self.components["host"] = host
         
         
         
@@ -216,13 +216,36 @@ class Game(Page):
         self.components["player"] = player
         
         
+        for x in self.players.keys():
+            multiplayer = pygame.image.load('assets/img/'+self.players[x].avatar+'2.png')
+            multiplayer = ImageDisplay("player", screen, game_image_rel_x, game_image_rel_y,
+                              game_image_rel_width, game_image_rel_height,multiplayer)
+            self.components[x] = multiplayer
+        
+        
     def host_multiplayer(self):
-        pass
-    
+        if(self.multiplayer == False):
+            print('Multiplayer not enabled')
+            return
+        
+        self.is_server = True
+        self.is_client = False
+        self.server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.server.bind(('localhost', SPORT))
+        
+            
     
     def join_multiplayer(self, code):
-        pass
-    
+        if(self.multiplayer == False):
+            print('Multiplayer not enabled')
+            return
+        
+        self.is_server = False
+        self.is_client = True
+        self.client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.client.bind(('localhost', CPORT))
+        self.server = (code, SPORT)
+            
     
  
     def playerupdate(self, screen):
@@ -238,6 +261,9 @@ class Game(Page):
                                   game_image_rel_width, game_image_rel_height,player)
             self.components['player'] = player
             self.lastavatarupdate = time.time()
+            
+        for x in self.players:
+            pass
             
             
             
@@ -343,35 +369,15 @@ class Game(Page):
     
         
     def get_gamedata(self):
-        data = {}
-        
-        
-        
-    def add_player(self, playerName):
-        self.multiplayer += 1
+
+        return self.game_stats, self.players
 
 
 
     def page_function(self, triggered_component_list):
         for x in triggered_component_list:
             if(x == 'exit_btn'):
-                player_results = {
-                    "no_of_questions_attempted": str(len(self.questions)),
-                    "no_of_questions_correct": str(self.game_stats["correct"]),
-                    #impt - how to retrieve
-                    "player_end_time": str(self.game_stats["time"]),
-                    "player_name": self.input_data["username"].split("@",1)[0]
-                }
-                print("u1", self.input_data["username"])
-                print("u2", self.input_data["username"].split("@",1)[0])
-                #one more for quiz fields?
-                self.output_data["prev_page"] = self.output_data["current_page"]
-                self.output_data["username"] = self.input_data["username"]
-                self.output_data["player_results"] = player_results
-                self.output_data["roomID"] = self.input_data["roomID"]
-                self.output_data["score"] = str(int(self.game_stats['score']))
-                self.output_data["current_page"] = "end_screen"
-
+                pygame.quit()
 
 
     # start running the page
@@ -385,6 +391,7 @@ class Game(Page):
         self.game_stats['correct'] = 0
         self.game_stats['time'] = 0
         self.game_stats['score'] = 0
+        self.game_stats['attempted'] = 0
         
         if('avatar' in input_data.keys()):
             self.avatar = input_data['avatar']
@@ -420,12 +427,46 @@ class Game(Page):
         
         
         while self.run:
+            #Execute data transfer
+            if(self.multiplayer == True):
+                if(self.is_client):
+                    message = self.avatar + str(self.avatarstate) + ' ' + str(self.distance)
+                    self.client.sendto(message, self.server)
+                    
+                    data, addr = s.recvfrom(1024)
+                    data = data.decode('utf-8')
+                    data = data.split()
+                    for i in range(len(data)):
+                        if(i%2 != 0):
+                            continue
+                        self.players[i] = (data[i], int(data[i+1]))
+                    
+                    
+                elif(self.is_server):
+                    data, addr = s.recvfrom(1024)
+                    data = data.decode('utf-8')
+                    data = data.split()
+                    self.players[addr] = (data[0], int(data[1]))
+                    
+                    message = ''
+                    for x in self.players.keys():
+                        if(x == addr):
+                            continue
+                        message += self.players[x][0] + ' ' + str(self.players[x][1]) + ' '
+                        
+                    message += self.avatar + str(self.avatarstate) + ' ' + str(self.distance)
+                        
+                    s.sendto(message.encode('utf-8'), addr)
+                    
+                    
+            
             self.draw_components()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.output_data["exit"] = True
                     pygame.quit()
                     return self.output_data, self.input_data
+                
                 if event.type == pygame.VIDEORESIZE:
                     self.resize_components()
                     
@@ -440,7 +481,7 @@ class Game(Page):
                         if(self.components[s].rect.collidepoint(pos)):
                             triggered_component_list.append(s)
                         
-                            if(s == 'answer1' and self.questionstate<len(self.questions)):
+                            if(s == 'answer1' and self.questionstate<len(self.questions) and self.distance > 0):
                                 if(self.correct[self.questionstate] == self.answers[self.questionstate][0]):
                                     self.questionstate += 1
                                     self.speed += 1.0
@@ -451,7 +492,7 @@ class Game(Page):
                                     self.speed = max(1.0, self.speed - 1.0)
                                     self.questionupdate(screen, False)
                             
-                            elif(s == 'answer2' and self.questionstate<len(self.questions)):
+                            elif(s == 'answer2' and self.questionstate<len(self.questions) and self.distance > 0):
                                 if(self.correct[self.questionstate] == self.answers[self.questionstate][1]):
                                     self.questionstate += 1
                                     self.speed += 1.0
@@ -461,8 +502,9 @@ class Game(Page):
                                     self.questionstate += 1
                                     self.speed = max(1.0, self.speed - 1.0)
                                     self.questionupdate(screen, False)
+                                    
                             
-                            elif(s == 'answer3' and self.questionstate<len(self.questions)):
+                            elif(s == 'answer3' and self.questionstate<len(self.questions) and self.distance > 0):
                                 if(self.correct[self.questionstate] == self.answers[self.questionstate][2]):
                                     self.questionstate += 1
                                     self.speed += 1.0
@@ -473,7 +515,7 @@ class Game(Page):
                                     self.speed = max(1.0, self.speed - 1.0)
                                     self.questionupdate(screen, False)
                             
-                            elif(s == 'answer4' and self.questionstate<len(self.questions)):
+                            elif(s == 'answer4' and self.questionstate<len(self.questions) and self.distance > 0):
                                 if(self.correct[self.questionstate] == self.answers[self.questionstate][3]):
                                     self.questionstate += 1
                                     self.speed += 1.0
@@ -486,11 +528,6 @@ class Game(Page):
                                     
                                 
                 self.page_function(triggered_component_list)
-                if "exit_btn" in triggered_component_list:
-                    print("???????")
-                    return self.output_data, self.input_data
-                #     break
-
                 
                 
                 
@@ -506,11 +543,10 @@ class Game(Page):
                     if(self.game_stats['time'] == 0):
                         self.game_stats['time'] = (time.time() - self.starttime)//1
                         self.game_stats['score'] = self.speed * self.game_stats['correct'] - (self.game_stats['time'])
+                        self.game_stats['attempted'] = self.questionstate
                     self.speed = 0.000000000001
                     
                     self.display_score(screen)
-
-                    
                     
                     
                 updatecheck = True
@@ -550,12 +586,14 @@ class Game(Page):
 
 
 
-# p = Game(pygame.display.set_mode((400, 400), pygame.RESIZABLE))
-# input_data = {}
-# input_data['questions'] = ['who am I?', 'what is my name?']*2
-# input_data['answers'] = [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]*2
-#
-# p.start(p.screen, input_data)
+p = Game(pygame.display.set_mode((400, 400), pygame.RESIZABLE), multiplayer = False)
+input_data = {}
+input_data['questions'] = ['who am I?', 'what is my name?']*2
+input_data['answers'] = [['a', 'b', 'c', 'd'],['e', 'y', 'g', 'h']]*2
+
+
+
+p.start(p.screen, input_data)
 
 
 
