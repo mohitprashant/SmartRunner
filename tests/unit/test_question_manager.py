@@ -45,12 +45,12 @@ class TestQuestions(unittest.TestCase):
     def test_get_math_algebra_questions(self):
         questions = QuestionManager.get_questions('Mathematics', 'Algebra')
         question = questions[0]
-        description = 'The mid-way fraction of (5/6) and (8/15) is'
-        difficulty_level = 4
-        correct = '41/60'
-        wrong_1 = '41/30'
-        wrong_2 = '13/21'
-        wrong_3 = 'None of the above'
+        description = '(0.84)^2 × (0.41)'
+        difficulty_level = 1
+        correct = '0.2893'
+        wrong_1 = '3.444'
+        wrong_2 = '2.893'
+        wrong_3 = '0.3444'
         self.assertEqual(description, question['Description'])
         self.assertEqual(difficulty_level, question['Difficulty_level'])
         self.assertEqual(correct, question['Correct'])
