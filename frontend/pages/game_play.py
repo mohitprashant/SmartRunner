@@ -374,7 +374,7 @@ class Game(Page):
     def page_function(self, triggered_component_list):
         for x in triggered_component_list:
             if(x == 'exit_btn'):
-                pygame.quit()
+                self.screen="end_screen"
 
 
     # start running the page
