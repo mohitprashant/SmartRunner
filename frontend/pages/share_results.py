@@ -116,9 +116,9 @@ class ShareResultsPage(Page):
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["username"] = self.input_data["username"]
             #
-            # fb_access_token = 'EAAZAZBaaDDFy8BAF5z4aE5CSpObkXcZBppVfZBknWNfAdxe1evTfZA0gM0dBFHEzcIQKxqYdKOXab06ZAosuCzhSP49tkZAMmB4TDstS8lXoqIPN1bBzXK2KmGUsjhBKJpCIAlprZBoq5sVgfTChW3laanfxSq5ZCyntOCjbW46cymK8agiFvvmNbeeZCu7n6gLGqTBrS6zoPIiLZAD5ugECL6n'
-            # fb_api = fb.GraphAPI(fb_access_token)
-            # fb_api.put_photo(open("Leaderboard.jpg", "rb"), message="Check out our monthly leaderboard here!")
+            fb_access_token = 'EAAZAZBaaDDFy8BADgZCGUohEpCJKPRwsGL568bUQdxhbtzu7Stlk0bBG0AQ2v9dZCelbAXDKen9WLfAv1XZAWbBnZChmZBBvGPsILM8B2b1hIyQinImwsKYBKyM8Py0lbMQnS0nZAwGpHsWllRfQ3QGZBliMx50Dg6vDFtaheC9GM6U1N04JFDhZBhFfBzYZAxXrptssZCdZA6wGKN1BKkYucuegz'
+            fb_api = fb.GraphAPI(fb_access_token)
+            fb_api.put_photo(open("Leaderboard.jpg", "rb"), message="Check out our monthly leaderboard here!")
 
             if triggered_component in [self.components["twitter_button"]]:
                     print('redirecting to twitter...')
