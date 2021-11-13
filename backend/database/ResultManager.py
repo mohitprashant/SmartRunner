@@ -37,34 +37,38 @@ def save_game_results(room_id, quiz_name, username, attempted, correct):
         result = {
             'no_of_questions_attempted': attempted,
             'no_of_questions_correct': correct,
-            'player_end_time': firestore.SERVER_TIMESTAMP
+            'player_end_time': firestore.SERVER_TIMESTAMP,
+            'player_name': username
         }
 
         db.collection("rooms").document(room_id).collection("quizzes").document(quiz_name) \
-            .collection("player results").document(username).set(result)
+            .collection("player results").document().set(result)
         return True
     except:
         raise Exception("Scores could not be saved")
 
 
-def get_game_results(room_id, quiz_id):
+def get_game_results_list(room_id, quiz_name):
     """
-    Saves the scores that a user has attained for a game in the room.
-    :param room_id: Room that this quiz was for.
-    :param quiz_id: ID of the  quiz that was saved.
+    :param room_id: 6 digit ID of the room
+    :param quiz_name: Unique name of quiz
     :return: List of scores.
     """
 
-    if type(room_id) is not str:
+    if type(room_id) is not str or type(quiz_name) is not str:
         raise Exception("Given arguments is not of type str")
 
-    if type(quiz_id) is not str:
-        raise Exception("Given arguments is not of type str")
+    if room_id == "" or quiz_name == "":
+        raise Exception("Given arguments cannot be empty")
 
     try:
-        query = db.collection("rooms").document(room_id).collection("results").document(quiz_id).get()
-        scores = query.to_dict()
+        query = db.collection("rooms").document(room_id).collection("quizzes").document(quiz_name) \
+            .collection("player results").get()
+        results = []
+        for q in query:
+            result = q.to_dict()
+            results.append(result)
 
-        return scores
+        return results
     except:
         raise Exception("Error retrieving scores")
