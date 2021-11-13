@@ -31,6 +31,7 @@ class Game(Page):
         pygame.init()
         self.is_server = False
         self.is_client = False
+        self.multiplayer =  multiplayer
         
         
     def set_components(self, screen):
