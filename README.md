@@ -5,6 +5,7 @@ SmartRunner is a game based on questioning and answering. It incorporates a mult
 
 ## Installing SmartRunner
 
+
 This game has the following dependencies:
 -Python3.6 (or a later version)
 -
