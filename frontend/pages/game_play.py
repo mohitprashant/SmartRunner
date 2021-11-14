@@ -330,15 +330,8 @@ class Game(Page):
             self.components['player'] = player
             self.lastavatarupdate = time.time()
             
-            for x in self.players:
-                game_image_rel_x = 4-((x[2]*4)/10) / 10
-                game_image_rel_y = 0.5
-                game_image_rel_width = 1 / 7
-                game_image_rel_height = 0.3
-                mult = pygame.image.load('assets/Sprites/'+x[0]+str(x[0])+'.png')
-                mult = ImageDisplay("player", screen, game_image_rel_x, game_image_rel_y,
-                                      game_image_rel_width, game_image_rel_height,mult)
-                self.components[x[3]] = mult
+        for x in self.players:
+            pass
 
 
             
@@ -442,7 +435,7 @@ class Game(Page):
         game_image_rel_y = 0.02
         game_image_rel_width = 1 / 10
         game_image_rel_height = 1 / 10
-        exit_btn = pygame.image.load('assets/Buttons/btn_back.png')
+        exit_btn = pygame.image.load('assets/Buttons/btn_end.png')
         exit_btn = ImageDisplay("exit_btn", screen, game_image_rel_x, game_image_rel_y,
                                         game_image_rel_width, game_image_rel_height,exit_btn)
         self.components["exit_btn"] = exit_btn
@@ -674,14 +667,14 @@ class Game(Page):
                 
                 
                 if(self.distance < 20):
-                    game_image_rel_x = (9 - (4 * (-self.distance))) / 10
+                    game_image_rel_x = (9 - (4*(-self.distance))) / 10
                     game_image_rel_y = 5 / 10
                     game_image_rel_width = 1 / 5
                     game_image_rel_height = 0.4
                     end = pygame.image.load('assets/Backgrounds/tree3.png')
                     end = ImageDisplay("end", screen, game_image_rel_x, game_image_rel_y,
-                                       game_image_rel_width, game_image_rel_height, end)
-
+                                                    game_image_rel_width, game_image_rel_height,end)
+                    
                     self.components["end"] = end
         
                 
