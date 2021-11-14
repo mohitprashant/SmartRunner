@@ -109,7 +109,5 @@ class JoinRoomPage(Page):
                                                    self.input_data["username"])
                 if room_check:
                     self.name = "playerroom"
-                else:
-                    print("wrong room id or password")
             elif triggered_component in [self.components["back_button"]]:
                 self.name = "room_tab"

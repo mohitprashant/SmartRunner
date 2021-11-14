@@ -209,5 +209,4 @@ class AddQuestionPage(Page):
                                                      self.output_data["custom_quiz_selection"], [question])
                 self.name = "question_select"
             if triggered_component in [self.components["return_button2"]]:
-                print("go back to question select")
                 self.name = "question_select"

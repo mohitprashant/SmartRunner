@@ -138,7 +138,6 @@ class TopicLeaderboardPage(Page):
                 rect = pygame.Rect(0, 0, self.screen_width, (self.screen_height * 0.8))
                 sub = self.screen.subsurface(rect)
                 pygame.image.save(sub, "Leaderboard.jpg")
-                print('\nsaved leaderboard.jpg\n')
                 self.name = "share_results"
             if triggered_component in [self.components["return_button"]]:
                 self.name = "leadselect"

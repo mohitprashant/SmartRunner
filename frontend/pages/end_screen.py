@@ -142,8 +142,6 @@ class EndScreenPage(Page):
                     if self.input_data["player_results"]["quiz_name"]!="" and self.input_data["readystatus"]:
                         ResultManager.save_game_results(self.input_data["player_results"]["roomID"], self.input_data["player_results"]["quiz_name"], self.input_data["player_results"]["player_name"], self.input_data["player_results"]["attempted"], self.input_data["player_results"]["correct"])
                     self.name = "playerroom"
-                #add another one for multiplayer (how to account for host?)
-            # if triggered_component in [self.components["player_results"]]:
-            #     print("store  in self.output_data[roomID] for sharing")
+
             else:
                 print("entry failed")

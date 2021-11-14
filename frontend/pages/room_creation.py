@@ -115,7 +115,7 @@ class RoomCreationPage(Page):
                 self.output_data["roomID"] = RoomManager.create_room(self.output_data["username"],
                                                                      user_room_name,
                                                                      self.output_data["room_password"])
-                print("room created:", self.output_data["roomID"])
+
                 self.name = "hostroom"
             elif triggered_component in [self.components["back_button"]]:
                 self.name = "room_tab"

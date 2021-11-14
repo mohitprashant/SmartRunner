@@ -156,7 +156,7 @@ class HostRoomPage(Page):
                         self.output_data["join_host"] = True
                     else:
                         self.output_data["join_host"] = False
-                    print("does it enter")
+
                     self.name="singleplayer"
                 else:
                     if self.output_data["toggled"]:
