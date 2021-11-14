@@ -1,7 +1,7 @@
 import json
 import pyrebase
 
-from backend.account.AccountHelper import add_to_user_collection
+from AccountHelper import add_to_user_collection
 
 firebaseConfig = {
     "apiKey": "AIzaSyBUtttg0k-sJRCbGd4VTR0vEVU-28bqNmc",
