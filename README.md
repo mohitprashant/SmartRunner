@@ -25,4 +25,8 @@ The packages required are:
 
 ## Running SmartRunner
 To run SmartRunner, run the file main.py within the following directory: ./frontend/pages/
+A command that can be used to run the application from within the terminal/command prompt is:
+- python main.py
+
+
 
