@@ -38,8 +38,8 @@ class RoomTabPage(Page):
         create_room_button_width = 1 / 4
         create_room_button_height = 1 / 5
         create_room_button_img = pygame.image.load('assets/Buttons/btn_createroom.png')
-        create_room_button = ImageButton("create_room_button", screen, create_room_button_x, create_room_button_y, create_room_button_width,
-                              create_room_button_height, create_room_button_img)
+        create_room_button = ImageButton("create_room_button", screen, create_room_button_x, create_room_button_y,
+                                         create_room_button_width, create_room_button_height, create_room_button_img)
         self.components["create_room_button"] = create_room_button
 
         # Manage Room button
@@ -48,11 +48,9 @@ class RoomTabPage(Page):
         manage_room_button_width = 1 / 4
         manage_room_button_height = 1 / 5
         manage_room_button__img = pygame.image.load('assets/Buttons/btn_manageroom.png')
-        manage_room_button = ImageButton("manage_room_button",screen, manage_room_button_x, manage_room_button_y,
-                                      manage_room_button_width,
-                                      manage_room_button_height, manage_room_button__img)
+        manage_room_button = ImageButton("manage_room_button", screen, manage_room_button_x, manage_room_button_y,
+                                         manage_room_button_width, manage_room_button_height, manage_room_button__img)
         self.components["manage_room_button"] = manage_room_button
-
 
         # Join room button
         join_room_button_x = 7 / 10
@@ -61,10 +59,8 @@ class RoomTabPage(Page):
         join_room_button_height = 1 / 5
         join_room_button_img = pygame.image.load('assets/Buttons/btn_joinroom.png')
         join_room_button = ImageButton("join_room_button", screen, join_room_button_x, join_room_button_y,
-                             join_room_button_width,
-                             join_room_button_height, join_room_button_img)
+                                       join_room_button_width, join_room_button_height, join_room_button_img)
         self.components["join_room_button"] = join_room_button
-
 
         # return button
         return_button_x = 1/15
@@ -73,17 +69,15 @@ class RoomTabPage(Page):
         return_button_height = 1 / 7
         return_button__img = pygame.image.load('assets/Buttons/btn_back.png')
         return_button = ImageButton("return_button", screen, return_button_x, return_button_y,
-                                    return_button_width,
-                                    return_button_height, return_button__img)
+                                    return_button_width, return_button_height, return_button__img)
         self.components["return_button"] = return_button
-
 
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["username"] = self.input_data["username"]
-            # print(self.input_data["username"])
+
             if triggered_component in [self.components["create_room_button"]]:
                 self.name = "room_creation"
             elif triggered_component in [self.components["manage_room_button"]]:

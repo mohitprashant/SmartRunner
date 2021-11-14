@@ -84,8 +84,6 @@ class Component:
         return False
 
 
-
-
 # create an image object from an image
 '''
 class for Image Object component
@@ -168,7 +166,6 @@ class ToggleButton(ImageButton):
         self.toggle_image = toggle_image
         self.toggled = toggled
 
-
     # return true if button is clicked
     def trigger(self, event):
 
@@ -224,7 +221,8 @@ class Background(Component):
 
 
 class ComponentSurface(Component):
-    def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height, display_screen, on_display=True):
+    def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height, display_screen,
+                 on_display=True):
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height)
 
         self.on_display = on_display
@@ -337,7 +335,6 @@ class ComponentSurface(Component):
                         self.triggered_component_list.append(component)
                         action = True
 
-
         else:
             for component in self.components.values():
                 if component.trigger(event):
@@ -368,7 +365,8 @@ class ComponentSurface(Component):
 class ScrollableComponentSurface(ComponentSurface):
     def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height,
                  relative_shown_width, relative_shown_height, display_screen, on_display=True, scroll_axis_y=True):
-        super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, display_screen, on_display)
+        super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, display_screen,
+                         on_display)
 
         # display dimensions
         self.relative_shown_x = self.relative_x
@@ -422,7 +420,7 @@ class ScrollableComponentSurface(ComponentSurface):
         self.shown_width = int(self.relative_shown_width * self.screen_width)
         self.shown_display_width = int(self.relative_shown_display_width * self.display_screen_width)
         self.shown_height = int(self.relative_shown_height * self.screen_height)
-        self.shown_display_height =int(self.relative_shown_display_height * self.display_screen_height)
+        self.shown_display_height = int(self.relative_shown_display_height * self.display_screen_height)
         self.shown_rect = pygame.Rect(self.shown_x, self.shown_y, self.shown_width, self.shown_height)
         self.shown_display_rect = pygame.Rect(self.shown_display_x, self.shown_display_y, self.shown_display_width,
                                               self.shown_display_height)
@@ -638,8 +636,6 @@ class TextboxButton(TextButton):
         self.display_rect = pygame.Rect(self.x, self.y, self.display_width, self.height)
 
 
-
-
 class SelectableTextButton(TextboxButton):
     def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height,
                  text, font_file=None, font_color=pygame.Color("black"), active_color="dodgerblue",
@@ -675,17 +671,19 @@ class SelectableTextButton(TextboxButton):
         self.display_width = int(self.screen_width * self.relative_display_width)
         self.display_rect = pygame.Rect(self.display_x, self.display_y, self.display_width, self.display_height)
 
+
 class SelectableTextButtonD(TextboxButton):
     def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height, text,
-                active=False, active_color = "dodgerblue", passive_color = "white", active_font_color = "white", passive_font_color = "black",
-                relative_border_width=0, font_file=None):
+                 active=False, active_color="dodgerblue", passive_color="white", active_font_color="white",
+                 passive_font_color="black", relative_border_width=0, font_file=None):
         if active:
             font_color = active_font_color
             back_color = active_color
         else:
             font_color = passive_font_color
             back_color = passive_color
-        super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, text, font_file, font_color, back_color, relative_border_width)
+        super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, text, font_file,
+                         font_color, back_color, relative_border_width)
         self.relative_border_width = relative_border_width
         self.active_color = active_color
         self.passive_color = passive_color
@@ -695,7 +693,7 @@ class SelectableTextButtonD(TextboxButton):
         self.font_color = font_color
         self.active = active
         self.display_rect = pygame.Rect(self.x, self.y, self.display_width, self.height)
-        self.fill_rect = pygame.Surface((self.display_width,self.height))
+        self.fill_rect = pygame.Surface((self.display_width, self.height))
         self.fill_rect.fill(back_color)
 
     def trigger(self, event):
@@ -705,17 +703,16 @@ class SelectableTextButtonD(TextboxButton):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 if "analytics_by_" in self.name:
-                    if not self.display_rect.collidepoint(pos): # inactive
+                    if not self.display_rect.collidepoint(pos):  # inactive
                         self.active = False
                         self.font_color = self.passive_font_color
                         self.text_surface = self.text_font.render(self.text, True, self.font_color)
                         self.back_color = self.passive_color
-                    else: # active
+                    else:  # active
                         self.active = True
                         self.font_color = self.active_font_color
                         self.text_surface = self.text_font.render(self.text, True, self.font_color)
                         self.back_color = self.active_color
-                        print("\n=>",self.name,self.active)
                         return True
         return False
 
@@ -753,7 +750,8 @@ class SelectableTextList(MouseScrollableSurface):
     def __init__(self, name, screen, relative_x, relative_y, relative_width, text_relative_height,
                  relative_shown_width, relative_shown_height, text_list, display_screen, on_display=True,
                  single_select=True, font_file=None,
-                 font_color=pygame.Color("black"), active_color="dodgerblue", passive_color="white", border_width=0):
+                 active_color="bisque2",
+                 passive_color="bisque1", font_color="#4e2724", border_width=0):
         self.text_list = text_list
         self.list_size = len(text_list)
         if len(text_list) == 0:
@@ -767,13 +765,13 @@ class SelectableTextList(MouseScrollableSurface):
         self.single_select = single_select
         self.text_relative_x = 0
         self.text_relative_y = 0
-        if self.list_size==0:
+        if self.list_size == 0:
             self.text_relative_height = 1
             self.text_relative_width = 1
             selectable_text = SingleSelectableTextButton("Nobody's here!", self.surface, self.text_relative_x,
                                                          self.text_relative_y, self.text_relative_width,
-                                                         self.text_relative_height, "Nobody's here!", font_file, font_color,
-                                                         active_color, passive_color, border_width)
+                                                         self.text_relative_height, "Nobody's here!", font_file,
+                                                         font_color, active_color, passive_color, border_width)
             self.add_component(selectable_text)
         else:
             self.text_relative_height = 1 / self.list_size
@@ -786,9 +784,10 @@ class SelectableTextList(MouseScrollableSurface):
                                                                  self.text_relative_height, text, font_file, font_color,
                                                                  active_color, passive_color, border_width)
                 else:
-                    selectable_text = SelectableTextButton(text, self.surface, self.text_relative_x, self.text_relative_y,
-                                                           self.text_relative_width, self.text_relative_height, text,
-                                                           font_file, font_color, active_color, passive_color, border_width)
+                    selectable_text = SelectableTextButton(text, self.surface, self.text_relative_x,
+                                                           self.text_relative_y, self.text_relative_width,
+                                                           self.text_relative_height, text, font_file, font_color,
+                                                           active_color, passive_color, border_width)
                 # add y into scrollable
                 self.add_component(selectable_text)
                 # update y of next text
@@ -817,14 +816,14 @@ class SelectableTextList(MouseScrollableSurface):
 class TextboxButtonList(MouseScrollableSurface):
     def __init__(self, name, screen, relative_x, relative_y, relative_width, text_relative_height,
                  relative_shown_width, relative_shown_height, text_list, display_screen, on_display=True,
-                 font_file=None,font_color=pygame.Color("black"), back_color="white",
+                 font_file=None, font_color=pygame.Color("#4e2724"), back_color="bisque1",
                  border_width=0):
         self.text_list = text_list
         self.list_size = len(text_list)
-        if len(text_list) ==0:
+        if len(text_list) == 0:
             relative_height = text_relative_height
         else:
-        # height of scroll surface is sum of text height
+            # height of scroll surface is sum of text height
             relative_height = text_relative_height * self.list_size
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height,
                          relative_shown_width, relative_shown_height, display_screen, on_display)
@@ -857,8 +856,8 @@ class ExpandButton(ComponentSurface):
     # fixed shown width and height to 1 single textbox
     def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height, relative_expand_x,
                  relative_expand_y, relative_expand_width, relative_expand_height, display_screen, on_display=True):
-        super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, display_screen, on_display)
-
+        super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, display_screen,
+                         on_display)
 
         self.original_relative_x = self.relative_x
         self.original_relative_y = self.relative_y
@@ -875,7 +874,6 @@ class ExpandButton(ComponentSurface):
 
         self.expandable_surface = ComponentSurface(name + "_expandable_surface", self.surface, 0, 0, 1, 1,
                                                    display_screen, False)
-
 
         self.clicked = False
         # can be expanded
@@ -947,13 +945,101 @@ class ExpandButton(ComponentSurface):
         super().resize(new_screen)
 
 
-
-
 # dropdown
 class DropdownTextSelect(ExpandButton):
     def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height,
-                 text_list, prompt, num_expand_text, display_screen, single_select=True, on_display=True, font_file=None,
-                 font_color="black", active_color="dodgerblue", passive_color="white", border_width=0):
+                 text_list, prompt, num_expand_text, display_screen, single_select=True, on_display=True,
+                 font_file=None, font_color="black", active_color="dodgerblue", passive_color="white",
+                 selected_color="gray80", border_width=0):
+        relative_expand_height = (num_expand_text+1) * relative_height
+        super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, relative_x,
+                         relative_y, relative_width, relative_expand_height, display_screen, on_display)
+
+        self.navigation_surface = False
+        relative_text_height = 1 / (num_expand_text + 1)
+        selectable_text_list_relative_height = 1 - relative_text_height
+
+        self.prompt = prompt
+        self.selected_text = prompt
+        self.button = TextboxButton(name + "_button", self.surface, 0, 0,
+                                    1, 1, self.selected_text, font_file, font_color, passive_color)
+        self.remove_component(self.button.name)
+        self.add_component(self.button)
+
+        self.selected_textbox = TextboxButton(name+"_selected_text_display", self.expandable_surface.surface, 0, 0,
+                                              1, relative_text_height, self.selected_text, font_file, font_color)
+        self.expandable_surface.add_component(self.selected_textbox)
+
+        self.selectable_text_list = SelectableTextList(name+"_selectable_text_list", self.expandable_surface.surface, 0,
+                                                       relative_text_height, 1, relative_text_height, 1,
+                                                       selectable_text_list_relative_height, text_list, display_screen,
+                                                       False, single_select=single_select, font_file=font_file,
+                                                       font_color=font_color,
+                                                       active_color=active_color, passive_color=selected_color,
+                                                       border_width=border_width)
+        self.expandable_surface.add_component(self.selectable_text_list)
+
+    def trigger(self, event):
+        action = False
+        # get mouse position
+        pos = pygame.mouse.get_pos()
+        if self.expanded:
+            self.triggered_component_list.clear()
+            # get mouse position
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # check mouseover and clicked conditions
+                if self.display_rect.collidepoint(pos):  # when mouse is on top of button
+                    for component in self.components.values():
+                        if component.trigger(event):
+                            self.triggered_component_list.append(component)
+                            action = True
+                        if component.name == self.expandable_surface.name:
+
+                            for expandable_component in component.components.values():
+
+                                if expandable_component.name == self.selectable_text_list.name:
+                                    for selectable_text in expandable_component.components.values():
+                                        if selectable_text.active:
+                                            self.button.text = selectable_text.text
+            else:
+                for component in self.components.values():
+                    if component.trigger(event):
+                        self.triggered_component_list.append(component)
+                        action = True
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:  # new left click and not held beforehand
+
+                if not self.expanded:
+
+                    # check mouseover and clicked conditions
+                    if self.display_rect.collidepoint(pos):
+                        if not self.clicked:  # when mouse is on top of button
+                            self.expand()
+
+                        self.clicked = True  # prevent multiple input by holding click
+                else:  # when mouse is not on top of button
+                    if not self.selected_textbox.display_rect.collidepoint(pos):
+                        self.expandable_surface.trigger(event)
+                        self.collapse()
+                        self.expanded = False
+
+                self.resize(self.screen)
+
+        if event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:  # when left click is let go
+                self.clicked = False  # set click to false
+
+        return action
+
+
+# dropdown that changes with user input
+class DynamicDropdownTextSelect(ExpandButton):
+    def __init__(self, name, screen, relative_x, relative_y, relative_width, relative_height,
+                 text_list, prompt, num_expand_text, display_screen, single_select=True, on_display=True,
+                 font_file=None, font_color="black", active_color="dodgerblue", passive_color="white",
+                 selected_color="gray80", border_width=0):
         relative_expand_height = (num_expand_text+1) * relative_height
         super().__init__(name, screen, relative_x, relative_y, relative_width, relative_height, relative_x,
                          relative_y, relative_width, relative_expand_height, display_screen, on_display)
@@ -970,15 +1056,16 @@ class DropdownTextSelect(ExpandButton):
         self.add_component(self.button)
 
         self.selected_textbox = TextboxButton(name+"_selected_text_display", self.expandable_surface.surface, 0, 0,
-                                                 1, relative_text_height, self.selected_text, font_file, font_color)
+                                                 1, relative_text_height, self.selected_text, font_file, font_color,
+                                              passive_color)
         self.expandable_surface.add_component(self.selected_textbox)
 
         self.selectable_text_list = SelectableTextList(name+"_selectable_text_list", self.expandable_surface.surface, 0,
                                                        relative_text_height, 1, relative_text_height, 1,
                                                        selectable_text_list_relative_height, text_list, display_screen,
-                                                       False,single_select=single_select, font_file=font_file,
+                                                       False, single_select=single_select, font_file=font_file,
                                                        font_color=font_color,
-                                                       active_color=active_color, passive_color=passive_color,
+                                                       active_color=active_color, passive_color=selected_color,
                                                        border_width=border_width)
         self.expandable_surface.add_component(self.selectable_text_list)
 

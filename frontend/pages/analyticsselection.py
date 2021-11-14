@@ -29,7 +29,7 @@ class AnalyticsSelectPage(Page):
         if self.input_data["prev_page"] != self.name:
             self.output_data["back_navigation"] = self.input_data["prev_page"]
 
-        #assign output data
+        # assign output data
         self.output_data["roomID"] = self.input_data["roomID"]
 
         # background
@@ -44,8 +44,7 @@ class AnalyticsSelectPage(Page):
         list_image_rel_height = 0.7
         list_img = pygame.image.load('assets/Backgrounds/scrollable.png')
         analyticslist_image = ImageDisplay("analyticslist_image", screen, list_image_rel_x, list_image_rel_y,
-                                        list_image_rel_width,
-                                        list_image_rel_height, list_img)
+                                           list_image_rel_width, list_image_rel_height, list_img)
         self.components["analyticslist_image"] = analyticslist_image
 
         # analytics list
@@ -57,10 +56,9 @@ class AnalyticsSelectPage(Page):
         shown_relative_height = 0.5
         text_list = self.input_data["analyticslist"]
 
-        textbox_button_list = TextboxButtonList("textbox_button_list", screen, relative_x,
-                                                  relative_y, relative_width,
-                                                  text_relative_height, shown_relative_width, shown_relative_height,
-                                                  text_list, screen)
+        textbox_button_list = TextboxButtonList("textbox_button_list", screen, relative_x, relative_y, relative_width,
+                                                text_relative_height, shown_relative_width, shown_relative_height,
+                                                text_list, screen)
         self.components["textbox_button_list"] = textbox_button_list
         self.layers.append(textbox_button_list)
 
@@ -71,21 +69,8 @@ class AnalyticsSelectPage(Page):
         header_image_rel_height = 0.15
         header_img = pygame.image.load('assets/Backgrounds/gamesessions.png')
         analyticsheader_image = ImageDisplay("analyticsheader_image", screen, header_image_rel_x, header_image_rel_y,
-                                          header_image_rel_width,
-                                          header_image_rel_height, header_img)
+                                             header_image_rel_width, header_image_rel_height, header_img)
         self.components["analyticsheader_image"] = analyticsheader_image
-
-
-
-        # # all-time analytics button
-        # alltime_button_rel_x = 11 / 15
-        # alltime_button_rel_y = 4 / 5
-        # alltime_button_rel_width = 0.2
-        # alltime_button_rel_height = 1 / 7
-        # alltime_button_img = pygame.image.load('assets/Buttons/btn_alltime.png')
-        # alltime_button = ImageButton("alltime_button", screen, alltime_button_rel_x, alltime_button_rel_y, alltime_button_rel_width,
-        #                       alltime_button_rel_height, alltime_button_img)
-        # self.components["alltime_button"] = alltime_button
 
         # back button
         exit_button_rel_x = 1 / 15
@@ -94,8 +79,7 @@ class AnalyticsSelectPage(Page):
         exit_button_rel_height = 1 / 7
         exit_button_img = pygame.image.load('assets/Buttons/btn_back.png')
         exit_button = ImageButton("exit_button", screen, exit_button_rel_x, exit_button_rel_y,
-                                   exit_button_rel_width,
-                                   exit_button_rel_height, exit_button_img)
+                                  exit_button_rel_width, exit_button_rel_height, exit_button_img)
         self.components["exit_button"] = exit_button
 
     # how do the page react to events?
@@ -104,10 +88,15 @@ class AnalyticsSelectPage(Page):
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["username"] = self.input_data["username"]
             self.output_data["roomID"] = self.input_data["roomID"]
+            self.output_data["player_status"] = []
+            self.output_data["mode_toggle"] = self.input_data["mode_toggle"]
+            self.output_data["toggled"] = self.input_data["toggled"]
+            self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
+            self.output_data["join_host"] = self.input_data["join_host"]
+
             if triggered_component in [self.components["textbox_button_list"]]:
                 for tc in triggered_component.triggered_component_list:
                     self.output_data["analyticsID"] = tc.text
                 self.name = "uniqueanalytics"
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "hostroom"
-

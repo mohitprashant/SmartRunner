@@ -1,7 +1,7 @@
 import json
 import pyrebase
 
-from backend.account.AccountHelper import add_to_user_collection
+from AccountHelper import add_to_user_collection
 
 firebaseConfig = {
     "apiKey": "AIzaSyBUtttg0k-sJRCbGd4VTR0vEVU-28bqNmc",
@@ -131,12 +131,3 @@ def is_user_valid(user):
         return True
     else:
         return False
-
-
-# print(login('example@mail.com', '123456'))
-# print(create_account('example@mail.com', '123456'))
-# print(create_account_confirm_password('example@mail.com', '123456', '123456'))
-# print(reset_account_password('example@mail.com'))
-# print(get_user_account_info(sign_in('example@mail.com', '123456')['idToken']))
-# save_user_login(sign_in('example@mail.com', '123456'))
-# print(load_user())
