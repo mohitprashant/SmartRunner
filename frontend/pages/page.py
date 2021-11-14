@@ -103,7 +103,7 @@ class Page:
                                     print(component.name)
                                     triggered_component_list.append(component)
                 self.page_function(triggered_component_list)
-
+                #refresh function
                 if (self.name == "playerroom") or (self.name == "hostroom"):
                     if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and len(triggered_component_list) == 1:
                         if top_layer_triggered and triggered_component_list[0].navigation_surface:

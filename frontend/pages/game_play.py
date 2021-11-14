@@ -77,8 +77,12 @@ class Game(Page):
 
         if self.input_data["roomID"] != "singleplayer":
             self.multiplayer = True
-            self.output_data["subject"] = self.input_data["questions"].pop(0)
-            self.output_data["topic"] = self.input_data["questions"].pop(0)
+            if self.input_data["custom_quiz_selection"] == "":
+                self.output_data["subject"] = self.input_data["questions"].pop(0)
+                self.output_data["topic"] = self.input_data["questions"].pop(0)
+            else:
+                self.output_data["subject"] = ""
+                self.output_data["topic"] = ""
             if self.input_data["playertype"] == "client" and self.input_data["readystatus"]:
                 # self.join_multiplayer(self.input_data["roomID"])
                 print("client!")
