@@ -56,8 +56,20 @@ class Game(Page):
         self.is_client = False
         self.multiplayer = multiplayer
 
-
-
+    
+    def force_accept_connection(self):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.bind((HOST, PORT))
+            s.listen()
+            conn, addr = s.accept()
+            with conn:
+                print('Connected by', addr)
+                while True:
+                    data = conn.recv(1024)
+                    if not data:
+                        break
+                    conn.sendall(data)
+                
 
     def set_components(self, screen):
         # background
@@ -65,8 +77,12 @@ class Game(Page):
 
         if self.input_data["roomID"] != "singleplayer":
             self.multiplayer = True
-            self.output_data["subject"] = self.input_data["questions"].pop(0)
-            self.output_data["topic"] = self.input_data["questions"].pop(0)
+            if self.input_data["custom_quiz_selection"] == "":
+                self.output_data["subject"] = self.input_data["questions"].pop(0)
+                self.output_data["topic"] = self.input_data["questions"].pop(0)
+            else:
+                self.output_data["subject"] = ""
+                self.output_data["topic"] = ""
             if self.input_data["playertype"] == "client" and self.input_data["readystatus"]:
                 # self.join_multiplayer(self.input_data["roomID"])
                 print("client!")
@@ -251,7 +267,7 @@ class Game(Page):
         
         # player sprite
         game_image_rel_x = 4 / 10
-        game_image_rel_y = 0.55
+        game_image_rel_y = 0.47
         game_image_rel_width = 1 / 7
         game_image_rel_height = 0.3
         player = pygame.image.load('assets/Sprites/'+self.avatar+'2.png')
@@ -305,7 +321,7 @@ class Game(Page):
             self.avatarstate = (self.avatarstate + 1) %6
             
             game_image_rel_x = 4 / 10
-            game_image_rel_y = 0.54
+            game_image_rel_y = 0.5
             game_image_rel_width = 1 / 7
             game_image_rel_height = 0.3
             player = pygame.image.load('assets/Sprites/'+self.avatar+str(self.avatarstate)+'.png')
@@ -419,7 +435,7 @@ class Game(Page):
         game_image_rel_y = 0.02
         game_image_rel_width = 1 / 10
         game_image_rel_height = 1 / 10
-        exit_btn = pygame.image.load('assets/Buttons/btn_end.png')
+        exit_btn = pygame.image.load('assets/Buttons/btn_back.png')
         exit_btn = ImageDisplay("exit_btn", screen, game_image_rel_x, game_image_rel_y,
                                         game_image_rel_width, game_image_rel_height,exit_btn)
         self.components["exit_btn"] = exit_btn
@@ -651,14 +667,14 @@ class Game(Page):
                 
                 
                 if(self.distance < 20):
-                    game_image_rel_x = (9 - (4*(-self.distance))) / 10
+                    game_image_rel_x = (9 - (4 * (-self.distance))) / 10
                     game_image_rel_y = 5 / 10
                     game_image_rel_width = 1 / 5
                     game_image_rel_height = 0.4
                     end = pygame.image.load('assets/Backgrounds/tree3.png')
                     end = ImageDisplay("end", screen, game_image_rel_x, game_image_rel_y,
-                                                    game_image_rel_width, game_image_rel_height,end)
-                    
+                                       game_image_rel_width, game_image_rel_height, end)
+
                     self.components["end"] = end
         
                 
