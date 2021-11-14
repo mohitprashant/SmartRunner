@@ -372,3 +372,7 @@ def set_room_activity_status(room_id, is_active):
         db.collection("rooms").document(room_id).collection("activity").document("status").set({"activity": is_active})
     except:
         raise Exception("Database connection error.")
+
+
+def get_room_quiz_info(room_id, quiz_name):
+    return db.collection(u'rooms').document(room_id).collection('quizzes').document(quiz_name).get().to_dict()
