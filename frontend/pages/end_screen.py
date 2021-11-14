@@ -5,6 +5,7 @@ sys.path.insert(1, '../../backend/database')
 
 import LeaderboardManager
 import ResultManager
+import time
 
 
 
@@ -171,8 +172,12 @@ class EndScreenPage(Page):
                     print("Username: ", self.input_data["username"])
                     print("Subject: ", self.input_data["subject"])
                     print("Topic: ", self.input_data["topic"])
-
-                    LeaderboardManager.update_leaderboard(self.input_data["username"], self.input_data["subject"], self.input_data["topic"])
+                    user = {
+                        "username": self.input_data["username"],
+                        "epochTimeAdded": time.time(),
+                        "score": int(self.input_data["score"])
+                    }
+                    LeaderboardManager.update_leaderboard(user, self.input_data["subject"], self.input_data["topic"])
                     self.name = "main_menu"
 
                 elif self.input_data["playertype"] == "host":
