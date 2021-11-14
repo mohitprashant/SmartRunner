@@ -26,7 +26,8 @@ class TestShare(unittest.TestCase):
 
         share_page.set_components(screen)
 
-        triggered_component_list = [share_page.components["twitter_button"], share_page.components["facebook_button"], share_page.components["return_button"]]
+        triggered_component_list = [share_page.components["twitter_button"], share_page.components["facebook_button"],
+                                    share_page.components["return_button"]]
         share_page.page_function(triggered_component_list)
 
         self.assertTrue(share_page.output_data["prev_page"], prev_page)

@@ -80,4 +80,3 @@ def get_leaderboard_topics(subject):
         items.append(topic.id)
 
     return items
-

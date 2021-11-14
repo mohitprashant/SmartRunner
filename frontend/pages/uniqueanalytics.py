@@ -17,17 +17,17 @@ class UniqueAnalyticsPage(Page):
         self.name = "uniqueanalytics"
         self.input_data = {
             "analytics": [],
-            "analyticsID":"",
+            "analyticsID": "",
             "roomID": "",
-            "username":""
+            "username": ""
         }
         self.criteria = 'score'
         self.output_data = {
             "current_page": self.name,
             "prev_page": "",
-            "username":"",
+            "username": "",
             "roomID": self.input_data["roomID"],
-            "analyticsID":"",
+            "analyticsID": "",
             "exit": False
         }
 
@@ -75,8 +75,7 @@ class UniqueAnalyticsPage(Page):
         analytics_display = ImageDisplay("analytics_display", self.components["analytics_display_holder"].surface,
                                          relative_x=0, relative_y=0,
                                          relative_width=1, relative_height=(
-                        analytics_diagram_height / analytics_diagram_width * self.components[
-                    "analytics_display_holder"].width / self.components["analytics_display_holder"].height),
+                        analytics_diagram_height / analytics_diagram_width * self.components["analytics_display_holder"].width / self.components["analytics_display_holder"].height),
                                          image=analytics_diagram)
         analytics_display.scrollable = True
         analytics_display.relative_shown_x = analytics_display.relative_x
@@ -106,10 +105,8 @@ class UniqueAnalyticsPage(Page):
         analyticsid_image_rel_width = 1 / 2
         analyticsid_image_rel_height = 1 / 8
         analyticsid_img = pygame.image.load('assets/Buttons/btn_plain.png')
-        analyticsid_image = ImageDisplay("analyticsid_image", screen, analyticsid_image_rel_x,
-                                               analyticsid_image_rel_y,
-                                               analyticsid_image_rel_width,
-                                               analyticsid_image_rel_height, analyticsid_img)
+        analyticsid_image = ImageDisplay("analyticsid_image", screen, analyticsid_image_rel_x, analyticsid_image_rel_y,
+                                         analyticsid_image_rel_width, analyticsid_image_rel_height, analyticsid_img)
         self.components["analyticsid_image"] = analyticsid_image
 
         relative_x = 7 / 20
@@ -120,20 +117,9 @@ class UniqueAnalyticsPage(Page):
                                    self.input_data["analyticsID"])
         self.components["text_display"] = text_display
 
-        print('\n------------------------------\nroomID:', self.input_data["roomID"])
-        print('analyticsID:', self.input_data["analyticsID"])
         quiz = self.input_data["analytics"][0]
         self.player_results = self.input_data["analytics"][1]
 
-        # # Quiz Info ##########################################################################
-        # data format
-        # {'quiz_difficulty': 3,
-        # 'quiz_end_time': DatetimeWithNanoseconds(2021, 10, 13, 5, 20, 26, tzinfo=datetime.timezone.utc),
-        # 'quiz_subject': 'Mathematics',
-        # 'quiz_name': 'Algebra Quiz 1',
-        # 'quiz_topic': 'Algebra', 'mode': 1,
-        # 'quiz_start_time': DatetimeWithNanoseconds(2021, 10, 13, 5, 9, 26, tzinfo=datetime.timezone.utc),
-        # 'quiz_length': 6}
         quiz_difficulty = quiz.get('quiz_difficulty')
         quiz_start_time = quiz.get('quiz_start_time')
         quiz_duration = (quiz.get('quiz_end_time') - quiz_start_time)
@@ -151,17 +137,10 @@ class UniqueAnalyticsPage(Page):
         selectable_text_list = SelectableTextList("selectable_text_list", screen, relative_x, relative_y,
                                                   relative_width, text_relative_height, shown_relative_width,
                                                   shown_relative_height,
-                                                  text_list, screen, single_select=True, passive_color=("lightgrey"))
+                                                  text_list, screen, single_select=True, passive_color="lightgrey")
         self.components["selectable_text_list"] = selectable_text_list
         self.layers.append(selectable_text_list)
 
-        # # Player Results #####################################################################
-        # data format
-        # {'no_of_questions_correct': 5,
-        # 'player_end_time': DatetimeWithNanoseconds(2021, 10, 13, 5, 20, 26, tzinfo=datetime.timezone.utc),
-        # 'player_name': 'James',
-        # 'no_of_questions_attempted': 6}
-        # computation
         i = 0
         for player_result in self.player_results:
             i = i + 1
@@ -188,12 +167,6 @@ class UniqueAnalyticsPage(Page):
                                               'fig_name': 'plot_completion_time.png'}
                           }
         self.plot_display()
-
-        # # Buttons #####################################################################
-        print('\ncriteria:', self.criteria)
-        print('score:', (self.criteria == 'score'))
-        print('accuracy:', (self.criteria == 'accuracy'))
-        print('completion_time:', (self.criteria == 'completion_time'))
 
         # analytics by score button:
         relative_x = 3 / 10
@@ -257,19 +230,32 @@ class UniqueAnalyticsPage(Page):
             self.output_data["username"] = self.input_data["username"]
             self.output_data["analyticsID"] = self.input_data["analyticsID"]
             self.output_data["roomID"] = self.input_data["roomID"]
+            self.output_data["player_status"] = []
+            self.output_data["mode_toggle"] = self.input_data["mode_toggle"]
+            self.output_data["toggled"] = self.input_data["toggled"]
+            self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
+            self.output_data["join_host"] = self.input_data["join_host"]
+
             if triggered_component in [self.components["analytics_by_score_button"],
                                        self.components["analytics_by_accuracy_button"],
                                        self.components["analytics_by_speed_button"]]:
                 self.criteria = self.criteria_switch.get(triggered_component.name)
                 triggered_component_list.remove(triggered_component)
-                print('\ntrigger_criteria:', self.criteria, '\n')
                 self.plot_display()
                 pygame.display.update()
                 pygame.display.flip()
 
             else:
                 self.output_data["prev_page"] = self.output_data["current_page"]
-                if triggered_component in [self.components["export_button"]]:
-                    print("export csv")
                 if triggered_component in [self.components["exit_button"]]:
                     self.name = "analyticsselect"
+            if triggered_component in [self.components["export_button"]]:
+                with open(self.input_data["analytics"][0]['quiz_name'] + '_Analytics.csv', 'w') as f:
+                    f.write("Name,Score,Accuracy (%),Competion Time (s)\n")
+                    i = 0
+                    for player in self.players[1:]:
+                        f.write("%s,%s,%s,%s\n" % (player,
+                                                   self.plot_data['score']['x_data'][i],
+                                                   self.plot_data['accuracy']['x_data'][i],
+                                                   self.plot_data['completion_time']['x_data'][i]))
+                        i = i + 1

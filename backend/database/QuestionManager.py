@@ -2,7 +2,7 @@ import random
 from backend.database import FirebaseManager
 from backend.database import Enums
 from backend.database.DatabaseManager import check_fields
-from backend.database.RoomManager import room_id_exists, is_room_host
+from backend.database.RoomManager import room_id_exists, is_room_host, get_room_quizzes_list
 
 db = FirebaseManager.get_firestore()
 
@@ -132,6 +132,12 @@ def add_custom_questions(room_id, quiz_name, questions):
     # Must check entire list before adding to database, or there will be duplicate additions
     for question in questions:
         check_fields(question, Enums.question_fields)
+
+    # check if quiz exists, if not, create it
+    room_quizzes_list = get_room_quizzes_list(room_id)
+    if quiz_name not in room_quizzes_list:
+        db.collection("rooms").document(room_id)\
+            .collection("quizzes").document(quiz_name).set({'room_id': room_id})
 
     for question in questions:
         db.collection("rooms").document(room_id)\
@@ -287,7 +293,8 @@ def get_answers_by_host(room_id):
 
     for q in query:
         dict = q.to_dict()
-        answers = dict['answers']
+        ls = dict['answers']
+        answers.append(ls)
 
     return answers
 
@@ -307,9 +314,11 @@ def set_answers_by_host(room_id, answers):
     if type(answers) is not list:
         raise Exception("Given arguments are not of type list")
 
-    dict = {'answers': answers}
-
     try:
-        db.collection("rooms").document(room_id).collection("host_answers").document("answers").set(dict)
+        i = 0
+        for a_list in answers:
+            dict = {'answers': a_list}
+            db.collection("rooms").document(room_id).collection("host_answers").document(str(i)).set(dict)
+            i += 1
     except:
         raise Exception("Error setting data.")

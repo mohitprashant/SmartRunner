@@ -36,3 +36,36 @@ question_fields = {
         "Type": str
     }
 }
+
+question_result_fields = {
+    "description": {
+        "Type": str
+    },
+    "correct": {
+        "Type": str
+    },
+    "wrong_1": {
+        "Type": str
+    },
+    "wrong_2": {
+        "Type": str
+    },
+    "wrong_3": {
+        "Type": str
+    },
+    "count_attempts": {
+        "Type": int
+    },
+    "count_correct": {
+        "Type": int
+    },
+    "count_wrong_1": {
+        "Type": int
+    },
+    "count_wrong_2": {
+        "Type": int
+    },
+    "count_wrong_3": {
+        "Type": int
+    }
+}

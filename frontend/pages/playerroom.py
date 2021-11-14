@@ -1,8 +1,10 @@
 from assets.components import *
 from page import *
 import sys
+import game_play
 sys.path.insert(1, '../../backend/database')
 import RoomManager
+
 
 class PlayerRoomPage(Page):
     def __init__(self, screen):
@@ -10,18 +12,17 @@ class PlayerRoomPage(Page):
         self.name = "playerroom"
         self.input_data = {
             "player_status": [],
-            "username":"",
+            "username": "",
             "roomID": ""
         }
         self.output_data = {
             "current_page": self.name,
             "prev_page": "",
             "roomID": "",
-            "username":"",
-            "ready_status": False,
+            "username": "",
+            "readystatus": False,
             "exit": False
         }
-
 
     # set all component variables on input screen
     def set_components(self, screen):
@@ -43,8 +44,7 @@ class PlayerRoomPage(Page):
         list_image_rel_height = 0.7
         list_img = pygame.image.load('assets/Backgrounds/scrollable.png')
         playerlist_image = ImageDisplay("playerlist_image", screen, list_image_rel_x, list_image_rel_y,
-                                        list_image_rel_width,
-                                        list_image_rel_height, list_img)
+                                        list_image_rel_width, list_image_rel_height, list_img)
         self.components["playerlist_image"] = playerlist_image
 
         # player list
@@ -70,8 +70,7 @@ class PlayerRoomPage(Page):
         header_image_rel_height = 0.15
         header_img = pygame.image.load('assets/Backgrounds/playerstatus.png')
         playerheader_image = ImageDisplay("playerheader_image", screen, header_image_rel_x, header_image_rel_y,
-                                          header_image_rel_width,
-                                          header_image_rel_height, header_img)
+                                          header_image_rel_width, header_image_rel_height, header_img)
         self.components["playerheader_image"] = playerheader_image
 
         # exit button
@@ -81,8 +80,7 @@ class PlayerRoomPage(Page):
         exit_button_rel_height = 1 / 7
         exit_button_img = pygame.image.load('assets/Buttons/btn_back.png')
         exit_button = ImageButton("exit_button", screen, exit_button_rel_x, exit_button_rel_y,
-                                   exit_button_rel_width,
-                                   exit_button_rel_height, exit_button_img)
+                                  exit_button_rel_width, exit_button_rel_height, exit_button_img)
         self.components["exit_button"] = exit_button
 
         # start button
@@ -92,8 +90,7 @@ class PlayerRoomPage(Page):
         start_button_rel_height = 1 / 7
         start_button_img = pygame.image.load('assets/Buttons/btn_ready.png')
         start_button = ImageButton("start_button", screen, start_button_rel_x, start_button_rel_y,
-                                   start_button_rel_width,
-                                   start_button_rel_height, start_button_img)
+                                   start_button_rel_width, start_button_rel_height, start_button_img)
         self.components["start_button"] = start_button
 
         # room ID image
@@ -103,8 +100,7 @@ class PlayerRoomPage(Page):
         roomID_image_rel_height = 1 / 7
         btn_img = pygame.image.load('assets/Buttons/btn_plain.png')
         roomID_image = ImageDisplay("roomID_image", screen, roomID_image_rel_x, roomID_image_rel_y,
-                                   roomID_image_rel_width,
-                                   roomID_image_rel_height, btn_img)
+                                    roomID_image_rel_width, roomID_image_rel_height, btn_img)
         self.components["roomID_image"] = roomID_image
 
         # room ID button
@@ -114,28 +110,37 @@ class PlayerRoomPage(Page):
         roomID_button_rel_height = 1 / 7
         text = self.input_data["roomID"]
         roomID_button = TextButton("roomID_button", screen, roomID_button_rel_x, roomID_button_rel_y,
-                                   roomID_button_rel_width,
-                                   roomID_button_rel_height, text)
+                                   roomID_button_rel_width, roomID_button_rel_height, text)
         self.components["roomID_button"] = roomID_button
 
     # how do the page react to events?
     def page_function(self, triggered_component_list):
+        self.output_data["roomID"] = self.input_data["roomID"]
+        self.output_data["prev_page"] = self.output_data["current_page"]
+        self.output_data["username"] = self.input_data["username"]
+        self.output_data["player_status"] = []
+        self.output_data["mode_toggle"] = "None"
+        self.output_data["toggled"] = "None"
+        self.output_data["custom_quiz_selection"] = "None"
+        self.output_data["playertype"] = "client"
+        self.output_data["join_host"] = ""
+        self.output_data["questions"] = []
+        self.output_data["answers"] = []
+        self.output_data["join_host"] = ""
+        self.output_data["topicselection"] = ""
+        self.output_data["subjectselection"] = ""
+        self.output_data["ready_status"] = ""
+
         for triggered_component in triggered_component_list:
-            self.output_data["prev_page"] = self.output_data["current_page"]
-            self.output_data["username"] = self.input_data["username"]
-            print("username:", self.output_data["username"])
-            self.output_data["roomID"] = self.input_data["roomID"]
-            print("roomID:", self.output_data["roomID"])
+
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "join_room"
             if triggered_component in [self.components["start_button"]]:
-                if self.output_data["ready_status"]:
-                    self.output_data["ready_status"] = False
-                    RoomManager.set_member_status(self.output_data["roomID"],self.output_data["username"],0)
-                    print("Player ready")
+                if self.output_data["readystatus"]:
+                    self.output_data["readystatus"] = False
+                    RoomManager.set_member_status(self.output_data["roomID"], self.output_data["username"], 0)
                 else:
-                    self.output_data["ready_status"] = True
-                    RoomManager.set_member_status(self.output_data["roomID"],self.output_data["username"],1)
-
+                    self.output_data["readystatus"] = True
+                    RoomManager.set_member_status(self.output_data["roomID"], self.output_data["username"], 1)
             if triggered_component in [self.components["roomID_button"]]:
                 self.name = "share"

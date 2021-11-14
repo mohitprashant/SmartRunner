@@ -50,8 +50,7 @@ class LeadSelectPage(Page):
         list_image_rel_height = 0.7
         list_img = pygame.image.load(curr_dir + 'assets/Backgrounds/scrollable.png')
         leaderboardlist_image = ImageDisplay("leaderboardlist_image", screen, list_image_rel_x, list_image_rel_y,
-                                       list_image_rel_width,
-                                       list_image_rel_height, list_img)
+                                             list_image_rel_width, list_image_rel_height, list_img)
         self.components["leaderboardlist_image"] = leaderboardlist_image
 
         # leaderboard list
@@ -63,10 +62,9 @@ class LeadSelectPage(Page):
         shown_relative_height = 0.5
         text_list = self.input_data["leaderboardlist"]
 
-        textbox_button_list = TextboxButtonList("textbox_button_list", screen, relative_x,
-                                                  relative_y, relative_width,
-                                                  text_relative_height, shown_relative_width, shown_relative_height,
-                                                  text_list, screen)
+        textbox_button_list = TextboxButtonList("textbox_button_list", screen, relative_x, relative_y, relative_width,
+                                                text_relative_height, shown_relative_width, shown_relative_height,
+                                                text_list, screen)
         self.components["textbox_button_list"] = textbox_button_list
         self.layers.append(textbox_button_list)
 
@@ -76,9 +74,9 @@ class LeadSelectPage(Page):
         header_image_rel_width = 0.25
         header_image_rel_height = 0.15
         header_img = pygame.image.load(curr_dir + 'assets/Backgrounds/leaderboards.png')
-        leaderboardheader_image = ImageDisplay("leaderboardheader_image", screen, header_image_rel_x, header_image_rel_y,
-                                        header_image_rel_width,
-                                        header_image_rel_height, header_img)
+        leaderboardheader_image = ImageDisplay("leaderboardheader_image", screen, header_image_rel_x,
+                                               header_image_rel_y, header_image_rel_width,
+                                               header_image_rel_height, header_img)
         self.components["leaderboardheader_image"] = leaderboardheader_image
 
         # back button
@@ -88,21 +86,22 @@ class LeadSelectPage(Page):
         exit_button_rel_height = 1 / 7
         exit_button_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_back.png')
         exit_button = ImageButton("exit_button", screen, exit_button_rel_x, exit_button_rel_y,
-                                   exit_button_rel_width,
-                                   exit_button_rel_height, exit_button_img)
+                                  exit_button_rel_width, exit_button_rel_height, exit_button_img)
         self.components["exit_button"] = exit_button
 
     # how do the page react to events?
     def page_function(self, triggered_component_list):
         for triggered_component in triggered_component_list:
             self.output_data["prev_page"] = self.output_data["current_page"]
+            self.output_data["username"] = self.input_data["username"]
+
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "main_menu"
+
             if triggered_component in [self.components["textbox_button_list"]]:
                 for tc in triggered_component.triggered_component_list:
                     subject_topic_text = tc.text
                     subject_topic = subject_topic_text.split(": ", 1)
-                    print("subject topic", subject_topic)
                     self.output_data["subject"] = subject_topic[0]
                     self.output_data["topic"] = subject_topic[1]
 

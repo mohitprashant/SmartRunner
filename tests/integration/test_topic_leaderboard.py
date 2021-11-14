@@ -8,7 +8,7 @@ from frontend.pages.topic_leaderboard import TopicLeaderboardPage
 
 
 class TestTopicLeaderboard(unittest.TestCase):
-    def test_topic_leaderboard(self):
+    def test_room_creation(self):
         pygame.init()
         screen = pygame.display.set_mode((720, 480), pygame.RESIZABLE)
 
