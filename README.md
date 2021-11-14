@@ -22,6 +22,18 @@ The packages required are:
 - pygame
 - pyrebase
 - firebase-admin
+- matplotlib
+- facebook
+
+Use the package manager pip to install the packages
+
+```bash
+py -m pip install pygame
+py -m pip install pyrebase
+py -m pip install firebase-admin
+py -m pip install matplotlib
+py -m pip install facebook-sdk
+```
 
 ## Running SmartRunner
 To run SmartRunner, run the file main.py within the following directory: ./frontend/pages/
