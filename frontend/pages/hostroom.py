@@ -4,6 +4,7 @@ sys.path.insert(1, '../../backend/database')
 import RoomManager
 import QuestionManager
 
+
 class HostRoomPage(Page):
     def __init__(self, screen):
         super().__init__(screen)
@@ -11,7 +12,7 @@ class HostRoomPage(Page):
         self.input_data = {
             "player_status": [],
             "roomID": "",
-            "username":""
+            "username": ""
         }
         self.output_data = {
             "current_page": self.name,
@@ -40,8 +41,7 @@ class HostRoomPage(Page):
         list_image_rel_height = 0.7
         list_img = pygame.image.load('assets/Backgrounds/scrollable.png')
         playerlist_image = ImageDisplay("playerlist_image", screen, list_image_rel_x, list_image_rel_y,
-                                    list_image_rel_width,
-                                    list_image_rel_height, list_img)
+                                        list_image_rel_width, list_image_rel_height, list_img)
         self.components["playerlist_image"] = playerlist_image
 
         # player list
@@ -58,7 +58,6 @@ class HostRoomPage(Page):
                                                   text_relative_height, shown_relative_width, shown_relative_height,
                                                   text_list, screen, single_select=True, active_color="white")
         self.components["selectable_text_list"] = selectable_text_list
-        #self.layers.append(selectable_text_list)
 
         # player status header
         header_image_rel_x = 0.22
@@ -67,8 +66,7 @@ class HostRoomPage(Page):
         header_image_rel_height = 0.15
         header_img = pygame.image.load('assets/Backgrounds/playerstatus.png')
         playerheader_image = ImageDisplay("playerheader_image", screen, header_image_rel_x, header_image_rel_y,
-                                          header_image_rel_width,
-                                          header_image_rel_height, header_img)
+                                          header_image_rel_width, header_image_rel_height, header_img)
         self.components["playerheader_image"] = playerheader_image
 
         # exit button
@@ -77,9 +75,8 @@ class HostRoomPage(Page):
         exit_button_rel_width = 1 / 7
         exit_button_rel_height = 1 / 7
         exit_button_img = pygame.image.load('assets/Buttons/btn_back.png')
-        exit_button = ImageButton("exit_button", screen, exit_button_rel_x, exit_button_rel_y,
-                                   exit_button_rel_width,
-                                   exit_button_rel_height, exit_button_img)
+        exit_button = ImageButton("exit_button", screen, exit_button_rel_x, exit_button_rel_y, exit_button_rel_width,
+                                  exit_button_rel_height, exit_button_img)
         self.components["exit_button"] = exit_button
 
         # start button
@@ -89,10 +86,8 @@ class HostRoomPage(Page):
         start_button_rel_height = 1 / 7
         start_button_img = pygame.image.load('assets/Buttons/btn_start.png')
         start_button = ImageButton("start_button", screen, start_button_rel_x, start_button_rel_y,
-                                   start_button_rel_width,
-                                   start_button_rel_height, start_button_img)
+                                   start_button_rel_width, start_button_rel_height, start_button_img)
         self.components["start_button"] = start_button
-
 
         # analytics button
         analytics_button_rel_x = 0.8
@@ -101,8 +96,7 @@ class HostRoomPage(Page):
         analytics_button_rel_height = 1 / 7
         analytics_button_img = pygame.image.load('assets/Buttons/btn_analytics.png')
         analytics_button = ImageButton("analytics_button", screen, analytics_button_rel_x, analytics_button_rel_y,
-                                     analytics_button_rel_width,
-                                     analytics_button_rel_height, analytics_button_img)
+                                       analytics_button_rel_width, analytics_button_rel_height, analytics_button_img)
         self.components["analytics_button"] = analytics_button
 
         # settings button
@@ -112,8 +106,7 @@ class HostRoomPage(Page):
         settings_button_rel_height = 1 / 7
         settings_button_img = pygame.image.load('assets/Buttons/btn_hostsettings.png')
         settings_button = ImageButton("settings_button", screen, settings_button_rel_x, settings_button_rel_y,
-                                       settings_button_rel_width,
-                                       settings_button_rel_height, settings_button_img)
+                                      settings_button_rel_width, settings_button_rel_height, settings_button_img)
         self.components["settings_button"] = settings_button
 
         # room ID image
@@ -123,8 +116,7 @@ class HostRoomPage(Page):
         roomID_image_rel_height = 1 / 7
         btn_img = pygame.image.load('assets/Buttons/btn_plain.png')
         roomID_image = ImageDisplay("roomID_image", screen, roomID_image_rel_x, roomID_image_rel_y,
-                                    roomID_image_rel_width,
-                                    roomID_image_rel_height, btn_img)
+                                    roomID_image_rel_width, roomID_image_rel_height, btn_img)
         self.components["roomID_image"] = roomID_image
 
         # room ID button
@@ -134,8 +126,7 @@ class HostRoomPage(Page):
         roomID_button_rel_height = 1 / 7
         text= self.input_data["roomID"]
         roomID_button = TextButton("roomID_button", screen, roomID_button_rel_x, roomID_button_rel_y,
-                                      roomID_button_rel_width,
-                                      roomID_button_rel_height, text)
+                                   roomID_button_rel_width, roomID_button_rel_height, text)
         self.components["roomID_button"] = roomID_button
 
     # how do the page react to events?
@@ -156,7 +147,6 @@ class HostRoomPage(Page):
         self.output_data["playertype"] = "host"
         self.output_data["readystatus"] = ""
 
-
         for triggered_component in triggered_component_list:
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "managerooms"
@@ -166,7 +156,7 @@ class HostRoomPage(Page):
                         self.output_data["join_host"] = True
                     else:
                         self.output_data["join_host"] = False
-                    print("does it enter")
+
                     self.name="singleplayer"
                 else:
                     if self.output_data["toggled"]:
@@ -184,8 +174,7 @@ class HostRoomPage(Page):
                         answers.append(str(question["Wrong_2"]))
                         answers.append(str(question["Wrong_3"]))
                         answerlist.append(answers)
-                    print(questionlist)
-                    print(answerlist)
+
                     self.output_data["questions"] = questionlist
                     self.output_data["answers"] = answerlist
                     RoomManager.set_room_activity_status(self.output_data["roomID"], True)
@@ -196,4 +185,3 @@ class HostRoomPage(Page):
                 self.name = "host_settings"
             if triggered_component in [self.components["roomID_button"]]:
                 self.name = "share"
-
