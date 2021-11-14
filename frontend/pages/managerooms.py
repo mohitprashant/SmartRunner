@@ -21,7 +21,6 @@ class ManageRoomsPage(Page):
             "exit": False
         }
 
-
     # set all component variables on input screen
     def set_components(self, screen):
         self.name = "managerooms"
@@ -42,8 +41,7 @@ class ManageRoomsPage(Page):
         list_image_rel_height = 0.7
         list_img = pygame.image.load('assets/Backgrounds/scrollable.png')
         roomslist_image = ImageDisplay("roomslist_image", screen, list_image_rel_x, list_image_rel_y,
-                                           list_image_rel_width,
-                                           list_image_rel_height, list_img)
+                                       list_image_rel_width, list_image_rel_height, list_img)
         self.components["roomslist_image"] = roomslist_image
 
         # room list
@@ -69,8 +67,7 @@ class ManageRoomsPage(Page):
         header_image_rel_height = 0.15
         header_img = pygame.image.load('assets/Backgrounds/rooms.png')
         roomheader_image = ImageDisplay("roomheader_image", screen, header_image_rel_x, header_image_rel_y,
-                                             header_image_rel_width,
-                                             header_image_rel_height, header_img)
+                                        header_image_rel_width, header_image_rel_height, header_img)
         self.components["roomheader_image"] = roomheader_image
 
         # delete button
@@ -80,8 +77,7 @@ class ManageRoomsPage(Page):
         delete_button_rel_height = 1 / 7
         delete_button_img = pygame.image.load('assets/Buttons/btn_delete.png')
         delete_button = ImageButton("delete_button", screen, delete_button_rel_x, delete_button_rel_y,
-                                      delete_button_rel_width,
-                                      delete_button_rel_height, delete_button_img)
+                                    delete_button_rel_width, delete_button_rel_height, delete_button_img)
         self.components["delete_button"] = delete_button
 
         # join button
@@ -91,8 +87,7 @@ class ManageRoomsPage(Page):
         join_button_rel_height = 1 / 7
         join_button_img = pygame.image.load('assets/Buttons/btn_start.png')
         join_button = ImageButton("join_button", screen, join_button_rel_x, join_button_rel_y,
-                                   join_button_rel_width,
-                                   join_button_rel_height, join_button_img)
+                                  join_button_rel_width, join_button_rel_height, join_button_img)
         self.components["join_button"] = join_button
 
         # back button
@@ -102,8 +97,7 @@ class ManageRoomsPage(Page):
         exit_button_rel_height = 1 / 7
         exit_button_img = pygame.image.load('assets/Buttons/btn_back.png')
         exit_button = ImageButton("exit_button", screen, exit_button_rel_x, exit_button_rel_y,
-                                   exit_button_rel_width,
-                                   exit_button_rel_height, exit_button_img)
+                                  exit_button_rel_width, exit_button_rel_height, exit_button_img)
         self.components["exit_button"] = exit_button
 
     # how do the page react to events?
@@ -117,19 +111,15 @@ class ManageRoomsPage(Page):
             self.output_data["player_status"] = []
             self.output_data["join_host"] = ""
 
-
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "room_tab"
+
             if triggered_component in [self.components["selectable_text_list"]]:
-                room_name= triggered_component.selected_text
-                self.output_data["roomID"]=self.input_data["roomid_dict"][room_name]
-                print(self.output_data["roomID"])
+                room_name = triggered_component.selected_text
+                self.output_data["roomID"] = self.input_data["roomid_dict"][room_name]
+
             if triggered_component in [self.components["join_button"]]:
-                # RoomManager.set_room_activity_status("300236", False)
                 self.name = "hostroom"
 
             if triggered_component in [self.components["delete_button"]]:
                 RoomManager.delete_room(self.output_data["username"],self.output_data["roomID"])
-                print("delete room", self.output_data["roomID"], "from database")
-
-

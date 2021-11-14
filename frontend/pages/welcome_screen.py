@@ -26,7 +26,7 @@ class WelcomeScreenPage(Page):
         logo_image_rel_height = 0.5
         logo_image_img = pygame.image.load('assets/Backgrounds/logo.png')
         logo_image_box = ImageDisplay("logo_image_box", screen, logo_image_rel_x, logo_image_rel_y,
-                                          logo_image_rel_width, logo_image_rel_height, logo_image_img)
+                                      logo_image_rel_width, logo_image_rel_height, logo_image_img)
         self.components["logo_image_box"] = logo_image_box
 
         sign_in_button_rel_x = 0.55
@@ -35,8 +35,7 @@ class WelcomeScreenPage(Page):
         sign_in_button_rel_height = 1 / 8
         sign_in_button_img = pygame.image.load('assets/Buttons/btn_signin.png')
         sign_in_button = ImageButton("sign_in_button", screen, sign_in_button_rel_x, sign_in_button_rel_y,
-                                   sign_in_button_rel_width,
-                                   sign_in_button_rel_height, sign_in_button_img)
+                                     sign_in_button_rel_width, sign_in_button_rel_height, sign_in_button_img)
         self.components["sign_in_button"] = sign_in_button
 
         create_acc_button_rel_x = 0.3
@@ -45,8 +44,8 @@ class WelcomeScreenPage(Page):
         create_acc_button_rel_height = 1 / 8
         create_acc_button_img = pygame.image.load('assets/Buttons/btn_createacct.png')
         create_acc_button = ImageButton("create_acc_button", screen, create_acc_button_rel_x, create_acc_button_rel_y,
-                                        create_acc_button_rel_width,
-                                        create_acc_button_rel_height, create_acc_button_img)
+                                        create_acc_button_rel_width, create_acc_button_rel_height,
+                                        create_acc_button_img)
         self.components["create_acc_button"] = create_acc_button
 
     # how do the page react to events?

@@ -16,8 +16,6 @@ class JoinRoomPage(Page):
         self.name = "join_room"
         self.input_data = {
             "username": "",
-            # "roomID": "",
-            # "room_password": ""
         }
         self.output_data = {
             "current_page": self.name,
@@ -64,11 +62,10 @@ class JoinRoomPage(Page):
         room_confirm_button_rel_width = 0.18
         room_confirm_button_rel_height = 1 / 7
         room_confirm_button_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_joinroom.png')
-        room_confirm_button = ImageButton("room_confirm_button", screen, room_confirm_button_rel_x, room_confirm_button_rel_y,
-                                   room_confirm_button_rel_width,
-                                   room_confirm_button_rel_height, room_confirm_button_img)
+        room_confirm_button = ImageButton("room_confirm_button", screen, room_confirm_button_rel_x,
+                                          room_confirm_button_rel_y, room_confirm_button_rel_width,
+                                          room_confirm_button_rel_height, room_confirm_button_img)
         self.components["room_confirm_button"] = room_confirm_button
-
 
         # go back
         back_button_rel_x = 1/15
@@ -77,8 +74,7 @@ class JoinRoomPage(Page):
         back_button_rel_height = 1 / 7
         back_button_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_back.png')
         back_button = ImageButton("back_button", screen, back_button_rel_x, back_button_rel_y,
-                                        back_button_rel_width,
-                                        back_button_rel_height, back_button_img)
+                                  back_button_rel_width, back_button_rel_height, back_button_img)
         self.components["back_button"] = back_button
 
         # room ID text input box
@@ -96,7 +92,7 @@ class JoinRoomPage(Page):
         password_input_rel_width = 0.25
         password_input_rel_height = 1 / 14
         password_input_box = TextInput("password_input_box", screen, password_input_rel_x, password_input_rel_y,
-                                     password_input_rel_width, password_input_rel_height)
+                                       password_input_rel_width, password_input_rel_height)
         self.components["password_input_box"] = password_input_box
 
     # how do the page react to events?
@@ -117,13 +113,3 @@ class JoinRoomPage(Page):
                     print("wrong room id or password")
             elif triggered_component in [self.components["back_button"]]:
                 self.name = "room_tab"
-
-            #
-            # if triggered_component in ["room_confirm_button", "roomID_input_box", "password_input_box"]:
-            #     self.data["roomID"] = self.components["roomID_input_box"].input
-            #     self.data["password"] = self.components["password_input_box"].input
-            #     # using placeholder for now
-            #     if self.data["roomID"] == "1234" and self.data["password"] == "hello":
-            #         return self.data
-            #     else:
-            #         print("entry failed")
