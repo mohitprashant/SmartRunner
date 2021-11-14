@@ -24,5 +24,5 @@ The packages required are:
 - firebase-admin
 
 ## Running SmartRunner
-To run SmartRunner, run the file main.py within the following directory 
+To run SmartRunner, run the file main.py within the following directory: ./frontend/pages/
 
