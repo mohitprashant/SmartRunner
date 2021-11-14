@@ -652,10 +652,10 @@ class Game(Page):
                 
                 if(self.distance < 20):
                     game_image_rel_x = (9 - (4*(-self.distance))) / 10
-                    game_image_rel_y = 7 / 10
-                    game_image_rel_width = 1 / 6
-                    game_image_rel_height = 1 / 6
-                    end = pygame.image.load('assets/img/exit.png')
+                    game_image_rel_y = 5 / 10
+                    game_image_rel_width = 1 / 5
+                    game_image_rel_height = 0.4
+                    end = pygame.image.load('assets/Backgrounds/tree3.png')
                     end = ImageDisplay("end", screen, game_image_rel_x, game_image_rel_y,
                                                     game_image_rel_width, game_image_rel_height,end)
                     
