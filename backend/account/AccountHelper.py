@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, '../../')
+
 from backend.database import FirebaseManager
 
 db = FirebaseManager.get_firestore()
