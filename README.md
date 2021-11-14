@@ -29,4 +29,6 @@ A command that can be used to run the application from within the terminal/comma
 - python main.py
 
 
-
+## Playing SmartRunner
+For an in-depth explanation on playing the game, the following demonstration video is relevant:
+- https://youtu.be/-FxGmr8BzJ8
