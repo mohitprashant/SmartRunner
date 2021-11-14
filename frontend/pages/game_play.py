@@ -330,8 +330,15 @@ class Game(Page):
             self.components['player'] = player
             self.lastavatarupdate = time.time()
             
-        for x in self.players:
-            pass
+            for x in self.players:
+                game_image_rel_x = 4-((x[2]*4)/10) / 10
+                game_image_rel_y = 0.5
+                game_image_rel_width = 1 / 7
+                game_image_rel_height = 0.3
+                mult = pygame.image.load('assets/Sprites/'+x[0]+str(x[0])+'.png')
+                mult = ImageDisplay("player", screen, game_image_rel_x, game_image_rel_y,
+                                      game_image_rel_width, game_image_rel_height,mult)
+                self.components[x[3]] = mult
 
 
             
