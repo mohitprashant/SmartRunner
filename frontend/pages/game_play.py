@@ -435,7 +435,7 @@ class Game(Page):
         game_image_rel_y = 0.02
         game_image_rel_width = 1 / 10
         game_image_rel_height = 1 / 10
-        exit_btn = pygame.image.load('assets/Buttons/btn_back.png')
+        exit_btn = pygame.image.load('assets/Buttons/btn_end.png')
         exit_btn = ImageDisplay("exit_btn", screen, game_image_rel_x, game_image_rel_y,
                                         game_image_rel_width, game_image_rel_height,exit_btn)
         self.components["exit_btn"] = exit_btn
@@ -668,10 +668,10 @@ class Game(Page):
                 
                 if(self.distance < 20):
                     game_image_rel_x = (9 - (4*(-self.distance))) / 10
-                    game_image_rel_y = 7 / 10
-                    game_image_rel_width = 1 / 6
-                    game_image_rel_height = 1 / 6
-                    end = pygame.image.load('assets/img/exit.png')
+                    game_image_rel_y = 5 / 10
+                    game_image_rel_width = 1 / 5
+                    game_image_rel_height = 0.4
+                    end = pygame.image.load('assets/Backgrounds/tree3.png')
                     end = ImageDisplay("end", screen, game_image_rel_x, game_image_rel_y,
                                                     game_image_rel_width, game_image_rel_height,end)
                     

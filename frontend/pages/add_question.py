@@ -71,11 +71,11 @@ class AddQuestionPage(Page):
         #
 
         question_image_rel_x = 0.18
-        question_image_rel_y = 0.27
+        question_image_rel_y = 0.25
         question_image_rel_width = 0.2
         question_image_rel_height = 1 / 9
-        question_image_img = "Description"
-        question_image_box = TextDisplay("question_image_box", screen, question_image_rel_x, question_image_rel_y,
+        question_image_img = pygame.image.load('assets/Backgrounds/description.png')
+        question_image_box = ImageDisplay("question_image_box", screen, question_image_rel_x, question_image_rel_y,
                                           question_image_rel_width, question_image_rel_height, question_image_img)
         self.components["question_image_box"] = question_image_box
 
@@ -89,11 +89,11 @@ class AddQuestionPage(Page):
 
 
         difficulty_level_image_rel_x = 0.13
-        difficulty_level_image_rel_y = 0.37
+        difficulty_level_image_rel_y = 0.35
         difficulty_level_image_rel_width = 1 / 4
         difficulty_level_image_rel_height = 1 / 8
-        difficulty_level_image_img = "Difficulty Level"
-        difficulty_level_image_box = TextDisplay("difficulty_level_image_box", screen, difficulty_level_image_rel_x, difficulty_level_image_rel_y,
+        difficulty_level_image_img = pygame.image.load('assets/Backgrounds/difficultylevel.png')
+        difficulty_level_image_box = ImageDisplay("difficulty_level_image_box", screen, difficulty_level_image_rel_x, difficulty_level_image_rel_y,
                                          difficulty_level_image_rel_width, difficulty_level_image_rel_height, difficulty_level_image_img)
         self.components["difficulty_level_image_box"] = difficulty_level_image_box
 
@@ -109,26 +109,26 @@ class AddQuestionPage(Page):
         option_image_rel_y = 0.46
         option_image_rel_width = 1 / 7
         option_image_rel_height = 1 / 8
-        option_image_img = "Options"
-        option_image_box = TextDisplay("option_image_box", screen, option_image_rel_x,
+        option_image_img = pygame.image.load('assets/Backgrounds/options.png')
+        option_image_box = ImageDisplay("option_image_box", screen, option_image_rel_x,
                                                  option_image_rel_y,
                                                  option_image_rel_width, option_image_rel_height,
                                                  option_image_img)
         self.components["option_image_box"] = option_image_box
 
-        correct_image_rel_x = 0.13
-        correct_image_rel_y = 0.66
-        correct_image_rel_width = 1 / 4
-        correct_image_rel_height = 1 / 8
-        correct_image_img = "Correct Option"
-        correct_image_box = TextDisplay("correct_image_box", screen, correct_image_rel_x,
-                                        correct_image_rel_y,
-                                        correct_image_rel_width, correct_image_rel_height,
-                                        correct_image_img)
-        self.components["correct_image_box"] = correct_image_box
+        option1_image_rel_x = 0.4
+        option1_image_rel_y = 0.45
+        option1_image_rel_width = 0.09
+        option1_image_rel_height = 1 / 9
+        option1_image_img = pygame.image.load('assets/Backgrounds/a.png')
+        option1_image_box = ImageDisplay("option1_image_box", screen, option1_image_rel_x,
+                                        option1_image_rel_y,
+                                        option1_image_rel_width, option1_image_rel_height,
+                                        option1_image_img)
+        self.components["option1_image_box"] = option1_image_box
 
 
-        option1_input_rel_x = 0.4
+        option1_input_rel_x = 0.5
         option1_input_rel_y = 0.45
         option1_input_rel_width = 0.15
         option1_input_rel_height = 1 / 12
@@ -136,7 +136,18 @@ class AddQuestionPage(Page):
                                          option1_input_rel_width, option1_input_rel_height)
         self.components["option1_input_box"] = option1_input_box
 
-        option2_input_rel_x = 0.57
+        option2_image_rel_x = 0.66
+        option2_image_rel_y = 0.45
+        option2_image_rel_width = 0.09
+        option2_image_rel_height = 1 / 9
+        option2_image_img = pygame.image.load('assets/Backgrounds/b.png')
+        option2_image_box = ImageDisplay("option2_image_box", screen, option2_image_rel_x,
+                                         option2_image_rel_y,
+                                         option2_image_rel_width, option2_image_rel_height,
+                                         option2_image_img)
+        self.components["option2_image_box"] = option2_image_box
+
+        option2_input_rel_x = 0.76
         option2_input_rel_y = 0.45
         option2_input_rel_width = 0.15
         option2_input_rel_height = 1 / 12
@@ -144,7 +155,18 @@ class AddQuestionPage(Page):
                                       option2_input_rel_width, option2_input_rel_height)
         self.components["option2_input_box"] = option2_input_box
 
-        option3_input_rel_x = 0.4
+        option3_image_rel_x = 0.4
+        option3_image_rel_y = 0.55
+        option3_image_rel_width =0.09
+        option3_image_rel_height = 1 / 9
+        option3_image_img = pygame.image.load('assets/Backgrounds/c.png')
+        option3_image_box = ImageDisplay("option3_image_box", screen, option3_image_rel_x,
+                                         option3_image_rel_y,
+                                         option3_image_rel_width, option3_image_rel_height,
+                                         option3_image_img)
+        self.components["option3_image_box"] = option3_image_box
+
+        option3_input_rel_x = 0.5
         option3_input_rel_y = 0.55
         option3_input_rel_width = 0.15
         option3_input_rel_height = 1 / 12
@@ -152,7 +174,18 @@ class AddQuestionPage(Page):
                                       option3_input_rel_width, option3_input_rel_height)
         self.components["option3_input_box"] = option3_input_box
 
-        option4_input_rel_x = 0.57
+        option4_image_rel_x = 0.66
+        option4_image_rel_y = 0.55
+        option4_image_rel_width = 0.09
+        option4_image_rel_height = 1 / 9
+        option4_image_img = pygame.image.load('assets/Backgrounds/d.png')
+        option4_image_box = ImageDisplay("option4_image_box", screen, option4_image_rel_x,
+                                         option4_image_rel_y,
+                                         option4_image_rel_width, option4_image_rel_height,
+                                         option4_image_img)
+        self.components["option4_image_box"] = option4_image_box
+
+        option4_input_rel_x = 0.76
         option4_input_rel_y = 0.55
         option4_input_rel_width = 0.15
         option4_input_rel_height = 1 / 12
@@ -160,8 +193,19 @@ class AddQuestionPage(Page):
                                     option4_input_rel_width, option4_input_rel_height)
         self.components["option4_input_box"] = option4_input_box
 
+        correct_option_image_rel_x = 0.2
+        correct_option_image_rel_y = 0.665
+        correct_option_image_rel_width = 1 / 6
+        correct_option_image_rel_height = 1 / 8
+        correct_option_image_img = pygame.image.load('assets/Backgrounds/correctoption.png')
+        correct_option_image_box = ImageDisplay("correct_option_image_box", screen, correct_option_image_rel_x,
+                                        correct_option_image_rel_y,
+                                        correct_option_image_rel_width, correct_option_image_rel_height,
+                                        correct_option_image_img)
+        self.components["correct_option_image_box"] = correct_option_image_box
+
         correct_option_rel_x = 0.4
-        correct_option_rel_y = 0.65
+        correct_option_rel_y = 0.68
         correct_option_rel_width = 0.5
         correct_option_rel_height = 1 / 12
         correct_option_text_list = ["A","B","C","D"]
