@@ -116,8 +116,8 @@ class ShareResultsPage(Page):
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["username"] = self.input_data["username"]
 
-            #
-            # fb_access_token = 'EAAZAZBaaDDFy8BADgZCGUohEpCJKPRwsGL568bUQdxhbtzu7Stlk0bBG0AQ2v9dZCelbAXDKen9WLfAv1XZAWbBnZChmZBBvGPsILM8B2b1hIyQinImwsKYBKyM8Py0lbMQnS0nZAwGpHsWllRfQ3QGZBliMx50Dg6vDFtaheC9GM6U1N04JFDhZBhFfBzYZAxXrptssZCdZA6wGKN1BKkYucuegz'
+
+            # fb_access_token = 'EAAZAZBaaDDFy8BAAFc4KU3cbbkAeu5iv7h2IaAeRkgwMq15aVbGapiP9k8R1bgEryl7o97DK33UxoaBTVd6IiSaTI0ZB6LtGFAFZA5FJTYgm5YmBnnr2ewBB5Ypk9DTpI21VZC1CNnUwnknt0QgeuOdjQc6rw6smRBBFJGZCXwazAzhOER1tTpZCsNyhBGvYG3Izfezm9RQs4HgyzfJN3bx'
             # fb_api = fb.GraphAPI(fb_access_token)
             # fb_api.put_photo(open("Leaderboard.jpg", "rb"), message="Check out our monthly leaderboard here!")
 

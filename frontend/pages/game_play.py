@@ -251,7 +251,7 @@ class Game(Page):
         
         # player sprite
         game_image_rel_x = 4 / 10
-        game_image_rel_y = 0.47
+        game_image_rel_y = 0.55
         game_image_rel_width = 1 / 7
         game_image_rel_height = 0.3
         player = pygame.image.load('assets/Sprites/'+self.avatar+'2.png')
@@ -305,7 +305,7 @@ class Game(Page):
             self.avatarstate = (self.avatarstate + 1) %6
             
             game_image_rel_x = 4 / 10
-            game_image_rel_y = 0.5
+            game_image_rel_y = 0.54
             game_image_rel_width = 1 / 7
             game_image_rel_height = 0.3
             player = pygame.image.load('assets/Sprites/'+self.avatar+str(self.avatarstate)+'.png')
@@ -419,7 +419,7 @@ class Game(Page):
         game_image_rel_y = 0.02
         game_image_rel_width = 1 / 10
         game_image_rel_height = 1 / 10
-        exit_btn = pygame.image.load('assets/Buttons/btn_back.png')
+        exit_btn = pygame.image.load('assets/Buttons/btn_end.png')
         exit_btn = ImageDisplay("exit_btn", screen, game_image_rel_x, game_image_rel_y,
                                         game_image_rel_width, game_image_rel_height,exit_btn)
         self.components["exit_btn"] = exit_btn

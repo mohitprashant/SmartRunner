@@ -31,9 +31,18 @@ class CreateAccountPage(Page):
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
+        creatacct_image_rel_x = 0.27
+        creatacct_image_rel_y = 0.02
+        creatacct_image_rel_width = 0.5
+        creatacct_image_rel_height = 0.3
+        creatacct_image_img = pygame.image.load(curr_dir + 'assets/Backgrounds/create_acct.png')
+        creatacct_image_box = ImageDisplay("creatacct_image_box", screen, creatacct_image_rel_x, creatacct_image_rel_y,
+                                          creatacct_image_rel_width, creatacct_image_rel_height, creatacct_image_img)
+        self.components["creatacct_image_box"] = creatacct_image_box
+
 
         username_image_rel_x = 0.30
-        username_image_rel_y = 0.4
+        username_image_rel_y = 0.39
         username_image_rel_width = 0.18
         username_image_rel_height = 1 / 9
         username_image_img = pygame.image.load(curr_dir + 'assets/Backgrounds/username.png')
@@ -42,13 +51,22 @@ class CreateAccountPage(Page):
         self.components["username_image_box"] = username_image_box
 
         password_image_rel_x = 0.30
-        password_image_rel_y = 0.5
+        password_image_rel_y = 0.49
         password_image_rel_width = 0.18
         password_image_rel_height = 1 / 9
         password_image_img = pygame.image.load(curr_dir + 'assets/Backgrounds/password.png')
         password_image_box = ImageDisplay("password_image_box", screen, password_image_rel_x, password_image_rel_y,
                                       password_image_rel_width, password_image_rel_height, password_image_img)
         self.components["password_image_box"] = password_image_box
+
+        cfmpassword_image_rel_x = 0.25
+        cfmpassword_image_rel_y = 0.59
+        cfmpassword_image_rel_width = 0.23
+        cfmpassword_image_rel_height = 1 / 9
+        cfmpassword_image_img = pygame.image.load(curr_dir + 'assets/Backgrounds/confirmpwd.png')
+        cfmpassword_image_box = ImageDisplay("cfmpassword_image_box", screen, cfmpassword_image_rel_x, cfmpassword_image_rel_y,
+                                          cfmpassword_image_rel_width, cfmpassword_image_rel_height, cfmpassword_image_img)
+        self.components["cfmpassword_image_box"] = cfmpassword_image_box
 
 
         #new acc creation

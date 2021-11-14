@@ -44,17 +44,17 @@ class QuestionSelectPage(Page):
 
         if self.input_data["custom_quiz_selection"]!="New Quiz":
             quiz_name_img_rel_x = 0.2
-            quiz_name_img_rel_y = 0.05
+            quiz_name_img_rel_y = 0.03
             quiz_name_img_rel_width = 0.53
             quiz_name_img_rel_height = 0.15
-            quiz_name_back_img = pygame.image.load('assets/Backgrounds/topicleaderboard.png')
+            quiz_name_back_img = pygame.image.load('assets/Backgrounds/quizname.png')
             quiz_name_img = ImageDisplay("quiz_name_img", screen, quiz_name_img_rel_x, quiz_name_img_rel_y,
                                          quiz_name_img_rel_width,
                                          quiz_name_img_rel_height, quiz_name_back_img)
             self.components["quiz_name_img"] = quiz_name_img
 
             quiz_name_image_rel_x = 0.3
-            quiz_name_image_rel_y = 0.07
+            quiz_name_image_rel_y = 0.052
             quiz_name_image_rel_width = 0.3
             quiz_name_image_rel_height = 0.1
             quiz_name_image_img = self.input_data["custom_quiz_selection"]
@@ -68,14 +68,15 @@ class QuestionSelectPage(Page):
             self.components.pop("new_quiz_name_image_box", None)
             self.components.pop("quiz_name_input_box", None)
         elif self.input_data["custom_quiz_selection"]=="New Quiz":
-            new_quiz_name_image_rel_x = 0.05
-            new_quiz_name_image_rel_y = 0.07
-            new_quiz_name_image_rel_width = 0.3
-            new_quiz_name_image_rel_height = 0.05
-            new_quiz_name_image_img = "Enter Quiz Name:"
-            new_quiz_name_image_box = TextDisplay("new_quiz_name_image_box", screen, new_quiz_name_image_rel_x, new_quiz_name_image_rel_y,
-                                              new_quiz_name_image_rel_width, new_quiz_name_image_rel_height, new_quiz_name_image_img)
-            self.components["new_quiz_name_image_box"] = new_quiz_name_image_box
+            new_quiz_name_img_rel_x = 0.05
+            new_quiz_name_img_rel_y = 0.04
+            new_quiz_name_img_rel_width = 0.3
+            new_quiz_name_img_rel_height = 0.13
+            new_quiz_name_back_img = pygame.image.load('assets/Backgrounds/enterquizname.png')
+            new_quiz_name_img = ImageDisplay("new_quiz_name_image_box", screen, new_quiz_name_img_rel_x, new_quiz_name_img_rel_y,
+                                         new_quiz_name_img_rel_width,
+                                         new_quiz_name_img_rel_height, new_quiz_name_back_img)
+            self.components["new_quiz_name_img"] = new_quiz_name_img
 
             quiz_name_input_rel_x = 0.37
             quiz_name_input_rel_y = 0.05

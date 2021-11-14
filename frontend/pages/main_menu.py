@@ -37,10 +37,22 @@ class MainMenuPage(Page):
             self.output_data["back_navigation"]=self.input_data["prev_page"]
             print("main change")
 
+
+
         # background
         bg_img = pygame.image.load(curr_dir + 'assets/Backgrounds/loginbg.jpg')
         background = Background("background", screen, bg_img)
         self.components["background"] = background
+
+        welcome_image_rel_x = 0.15
+        welcome_image_rel_y = 0.02
+        welcome_image_rel_width = 0.7
+        welcome_image_rel_height = 0.4
+        welcome_img = pygame.image.load('assets/Backgrounds/welcome.png')
+        welcome_image = ImageDisplay("welcome_image", screen, welcome_image_rel_x, welcome_image_rel_y,
+                                     welcome_image_rel_width,
+                                     welcome_image_rel_height, welcome_img)
+        self.components["welcome_image"] = welcome_image
 
         # Single Player button
         single_player_button_x = 1 / 20
@@ -85,10 +97,10 @@ class MainMenuPage(Page):
         self.components["exit_button"] = exit_button
 
         avatar_button_rel_x = 12 / 15
-        avatar_button_rel_y = 0.1
-        avatar_button_rel_width = 1 / 7
-        avatar_button_rel_height = 1 / 7
-        avatar_button_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_togglenotpressed.png')
+        avatar_button_rel_y = 0.8
+        avatar_button_rel_width = 0.1
+        avatar_button_rel_height = 1/7
+        avatar_button_img = pygame.image.load(curr_dir + 'assets/Buttons/btn_avatar.png')
         avatar_button = ImageButton("exit_button", screen, avatar_button_rel_x, avatar_button_rel_y,
                                   avatar_button_rel_width,
                                   avatar_button_rel_height, avatar_button_img)

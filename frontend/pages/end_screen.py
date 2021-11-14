@@ -60,6 +60,8 @@ class EndScreenPage(Page):
         # self.components["player_results"] = player_results
         # self.layers.append(player_results)
 
+
+
         list_image_rel_x = 0.095
         list_image_rel_y = 0.1
         list_image_rel_width = 0.8
@@ -69,6 +71,17 @@ class EndScreenPage(Page):
                                            list_image_rel_width,
                                            list_image_rel_height, list_img)
         self.components["analyticslist_image"] = scroll_image
+
+        # results header
+        results_image_rel_x = 0.3
+        results_image_rel_y = 0.04
+        results_image_rel_width = 0.3
+        results_image_rel_height = 0.15
+        results_img = pygame.image.load('assets/Backgrounds/results.png')
+        resultsheader_image = ImageDisplay("resultsheader_image", screen, results_image_rel_x, results_image_rel_y,
+                                           results_image_rel_width,
+                                           results_image_rel_height, results_img)
+        self.components["resultsheader_image"] = resultsheader_image
 
         #SelectableTextList
         relative_x = 0.2
