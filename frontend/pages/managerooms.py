@@ -115,6 +115,8 @@ class ManageRoomsPage(Page):
             self.output_data["toggled"] = False
             self.output_data["custom_quiz_selection"] = "Select Custom Quiz"
             self.output_data["player_status"] = []
+            self.output_data["join_host"] = ""
+
 
             if triggered_component in [self.components["exit_button"]]:
                 self.name = "room_tab"

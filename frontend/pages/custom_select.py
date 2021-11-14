@@ -127,7 +127,7 @@ class CustomSelectPage(Page):
         edit_quiz_button_y = 0.35
         edit_quiz_button_width = 0.1
         edit_quiz_button_height = 0.1
-        edit_quiz_button_img = pygame.image.load('assets/Buttons/btn_twitter.png')
+        edit_quiz_button_img = pygame.image.load('assets/Buttons/btn_edit.png')
         edit_quiz_button = ImageButton("edit_quiz_button", screen, edit_quiz_button_x, edit_quiz_button_y,
                                       edit_quiz_button_width,
                                       edit_quiz_button_height, edit_quiz_button_img)
@@ -163,6 +163,11 @@ class CustomSelectPage(Page):
             self.output_data["username"] = self.input_data["username"]
             self.output_data["prev_page"] = self.output_data["current_page"]
             self.output_data["toggled"] = self.input_data["toggled"]
+            if self.output_data["toggled"] == True:
+                self.output_data["join_host"]=True
+            else:
+                self.output_data["join_host"] = True
+
             self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
             self.output_data["selected_question"] = ""
             self.output_data["mode_toggle"] = True
@@ -184,5 +189,6 @@ class CustomSelectPage(Page):
                 print("go question select")
                 self.name = "question_select"
             if triggered_component in [self.components["delete_quiz_button"]]:
-                # QuestionManager.delete_custom_question(self.output_data["username"], self.output_data["roomID"],self.output_data["custom_quiz_selection"],self.output_data["custom_question_selection"])
+                RoomManager.delete_custom_quiz(self.output_data["roomID"], self.output_data["custom_quiz_selection"])
                 print("delete quiz", self.output_data["custom_quiz_selection"], "from database")
+                self.name = "custom_select"

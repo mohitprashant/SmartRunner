@@ -40,6 +40,17 @@ class HostSettingsPage(Page):
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
+        host_settings_image_rel_x = 0.65
+        host_settings_image_rel_y = 0.65
+        host_settings_image_rel_width = 0.35
+        host_settings_image_rel_height = 0.3
+        host_settings_img = pygame.image.load('assets/Backgrounds/host_settings.png')
+        host_settings_image = ImageDisplay("host_settings_image", screen, host_settings_image_rel_x,
+                                         host_settings_image_rel_y,
+                                         host_settings_image_rel_width,
+                                         host_settings_image_rel_height, host_settings_img)
+        self.components["host_settings_image"] = host_settings_image
+
         # toggle test
         toggle_rel_x = 9/20
         toggle_rel_y = 0.06
@@ -102,7 +113,7 @@ class HostSettingsPage(Page):
 
             #If Clicked on add new qn, go to a different screen
             custom_quiz_button_x = 0.47
-            custom_quiz_button_y = 0.52
+            custom_quiz_button_y = 0.53
             custom_quiz_button_width = 0.28
             custom_quiz_button_height = 1 / 11
             custom_quiz_text = self.input_data["custom_quiz_selection"]
@@ -135,6 +146,8 @@ class HostSettingsPage(Page):
             self.output_data["mode_toggle"] = self.input_data["mode_toggle"]
             self.output_data["custom_quiz_selection"] = self.input_data["custom_quiz_selection"]
             self.output_data["player_status"] = []
+            self.output_data["join_host"] = self.input_data["join_host"]
+
 
             if self.input_data["mode_toggle"] == True:
                 if triggered_component in [self.components["custom_quiz_button"]]:

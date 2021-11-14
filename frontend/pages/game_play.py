@@ -40,7 +40,8 @@ class Game(Page):
             "roomID": "",
             "playertype": "",
             "readystatus": "",
-            "join_host": ""
+            "join_host": "",
+            "custom_quiz_selection": ""
         }
         self.output_data = {
             "current_page": self.name,
@@ -55,22 +56,38 @@ class Game(Page):
         self.is_client = False
         self.multiplayer = multiplayer
 
-
-
+    
+    def force_accept_connection(self):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.bind((HOST, PORT))
+            s.listen()
+            conn, addr = s.accept()
+            with conn:
+                print('Connected by', addr)
+                while True:
+                    data = conn.recv(1024)
+                    if not data:
+                        break
+                    conn.sendall(data)
+                
 
     def set_components(self, screen):
         # background
         print("playertype", self.input_data["playertype"])
 
         if self.input_data["roomID"] != "singleplayer":
-            self.output_data["subject"] = self.input_data["questions"][0]
-            self.output_data["topic"] = self.input_data["questions"][1]
-            self.input_data["questions"] = self.input_data["questions"][2:]
+            self.multiplayer = True
+            if self.input_data["custom_quiz_selection"] == "":
+                self.output_data["subject"] = self.input_data["questions"].pop(0)
+                self.output_data["topic"] = self.input_data["questions"].pop(0)
+            else:
+                self.output_data["subject"] = ""
+                self.output_data["topic"] = ""
             if self.input_data["playertype"] == "client" and self.input_data["readystatus"]:
-                self.join_multiplayer(self.input_data["roomID"])
+                # self.join_multiplayer(self.input_data["roomID"])
                 print("client!")
             elif self.input_data["playertype"] == "host":
-                self.host_multiplayer()
+                # self.host_multiplayer()
                 print("host!")
         else:
             self.output_data["subject"] = self.input_data["subjectselection"]
@@ -104,7 +121,7 @@ class Game(Page):
         
         
         # question box - invisible to begin with
-        if(self.multiplayer==False or self.is_client):
+        if(self.multiplayer==False or ((self.is_client and self.input_data["ready_status"]) or (self.is_client==False and self.input_data["join_host"]))):
             game_image_rel_x = 1 / 10
             game_image_rel_y = 0.1 / 10
             game_image_rel_width = 7 / 10
@@ -129,7 +146,7 @@ class Game(Page):
         #
         
         # answer boxes - invisible to begin with
-        if(self.multiplayer==False or (self.is_client and self.input_data["ready_status"]) or (self.isclient==False and self.input_data["join_host"])):
+        if(self.multiplayer==False or ((self.is_client and self.input_data["ready_status"]) or (self.is_client==False and self.input_data["join_host"]))):
             game_image_rel_x = 0.15
             game_image_rel_y = 0.25
             game_image_rel_width = 0.3
@@ -205,20 +222,21 @@ class Game(Page):
             correction = TextDisplay("correction", screen, relative_x, relative_y, relative_width, relative_height, '')
             self.components["correction"] = correction
         
-        elif (self.isclient==False and self.input_data["join_host"]==False):
+        elif (self.is_client==False and self.input_data["join_host"]==False):
             relative_x = 3/20
             relative_y = 2/15
             relative_width = 4/5
             relative_height = 1/15
             host = TextDisplay("host", screen, relative_x, relative_y, relative_width, relative_height, 'Thank you for hosting')
             self.components["host"] = host
-        elif (self.isclient and self.input_data["ready_status"]==False):
+        elif (self.is_client and (self.input_data["ready_status"]==False or self.input_data["ready_status"]=="")):
             relative_x = 3/20
             relative_y = 2/15
             relative_width = 4/5
             relative_height = 1/15
             client = TextDisplay("client", screen, relative_x, relative_y, relative_width, relative_height, 'Please wait for the game to end')
             self.components["client"] = client
+
 
         
         
@@ -433,13 +451,17 @@ class Game(Page):
     def page_function(self, triggered_component_list):
         for x in triggered_component_list:
             if(x == 'exit_btn'):
+
                 player_results = {
-                    "no_of_questions_attempted": str(len(self.questions)),
-                    "no_of_questions_correct": str(self.game_stats["correct"]),
-                    #impt - how to retrieve
-                    "player_end_time": str(self.game_stats["time"]),
-                    "player_name": self.input_data["username"].split("@",1)[0]
+                        "attempted": self.game_stats["attempted"],
+                        "correct": self.game_stats["correct"],
+                        "player_name": self.input_data["username"].split("@", 1)[0],
+                        "quiz_name": self.input_data["custom_quiz_selection"],
+                        "roomID": self.input_data["roomID"],
+                        "time": self.game_stats["time"],
+                        "score": self.game_stats["score"]
                 }
+
                 print("u1", self.input_data["username"])
                 print("u2", self.input_data["username"].split("@",1)[0])
                 #one more for quiz fields?
@@ -450,6 +472,7 @@ class Game(Page):
                 self.output_data["score"] = str(int(self.game_stats['score']))
                 self.output_data["playertype"] = self.input_data["playertype"]
                 self.output_data["join_host"] = self.input_data["join_host"]
+                print("what iS IT", self.output_data["join_host"] )
                 self.output_data["readystatus"] = self.input_data["readystatus"]
                 self.output_data["current_page"] = "end_screen"
                 if self.is_client == False:
@@ -471,7 +494,7 @@ class Game(Page):
         self.game_stats['attempted'] = 0
 
         self.avatar = AccountHelper.get_avatar(input_data['username'])
-            
+        print("atlalmao", self.avatar)
         self.speed = 15
         self.score = 0
         self.distance = 100.0
@@ -644,14 +667,14 @@ class Game(Page):
                 
                 
                 if(self.distance < 20):
-                    game_image_rel_x = (9 - (4*(-self.distance))) / 10
-                    game_image_rel_y = 7 / 10
-                    game_image_rel_width = 1 / 6
-                    game_image_rel_height = 1 / 6
-                    end = pygame.image.load('assets/img/exit.png')
+                    game_image_rel_x = (9 - (4 * (-self.distance))) / 10
+                    game_image_rel_y = 5 / 10
+                    game_image_rel_width = 1 / 5
+                    game_image_rel_height = 0.4
+                    end = pygame.image.load('assets/Backgrounds/tree3.png')
                     end = ImageDisplay("end", screen, game_image_rel_x, game_image_rel_y,
-                                                    game_image_rel_width, game_image_rel_height,end)
-                    
+                                       game_image_rel_width, game_image_rel_height, end)
+
                     self.components["end"] = end
         
                 

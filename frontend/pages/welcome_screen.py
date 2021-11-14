@@ -20,6 +20,15 @@ class WelcomeScreenPage(Page):
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
+        logo_image_rel_x = 0.25
+        logo_image_rel_y = 0.15
+        logo_image_rel_width = 0.55
+        logo_image_rel_height = 0.5
+        logo_image_img = pygame.image.load('assets/Backgrounds/logo.png')
+        logo_image_box = ImageDisplay("logo_image_box", screen, logo_image_rel_x, logo_image_rel_y,
+                                          logo_image_rel_width, logo_image_rel_height, logo_image_img)
+        self.components["logo_image_box"] = logo_image_box
+
         sign_in_button_rel_x = 0.55
         sign_in_button_rel_y = 0.7
         sign_in_button_rel_width = 0.18

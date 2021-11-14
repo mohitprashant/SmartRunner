@@ -32,6 +32,15 @@ class LoginPage(Page):
         background = Background("background", screen, bg_img)
         self.components["background"] = background
 
+        signin_image_rel_x = 0.2
+        signin_image_rel_y = 0.05
+        signin_image_rel_width = 0.6
+        signin_image_rel_height = 0.4
+        signin_image_img = pygame.image.load(curr_dir + 'assets/Backgrounds/sign_in.png')
+        signin_image_box = ImageDisplay("username_image_box", screen, signin_image_rel_x, signin_image_rel_y,
+                                          signin_image_rel_width, signin_image_rel_height, signin_image_img)
+        self.components["signin_image_box"] = signin_image_box
+
         username_image_rel_x = 0.30
         username_image_rel_y = 0.49
         username_image_rel_width = 0.18

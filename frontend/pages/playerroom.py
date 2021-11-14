@@ -132,6 +132,11 @@ class PlayerRoomPage(Page):
         self.output_data["join_host"] = ""
         self.output_data["questions"] = []
         self.output_data["answers"] = []
+        self.output_data["join_host"] = ""
+        self.output_data["topicselection"] = ""
+        self.output_data["subjectselection"] = ""
+        self.output_data["ready_status"] = ""
+
 
 
 

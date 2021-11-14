@@ -152,7 +152,7 @@ class HostRoomPage(Page):
         self.output_data["topicselection"] = "Select Topic"
         self.output_data["difficultylist"] = ["Select Difficulty"]
         self.output_data["difficultyselection"] = "Select Difficulty"
-        self.output_data["join_host"] = False
+        self.output_data["join_host"] = self.input_data["join_host"]
         self.output_data["playertype"] = "host"
         self.output_data["readystatus"] = ""
 
@@ -163,12 +163,16 @@ class HostRoomPage(Page):
             if triggered_component in [self.components["start_button"]]:
                 if self.output_data["mode_toggle"] == False:
                     if self.output_data["toggled"]:
-                        self.output_data["join_host"] == True
+                        self.output_data["join_host"] = True
+                    else:
+                        self.output_data["join_host"] = False
                     print("does it enter")
                     self.name="singleplayer"
                 else:
                     if self.output_data["toggled"]:
-                        self.output_data["join_host"] == True
+                        self.output_data["join_host"] = True
+                    else:
+                        self.output_data["join_host"] = False
                     questiondb = QuestionManager.get_custom_questions(self.output_data["roomID"], self.output_data["custom_quiz_selection"])
                     questionlist = []
                     answerlist = []
